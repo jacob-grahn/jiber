@@ -1,0 +1,14 @@
+{
+  "name": "duck-duck",
+  "version": "0.0.1",
+  "description": "An optimistic syncing data store",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.18.2"
+  }
+}
