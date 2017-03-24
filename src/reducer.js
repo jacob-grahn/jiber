@@ -44,7 +44,7 @@ function makeDefaultState (reducer) {
  * @returns {Object} - the new state
  */
 function addConfirmedAction (reducer, state, action) {
-  const actions = withoutOld(state.actions, action.timeMs)
+  const actions = removeById(state.actions, action.id)
   const confirmed = reducer(state.confirmed, action.confirmedAction)
   const optimistic = applyActions(reducer, confirmed, optimistic)
   return {
@@ -62,7 +62,7 @@ function addConfirmedAction (reducer, state, action) {
  * @returns {Object} - the new state
  */
 function setConfirmedState (reducer, state, action) {
-  const actions = withoutOld(state.actions, action.timeMs)
+  const actions = state.actions
   const confirmed = action.confirmedState
   const optimistic = applyActions(reducer, confirmed, actions)
   return {
@@ -81,9 +81,10 @@ function setConfirmedState (reducer, state, action) {
  */
 function addOptimisticAction (reducer, state, action) {
   const _timeMs = new Date().time()
+  const _id = randomStr(16)
   const confirmed = state.confirmed
   const optimistic = reducer(state.optimistic, action)
-  const actions = [...state.actions, {...action, _timeMs}]
+  const actions = [...state.actions, {...action, _timeMs, _id}]
   return {
     confirmed,
     optimistic,
@@ -93,13 +94,13 @@ function addOptimisticAction (reducer, state, action) {
 
 /**
  * Filters out actions with _timeMs less than minTimeMs
- * @param {Number} minTimeMs - actions newer than this will be returned
  * @param {Array} actions - list of actions to be filtered
- * @returns {Array} - new-ish actions
+ * @param {String} id - the unique id of an action
+ * @returns {Array} - left over actions
  */
-function withoutOld (minTimeMs, actions) {
+function removeById (actions, id) {
   return actions.filter(action => {
-    return action._timeMs > minTimeMs
+    return action.id !== id
   })
 }
 
