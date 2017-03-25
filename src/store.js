@@ -4,8 +4,8 @@
  * @param {Object} storage - an object with a getState and setState function
  * @param {Object} optoins - optional extra config
  */
-export default function store (reducer, storage, options = {}) {
-  const middleware = options.middleware
+export default function Store (reducer, storage, options = {}) {
+  const middleware = options.middleware || []
 
   function dispatch (action) {
     return asyncSerial(middleware, action).then(commit)
