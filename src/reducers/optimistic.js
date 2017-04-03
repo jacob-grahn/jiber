@@ -1,21 +1,17 @@
-import { ActionTypes } from './actions'
 import { MASTER } from './source-types'
 
 /**
  * A higher order reducer that adds optimistic state management
  *  @param {Function} reducer - the wrapped reducer
  */
-export default function syncable (reducer) {
+export default function optimistic (reducer) {
   return (state = {}, action = {}) => {
     switch (action.type) {
       case undefined:
         return makeDefaultState(reducer)
 
-      case ActionTypes.SET_CONFIRMED_SATE:
-        return setConfirmedState(reducer, state, action)
-
       default:
-        if (action.$source === MASTER) {
+        if (action.realtimeSource === MASTER) {
           return addConfirmedAction(reducer, state, action)
         } else {
           return addOptimisticAction(reducer, state, action)
@@ -46,27 +42,9 @@ function makeDefaultState (reducer) {
  * @returns {Object} - the new state
  */
 function addConfirmedAction (reducer, state, action) {
-  const actions = removeById(state.actions, action.$id)
+  const actions = removeById(state.actions, action.realtimeId)
   const confirmed = reducer(state.confirmed, action.confirmedAction)
   const optimistic = applyActions(reducer, confirmed, optimistic)
-  return {
-    confirmed,
-    optimistic,
-    actions
-  }
-}
-
-/**
- * Completely replace the current state with a new confirmed state
- * @param {Function} reducer - the wrapped reducer
- * @param {Object} state - the current state
- * @param {Object} action - an action containing the new state
- * @returns {Object} - the new state
- */
-function setConfirmedState (reducer, state, action) {
-  const actions = state.actions
-  const confirmed = action.confirmedState
-  const optimistic = applyActions(reducer, confirmed, actions)
   return {
     confirmed,
     optimistic,
@@ -100,7 +78,7 @@ function addOptimisticAction (reducer, state, action) {
  */
 function removeById (actions, id) {
   return actions.filter(action => {
-    return action.$id !== id
+    return action.realtimeId !== id
   })
 }
 

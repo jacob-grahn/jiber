@@ -1,4 +1,4 @@
-import randomStr from '../random-str'
+import randomStr from '../utils/random-str'
 import { LOCAL } from '../source-types'
 
 /**
@@ -7,12 +7,11 @@ import { LOCAL } from '../source-types'
  * @returns {Object} - an action object with helpful data
  */
 export default function injectMetadata (action) {
-  const source = action.$source || LOCAL                                        // actions without a source are assumed to be local
+  const source = action.realtimeSource || LOCAL                                 // actions without a source are assumed to be local
   if (source !== LOCAL) return action                                           // only add metadata to local actions
   return {
     ...action,
-    $source: LOCAL,
-    $timeMs: new Date().time(),
-    $id: randomStr(16)
+    realtimeSource: LOCAL,                                                      // mark that this action originated locally
+    realtimeId: randomStr(16)                                                   // generate a unique id
   }
 }

@@ -1,8 +1,8 @@
 {
-  "name": "duck-duck",
+  "name": "realtime-client",
   "version": "0.0.1",
-  "description": "An optimistic syncing data store",
-  "main": "index.js",
+  "description": "Optimistic shared data store",
+  "main": "src/index.js",
   "scripts": {
     "test": "ava"
   },

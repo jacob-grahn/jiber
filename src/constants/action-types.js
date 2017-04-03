@@ -1,4 +1,3 @@
 export default {
-  ADD_CONFIRMED_ACTION: 'duck-duck/ADD_CONFIRMED_ACTION',
-  SET_CONFIRMED_STATE: 'duck-duck/SET_CONFIRMED_SATE'
+  SET: 'realtime/SET'
 }
