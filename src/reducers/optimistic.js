@@ -1,4 +1,5 @@
-import { MASTER } from './source-types'
+import { MASTER } from '../constants/source-types'
+import { SET_STATE } from '../constants/action-types'
 
 /**
  * A higher order reducer that adds optimistic state management
@@ -9,6 +10,9 @@ export default function optimistic (reducer) {
     switch (action.type) {
       case undefined:
         return makeDefaultState(reducer)
+
+      case SET_STATE:
+        return setConfirmedState(reducer, state, action)
 
       default:
         if (action.realtimeSource === MASTER) {
@@ -30,6 +34,24 @@ function makeDefaultState (reducer) {
     confirmed: reducer(),
     optimistic: reducer(),
     actions: []
+  }
+}
+
+/**
+ * Completely replace the current state with a new confirmed state
+ * @param {Function} reducer - the wrapped reducer
+ * @param {Object} state - the current state
+ * @param {Object} action - an action containing the new state
+ * @returns {Object} - the new state
+ */
+function setConfirmedState (reducer, state, action) {
+  const actions = state.actions
+  const confirmed = action.confirmedState
+  const optimistic = applyActions(reducer, confirmed, actions)
+  return {
+    confirmed,
+    optimistic,
+    actions
   }
 }
 
