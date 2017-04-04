@@ -3,8 +3,8 @@ import { LOCAL } from '../source-types'
 
 /**
  * Add some helpful data to the action
- * @param {Object} - an action object
- * @returns {Object} - an action object with helpful data
+ * @param {Object} action   an action object
+ * @returns {Object}        an action object with helpful data
  */
 export default function injectMetadata (action) {
   const source = action.realtimeSource || LOCAL                                 // actions without a source are assumed to be local
