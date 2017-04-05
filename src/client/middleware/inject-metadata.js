@@ -12,6 +12,6 @@ export default function injectMetadata (action) {
   return {
     ...action,
     realtimeSource: LOCAL,                                                      // mark that this action originated locally
-    realtimeId: randomStr(16)                                                   // generate a unique id
+    quantumId: randomStr(16)                                                   // generate a unique id
   }
 }

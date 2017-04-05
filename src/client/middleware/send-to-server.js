@@ -11,8 +11,7 @@ export default function sendToServer (server) {
 
 
   return (action) => {
-    queue.push(action)
-    sendQueue()
+
     return action
   }
 

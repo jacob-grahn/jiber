@@ -64,7 +64,7 @@ function setConfirmedState (reducer, state, action) {
  * @returns {Object} - the new state
  */
 function addConfirmedAction (reducer, state, action) {
-  const actions = removeById(state.actions, action.realtimeId)
+  const actions = removeById(state.actions, action.quantumId)
   const confirmed = reducer(state.confirmed, action.confirmedAction)
   const optimistic = applyActions(reducer, confirmed, optimistic)
   return {
@@ -100,7 +100,7 @@ function addOptimisticAction (reducer, state, action) {
  */
 function removeById (actions, id) {
   return actions.filter(action => {
-    return action.realtimeId !== id
+    return action.quantumId !== id
   })
 }
 
