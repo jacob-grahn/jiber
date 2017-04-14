@@ -2,7 +2,7 @@ import {
   SET_CONNECTION,
   SET_LAST_SENT_AT,
   SET_LAST_RECEIVED_AT
-} from './client-connection-actions'
+} from './client-action-types'
 
 export default function (state = {}, action = {}) {
   switch (action.type) {

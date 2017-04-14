@@ -1,14 +1,18 @@
 {
-  "name": "realtime-client",
+  "name": "quantum-state",
   "version": "0.0.1",
   "description": "Optimistic shared data store",
-  "main": "src/index.js",
+  "main": "dist/server/index.js",
   "scripts": {
-    "test": "ava"
+    "test": "tsc && ava",
+    "build": "tsc"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.18.2"
+    "typescript": "^2.2.2"
+  },
+  "dependencies": {
+    "ws": "^2.2.3"
   }
 }
