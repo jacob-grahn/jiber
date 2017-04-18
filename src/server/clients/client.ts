@@ -1,10 +1,18 @@
+import * as ws from 'ws'
 import {
   SET_CONNECTION,
   SET_LAST_SENT_AT,
   SET_LAST_RECEIVED_AT
 } from './client-action-types'
 
-export default function (state = {}, action = {}) {
+interface IClientState {
+  connection: ws,
+  connectedAt: Number,
+  lastSentAt: Number,
+  lastReceivedAt: Number
+}
+
+export default function (state: IClientState, action: any = {}): IClientState {
   switch (action.type) {
     case undefined:
       return {

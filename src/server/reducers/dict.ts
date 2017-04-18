@@ -1,3 +1,7 @@
+interface IState {
+  [key: string]: any
+}
+
 /**
  * Factory to create a dict reducer that stores sub-states by key,
  * and updates those sub-states using the provided reducer
@@ -6,11 +10,15 @@
  * @param  {string}         removeAction  Action type to remove a key
  * @return {Function}                     Dictionary reducer
  */
-export default function dictReducer (reducer, passActions, removeAction) {
-  return function (state = {}, action = {}) {
+export default function dictReducer (
+  reducer: Function,
+  passActions: Array<string>,
+  removeAction: string
+): Function {
+  return (state: IState, action: any = {}): IState => {
     switch (action.type) {
       case undefined:
-        return state
+        return {}
 
       case removeAction:
         const key = action.key

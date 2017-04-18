@@ -1,3 +1,9 @@
+interface IRoomState {
+  memberIds: Array<string>,
+  roomState: any,
+  isUpdating: boolean
+}
+
 import {
   SET_ROOM_STATE,
   SET_ROOM_UPDATING,
@@ -5,7 +11,7 @@ import {
   REMOVE_ROOM_MEMBER
 } from './room-actions'
 
-export default function (state = {}, action = {}) {
+export default function (state: IRoomState, action: any = {}): IRoomState {
   switch (action.type) {
     case undefined:
       return {
