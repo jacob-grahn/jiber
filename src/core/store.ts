@@ -5,6 +5,8 @@
  * @param {Function[]} middleware steps to execute before commiting an action
  */
 export default function Store (reducer, storage, middleware = []) {
+  const state: any
+  
   function dispatch (action) {
     return asyncSerial(middleware, action).then(commit)
   }
@@ -16,7 +18,9 @@ export default function Store (reducer, storage, middleware = []) {
   }
 
   return {
-    dispatch
+    commit,
+    dispatch,
+    state
   }
 }
 

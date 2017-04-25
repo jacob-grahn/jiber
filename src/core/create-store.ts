@@ -1,14 +1,18 @@
 import memStorage from './mem-storage'
 import Store from './store'
-import simpleSetter from './reducers/simpleSetter'
+import simpleSetter from './reducers/simple-setter'
 import optimistic from './reducers/optimistic'
+
+interface IOptions {
+  reducer?: Function,
+  storage?: Function,
+  middleware?: Array<Function>
+}
 
 /**
  * Set up a sync state
- * @param {Object} options extra settings
- * @returns {RealtimeStore} shared data store
  */
-export default function createStore (options = {}) {
+export default function createStore (options: IOptions = {}) {
   const reducer = options.reducer || simpleSetter
   const storage = options.storage || memStorage
   const middleware = options.middleware || []
