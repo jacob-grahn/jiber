@@ -1,1 +1,0 @@
-export const INC_MESSAGE_COUNT = 'INC_MESSAGE_COUNT'

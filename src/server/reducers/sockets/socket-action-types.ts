@@ -1,0 +1,4 @@
+export const SOCKET_INIT = 'SOCKET_INIT'
+export const SOCKET_SEND = 'SOCKET_SEND'
+export const SOCKET_RECEIVE = 'SOCKET_RECEIVE'
+export const SOCKET_LOGIN = 'SOCKET_LOGIN'

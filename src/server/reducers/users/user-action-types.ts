@@ -1,0 +1,3 @@
+export const USER_INC_ACTION_COUNT = 'USER_INC_ACTION_COUNT'
+export const USER_LOG_IN = 'USER_LOG_IN'
+export const USER_SET_ACCOUNT = 'USER_SET_ACCOUNT'
