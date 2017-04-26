@@ -1,8 +1,6 @@
-import {
-  SET_STATE,
-  ADD_CONFIRMED_ACTION
-} from '../constants/action-types'
-import { IAction } from '../i-action'
+import { SET_STATE, ADD_CONFIRMED_ACTION} from './optimistic-action-types'
+import { IAction } from '../../core/i-action'
+import { IReducer } from '../../core/i-reducer'
 
 interface IOptimisticState {
   confirmed: any,
@@ -13,7 +11,7 @@ interface IOptimisticState {
 /**
  * A higher order reducer that adds optimistic state management
  */
-export default function optimistic (reducer: Function): Function {
+export default function optimistic (reducer: Function): IReducer {
   return (state: IOptimisticState, action: IAction = {}): IOptimisticState => {
     switch (action.type) {
       case undefined:

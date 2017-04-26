@@ -1,15 +1,14 @@
 /**
  * Store a state in memory
- * @returns {Object} - object with getState and setState functions
  */
 export default function memStorage () {
-  let state
+  let state: any
 
   function getState () {
     return state
   }
 
-  function setState (newState) {
+  function setState (newState: any) {
     state = newState
   }
 
