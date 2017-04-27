@@ -5,7 +5,7 @@ import {
   ROOM_REMOVE_MEMBER
 } from './room-action-types'
 
-interface IRoomState {
+interface RoomState {
   memberIds: Array<string>,                                                     // List of user ids that have joined this room
   roomState: any,                                                               // Last known copy of state from the db, this is sent to new members
   isUpdating: boolean,                                                          // Is this room in an update cycle
@@ -14,7 +14,7 @@ interface IRoomState {
   updateCount: number                                                           // Total number of updates this room has performed
 }
 
-export default function (state: IRoomState, action: any = {}): IRoomState {
+export default function (state: RoomState, action: any = {}): RoomState {
   switch (action.type) {
     case undefined:
       return {

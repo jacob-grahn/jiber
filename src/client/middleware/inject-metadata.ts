@@ -1,13 +1,11 @@
 import randomStr from '../../core/utils/random-str'
 import { LOCAL } from '../../core/constants/source-types'
-import { IMiddleware } from '../../core/i-middleware'
+import { Action, Middleware } from '../../core'
 
 /**
  * Add some helpful data to the action
- * @param {Object} action   an action object
- * @returns {Object}        an action object with helpful data
  */
-export default function injectMetadata (action): IMiddleware {
+export default function injectMetadata (action: Action): Action {
   const source = action.realtimeSource || LOCAL                                 // actions without a source are assumed to be local
   if (source !== LOCAL) return action                                           // only add metadata to local actions
   return {

@@ -5,7 +5,7 @@ import {
   SOCKET_RECEIVE
 } from './socket-action-types'
 
-interface IClientState {
+interface ClientState {
   connection: ws,                                                               // WebSocket client instance
   connectedAt: number,                                                          // When the socket connected
   lastSentAt: number,                                                           // When the socket last sent a message
@@ -16,7 +16,7 @@ interface IClientState {
 
 const rateLimitPeriod = 5000                                                    // Count messages in 5 second blocks; TODO: this should be user configurable
 
-export default function (state: IClientState, action: any = {}): IClientState {
+export default function (state: ClientState, action: any = {}): ClientState {
   switch (action.type) {
     case undefined:
       return {

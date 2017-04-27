@@ -1,4 +1,4 @@
-import { IMiddleware } from '../i-middleware'
+import Middleware from '../interfaces/middleware'
 
 /**
  * Run a series of async (or not) functions one after the other
@@ -6,7 +6,7 @@ import { IMiddleware } from '../i-middleware'
  * Each subsequent function receives the result of the previous function
  */
 export default function chainPromises (
-  functions: Array<Function>,
+  functions: Array<Middleware>,
   param: any
 ): Promise<any> {
   if (!functions) return Promise.resolve(param)

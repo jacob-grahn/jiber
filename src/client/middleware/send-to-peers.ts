@@ -1,8 +1,8 @@
-import { IAction } from '../../core/i-action'
-import { IMiddleware } from '../../core/i-middleware'
+import { Action, Middleware } from '../../core'
+import ServerOptions from '../interfaces/server-options'
 
-export default function sendToPeers (server): IMiddleware {
-  return function (action: IAction) {
+export default function sendToPeers (server: ServerOptions): Middleware {
+  return function (action: Action): Action {
     return action
   }
 }

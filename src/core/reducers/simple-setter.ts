@@ -1,19 +1,19 @@
 const SET = 'SET'
 
-interface ISetterState {
+interface SetterState {
   [key: string]: any
 }
 
-interface ISetterAction {
+interface SetterAction {
   type?: string,
   key?: string,
   value?: any
 }
 
 export default function simpleSetter (
-  state: ISetterState,
-  action: ISetterAction = {}
-): ISetterState {
+  state: SetterState,
+  action: SetterAction = {}
+): SetterState {
   switch (action.type) {
     case undefined:
       return {}

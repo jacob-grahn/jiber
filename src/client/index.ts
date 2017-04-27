@@ -1,1 +1,1 @@
-export * from './create-client-store'
+export * from './create-store'

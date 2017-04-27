@@ -1,1 +1,5 @@
-export { default as createStore } from './create-store'
+export { default as Action } from './interfaces/action'
+export { default as Middleware } from './interfaces/middleware'
+export { default as Reducer } from './interfaces/reducer'
+export { default as Store } from './interfaces/store'
+export { default as createStore } from './store'

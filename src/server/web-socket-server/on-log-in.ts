@@ -1,5 +1,5 @@
-import { IAction } from '../../core/i-action'
+import { Action } from '../../core'
 
-export default function onLogIn (socketId: string, action: IAction): void {
+export default function onLogIn (socketId: string, action: Action): void {
 
 }

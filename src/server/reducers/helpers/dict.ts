@@ -1,21 +1,19 @@
-interface IState {
+import { Reducer } from '../../../core'
+
+interface State {
   [key: string]: any
 }
 
 /**
  * Factory to create a dict reducer that stores sub-states by key,
  * and updates those sub-states using the provided reducer
- * @param  {Function}       reducer       Child reducer
- * @param  {Array<string>}  passActions   Action types to pass to the reducer
- * @param  {string}         removeAction  Action type to remove a key
- * @return {Function}                     Dictionary reducer
  */
 export default function dictReducer (
-  reducer: Function,
+  reducer: Reducer,
   passActions: Array<string>,
   removeAction: string
-): Function {
-  return (state: IState, action: any = {}): IState => {
+): Reducer {
+  return (state: State, action: any = {}): State => {
     switch (action.type) {
       case undefined:
         return {}

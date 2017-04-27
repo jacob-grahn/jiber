@@ -1,19 +1,19 @@
-interface IReducerObj {
-  [key: string]: Function
+import Reducer from '../interfaces/reducer'
+
+interface ReducerObj {
+  [key: string]: Reducer
 }
-interface IState {
+interface State {
   [key: string]: any
 }
 
 /**
  * Take a collection of reducers to produce a single reducer
- * @param  {Object}   reducers  Collection of reducers
- * @return {Function}           Result reducer
  */
-export default function combineReducers (reducerObj: IReducerObj): Function {
+export default function combineReducers (reducerObj: ReducerObj): Function {
   const keys = Object.keys(reducerObj)
 
-  return (state: IState, action = {}) => {
+  return (state: State, action = {}) => {
     return keys.reduce((state, key: string) => {
       const reducer = reducerObj[key]
       return {

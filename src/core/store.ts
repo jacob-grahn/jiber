@@ -1,23 +1,23 @@
-import { IAction } from './i-action'
-import { IReducer } from './i-reducer'
-import { IMiddleware } from './i-middleware'
-import { IStore } from './i-store'
+import Action from './interfaces/action'
+import Reducer from './interfaces/reducer'
+import Middleware from './interfaces/middleware'
+import Store from './interfaces/store'
 import chainPromises from './utils/chain-promises'
 
 /**
  * Run async middleware before commiting actions to a reducer
  */
 export default function Store (
-  reducer: IReducer,
-  middleware: Array<IMiddleware> = []
-): IStore {
+  reducer: Reducer,
+  middleware: Array<Middleware> = []
+): Store {
   let state: any
 
-  function dispatch (action: IAction): Promise<any> {
+  function dispatch (action: Action): Promise<any> {
     return chainPromises(middleware, action).then(commit)
   }
 
-  function commit (action: IAction): any  {
+  function commit (action: Action): any  {
     state = reducer(state, action)
     return state
   }

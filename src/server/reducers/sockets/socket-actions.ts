@@ -4,9 +4,9 @@ import {
   SOCKET_SEND,
   SOCKET_RECEIVE
 } from './socket-action-types'
-import { IAction } from '../../../core/i-action'
+import { Action } from '../../../core'
 
-export function socketInit (id: String, connection: ws): IAction {
+export function socketInit (id: String, connection: ws): Action {
   return {
     type: SOCKET_INIT,
     id,
@@ -15,7 +15,7 @@ export function socketInit (id: String, connection: ws): IAction {
   }
 }
 
-export function socketSend (id: String): IAction {
+export function socketSend (id: String): Action {
   return {
     type: SOCKET_SEND,
     id,
@@ -23,7 +23,7 @@ export function socketSend (id: String): IAction {
   }
 }
 
-export function socketReceive (id: String): IAction {
+export function socketReceive (id: String): Action {
   return {
     type: SOCKET_RECEIVE,
     id,

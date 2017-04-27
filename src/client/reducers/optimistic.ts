@@ -1,18 +1,17 @@
 import { SET_STATE, ADD_CONFIRMED_ACTION} from './optimistic-action-types'
-import { IAction } from '../../core/i-action'
-import { IReducer } from '../../core/i-reducer'
+import { Action, Reducer } from '../../core'
 
-interface IOptimisticState {
+interface OptimisticState {
   confirmed: any,
   optimistic: any,
-  actions: Array<IAction>
+  actions: Array<Action>
 }
 
 /**
  * A higher order reducer that adds optimistic state management
  */
-export default function optimistic (reducer: Function): IReducer {
-  return (state: IOptimisticState, action: IAction = {}): IOptimisticState => {
+export default function optimistic (reducer: Function): Reducer {
+  return (state: OptimisticState, action: Action = {}): OptimisticState => {
     switch (action.type) {
       case undefined:
         return makeDefaultState(reducer)
@@ -32,7 +31,7 @@ export default function optimistic (reducer: Function): IReducer {
 /**
  * Return the default state
  */
-function makeDefaultState (reducer: Function): IOptimisticState {
+function makeDefaultState (reducer: Function): OptimisticState {
   return {
     confirmed: reducer(),
     optimistic: reducer(),
@@ -45,9 +44,9 @@ function makeDefaultState (reducer: Function): IOptimisticState {
  */
 function setConfirmedState (
   reducer: Function,
-  state: IOptimisticState,
-  action: IAction
-): IOptimisticState {
+  state: OptimisticState,
+  action: Action
+): OptimisticState {
   const actions = state.actions
   const confirmed = action.confirmedState
   const optimistic = applyActions(reducer, confirmed, actions)
@@ -64,9 +63,9 @@ function setConfirmedState (
  */
 function addConfirmedAction (
   reducer: Function,
-  state: IOptimisticState,
-  action: IAction
-): IOptimisticState {
+  state: OptimisticState,
+  action: Action
+): OptimisticState {
   const actions = removeById(state.actions, action.quantumId)
   const confirmed = reducer(state.confirmed, action.confirmedAction)
   const optimistic = applyActions(reducer, confirmed, actions)
@@ -82,9 +81,9 @@ function addConfirmedAction (
  */
 function addOptimisticAction (
   reducer: Function,
-  state: IOptimisticState,
-  action: IAction
-): IOptimisticState {
+  state: OptimisticState,
+  action: Action
+): OptimisticState {
   const confirmed = state.confirmed
   const optimistic = reducer(state.optimistic, action)
   const actions = [...state.actions, action]
@@ -98,7 +97,7 @@ function addOptimisticAction (
 /**
  * Filters out actions with _timeMs less than minTimeMs
  */
-function removeById (actions: Array<IAction>, id: String) {
+function removeById (actions: Array<Action>, id: String) {
   return actions.filter(action => {
     return action.quantumId !== id
   })
@@ -109,10 +108,10 @@ function removeById (actions: Array<IAction>, id: String) {
  */
 function applyActions (
   reducer: Function,
-  state: IOptimisticState,
-  actions: Array<IAction>
-): IOptimisticState {
-  return actions.reduce((state, action): IOptimisticState => {
+  state: OptimisticState,
+  actions: Array<Action>
+): OptimisticState {
+  return actions.reduce((state, action): OptimisticState => {
     return reducer(state, action)
   }, state)
 }
