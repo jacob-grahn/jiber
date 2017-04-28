@@ -10,7 +10,9 @@ interface OptionsState {
   stunPort: number,
   reducer: Reducer,
   onLogIn: LogInRequestHandler,
-  storage: Storage
+  storage: Storage,
+  rateLimit: {periodMs: number, max: number},
+  maxMessageLength: number
 }
 
 const defaultOptions: OptionsState = {
@@ -18,7 +20,9 @@ const defaultOptions: OptionsState = {
   stunPort: 3478,
   reducer: simpleSetter,
   onLogIn: memAccounts,
-  storage: memStorage
+  storage: memStorage,
+  rateLimit: {periodMs: 1000, max: 10},                                         // max of 10 messages per second
+  maxMessageLength: 2000
 }
 
 export default function (state: OptionsState, action: any = {}): OptionsState {

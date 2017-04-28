@@ -2,14 +2,14 @@ import * as ws from 'ws'
 import {
   USER_INC_ACTION_COUNT,
   USER_LOG_IN,
-  USER_SET_ACCOUNT
+  USER_UPDATE_ACCOUNT
 } from './user-action-types'
 
 interface IUserState {
   actionCount: number,                                                          // This starts at 0 and increments with every action sent
   loggedInAt: number,                                                           // I guess this might be useful at some point
   id: string,                                                                   // User id
-  account: {[key: string]: string|number}                                       // A place to store misc account data
+  account: {[key: string]: any}                                                 // A place to store misc account data
 }
 
 /**
@@ -35,7 +35,7 @@ export default function (state: IUserState, action: any = {}): IUserState {
         account: action.account
       }
 
-    case USER_SET_ACCOUNT:                                                      // if the account needs to be updated after logging in
+    case USER_UPDATE_ACCOUNT:                                                   // if the account needs to be updated after logging in
       return {
         ...state,
         account: action.account

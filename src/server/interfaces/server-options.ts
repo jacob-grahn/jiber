@@ -7,7 +7,9 @@ interface ServerOptions {
   stunPort?: number,
   reducer?: Reducer,
   onLogIn?: LogInRequestHandler,
-  storage?: Storage
+  storage?: Storage,
+  rateLimit?: {periodMs: number, max: number},
+  maxMessageLength?: number
 }
 
 export { ServerOptions as default }

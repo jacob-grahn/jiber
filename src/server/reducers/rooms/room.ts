@@ -10,6 +10,7 @@ interface RoomState {
   roomState: any,                                                               // Last known copy of state from the db, this is sent to new members
   isUpdating: boolean,                                                          // Is this room in an update cycle
   updateStartedAt: number,                                                      // When the last update started
+  stateTimeMs: number,                                                     // the time of the most recent action that affected the room state
   lastUpdateDuration: number,                                                   // How long the last update took
   updateCount: number                                                           // Total number of updates this room has performed
 }
@@ -22,6 +23,7 @@ export default function (state: RoomState, action: any = {}): RoomState {
         roomState: {},
         isUpdating: false,
         updateStartedAt: 0,
+        stateTimeMs: 0,
         lastUpdateDuration: 0,
         updateCount: 0
       }
@@ -40,7 +42,8 @@ export default function (state: RoomState, action: any = {}): RoomState {
         ...state,
         roomState: action.roomState,
         isUpdating: false,
-        lastUpdateDuration: action.lastActionTimeMs - state.updateStartedAt,
+        stateTimeMs: action.stateTimeMs,
+        lastUpdateDuration: action.stateTimeMs - state.updateStartedAt,
         updateCount: state.updateCount + 1
       }
 

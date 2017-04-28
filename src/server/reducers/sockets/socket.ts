@@ -4,6 +4,7 @@ import {
   SOCKET_SEND,
   SOCKET_RECEIVE
 } from './socket-action-types'
+import store from '../../store'
 
 interface ClientState {
   connection: ws,                                                               // WebSocket client instance
@@ -13,8 +14,6 @@ interface ClientState {
   period: number,                                                               // Current block of time that is being rate limited
   messageCount: number                                                          // Total messages received in the current block of time
 }
-
-const rateLimitPeriod = 5000                                                    // Count messages in 5 second blocks; TODO: this should be user configurable
 
 export default function (state: ClientState, action: any = {}): ClientState {
   switch (action.type) {
@@ -43,7 +42,7 @@ export default function (state: ClientState, action: any = {}): ClientState {
 
     case SOCKET_RECEIVE:
       const timeMs = action.timeMs
-      const period = Math.floor(timeMs / rateLimitPeriod)
+      const period = Math.floor(timeMs / store.state.options.rateLimit.periodMs)
       const isSamePeriod = (period === state.period)
       const messageCount = isSamePeriod ? (state.messageCount + 1) : 1
       return {
