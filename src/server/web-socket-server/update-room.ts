@@ -24,10 +24,7 @@ export default async function updateRoom(roomId: string): Promise<void> {
   }, room.roomState)
 
   actions.forEach(action => sendToRoom(roomId, action))                         // send the actions to members of the room
-
   await storage.setState(roomId, roomState)                                     // store the new state
-
   await storage.removeOldActions(roomId, stateTimeMs)                           // remove the actions
-
   store.commit(roomFinishUpdate(roomId, roomState, stateTimeMs))                // done
 }

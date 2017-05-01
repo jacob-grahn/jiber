@@ -16,7 +16,7 @@ interface OptionsState {
 }
 
 const defaultOptions: OptionsState = {
-  webSocketPort: 8080,
+  webSocketPort: 80,
   stunPort: 3478,
   reducer: simpleSetter,
   onLogIn: memAccounts,

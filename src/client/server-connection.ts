@@ -1,15 +1,21 @@
+import { Action } from '../core'
+
+interface ServerConnection {
+  send: (action: Action) => Promise<boolean>,
+  close: () => void
+}
+
 /**
  * Attepts to keep an open connection with the specified server
  * Messages are held in a queue until the server sends back a confirmation
- * @constructor
- * @param  {string} server      target server to connect to
- * @return {ServerConnection}   an interface to send messages to the server
  */
-export default function serverConnection (server) {
+export default function serverConnection (
+  serverUrl: string,
+  socketPort: number): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
-  const queue = []
+  const queue: Action[] = []
   const OPEN = 1
-  let socket
+  let socket: WebSocket
   let retryCount = 0
   let resendThreshold = 10000                                                   // re-send messages if they have not been confirmed within ten seconds
   let open = true
@@ -20,7 +26,7 @@ export default function serverConnection (server) {
    * Open a socket connection
    */
   function connect () {
-    socket = new window.WebSocket(`ws://${server}`)
+    socket = new WebSocket(`ws://${server}`)
     socket.addEventListener('close', reconnect)
     socket.addEventListener('open', sendQueue)
     socket.addEventListener('message', handleMessage)

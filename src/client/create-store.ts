@@ -5,23 +5,33 @@ import optimistic from './reducers/optimistic'
 import simpleSetter from '../core/reducers/simple-setter'
 import store from '../core/store'
 import { Middleware, Store, Reducer } from '../core'
-import ClientOptions from './interfaces/client-options'
+import Options from './interfaces/options'
+import OptionsInput from './interfaces/options-input'
 
+const defaultOptions: Options = {
+  reducer: simpleSetter,
+  middleware: [],
+  roomId: 'default',
+  serverUrl: '',
+  stunPort: 3478,                                                               // 5349 for TLS
+  socketPort: 80
+}
 
 /**
  * When creating a client store, add middleware to send actions to the server
  * and peers
  */
-export default function createStore (options: ClientOptions = {}): Store {
-  const serverOptions = options.server || {}
-  const middleware = options.middleware || []
-  const reducer = options.reducer || simpleSetter
-  const optimisticReducer = optimistic(reducer)
+export default function createStore (optionInput: OptionsInput = {}): Store {
+  const options = {
+    ...defaultOptions,
+    ...optionInput
+  }
+  const optimisticReducer = optimistic(options.reducer)
   const clientMiddleware = [
-    ...middleware,
+    ...options.middleware,
     injectMetadata,
-    sendToServer(serverOptions),
-    sendToPeers(serverOptions)
+    sendToServer(options),
+    sendToPeers(options)
   ]
-  return store(reducer, clientMiddleware)
+  return store(options.reducer, clientMiddleware)
 }

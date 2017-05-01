@@ -1,7 +1,7 @@
 import { Action, Middleware } from '../../core'
-import ServerOptions from '../interfaces/server-options'
+import Options from '../interfaces/options'
 
-export default function sendToPeers (server: ServerOptions): Middleware {
+export default function sendToPeers (options: Options): Middleware {
   return function (action: Action): Action {
     return action
   }
