@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from '../core/index'
 
 interface ServerConnection {
   send: (action: Action) => Promise<boolean>,
@@ -26,7 +26,7 @@ export default function serverConnection (
    * Open a socket connection
    */
   function connect () {
-    socket = new WebSocket(`ws://${server}`)
+    socket = new WebSocket(`ws://${serverUrl}`)
     socket.addEventListener('close', reconnect)
     socket.addEventListener('open', sendQueue)
     socket.addEventListener('message', handleMessage)
@@ -65,7 +65,7 @@ export default function serverConnection (
    * Remove a confirmed action from the sendQueue
    * @type {String} message JSON encoded action
    */
-  function pruneQueue (actionId) {
+  function pruneQueue (actionId: string) {
     let i = 0
     let len = queue.length
     while (i < len) {
@@ -80,19 +80,19 @@ export default function serverConnection (
 
   /**
    * Process incomming messages from the socket
-   * @type {String} message JSON encoded action
    */
-  function handleMessage (message) {
-    const action = JSON.parse(message)
+  function handleMessage (event: MessageEvent): void {
+    const action = JSON.parse(event.data)
     pruneQueue(action.quantumId)
   }
 
   /**
    * Add a message to be sent
    */
-  function send (action) {
+  function send (action: Action): Promise<boolean> {
     queue.push()
     sendQueue()
+    return Promise.resolve(true)
   }
 
   /**

@@ -2,9 +2,13 @@ import sendToServer from './middleware/send-to-server'
 import sendToPeers from './middleware/send-to-peers'
 import injectMetadata from './middleware/inject-metadata'
 import optimistic from './reducers/optimistic'
-import simpleSetter from '../core/reducers/simple-setter'
-import store from '../core/store'
-import { Middleware, Store, Reducer } from '../core'
+import {
+  Middleware,
+  Store,
+  Reducer,
+  createStore,
+  simpleSetter
+} from '../core/index'
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
 
@@ -21,7 +25,7 @@ const defaultOptions: Options = {
  * When creating a client store, add middleware to send actions to the server
  * and peers
  */
-export default function createStore (optionInput: OptionsInput = {}): Store {
+export default function clientStore (optionInput: OptionsInput = {}): Store {
   const options = {
     ...defaultOptions,
     ...optionInput
@@ -33,5 +37,5 @@ export default function createStore (optionInput: OptionsInput = {}): Store {
     sendToServer(options),
     sendToPeers(options)
   ]
-  return store(options.reducer, clientMiddleware)
+  return createStore(options.reducer, clientMiddleware)
 }

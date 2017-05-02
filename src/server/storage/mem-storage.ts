@@ -1,5 +1,5 @@
 import Storage from '../interfaces/storage'
-import { Action } from '../../core'
+import { Action } from '../../core/index'
 
 interface RoomStorage {
   actions: Action[],

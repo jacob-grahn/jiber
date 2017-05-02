@@ -17,7 +17,7 @@ export default function Store (
     return chainPromises(middleware, action).then(commit)
   }
 
-  function commit (action: Action): any  {
+  function commit (action: Action): any {
     state = reducer(state, action)
     return state
   }

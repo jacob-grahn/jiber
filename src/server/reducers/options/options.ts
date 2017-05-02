@@ -1,5 +1,5 @@
 import { OPTIONS_SET } from './options-action-types'
-import { simpleSetter, Reducer } from '../../../core'
+import { simpleSetter, Reducer } from '../../../core/index'
 import LogInRequestHandler from '../../interfaces/log-in-request-handler'
 import Storage from '../../interfaces/storage'
 import memStorage from '../../storage/mem-storage'

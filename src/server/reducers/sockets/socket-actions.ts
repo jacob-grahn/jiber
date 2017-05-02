@@ -4,7 +4,7 @@ import {
   SOCKET_SEND,
   SOCKET_RECEIVE
 } from './socket-action-types'
-import { Action } from '../../../core'
+import { Action } from '../../../core/index'
 
 export function socketInit (id: String, connection: ws): Action {
   return {

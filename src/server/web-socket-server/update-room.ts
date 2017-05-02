@@ -6,18 +6,18 @@ import {
 } from '../reducers/rooms/room-actions'
 import sendToRoom from './send-to-room'
 
-export default async function updateRoom(roomId: string): Promise<void> {
+export default async function updateRoom (roomId: string): Promise<void> {
   const room = store.state.rooms[roomId]
   const storage: Storage = store.state.options.storage
   const reducer = store.state.options.reducer
 
-  if (room.isUpdating) return
+  if (room.isUpdating) return Promise.resolve()
 
   store.commit(roomBeginUpdate(roomId))                                         // start
 
   const actions = await storage.getNewActions(roomId, room.stateTimeMs)         // get the queued actions
   const stateTimeMs = actions[actions.length - 1].time
-  if (actions.length === 0) return
+  if (actions.length === 0) return Promise.resolve()
 
   const roomState = actions.reduce((roomState, action) => {                     // process the actions
     return reducer(roomState, action)

@@ -1,8 +1,8 @@
-import { Action } from '../../core'
-import Account from './account'
+import { Action } from '../../core/index'
+import LogInResult from './log-in-result'
 
 interface LogInRequestHandler {
-  (action: Action): Promise<Account>|Account
+  (action: Action): Promise<LogInResult>|LogInResult
 }
 
 export { LogInRequestHandler as default }

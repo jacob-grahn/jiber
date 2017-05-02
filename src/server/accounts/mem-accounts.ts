@@ -1,4 +1,4 @@
-import { Action } from '../../core'
+import { Action } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 
 let nextId = 1

@@ -1,5 +1,5 @@
 import { SET_STATE, ADD_CONFIRMED_ACTION } from './optimistic-action-types'
-import { Action } from '../../core'
+import { Action } from '../../core/index'
 
 export function setState (state: any): Action {
   return {type: SET_STATE, state}

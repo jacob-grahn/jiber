@@ -1,4 +1,4 @@
-import { Reducer } from '../../core'
+import { Reducer } from '../../core/index'
 import LogInRequestHandler from './log-in-request-handler'
 import Storage from './storage'
 

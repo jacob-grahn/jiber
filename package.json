@@ -5,15 +5,18 @@
   "main": "dist/server/index.js",
   "scripts": {
     "test": "tsc && ava",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "tslint --project tsconfig.json --type-check"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
+    "@types/ws": "0.0.40",
+    "tslint": "^5.1.0",
+    "tslint-config-standard": "^5.0.2",
     "typescript": "^2.2.2"
   },
   "dependencies": {
-    "@types/ws": "0.0.40",
     "ws": "^2.2.3"
   }
 }

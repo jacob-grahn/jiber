@@ -1,4 +1,4 @@
-import { Reducer } from '../../../core'
+import { Reducer } from '../../../core/index'
 
 interface State {
   [key: string]: any

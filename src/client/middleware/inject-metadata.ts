@@ -1,6 +1,5 @@
-import randomStr from '../../core/utils/random-str'
 import { LOCAL } from '../../core/constants/source-types'
-import { Action, Middleware } from '../../core'
+import { Action, Middleware } from '../../core/index'
 
 /**
  * Add some helpful data to the action
@@ -10,7 +9,6 @@ export default function injectMetadata (action: Action): Action {
   if (source !== LOCAL) return action                                           // only add metadata to local actions
   return {
     ...action,
-    realtimeSource: LOCAL,                                                      // mark that this action originated locally
-    quantumId: randomStr(16)                                                    // generate a unique id
+    realtimeSource: LOCAL                                                       // mark that this action originated locally
   }
 }

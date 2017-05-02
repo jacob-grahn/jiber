@@ -1,6 +1,6 @@
 import store from '../store'
 import sendToSocket from './send-to-socket'
-import { Action } from '../../core'
+import { Action } from '../../core/index'
 
 export default function sendToRoom (roomId: string, action: Action): void {
   const room = store.state.rooms[roomId]

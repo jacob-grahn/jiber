@@ -1,4 +1,4 @@
-import { Action, Middleware } from '../../core'
+import { Action, Middleware } from '../../core/index'
 import Options from '../interfaces/options'
 
 export default function sendToPeers (options: Options): Middleware {

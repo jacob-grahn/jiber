@@ -1,4 +1,4 @@
-import { Reducer, Middleware } from '../../core'
+import { Reducer, Middleware } from '../../core/index'
 
 interface OptionsInput {
   reducer?: Reducer,

@@ -1,4 +1,4 @@
-import { Action } from '../../../core'
+import { Action } from '../../../core/index'
 import {
   ROOM_BEGIN_UPDATE,
   ROOM_FINISH_UPDATE,

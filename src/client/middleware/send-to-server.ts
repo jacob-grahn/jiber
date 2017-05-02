@@ -1,4 +1,4 @@
-import { Action, Middleware } from '../../core'
+import { Action, Middleware } from '../../core/index'
 import Options from '../interfaces/options'
 
 /**

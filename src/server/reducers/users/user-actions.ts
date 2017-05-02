@@ -3,7 +3,7 @@ import {
   USER_LOG_IN,
   USER_UPDATE_ACCOUNT
 } from './user-action-types'
-import { Action } from '../../../core'
+import { Action } from '../../../core/index'
 import LogInResult from '../../interfaces/log-in-result'
 
 export function userIncActionCount (userId: string): Action {

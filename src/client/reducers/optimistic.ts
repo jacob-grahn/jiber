@@ -1,5 +1,5 @@
 import { SET_STATE, ADD_CONFIRMED_ACTION} from './optimistic-action-types'
-import { Action, Reducer } from '../../core'
+import { Action, Reducer } from '../../core/index'
 
 interface OptimisticState {
   confirmed: any,
