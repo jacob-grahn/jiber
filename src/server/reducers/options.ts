@@ -1,9 +1,8 @@
-import { OPTIONS_SET } from './options-action-types'
-import { simpleSetter, Reducer } from '../../../core/index'
-import LogInRequestHandler from '../../interfaces/log-in-request-handler'
-import Storage from '../../interfaces/storage'
-import memStorage from '../../storage/mem-storage'
-import memAccounts from '../../accounts/mem-accounts'
+import { simpleSetter, Reducer } from '../../core/index'
+import LogInRequestHandler from '../interfaces/log-in-request-handler'
+import Storage from '../interfaces/storage'
+import memStorage from '../storage/mem-storage'
+import memAccounts from '../accounts/mem-accounts'
 
 interface OptionsState {
   webSocketPort: number,
@@ -25,16 +24,27 @@ const defaultOptions: OptionsState = {
   maxMessageLength: 2000
 }
 
-export default function (state: OptionsState, action: any = {}): OptionsState {
+// Actions
+const OPTIONS_SET = 'hope/options/OPTIONS_SET'
+
+// Reducer
+export default function reducer (
+  state: OptionsState,
+  action: any = {}
+): OptionsState {
   switch (action.type) {
     case undefined:
       return defaultOptions
 
     case OPTIONS_SET:
-      const customOptions: OptionsState = action.serverOptions
       return {
         ...defaultOptions,
-        customOptions
+        ...action.options
       }
   }
+}
+
+// Action Creators
+export function setOptions (options: any) {
+  return {type: OPTIONS_SET, options}
 }

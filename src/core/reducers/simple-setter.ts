@@ -1,5 +1,3 @@
-const SET = 'SET'
-
 interface SetterState {
   [key: string]: any
 }
@@ -10,7 +8,11 @@ interface SetterAction {
   value?: any
 }
 
-export default function simpleSetter (
+// Actions
+const SET = 'hope/simpleSetter/SET'
+
+// Reducer
+export default function reducer (
   state: SetterState,
   action: SetterAction = {}
 ): SetterState {
@@ -24,4 +26,9 @@ export default function simpleSetter (
         [action.key]: action.value
       }
   }
+}
+
+// Action Creators
+export function set (key: string, value: any) {
+  return {type: SET, key, value}
 }

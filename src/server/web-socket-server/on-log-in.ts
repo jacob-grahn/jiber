@@ -1,11 +1,12 @@
 import { Action } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 import store from '../store'
-import { userLogIn } from '../reducers/users/user-actions'
+import { logIn } from '../reducers/user'
 
-export default function onLogIn (socketId: string, action: Action): void {
-  store.state.options.onLogIn(action)
-  .then((result: LogInResult) => {
-    store.commit(userLogIn(result))
-  })
+export default async function onLogIn (
+  socketId: string,
+  action: Action
+): Promise<void> {
+  const result = await store.state.options.onLogIn(action)
+  store.commit(logIn(result))
 }

@@ -1,9 +1,9 @@
 import store from '../store'
 import Storage from '../interfaces/storage'
 import {
-  roomBeginUpdate,
-  roomFinishUpdate
-} from '../reducers/rooms/room-actions'
+  beginUpdate,
+  finishUpdate
+} from '../reducers/room'
 import sendToRoom from './send-to-room'
 
 export default async function updateRoom (roomId: string): Promise<void> {
@@ -13,7 +13,7 @@ export default async function updateRoom (roomId: string): Promise<void> {
 
   if (room.isUpdating) return Promise.resolve()
 
-  store.commit(roomBeginUpdate(roomId))                                         // start
+  store.commit(beginUpdate(roomId))                                             // start
 
   const actions = await storage.getNewActions(roomId, room.stateTimeMs)         // get the queued actions
   const stateTimeMs = actions[actions.length - 1].time
@@ -26,5 +26,5 @@ export default async function updateRoom (roomId: string): Promise<void> {
   actions.forEach(action => sendToRoom(roomId, action))                         // send the actions to members of the room
   await storage.setState(roomId, roomState)                                     // store the new state
   await storage.removeOldActions(roomId, stateTimeMs)                           // remove the actions
-  store.commit(roomFinishUpdate(roomId, roomState, stateTimeMs))                // done
+  store.commit(finishUpdate(roomId, roomState, stateTimeMs))                    // done
 }

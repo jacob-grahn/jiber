@@ -1,6 +1,6 @@
 import store from '../store'
-import { socketRemove } from '../reducers/sockets/socket-dict-actions'
-import { userRemove } from '../reducers/users/user-dict-actions'
+import { socketRemove } from '../reducers/socket'
+import { userRemove } from '../reducers/user'
 import * as ws from 'ws'
 
 export default function onClose (socketId: string): void {

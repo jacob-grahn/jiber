@@ -1,1 +1,0 @@
-export const SOCKET_REMOVE = 'SOCKET_REMOVE'

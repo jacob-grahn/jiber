@@ -1,4 +1,4 @@
-import { Reducer } from '../../../core/index'
+import { Reducer } from '../../core/index'
 
 interface State {
   [key: string]: any
@@ -10,20 +10,19 @@ interface State {
  */
 export default function dictReducer (
   reducer: Reducer,
-  passActions: Array<string>,
-  removeAction: string
+  namespace: string
 ): Reducer {
   return (state: State, action: any = {}): State => {
     switch (action.type) {
       case undefined:
         return {}
 
-      case removeAction:
+      case `${namespace}/REMOVE}`:
         const key = action.key
         return {...state, [key]: null}
 
       default:
-        if (passActions.indexOf(action.type) >= 0) {
+        if (action.type.indexOf(namespace) === 0) {
           const key = action.key
           const value = state[key]
           return {

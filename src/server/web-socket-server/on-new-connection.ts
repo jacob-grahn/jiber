@@ -1,6 +1,6 @@
 import onMessage from './on-message'
 import onClose from './on-close'
-import { socketInit } from '../reducers/sockets/socket-actions'
+import { socketInit, socketSend } from '../reducers/socket'
 import store from '../store'
 import * as ws from 'ws'
 
@@ -14,8 +14,13 @@ export default function onNewConnection (connection: ws): void {
 
   store.commit(socketInit(socketId, connection))
 
-  connection.on('message', message => {
-    onMessage(socketId, message)
+  connection.on('message', async (message) => {
+    try {
+      await onMessage(socketId, message)
+    } catch (e) {
+      console.log(e)
+      socketSend(e.message)
+    }
   })
 
   connection.on('close', () => {

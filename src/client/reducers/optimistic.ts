@@ -1,4 +1,3 @@
-import { SET_STATE, ADD_CONFIRMED_ACTION} from './optimistic-action-types'
 import { Action, Reducer } from '../../core/index'
 
 interface OptimisticState {
@@ -7,90 +6,43 @@ interface OptimisticState {
   actions: Array<Action>
 }
 
-/**
- * A higher order reducer that adds optimistic state management
- */
+// Actions
+const SET_STATE = 'hope/optimistic/SET_STATE'
+const ADD_CONFIRMED_ACTION = 'hope/optimistic/ADD_CONFIRMED_ACTION'
+const REMOVE_OPTIMISTIC_ACTION = 'hope/optimistic/REMOVE_OPTIMISTIC_ACTION'
+
+// Reducer
 export default function optimistic (reducer: Function): Reducer {
   return (state: OptimisticState, action: Action = {}): OptimisticState => {
     switch (action.type) {
       case undefined:
-        return makeDefaultState(reducer)
+        return {
+          confirmed: reducer(),
+          optimistic: reducer(),
+          actions: []
+        }
 
       case SET_STATE:
-        return setConfirmedState(reducer, state, action)
+        return {
+          confirmed: action.confirmed,
+          optimistic: applyActions(reducer, action.confirmed, state.actions),
+          actions: state.actions
+        }
 
       case ADD_CONFIRMED_ACTION:
-        return addConfirmedAction(reducer, state, action)
+        return {
+          confirmed: reducer(state.confirmed, action.confirmedAction),
+          optimistic: applyActions(reducer, state.confirmed, state.actions),
+          actions: removeById(state.actions, action.id)
+        }
 
       default:
-        return addOptimisticAction(reducer, state, action)
+        return {
+          confirmed: state.confirmed,
+          optimistic: reducer(state.optimistic, action),
+          actions: [...state.actions, action]
+        }
     }
-  }
-}
-
-/**
- * Return the default state
- */
-function makeDefaultState (reducer: Function): OptimisticState {
-  return {
-    confirmed: reducer(),
-    optimistic: reducer(),
-    actions: []
-  }
-}
-
-/**
- * Completely replace the current state with a new confirmed state
- */
-function setConfirmedState (
-  reducer: Function,
-  state: OptimisticState,
-  action: Action
-): OptimisticState {
-  const actions = state.actions
-  const confirmed = action.confirmedState
-  const optimistic = applyActions(reducer, confirmed, actions)
-  return {
-    confirmed,
-    optimistic,
-    actions
-  }
-}
-
-/**
- * Apply a confirmed action to the confirmed state
- * Re-apply optimistic actions from there to create a new optimistic state
- */
-function addConfirmedAction (
-  reducer: Function,
-  state: OptimisticState,
-  action: Action
-): OptimisticState {
-  const actions = removeById(state.actions, action.quantumId)
-  const confirmed = reducer(state.confirmed, action.confirmedAction)
-  const optimistic = applyActions(reducer, confirmed, actions)
-  return {
-    confirmed,
-    optimistic,
-    actions
-  }
-}
-
-/**
- * Apply an optimistic action to the optimistc state
- */
-function addOptimisticAction (
-  reducer: Function,
-  state: OptimisticState,
-  action: Action
-): OptimisticState {
-  const confirmed = state.confirmed
-  const optimistic = reducer(state.optimistic, action)
-  const actions = [...state.actions, action]
-  return {
-    confirmed,
-    optimistic,
-    actions
   }
 }
 
@@ -114,4 +66,13 @@ function applyActions (
   return actions.reduce((state, action): OptimisticState => {
     return reducer(state, action)
   }, state)
+}
+
+// Action Creators
+export function setState (state: any): Action {
+  return {type: SET_STATE, state}
+}
+
+export function addConfirmedAction (action: Action): Action {
+  return {type: ADD_CONFIRMED_ACTION, action}
 }
