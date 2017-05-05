@@ -1,13 +1,17 @@
 import { Action, Reducer } from '../../core/index'
 
 // Setup
-const keyName = 'hopeRoomId'
-const namespace = ''
 interface OptimisticState {
   memberIds: Array<string>,                                                     // List of user ids that have joined this room
   confirmed: any,
   optimistic: any,
   actions: Array<Action>
+}
+const defaultState: OptimisticState = {
+  memberIds: [],
+  confirmed: undefined,
+  optimistic: undefined,
+  actions: []
 }
 
 // Actions
@@ -15,35 +19,33 @@ const ADD_MEMBER = 'hope/room/ADD_MEMBER'
 const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 const REMOVE = 'hope/room/REMOVE'
 const SET_STATE = 'hope/room/SET_STATE'
-const ADD_CONFIRMED_ACTION = 'hope/room/ADD_CONFIRMED_ACTION'
+const CONFIRM_ACTION = 'hope/room/CONFIRM_ACTION'
 const REMOVE_OPTIMISTIC_ACTION = 'hope/room/REMOVE_OPTIMISTIC_ACTION'
 
 // Reducer
-export default function reducer (reducer: Function): Reducer {
-  return (state: OptimisticState, action: Action = {}): OptimisticState => {
+export default function reducerEnhancer (reducer: Function): Reducer {
+  return function roomReducer (
+    state: OptimisticState = defaultState,
+    action: Action = {}
+  ): OptimisticState {
     switch (action.type) {
       case undefined:
-        return {
-          memberIds: [],
-          confirmed: reducer(),
-          optimistic: reducer(),
-          actions: []
-        }
+        return state
 
       case SET_STATE:
         return {
           ...state,
+          actions: state.actions,
           confirmed: action.confirmed,
-          optimistic: applyActions(reducer, action.confirmed, state.actions),
-          actions: state.actions
+          optimistic: applyActions(reducer, action.confirmed, state.actions)
         }
 
-      case ADD_CONFIRMED_ACTION:
+      case CONFIRM_ACTION:
+        const confirmedState = reducer(state.confirmed, action.action)
         return {
           ...state,
-          confirmed: reducer(state.confirmed, action.confirmedAction),
-          optimistic: applyActions(reducer, state.confirmed, state.actions),
-          actions: removeById(state.actions, action.id)
+          confirmed: confirmedState,
+          optimistic: applyActions(reducer, confirmedState, state.actions)
         }
 
       case ADD_MEMBER:
@@ -65,9 +67,9 @@ export default function reducer (reducer: Function): Reducer {
       default:
         return {
           ...state,
+          actions: [...state.actions, action],
           confirmed: state.confirmed,
-          optimistic: reducer(state.optimistic, action),
-          actions: [...state.actions, action]
+          optimistic: reducer(state.optimistic, action)
         }
     }
   }
@@ -100,8 +102,8 @@ export function setState (hopeRoomId: string, state: any): Action {
   return {type: SET_STATE, hopeRoomId, state}
 }
 
-export function addConfirmedAction (hopeRoomId: string, action: Action): Action {
-  return {type: ADD_CONFIRMED_ACTION, hopeRoomId, action}
+export function confirmAction (hopeRoomId: string, action: Action): Action {
+  return {type: CONFIRM_ACTION, hopeRoomId, action}
 }
 
 export function addMember (hopeRoomId: string, userId: string): Action {
