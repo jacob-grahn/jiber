@@ -25,10 +25,13 @@ export default function reducer (
         ...state,
         [action.key]: action.value
       }
+
+    default:
+      return state
   }
 }
 
 // Action Creators
-export function set (key: string, value: any) {
-  return {type: SET, key, value}
+export function set (hopeRoomId: string, key: string, value: any) {
+  return {type: SET, hopeRoomId, key, value}
 }

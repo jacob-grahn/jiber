@@ -19,7 +19,7 @@ export default function onNewConnection (connection: ws): void {
       await onMessage(socketId, message)
     } catch (e) {
       console.log(e)
-      socketSend(e.message)
+      store.commit(socketSend(e.message))
     }
   })
 

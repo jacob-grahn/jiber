@@ -4,6 +4,7 @@ import Storage from '../interfaces/storage'
 import memStorage from '../storage/mem-storage'
 import memAccounts from '../accounts/mem-accounts'
 
+// Setup
 interface OptionsState {
   webSocketPort: number,
   stunPort: number,
@@ -41,6 +42,9 @@ export default function reducer (
         ...defaultOptions,
         ...action.options
       }
+
+    default:
+      return state
   }
 }
 

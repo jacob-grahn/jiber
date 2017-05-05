@@ -1,13 +1,7 @@
-import { Action } from '../../core/index'
+import { Action, stateDictionary } from '../../core/index'
 
-// Actions
-const BEGIN_UPDATE = 'hope/room/BEGIN_UPDATE'
-const FINISH_UPDATE = 'hope/room/FINISH_UPDATE'
-const ADD_MEMBER = 'hope/room/ADD_MEMBER'
-const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
-const REMOVE = 'hope/room/REMOVE'
-
-// Reducer
+// Setup
+const keyName = 'roomId'
 interface RoomState {
   memberIds: Array<string>,                                                     // List of user ids that have joined this room
   roomState: any,                                                               // Last known copy of state from the db, this is sent to new members
@@ -18,7 +12,15 @@ interface RoomState {
   updateCount: number                                                           // Total number of updates this room has performed
 }
 
-export default function (state: RoomState, action: any = {}): RoomState {
+// Actions
+const BEGIN_UPDATE = 'hope/room/BEGIN_UPDATE'
+const FINISH_UPDATE = 'hope/room/FINISH_UPDATE'
+const ADD_MEMBER = 'hope/room/ADD_MEMBER'
+const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
+const REMOVE = 'hope/room/REMOVE'
+
+// Reducer
+function roomReducer (state: RoomState, action: any = {}): RoomState {
   switch (action.type) {
     case undefined:
       return {
@@ -62,8 +64,16 @@ export default function (state: RoomState, action: any = {}): RoomState {
         ...state,
         memberIds: state.memberIds.filter(userId => userId !== action.userId)
       }
+
+    case REMOVE:
+      return undefined
+
+    default:
+      return state
   }
 }
+
+export default stateDictionary(roomReducer, {keyName})
 
 // Action Creators
 export function beginUpdate (roomId: string): Action {
@@ -84,13 +94,13 @@ export function finishUpdate (
 }
 
 export function addMember (roomId: string, userId: string): Action {
-  return {type: ADD_MEMBER, id: roomId, userId}
+  return {type: ADD_MEMBER, roomId, userId}
 }
 
 export function removeMember (roomId: string , userId: string): Action {
-  return {type: REMOVE_MEMBER, id: roomId, userId}
+  return {type: REMOVE_MEMBER, roomId, userId}
 }
 
 export function removeRoom (roomId: string): Action {
-  return {type: REMOVE, id: roomId}
+  return {type: REMOVE, roomId}
 }

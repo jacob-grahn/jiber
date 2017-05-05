@@ -1,15 +1,9 @@
 import * as ws from 'ws'
 import store from '../store'
-import { Action } from '../../core/index'
+import { Action, stateDictionary } from '../../core/index'
 
-// Actions
-const INIT = 'hope/socket/INIT'
-const SEND = 'hope/socket/SEND'
-const RECEIVE = 'hope/socket/RECEIVE'
-const LOGIN = 'hope/socket/LOGIN'
-const REMOVE = 'hope/socket/REMOVE'
-
-// Reducer
+// Setup
+const keyName = 'socketId'
 interface ClientState {
   connection: ws,                                                               // WebSocket client instance
   connectedAt: number,                                                          // When the socket connected
@@ -19,10 +13,15 @@ interface ClientState {
   messageCount: number                                                          // Total messages received in the current block of time
 }
 
-export default function reducer (
-  state: ClientState,
-  action: any = {}
-): ClientState {
+// Actions
+const INIT = 'hope/socket/INIT'
+const SEND = 'hope/socket/SEND'
+const RECEIVE = 'hope/socket/RECEIVE'
+const LOGIN = 'hope/socket/LOGIN'
+const REMOVE = 'hope/socket/REMOVE'
+
+// Reducer
+function reducer (state: ClientState, action: any = {}): ClientState {
   switch (action.type) {
     case undefined:
       return {
@@ -58,22 +57,30 @@ export default function reducer (
         messageCount,
         lastReceivedAt: timeMs
       }
+
+    case REMOVE:
+      return undefined
+
+    default:
+      return state
   }
 }
 
+export default stateDictionary(reducer, {keyName})
+
 // Action Creators
-export function socketInit (id: string, connection: ws): Action {
-  return {type: INIT, id, connection, timeMs: new Date().getTime()}
+export function socketInit (socketId: string, connection: ws): Action {
+  return {type: INIT, socketId, connection, timeMs: new Date().getTime()}
 }
 
-export function socketSend (id: string): Action {
-  return {type: SEND, id, timeMs: new Date().getTime()}
+export function socketSend (socketId: string): Action {
+  return {type: SEND, socketId, timeMs: new Date().getTime()}
 }
 
-export function socketReceive (id: string): Action {
-  return {type: RECEIVE, id, timeMs: new Date().getTime()}
+export function socketReceive (socketId: string): Action {
+  return {type: RECEIVE, socketId, timeMs: new Date().getTime()}
 }
 
-export function socketRemove (id: string): Action {
-  return {type: REMOVE, id}
+export function socketRemove (socketId: string): Action {
+  return {type: REMOVE, socketId}
 }
