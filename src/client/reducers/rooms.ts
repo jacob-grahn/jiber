@@ -14,7 +14,7 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
     reducerObj = input as ReducerObj
   }
 
-  return (state: any, action: Action = {}): any => {
+  return (state: any = {}, action: Action = {}): any => {
     if (!action.type) {
       return {}
     }
@@ -30,7 +30,8 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
     }
     if (reducerObj && action.hopeRoomId.indexOf('.') !== -1) {
       const [roomType, roomId] = action.hopeRoomId.split('.')
-      const roomState = state[roomType][roomId]
+      const roomTypeDict = state[roomType] || {}
+      const roomState = roomTypeDict[roomId]
       const reducer = reducerObj[roomType]
       return {
         ...state,

@@ -4,19 +4,35 @@
   "description": "Optimistic shared data store",
   "main": "dist/server/index.js",
   "scripts": {
-    "test": "tsc && ava",
+    "test": "jest",
     "build": "tsc",
     "lint": "tslint --project tsconfig.json --type-check"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^19.2.3",
     "@types/ws": "0.0.40",
+    "jest": "^19.0.2",
+    "ts-jest": "^19.0.14",
     "tslint": "^5.1.0",
     "tslint-config-standard": "^5.0.2",
     "typescript": "^2.2.2"
   },
   "dependencies": {
     "ws": "^2.2.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testResultsProcessor": "./node_modules/ts-jest/coverageprocessor.js",
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }

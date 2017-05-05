@@ -59,7 +59,6 @@ function reducer (state: UserState, action: any = {}): UserState {
 
 export default stateDictionary(reducer, {keyName})
 
-
 // Action Creators
 export function incActionCount (userId: string): Action {
   return {type: INC_ACTION_COUNT, userId}

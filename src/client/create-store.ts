@@ -1,7 +1,8 @@
 import sendToServer from './middleware/send-to-server'
 import sendToPeers from './middleware/send-to-peers'
 import injectMetadata from './middleware/inject-metadata'
-import optimistic from './reducers/optimistic'
+import optimisticRoom from './reducers/optimistic-room'
+import rooms from './reducers/rooms'
 import {
   Middleware,
   Store,
@@ -30,7 +31,7 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
     ...defaultOptions,
     ...optionInput
   }
-  const optimisticReducer = optimistic(options.reducer)
+  const optimisticReducer = rooms(optimisticRoom(options.reducer))
   const clientMiddleware = [
     ...options.middleware,
     injectMetadata,
