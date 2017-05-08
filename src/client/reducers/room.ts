@@ -5,13 +5,15 @@ interface OptimisticState {
   memberIds: Array<string>,                                                     // List of user ids that have joined this room
   confirmed: any,
   optimistic: any,
-  actions: Array<Action>
+  actions: Array<Action>,
+  actionCounts: {[key: string]: number}                                         // number of actions sent by userId
 }
 const defaultState: OptimisticState = {
   memberIds: [],
   confirmed: undefined,
   optimistic: undefined,
-  actions: []
+  actions: [],
+  actionCounts: {}
 }
 
 // Actions
@@ -20,7 +22,6 @@ const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 const REMOVE = 'hope/room/REMOVE'
 const SET_STATE = 'hope/room/SET_STATE'
 const CONFIRM_ACTION = 'hope/room/CONFIRM_ACTION'
-const REMOVE_OPTIMISTIC_ACTION = 'hope/room/REMOVE_OPTIMISTIC_ACTION'
 
 // Reducer
 export default function reducerEnhancer (reducer: Function): Reducer {
@@ -41,11 +42,22 @@ export default function reducerEnhancer (reducer: Function): Reducer {
         }
 
       case CONFIRM_ACTION:
-        const confirmedState = reducer(state.confirmed, action.action)
+        const cAction = action.action
+        const confirmedState = reducer(state.confirmed, cAction)
+        const actions = filterActions(
+          state.actions,
+          cAction.userId,
+          cAction.actionCount
+        )
         return {
           ...state,
+          actions,
           confirmed: confirmedState,
-          optimistic: applyActions(reducer, confirmedState, state.actions)
+          optimistic: applyActions(reducer, confirmedState, actions),
+          actionCounts: {
+            ...state.actionCounts,
+            [cAction.userId]: cAction.actionCount
+          }
         }
 
       case ADD_MEMBER:
@@ -75,12 +87,13 @@ export default function reducerEnhancer (reducer: Function): Reducer {
   }
 }
 
-/**
- * Filters out actions with _timeMs less than minTimeMs
- */
-function removeById (actions: Array<Action>, id: String) {
+function filterActions (
+  actions: Array<Action>,
+  userId: String,
+  actionCount: number
+) {
   return actions.filter(action => {
-    return action.quantumId !== id
+    return (action.userId !== userId || action.actionCount > actionCount)
   })
 }
 
