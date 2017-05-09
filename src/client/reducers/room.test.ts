@@ -15,7 +15,7 @@ test ('defaults to something reasonable', () => {
     confirmed: undefined,
     memberIds: [],
     optimistic: undefined,
-    actionCounts: {}
+    actionIds: {}
   })
 })
 
@@ -27,7 +27,7 @@ test('user generated actions are added to the optimistic stack', () => {
     confirmed: undefined,
     memberIds: [],
     optimistic: '123',
-    actionCounts: {}
+    actionIds: {}
   })
 })
 
@@ -42,14 +42,14 @@ test('the optimistic state is based on the confirmed state', () => {
     userId: 'bob',
     type: 'test',
     value: 'def',
-    actionCount: 1
+    actionId: 1
   })
   expect(roomReducer(state, action)).toEqual({
     actions: [],
     confirmed: 'abcdef',
     memberIds: [],
     optimistic: 'abcdef',
-    actionCounts: {bob: 1}
+    actionIds: {bob: 1}
   })
 })
 
@@ -60,19 +60,19 @@ test('remove optimistic actions if newer confirmed action is received', () => {
         userId: 'bob',
         type: 'test',
         value: 'aaa',
-        actionCount: 1
+        actionId: 1
       },
       {
         userId: 'bob',
         type: 'test',
         value: 'bbb',
-        actionCount: 2
+        actionId: 2
       },
       {
         userId: 'bob',
         type: 'test',
         value: 'ccc',
-        actionCount: 3
+        actionId: 3
       }
     ],
     confirmed: 'abc',
@@ -83,19 +83,19 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     userId: 'bob',
     type: 'test',
     value: 'zzz',
-    actionCount: 2
+    actionId: 2
   })
   expect(roomReducer(state, action)).toEqual({
     actions: [{
       userId: 'bob',
       type: 'test',
       value: 'ccc',
-      actionCount: 3
+      actionId: 3
     }],
     confirmed: 'abczzz',
     memberIds: [],
     optimistic: 'abczzzccc',
-    actionCounts: {bob: 2}
+    actionIds: {bob: 2}
   })
 })
 
@@ -110,13 +110,13 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
     userId: 'sally',
     type: 'test',
     value: 'def',
-    actionCount: 4
+    actionId: 4
   })
   expect(roomReducer(state, action)).toEqual({
     actions: [{type: 'test', value: '123'}, {type: 'test', value: '456'}],
     confirmed: 'abcdef',
     memberIds: [],
     optimistic: 'abcdef123456',
-    actionCounts: {sally: 4}
+    actionIds: {sally: 4}
   })
 })

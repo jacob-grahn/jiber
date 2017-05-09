@@ -5,7 +5,7 @@ import LogInResult from '../interfaces/log-in-result'
 // Setup
 const keyName = 'userId'
 interface UserState {
-  actionCount: number,                                                          // Starts at 0 and increments with every action sent
+  actionId: number,                                                          // Starts at 0 and increments with every action sent
   loggedInAt: number,                                                           // Might be useful at some point
   userId: string,                                                               // User id
   account: {[key: string]: any}                                                 // Place to store misc account data
@@ -23,7 +23,7 @@ function reducer (state: UserState, action: any = {}): UserState {
     case undefined:
       return {
         loggedInAt: 0,
-        actionCount: 0,
+        actionId: 0,
         userId: undefined,
         account: {}
       }
@@ -43,10 +43,10 @@ function reducer (state: UserState, action: any = {}): UserState {
         account: action.account
       }
 
-    case INC_ACTION_COUNT:                                                      // should increment actionCount every time the user sends an action
-      return {                                                                  // actionCount is used to prevent duplicating peer to peer actions
+    case INC_ACTION_COUNT:                                                      // should increment actionId every time the user sends an action
+      return {                                                                  // actionId is used to prevent duplicating peer to peer actions
         ...state,
-        actionCount: state.actionCount + 1
+        actionId: state.actionId + 1
       }
 
     case REMOVE:
