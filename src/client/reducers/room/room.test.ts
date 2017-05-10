@@ -1,34 +1,30 @@
 import room from './room'
-import { confirmAction } from './room'
-import { Action } from '../../core/index'
+import { confirmAction, joinResult } from './room'
+import { Action } from '../../../core/index'
 
 const adder = (state: any = '', action: Action = {}): any => {
   return state + action.value
 }
 const roomReducer = room(adder)
 
-test ('defaults to something reasonable', () => {
+test('defaults to something', () => {
   const state: any = undefined
   const action: Action = undefined
-  expect(roomReducer(state, action)).toEqual({
-    actions: [],
-    confirmed: undefined,
-    memberIds: [],
-    optimistic: undefined,
-    actionIds: {}
-  })
+  expect(roomReducer(state, action)).toBeTruthy()
 })
 
 test('user generated actions are added to the optimistic stack', () => {
   const state: any = undefined
   const action: Action = {type: 'test', value: '123'}
-  expect(roomReducer(state, action)).toEqual({
-    actions: [{type: 'test', value: '123'}],
-    confirmed: undefined,
-    memberIds: [],
-    optimistic: '123',
-    actionIds: {}
-  })
+  expect(roomReducer(state, action).actions).toEqual([
+    {actionId: 1, type: 'test', value: '123'}
+  ])
+})
+
+test('user generated actions are used on the optimistic state', () => {
+  const state: any = undefined
+  const action: Action = {type: 'test', value: '123'}
+  expect(roomReducer(state, action).optimistic).toEqual('123')
 })
 
 test('the optimistic state is based on the confirmed state', () => {
@@ -118,5 +114,57 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
     memberIds: [],
     optimistic: 'abcdef123456',
     actionIds: {sally: 4}
+  })
+})
+
+test('optimistic actions are assigned to your userId on join success', () => {
+  const state: any = {
+    actions: [
+      {type: 'test', value: '123'},
+      {type: 'test', value: '456'},
+      {userId: 'roy', type: 'test', value: '789'}
+    ]
+  }
+  const roomId = 'aRoom'
+  const confirmedState = {}
+  const myUserId = 'ike'
+  const actionIds = {}
+  const memberIds: any[] = []
+  const action: Action = joinResult(
+    roomId,
+    confirmedState,
+    myUserId,
+    actionIds,
+    memberIds
+  )
+  expect(roomReducer(state, action).actions).toEqual([
+    {userId: 'ike', type: 'test', value: '123'},
+    {userId: 'ike', type: 'test', value: '456'},
+    {userId: 'roy', type: 'test', value: '789'}
+  ])
+})
+
+test('state, members, actionIds, and status are set on join success', () => {
+  const state: any = undefined
+  const roomId = 'aRoom'
+  const confirmedState = {score: 8444}
+  const myUserId = 'ike'
+  const actionIds = {ike: 7, roy: 57}
+  const memberIds: any[] = ['ike', 'roy']
+  const action: Action = joinResult(
+    roomId,
+    confirmedState,
+    myUserId,
+    actionIds,
+    memberIds
+  )
+  expect(roomReducer(state, action)).toEqual({
+    actions: [],
+    confirmed: {score: 8444},
+    optimistic: {score: 8444},
+    actionIds: {ike: 7, roy: 57},
+    memberIds: ['ike', 'roy'],
+    status: 'JOINED',
+    myUserId: 'ike'
   })
 })

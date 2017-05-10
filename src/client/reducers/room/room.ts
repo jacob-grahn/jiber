@@ -1,11 +1,14 @@
-import { Action, Reducer } from '../../core/index'
+import { Action, Reducer } from '../../../core/index'
+import claimActions from './claim-actions'
+import pruneActions from './prune-actions'
+import nextActionId from './next-action-id'
 
 // Setup
 const NOT_JOINING = 'NOT_JOINING'
 const JOINING = 'JOINING'
 const JOINED = 'JOINED'
 
-interface RoomState {
+export interface RoomState {
   memberIds: Array<string>,                                                     // List of user ids that have joined this room
   confirmed: any,
   optimistic: any,
@@ -33,7 +36,7 @@ const JOIN_RESULT = 'hope/room/JOIN_RESULT'
 const CONFIRM_ACTION = 'hope/room/CONFIRM_ACTION'
 
 // Reducer
-export default function reducerEnhancer (reducer: Function): Reducer {
+export default function reducerEnhancer (reducer: Reducer): Reducer {
   return function roomReducer (
     state: RoomState = defaultState,
     action: Action = {}
@@ -43,21 +46,22 @@ export default function reducerEnhancer (reducer: Function): Reducer {
         return state
 
       case JOIN_RESULT:
+        const claimedActions = claimActions(state.actions, action.myUserId)
         return {
           ...state,
-          actions: claimActions(state.actions, action.myUserId),
-          confirmed: action.confirmed,
-          optimistic: applyActions(reducer, action.confirmed, state.actions),
+          actions: claimedActions,
+          confirmed: action.confirmedState,
+          optimistic: claimedActions.reduce(reducer, action.confirmedState),
           myUserId: action.myUserId,
           actionIds: action.actionIds,
-          memberIds: action.memeberids,
+          memberIds: action.memberIds,
           status: JOINED
         }
 
       case CONFIRM_ACTION:
         const cAction = action.action
         const confirmedState = reducer(state.confirmed, cAction)
-        const actions = removeOldActions(
+        const actions = pruneActions(
           state.actions,
           cAction.userId,
           cAction.actionId
@@ -66,7 +70,7 @@ export default function reducerEnhancer (reducer: Function): Reducer {
           ...state,
           actions,
           confirmed: confirmedState,
-          optimistic: applyActions(reducer, confirmedState, actions),
+          optimistic: actions.reduce(reducer, confirmedState),
           actionIds: {
             ...state.actionIds,
             [cAction.userId]: cAction.actionId
@@ -114,70 +118,22 @@ export default function reducerEnhancer (reducer: Function): Reducer {
   }
 }
 
-function removeOldActions (
-  actions: Array<Action>,
-  userId: String,
-  actionId: number
-) {
-  return actions.filter(action => {
-    return (action.userId !== userId || action.actionId > actionId)
-  })
-}
-
-/**
- * Applies a list of actions to a state
- */
-function applyActions (
-  reducer: Function,
-  state: RoomState,
-  actions: Array<Action>
-): RoomState {
-  return actions.reduce((state, action): RoomState => {
-    return reducer(state, action)
-  }, state)
-}
-
-/**
- * Claim optimistic actions without a userId as your own
- */
-function claimActions (
-  actions: Array<Action>,
-  myUserId: string
-): Array<Action> {
-  return actions.map(action => {
-    if (action.userId) return action
-    return {...action, userId: myUserId}
-  })
-}
-
-/**
- * Calculate what the next expected actionId for a user is
- * This is useful for rejecting invalid optimistic actions
- */
-function nextActionId (state: RoomState, userId: string): number {
-  const baseActionId = state.actionIds[userId] || 0
-  const optimisticCount = matchUserId(state.actions, userId).length
-  return baseActionId + optimisticCount + 1
-}
-
-/**
- * Return actions that have a specefied userId
- */
-function matchUserId (actions: Array<Action>, userId: string): Array<Action> {
-  return actions.filter(action => {
-    return action.userId === userId
-  })
-}
-
 // Action Creators
 export function joinResult (
   hopeRoomId: string,
-  state: any,
+  confirmedState: any,
   myUserId: string,
   actionIds: {[key: string]: number},
   memberIds: string[]
 ): Action {
-  return {type: JOIN_RESULT, hopeRoomId, state, myUserId, actionIds, memberIds}
+  return {
+    type: JOIN_RESULT,
+    hopeRoomId,
+    confirmedState,
+    myUserId,
+    actionIds,
+    memberIds
+  }
 }
 
 export function confirmAction (hopeRoomId: string, action: Action): Action {
