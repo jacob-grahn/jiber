@@ -1,5 +1,5 @@
 interface Action {
-  type?: string,
+  type: string,
   [key: string]: any
 }
 

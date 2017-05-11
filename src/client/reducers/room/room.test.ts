@@ -13,12 +13,10 @@ test('defaults to something', () => {
   expect(roomReducer(state, action)).toBeTruthy()
 })
 
-test('user generated actions are added to the optimistic stack', () => {
+test('user generated actions are added to the optimistic list', () => {
   const state: any = undefined
   const action: Action = {type: 'test', value: '123'}
-  expect(roomReducer(state, action).actions).toEqual([
-    {actionId: 1, type: 'test', value: '123'}
-  ])
+  expect(roomReducer(state, action).actions[0].value).toEqual('123')
 })
 
 test('user generated actions are used on the optimistic state', () => {
@@ -97,7 +95,10 @@ test('remove optimistic actions if newer confirmed action is received', () => {
 
 test('optimistic state is recalculated when confirmed state is updated', () => {
   const state: any = {
-    actions: [{type: 'test', value: '123'}, {type: 'test', value: '456'}],
+    actions: [
+      {actionId: 4, userId: 'sally', type: 'test', value: '123'},
+      {actionId: 5, userId: 'sally', type: 'test', value: '456'}
+    ],
     confirmed: 'abc',
     memberIds: [],
     optimistic: 'abc123456'
@@ -106,14 +107,17 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
     userId: 'sally',
     type: 'test',
     value: 'def',
-    actionId: 4
+    actionId: 3
   })
   expect(roomReducer(state, action)).toEqual({
-    actions: [{type: 'test', value: '123'}, {type: 'test', value: '456'}],
+    actions: [
+      {actionId: 4, userId: 'sally', type: 'test', value: '123'},
+      {actionId: 5, userId: 'sally', type: 'test', value: '456'}
+    ],
     confirmed: 'abcdef',
     memberIds: [],
     optimistic: 'abcdef123456',
-    actionIds: {sally: 4}
+    actionIds: {sally: 3}
   })
 })
 

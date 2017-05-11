@@ -1,14 +1,17 @@
-import { Action } from '../../../core/index'
+import { HopeAction } from './room'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
  */
 export default (
-  actions: Action[],
+  actions: HopeAction[],
   userId: String,
   actionId: number
-): Action[] => {
+): HopeAction[] => {
   return actions.filter(action => {
-    return (action.userId !== userId || action.actionId > actionId)
+    return (
+      action && action.userId && action.actionId
+      && (action.userId !== userId || action.actionId > actionId)
+    )
   })
 }

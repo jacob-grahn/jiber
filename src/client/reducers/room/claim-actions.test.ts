@@ -1,12 +1,12 @@
-import claimActions from './claim-actions'
+import { claimActions } from './actions'
 
 test('add userId to actions that do not have one', () => {
-  const actions = [
+  const list = [
     {},
     {type: 'WEE'},
     {type: 'WEE', userId: 'bob'}
   ]
-  expect(claimActions(actions, 'sue')).toEqual([
+  expect(claimActions(list, 'sue')).toEqual([
     {userId: 'sue'},
     {type: 'WEE', userId: 'sue'},
     {type: 'WEE', userId: 'bob'}

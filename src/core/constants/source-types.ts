@@ -1,3 +1,4 @@
-export const LOCAL = 'local'
-export const PEER = 'peer'
-export const MASTER = 'master'
+export const PEER = 'PEER'
+export const SERVER = 'SERVER'
+export const CLIENT = 'CLIENT'
+export type SourceType = 'PEER' | 'SERVER' | 'CLIENT'

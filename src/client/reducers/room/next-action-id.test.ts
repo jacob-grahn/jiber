@@ -5,5 +5,18 @@ test('total base actionId with optimistic actions', () => {
     actionIds: {sue: 100},
     actions: [{userId: 'sue'}, {userId: 'sue'}, {}, {userId: 'bob'}]
   }
-  expect(nextActionId(state, 'sue')).toEqual(103)
+  expect(nextActionId('sue', state)).toEqual(103)
+})
+
+test('ignore falsy actions', () => {
+  const state = {
+    actionIds: {sue: 100},
+    actions: [null] as any[]
+  }
+  expect(nextActionId('sue', state)).toEqual(101)
+})
+
+test('default next actionId to 1', () => {
+  const state = {}
+  expect(nextActionId('sue', state)).toEqual(1)
 })
