@@ -1,4 +1,4 @@
-import withField from '../../utils/with-field'
+import withField from './with-field'
 
 interface Options {
   actionIds?: {[key: string]: number},

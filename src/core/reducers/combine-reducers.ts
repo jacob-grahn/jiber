@@ -10,10 +10,10 @@ interface State {
 /**
  * Take a collection of reducers to produce a single reducer
  */
-export default function combineReducers (reducerObj: ReducerObj): Function {
+export default function combineReducers (reducerObj: ReducerObj): Reducer {
   const keys = Object.keys(reducerObj)
 
-  return (state: State, action = {}) => {
+  return (state: State, action) => {
     return keys.reduce((state, key: string) => {
       const reducer = reducerObj[key]
       return {

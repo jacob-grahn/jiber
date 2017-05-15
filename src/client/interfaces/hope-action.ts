@@ -5,12 +5,12 @@ interface HopeMeta {
   userId: string,
   actionId: number,
   source: SourceType,
-  timeMs: number
+  timeMs?: number
 }
 
 export interface HopeAction {
   $hope: HopeMeta,
-  type?: string,
+  type: string,
   [key: string]: any
 }
 
