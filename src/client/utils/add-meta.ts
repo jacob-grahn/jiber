@@ -7,13 +7,15 @@ export default function addMeta (
   roomState: RoomState,
   action: Action
 ): HopeAction {
+  const meta = action.$hope
+  const roomId = (typeof meta === 'string') ? meta : meta.roomId
   return {
     ...action,
     $hope: {
       actionId: nextActionId(roomState.myUserId, roomState),
-      roomId: action.$hope.roomId,
+      roomId,
       source: CLIENT,
-      timeMs: action.$hope.timeMs,
+      timeMs: action.$hope.timeMs || 0,
       userId: roomState.myUserId,
     }
   }

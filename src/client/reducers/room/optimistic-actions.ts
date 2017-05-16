@@ -2,6 +2,7 @@ import { Action, CLIENT, SERVER, PEER } from '../../../core/index'
 import HopeAction from '../../interfaces/hope-action'
 import { JOIN_RESULT } from './room-actions'
 import addMeta from '../../utils/add-meta'
+import { RoomState } from './room'
 
 const namespace = 'hope/room'
 
@@ -19,20 +20,20 @@ export default function reducer (
         }
 
         if (!action.$hope.source || action.$hope.source === CLIENT) {           // untrusted local client actions
-          const hopeAction = addMeta(roomState, action)
+          const hopeAction = addMeta(action as any, action)
           return [...state, hopeAction]
         }
 
         if (action.$hope.source === SERVER) {                                   // trusted server actions
           return pruneActions(
             state,
-            action.serverAction.$hope.userId,
-            action.serverAction.$hope.actionId
+            action.$hope.userId,
+            action.$hope.actionId
           )
         }
 
         if (action.$hope.source === PEER) {                                     // untrusted peer actions
-          return [...state, action]
+          return [...state, action as HopeAction]
         }
 
         return state

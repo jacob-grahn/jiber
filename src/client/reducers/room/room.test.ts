@@ -81,63 +81,6 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   })
 })
 
-test('optimistic state is recalculated when confirmed state is updated', () => {
-  const state: any = {
-    optimisticActions: [
-      {actionId: 4, userId: 'sally', type: 'test', value: '123'},
-      {actionId: 5, userId: 'sally', type: 'test', value: '456'}
-    ],
-    confirmedState: 'abc',
-    memberIds: [],
-    optimisticState: 'abc123456'
-  }
-  const action: Action = serverAction('thisRoom', {
-    userId: 'sally',
-    type: 'test',
-    value: 'def',
-    actionId: 3
-  })
-  expect(roomReducer(state, action)).toEqual({
-    optimisticActions: [
-      {actionId: 4, userId: 'sally', type: 'test', value: '123'},
-      {actionId: 5, userId: 'sally', type: 'test', value: '456'}
-    ],
-    confirmedState: 'abcdef',
-    memberIds: [],
-    optimisticState: 'abcdef123456',
-    actionIds: {sally: 3}
-  })
-})
-
-test('optimistic actions are assigned to your userId on join success', () => {
-  const state: any = {
-    optimisticActions: [
-      {type: 'test', value: '123'},
-      {type: 'test', value: '456'},
-      {userId: 'roy', type: 'test', value: '789'}
-    ]
-  }
-  const roomId = 'aRoom'
-  const confirmedState = {}
-  const myUserId = 'ike'
-  const actionIds = {}
-  const memberIds: any[] = []
-  const action: Action = joinResult(
-    roomId,
-    {
-      confirmedState,
-      myUserId,
-      actionIds,
-      memberIds
-    }
-  )
-  expect(roomReducer(state, action).optimisticActions).toEqual([
-    {userId: 'ike', type: 'test', value: '123'},
-    {userId: 'ike', type: 'test', value: '456'},
-    {userId: 'roy', type: 'test', value: '789'}
-  ])
-})
-
 test('state, members, actionIds, and status are set on join success', () => {
   const state: any = undefined
   const roomId = 'aRoom'
