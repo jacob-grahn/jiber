@@ -1,9 +1,7 @@
 import { Reducer, Action, CLIENT, SERVER, PEER } from '../../../core/index'
-import { JOIN_RESULT } from './room-actions'
+import { JOIN_RESULT, isRoomAction } from './room-actions'
 import HopeAction from '../../interfaces/hope-action'
 import nextActionId from '../../utils/next-action-id'
-
-const namespace = 'hope/room'
 
 export default function optimisticStateFactory (
   subReducer: Reducer,
@@ -19,19 +17,19 @@ export default function optimisticStateFactory (
         return actions.reduce(subReducer, action.confirmedState)
 
       default:
-        if (action.type.indexOf(namespace) === 0) {                             // Ignore internal actions
+        if (isRoomAction(action.type)) {                                        // Ignore internal actions
           return state
         }
 
-        if (action.$hope.source === CLIENT) {                                   // untrusted local client actions
+        if (action.$hope.source === CLIENT) {                                   // Untrusted local client actions
           return subReducer(state, action)
         }
 
-        if (action.$hope.source === PEER) {                                     // untrusted peer actions
+        if (action.$hope.source === PEER) {                                     // Untrusted peer actions
           return subReducer(state, action)
         }
 
-        if (action.$hope.source === SERVER) {                                   // trusted server actions
+        if (action.$hope.source === SERVER) {                                   // Trusted server actions
           const { optimisticActions, confirmedState } = roomState
           return optimisticActions.reduce(subReducer, confirmedState)
         }

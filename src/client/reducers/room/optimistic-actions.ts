@@ -1,8 +1,6 @@
 import { Action, CLIENT, SERVER, PEER } from '../../../core/index'
 import HopeAction from '../../interfaces/hope-action'
-import { JOIN_RESULT } from './room-actions'
-
-const namespace = 'hope/room'
+import { JOIN_RESULT, isRoomAction } from './room-actions'
 
 export default function reducer (
   state: HopeAction[] = [],
@@ -13,7 +11,7 @@ export default function reducer (
       return claimActions(state, action.myUserId)
 
     default:
-      if (action.type.indexOf(namespace) === 0) {                               // Ignore internal actions
+      if (isRoomAction(action.type)) {                                          // Ignore internal actions
         return state
       }
 

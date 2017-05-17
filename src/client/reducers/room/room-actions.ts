@@ -42,3 +42,8 @@ export function join (roomId: string): Action {
 export function leave (roomId: string): Action {
   return {type: LEAVE, $hope: roomId}
 }
+
+// Misc
+export function isRoomAction(type: string): boolean {
+  return type.indexOf('hope/room/') === 0
+}

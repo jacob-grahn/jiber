@@ -1,7 +1,5 @@
 import { Action, Reducer, SERVER } from '../../../core/index'
-import { JOIN_RESULT } from './room-actions'
-
-const namespace = 'hope/room'
+import { JOIN_RESULT, isRoomAction } from './room-actions'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmedState (state: any = undefined, action: Action): any {
@@ -10,7 +8,7 @@ export default function (subReducer: Reducer): Reducer {
         return action.confirmedState
 
       default:
-        if (action.type.indexOf(namespace) === 0) {                             // Ignore internal actions
+        if (isRoomAction(action.type)) {                             // Ignore internal actions
           return state
         }
 
