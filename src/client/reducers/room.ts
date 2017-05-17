@@ -1,5 +1,5 @@
-import { Action, Reducer, combineReducers } from '../../../core/index'
-import HopeAction from '../../interfaces/hope-action'
+import { Action, Reducer, combineReducers } from '../../core/index'
+import HopeAction from '../interfaces/hope-action'
 import actionIds from './action-ids'
 import confirmedStateFactory from './confirmed-state'
 import memberIds from './member-ids'
@@ -8,7 +8,7 @@ import optimisticActions from './optimistic-actions'
 import optimisticStateFactory from './optimistic-state'
 import status from './status'
 import { NOT_JOINING } from './room-states'
-import addMeta from '../../utils/add-meta'
+import addMeta from '../utils/add-meta'
 
 export interface RoomState {
   actionIds: {[key: string]: number},

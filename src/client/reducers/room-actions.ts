@@ -1,5 +1,5 @@
-import { Action, SERVER } from '../../../core/index'
-import HopeAction from '../../interfaces/hope-action'
+import { Action, SERVER } from '../../core/index'
+import HopeAction from '../interfaces/hope-action'
 
 // Actions
 export const ADD_MEMBER = 'hope/room/ADD_MEMBER'

@@ -1,4 +1,4 @@
-import { Action } from '../../../core/index'
+import { Action } from '../../core/index'
 import { JOIN, JOIN_RESULT, LEAVE } from './room-actions'
 import { JOINING, JOINED, NOT_JOINING } from './room-states'
 

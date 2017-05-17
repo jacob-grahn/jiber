@@ -1,7 +1,7 @@
-import { Reducer, Action, CLIENT, SERVER, PEER } from '../../../core/index'
+import { Reducer, Action, CLIENT, SERVER, PEER } from '../../core/index'
 import { JOIN_RESULT, isRoomAction } from './room-actions'
-import HopeAction from '../../interfaces/hope-action'
-import nextActionId from '../../utils/next-action-id'
+import HopeAction from '../interfaces/hope-action'
+import nextActionId from '../utils/next-action-id'
 
 export default function optimisticStateFactory (
   subReducer: Reducer,

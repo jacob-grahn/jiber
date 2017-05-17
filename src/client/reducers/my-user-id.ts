@@ -1,4 +1,4 @@
-import { Action } from '../../../core/index'
+import { Action } from '../../core/index'
 import { JOIN_RESULT } from './room-actions'
 
 export default function reducer (state: string = '', action: Action): string {

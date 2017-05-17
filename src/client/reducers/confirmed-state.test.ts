@@ -1,6 +1,6 @@
 import confirmedStateFactory from './confirmed-state'
 import { joinResult } from './room-actions'
-import { Action } from '../../../core/index'
+import { Action } from '../../core/index'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value

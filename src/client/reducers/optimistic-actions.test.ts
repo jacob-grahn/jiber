@@ -1,7 +1,7 @@
 import optimisticActions from './optimistic-actions'
 import { joinResult } from './room-actions'
-import { Action, SERVER, CLIENT } from '../../../core/index'
-import HopeAction from '../../interfaces/hope-action'
+import { Action, SERVER, CLIENT } from '../../core/index'
+import HopeAction from '../interfaces/hope-action'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [

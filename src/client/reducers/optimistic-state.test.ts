@@ -1,6 +1,6 @@
 import optimisticStateFactory from './optimistic-state'
-import { CLIENT, PEER, SERVER } from '../../../core/index'
-import HopeAction from '../../interfaces/hope-action'
+import { CLIENT, PEER, SERVER } from '../../core/index'
+import HopeAction from '../interfaces/hope-action'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value

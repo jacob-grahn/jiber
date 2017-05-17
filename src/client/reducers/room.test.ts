@@ -1,6 +1,6 @@
 import room from './room'
 import { joinResult } from './room-actions'
-import { Action, CLIENT } from '../../../core/index'
+import { Action, CLIENT } from '../../core/index'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value

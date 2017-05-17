@@ -1,4 +1,4 @@
-import { Action, Reducer, SERVER } from '../../../core/index'
+import { Action, Reducer, SERVER } from '../../core/index'
 import { JOIN_RESULT, isRoomAction } from './room-actions'
 
 export default function (subReducer: Reducer): Reducer {
