@@ -4,7 +4,7 @@ import { Action, CLIENT } from '../../core/index'
 import nextActionId from './next-action-id'
 
 export default function addMeta (
-  roomState: RoomState,
+  roomState: {myUserId?: string, optimisticActions: HopeAction[]},
   action: Action
 ): HopeAction {
   const meta = action.$hope
@@ -12,11 +12,11 @@ export default function addMeta (
   return {
     ...action,
     $hope: {
-      actionId: nextActionId(roomState.myUserId, roomState),
+      actionId: nextActionId(roomState.myUserId || '', roomState),
       roomId,
       source: CLIENT,
       timeMs: action.$hope.timeMs || 0,
-      userId: roomState.myUserId,
+      userId: roomState.myUserId || '',
     }
   }
 }

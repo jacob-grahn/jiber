@@ -1,6 +1,5 @@
 import { Reducer, Action, CLIENT, SERVER, PEER } from '../../../core/index'
 import { JOIN_RESULT } from './room-actions'
-import { RoomState } from './room'
 import HopeAction from '../../interfaces/hope-action'
 import addMeta from '../../utils/add-meta'
 import nextActionId from '../../utils/next-action-id'
@@ -13,7 +12,7 @@ export default function optimisticStateFactory (
   return function optimisticState (
     state: any = undefined,
     action: Action,
-    roomState: RoomState,
+    roomState: {optimisticActions: HopeAction[], confirmedState: any},
   ): any {
     switch (action.type) {
       case JOIN_RESULT:
