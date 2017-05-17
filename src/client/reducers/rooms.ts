@@ -14,30 +14,33 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
     reducerObj = input as ReducerObj
   }
 
-  return (state: any = {}, action: Action = {}): any => {
+  return (state: any = {}, action: Action): any => {
     if (!action.type) {
       return {}
     }
-    if (!action.hopeRoomId) {
+    if (!action.$hope) {
       return state
     }
-    if (reducer && action.hopeRoomId.indexOf('.') === -1) {
-      const roomState = state[action.hopeRoomId]
+    const roomId = action.$hope.roomId || action.$hope
+    const hasDot = roomId.indexOf('.') !== -1
+
+    if (reducer && !hasDot) {
+      const roomState = state[roomId]
       return {
         ...state,
-        [action.hopeRoomId]: reducer(roomState, action)
+        [roomId]: reducer(roomState, action)
       }
     }
-    if (reducerObj && action.hopeRoomId.indexOf('.') !== -1) {
-      const [roomType, roomId] = action.hopeRoomId.split('.')
+    if (reducerObj && hasDot) {
+      const [roomType, subRoomId] = roomId.split('.')
       const roomTypeDict = state[roomType] || {}
-      const roomState = roomTypeDict[roomId]
+      const roomState = roomTypeDict[subRoomId]
       const reducer = reducerObj[roomType]
       return {
         ...state,
         [roomType]: {
           ...state[roomType],
-          [roomId]: reducer(roomState, action)
+          [subRoomId]: reducer(roomState, action)
         }
       }
     }

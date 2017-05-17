@@ -4,8 +4,7 @@ interface HopeMeta {
   roomId: string,
   userId: string,
   actionId: number,
-  source: SourceType,
-  timeMs?: number
+  source: SourceType
 }
 
 export interface HopeAction {

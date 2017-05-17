@@ -1,6 +1,7 @@
 import optimisticActions from './optimistic-actions'
 import { joinResult } from './room-actions'
-import { Action, SERVER } from '../../../core/index'
+import { Action, SERVER, CLIENT } from '../../../core/index'
+import HopeAction from '../../interfaces/hope-action'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -11,22 +12,31 @@ test('prune actions that do not have a userId and actionId', () => {
     {$hope: {actionId: 1}},
     {$hope: {userId: 1}}
   ]
-  const action = {$hope: {source: SERVER}, type: 'test'}
+  const action: HopeAction = {
+    type: 'test',
+    $hope: {
+      actionId: 1,
+      userId: '',
+      roomId: '',
+      source: SERVER
+    }
+  }
   expect(optimisticActions(actions, action)).toEqual([])
 })
 
-test('return actions that match userId and have a greater actionId', () => {
+test('remove optimistic actions if newer confirmed action is received', () => {
   const actions: any = [
     {$hope: {actionId: 1, userId: 'bob'}},
     {$hope: {actionId: 2, userId: 'bob'}},
     {$hope: {actionId: 3, userId: 'bob'}},
     {$hope: {actionId: 1, userId: 'sue'}}
   ]
-  const action = {
+  const action: HopeAction = {
     type: 'test',
     $hope: {
       userId: 'bob',
       actionId: 2,
+      roomId: '',
       source: SERVER
     }
   }
@@ -59,34 +69,16 @@ test('add userId to actions that do not have one', () => {
 
 test('user generated actions are added to the optimistic list', () => {
   const state: any = undefined
-  const action: Action = {type: 'test', value: '123', $hope: 'testRoom'}
+  const action: HopeAction = {
+    type: 'test',
+    value: '123',
+    $hope: {
+      actionId: 1,
+      roomId: '',
+      userId: '',
+      source: CLIENT
+    }
+  }
   const newState = optimisticActions(state, action)
   expect(newState[0].value).toEqual('123')
-})
-
-test('optimistic actions are assigned to your userId on join success', () => {
-  const state: any = [
-    {type: 'test', value: '123'},
-    {type: 'test', value: '456'},
-    {$hope: {userId: 'roy'}, type: 'test', value: '789'}
-  ]
-  const roomId = 'aRoom'
-  const confirmedState = {}
-  const myUserId = 'ike'
-  const actionIds = {}
-  const memberIds: any[] = []
-  const action: Action = joinResult(
-    roomId,
-    {
-      confirmedState,
-      myUserId,
-      actionIds,
-      memberIds
-    }
-  )
-  expect(optimisticActions(state, action)).toEqual([
-    {$hope: {userId: 'ike'}, type: 'test', value: '123'},
-    {$hope: {userId: 'ike'}, type: 'test', value: '456'},
-    {$hope: {userId: 'roy'}, type: 'test', value: '789'}
-  ])
 })

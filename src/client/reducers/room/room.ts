@@ -8,6 +8,7 @@ import optimisticActions from './optimistic-actions'
 import optimisticStateFactory from './optimistic-state'
 import status from './status'
 import { NOT_JOINING } from './room-states'
+import addMeta from '../../utils/add-meta'
 
 export interface RoomState {
   actionIds: {[key: string]: number},
@@ -45,8 +46,10 @@ export default function roomFactory (subReducer: Reducer): Reducer {
     state: RoomState = defaultRoomState,
     action: Action
   ): RoomState {
-    const intermediateState = intermediateReducer(state, action)
-    const finalState = optimisticState(state.optimisticState, action, state)
-    return finalState
+    if (!action.$hope) return state
+    const hopeAction = addMeta(state, action)
+    const intermediateState = intermediateReducer(state, hopeAction)
+    const finalOptimisticState = optimisticState(state.optimisticState, hopeAction, state)
+    return {...intermediateState, optimisticState: finalOptimisticState}
   }
 }

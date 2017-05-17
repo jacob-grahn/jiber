@@ -1,5 +1,7 @@
-import { Action, Reducer } from '../../../core/index'
-import { JOIN_RESULT, SERVER_ACTION } from './room-actions'
+import { Action, Reducer, SERVER } from '../../../core/index'
+import { JOIN_RESULT } from './room-actions'
+
+const namespace = 'hope/room'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmedState (state: any = undefined, action: Action): any {
@@ -7,8 +9,16 @@ export default function (subReducer: Reducer): Reducer {
       case JOIN_RESULT:
         return action.confirmedState
 
-      case SERVER_ACTION:
-        return subReducer(state, action.serverAction)
+      default:
+        if (action.type.indexOf(namespace) === 0) {                             // Ignore internal actions
+          return state
+        }
+
+        if (action.$hope && action.$hope.source === SERVER) {
+          return subReducer(state, action)
+        }
+
+        return state
     }
   }
 }

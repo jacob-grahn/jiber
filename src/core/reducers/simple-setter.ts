@@ -32,6 +32,6 @@ export default function reducer (
 }
 
 // Action Creators
-export function set (hopeRoomId: string, key: string, value: any) {
-  return {type: SET, hopeRoomId, key, value}
+export function set (roomId: string, key: string, value: any) {
+  return {type: SET, $hope: roomId, key, value}
 }
