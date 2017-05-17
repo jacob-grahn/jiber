@@ -1,4 +1,4 @@
-import { Action, Reducer } from '../../../core/index'
+import { Action, Reducer, combineReducers } from '../../../core/index'
 import HopeAction from '../../interfaces/hope-action'
 import actionIds from './action-ids'
 import confirmedStateFactory from './confirmed-state'
@@ -32,18 +32,21 @@ const defaultRoomState: RoomState = {
 export default function roomFactory (subReducer: Reducer): Reducer {
   const confirmedState = confirmedStateFactory(subReducer)
   const optimisticState = optimisticStateFactory(subReducer)
+  const intermediateReducer = combineReducers({
+    actionIds,
+    confirmedState,
+    memberIds,
+    myUserId,
+    optimisticActions,
+    status
+  })
+
   return function roomReducer (
     state: RoomState = defaultRoomState,
     action: Action
   ): RoomState {
-    return {
-      actionIds: actionIds(state.actionIds, action),
-      confirmedState: confirmedState(state.confirmedState, action),
-      memberIds: memberIds(state.memberIds, action),
-      myUserId: myUserId(state.myUserId, action),
-      optimisticActions: optimisticActions(state.optimisticActions, action),
-      optimisticState: optimisticState(state, state.optimisticState, action),
-      status: status(state.status, action)
-    }
+    const intermediateState = intermediateReducer(state, action)
+    const finalState = optimisticState(state.optimisticState, action, state)
+    return finalState
   }
 }

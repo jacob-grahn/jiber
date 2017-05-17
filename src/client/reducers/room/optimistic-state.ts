@@ -11,9 +11,9 @@ export default function optimisticStateFactory (
   subReducer: Reducer,
 ) {
   return function optimisticState (
-    roomState: RoomState,
     state: any = undefined,
     action: Action,
+    roomState: RoomState,
   ): any {
     switch (action.type) {
       case JOIN_RESULT:
