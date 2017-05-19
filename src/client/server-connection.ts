@@ -63,7 +63,6 @@ export default function serverConnection (
 
   /**
    * Remove a confirmed action from the sendQueue
-   * @type {String} message JSON encoded action
    */
   function pruneQueue (actionId: string) {
     let i = 0

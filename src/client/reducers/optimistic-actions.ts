@@ -1,6 +1,6 @@
 import { Action, CLIENT, SERVER, PEER } from '../../core/index'
 import HopeAction from '../interfaces/hope-action'
-import { JOIN_RESULT, isRoomAction } from './room-actions'
+import { JOIN_RESULT, REMOVE_MEMBER, isRoomAction } from './room-actions'
 
 export default function reducer (
   state: HopeAction[] = [],
@@ -8,7 +8,12 @@ export default function reducer (
 ): HopeAction[] {
   switch(action.type) {
     case JOIN_RESULT:
-      return claimActions(state, action.myUserId)
+      const state2 = claimActions(state, action.myUserId)
+      const state3 = withoutNonMembers(state2, action.memberIds)
+      return pruneActions(state3, action.actionIds)
+
+    case REMOVE_MEMBER:
+      return withoutUser(state, action.userId)
 
     default:
       if (isRoomAction(action.type)) {                                          // Ignore internal actions
@@ -26,8 +31,7 @@ export default function reducer (
       if (action.$hope.source === SERVER) {                                     // trusted server actions
         return pruneActions(
           state,
-          action.$hope.userId,
-          action.$hope.actionId
+          {[action.$hope.userId]: action.$hope.actionId}
         )
       }
 
@@ -55,13 +59,38 @@ function claimActions (
  */
 function pruneActions (
   actions: HopeAction[],
-  userId: String,
-  actionId: number
+  actionIds: {[key: string]: number}
 ): HopeAction[] {
   return actions.filter(action => {
-    return (
-      action && action.$hope && action.$hope.userId && action.$hope.actionId
-      && (action.$hope.userId !== userId || action.$hope.actionId > actionId)
-    )
+    if (!action || !action.$hope) {                                             // remove when there is no $hope metadata
+      return false
+    }
+    const meta = action.$hope
+
+    if (!meta.userId || !meta.actionId) {                                       // remove if the metadata doesn't contain needed values
+      return false
+    }
+    if (actionIds[meta.userId] >= meta.actionId) {                              // remove if a newer or equal action has been confirmed
+      return false
+    }
+
+    return true                                                                 // the optimistic action may stay :)
   })
+}
+
+/**
+ * remove optimistic actions that are not in memberIds
+ */
+function withoutNonMembers (
+  actions: HopeAction[],
+  memberIds: string[]
+): HopeAction[] {
+  return actions.filter(action => memberIds.indexOf(action.$hope.userId) !== -1)
+}
+
+/**
+ * remove actions belonging to userId
+ */
+function withoutUser (actions: HopeAction[], userId: string): HopeAction[] {
+  return actions.filter(action => action.$hope.userId !== userId)
 }

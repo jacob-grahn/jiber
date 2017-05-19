@@ -49,21 +49,39 @@ test('remove optimistic actions if newer confirmed action is received', () => {
 test('add userId to actions that do not have one', () => {
   const list: any = [
     {},
-    {type: 'WEE'},
-    {type: 'WEE', $hope: {userId: 'bob'}}
+    {type: 'WEE', $hope: {actionId: 5}},
+    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
   ]
 
   const roomId = 'room 1'
   const result = {
     confirmedState: {},
     myUserId: 'sue',
-    actionIds: {},
-    memberIds: []
+    actionIds: {bob: 1, sue: 1},
+    memberIds: ['bob', 'sue']
   }
   expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
-    {$hope: {userId: 'sue'}},
-    {type: 'WEE', $hope: {userId: 'sue'}},
-    {type: 'WEE', $hope: {userId: 'bob'}}
+    {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
+    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
+  ])
+})
+
+test('remove outdated optimistic actions on join', () => {
+  const list: any = [
+    {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
+    {type: 'WEE', $hope: {userId: 'sue', actionId: 6}},
+    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
+  ]
+
+  const roomId = 'room 1'
+  const result = {
+    confirmedState: {},
+    myUserId: 'sue',
+    actionIds: {sue: 5},
+    memberIds: ['sue']
+  }
+  expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
+    {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}
   ])
 })
 
