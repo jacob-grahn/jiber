@@ -6,7 +6,7 @@ export default function reducer (
   state: string = NOT_JOINING,
   action: Action
 ): string {
-  switch(action.type) {
+  switch (action.type) {
     case JOIN:
       return JOINING
 

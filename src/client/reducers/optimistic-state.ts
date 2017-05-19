@@ -4,12 +4,12 @@ import HopeAction from '../interfaces/hope-action'
 import nextActionId from '../utils/next-action-id'
 
 export default function optimisticStateFactory (
-  subReducer: Reducer,
+  subReducer: Reducer
 ) {
   return function optimisticState (
     state: any = undefined,
     action: HopeAction,
-    roomState: {optimisticActions: HopeAction[], confirmedState: any},
+    roomState: {optimisticActions: HopeAction[], confirmedState: any}
   ): any {
     switch (action.type) {
       case JOIN_RESULT:

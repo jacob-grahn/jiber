@@ -5,12 +5,21 @@ import { Action, stateDictionary } from '../../core/index'
 // Setup
 const keyName = 'socketId'
 interface ClientState {
-  connection: ws,                                                               // WebSocket client instance
+  connection?: ws,                                                              // WebSocket client instance
   connectedAt: number,                                                          // When the socket connected
   lastSentAt: number,                                                           // When the socket last sent a message
   lastReceivedAt: number,                                                       // When the socket last received a message
   period: number,                                                               // Current block of time that is being rate limited
   messageCount: number                                                          // Total messages received in the current block of time
+}
+
+const defaultClientState = {
+  connection: undefined,
+  connectedAt: 0,
+  lastSentAt: 0,
+  lastReceivedAt: 0,
+  period: 0,
+  messageCount: 0
 }
 
 // Actions
@@ -21,18 +30,8 @@ const LOGIN = 'hope/socket/LOGIN'
 const REMOVE = 'hope/socket/REMOVE'
 
 // Reducer
-function reducer (state: ClientState, action: any = {}): ClientState {
+function reducer (state: ClientState = defaultClientState, action: Action): ClientState {
   switch (action.type) {
-    case undefined:
-      return {
-        connection: null,
-        connectedAt: 0,
-        lastSentAt: 0,
-        lastReceivedAt: 0,
-        period: 0,
-        messageCount: 0
-      }
-
     case INIT:
       return {
         ...state,
@@ -57,9 +56,6 @@ function reducer (state: ClientState, action: any = {}): ClientState {
         messageCount,
         lastReceivedAt: timeMs
       }
-
-    case REMOVE:
-      return undefined
 
     default:
       return state

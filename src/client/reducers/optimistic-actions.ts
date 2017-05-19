@@ -6,7 +6,7 @@ export default function reducer (
   state: HopeAction[] = [],
   action: HopeAction
 ): HopeAction[] {
-  switch(action.type) {
+  switch (action.type) {
     case JOIN_RESULT:
       const state2 = claimActions(state, action.myUserId)
       const state3 = withoutNonMembers(state2, action.memberIds)

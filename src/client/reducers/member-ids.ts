@@ -11,7 +11,7 @@ export default function reducer (
 
     case ADD_MEMBER:
       if (state.indexOf(action.userId) !== -1) return state                     // do nothing if the user is already a member of this room
-      return  [...state, action.userId]                                         // otherwise, add the userId to the memberIds list
+      return [...state, action.userId]                                          // otherwise, add the userId to the memberIds list
 
     case REMOVE_MEMBER:
       return state.filter(userId => userId !== action.userId)

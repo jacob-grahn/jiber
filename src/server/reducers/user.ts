@@ -11,6 +11,13 @@ interface UserState {
   account: {[key: string]: any}                                                 // Place to store misc account data
 }
 
+const defaultUserState = {
+  loggedInAt: 0,
+  actionId: 0,
+  userId: '',
+  account: {}
+}
+
 // Actions
 const INC_ACTION_COUNT = 'hope/user/INC_ACTION_COUNT'
 const LOG_IN = 'hope/user/LOG_IN'
@@ -18,16 +25,11 @@ const UPDATE_ACCOUNT = 'hope/user/UPDATE_ACCOUNT'
 const REMOVE = 'hope/user/REMOVE'
 
 // Reducer
-function reducer (state: UserState, action: any = {}): UserState {
+function reducer (
+  state: UserState = defaultUserState,
+  action: Action
+): UserState {
   switch (action.type) {
-    case undefined:
-      return {
-        loggedInAt: 0,
-        actionId: 0,
-        userId: undefined,
-        account: {}
-      }
-
     case LOG_IN:
       if (state.userId) return state                                            // prevent multiple logins
       return {
@@ -48,9 +50,6 @@ function reducer (state: UserState, action: any = {}): UserState {
         ...state,
         actionId: state.actionId + 1
       }
-
-    case REMOVE:
-      return undefined
 
     default:
       return state

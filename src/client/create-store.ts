@@ -1,7 +1,5 @@
 import sendToServer from './middleware/send-to-server'
 import sendToPeers from './middleware/send-to-peers'
-import injectMetadata from './middleware/inject-metadata'
-import optimisticRoom from './reducers/optimistic-room'
 import rooms from './reducers/rooms'
 import {
   Middleware,
@@ -26,7 +24,7 @@ const defaultOptions: Options = {
  * When creating a client store, add middleware to send actions to the server
  * and peers
  */
-export default function clientStore (optionInput: OptionsInput = {}): Store {
+/* export default function clientStore (optionInput: OptionsInput = {}): Store {
   const options = {
     ...defaultOptions,
     ...optionInput
@@ -39,4 +37,4 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
     sendToPeers(options)
   ]
   return createStore(options.reducer, clientMiddleware)
-}
+} */

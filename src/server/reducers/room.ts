@@ -12,6 +12,16 @@ interface RoomState {
   updateCount: number                                                           // Total number of updates this room has performed
 }
 
+const defaultRoomState = {
+  memberIds: [],
+  roomState: {},
+  isUpdating: false,
+  updateStartedAt: 0,
+  stateTimeMs: 0,
+  lastUpdateDuration: 0,
+  updateCount: 0
+}
+
 // Actions
 const BEGIN_UPDATE = 'hope/room/BEGIN_UPDATE'
 const FINISH_UPDATE = 'hope/room/FINISH_UPDATE'
@@ -20,19 +30,11 @@ const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 const REMOVE = 'hope/room/REMOVE'
 
 // Reducer
-function roomReducer (state: RoomState, action: any = {}): RoomState {
+function roomReducer (
+  state: RoomState = defaultRoomState,
+  action: Action
+): RoomState {
   switch (action.type) {
-    case undefined:
-      return {
-        memberIds: [],
-        roomState: {},
-        isUpdating: false,
-        updateStartedAt: 0,
-        stateTimeMs: 0,
-        lastUpdateDuration: 0,
-        updateCount: 0
-      }
-
     case BEGIN_UPDATE:
       if (state.isUpdating) return state
       return {
@@ -64,9 +66,6 @@ function roomReducer (state: RoomState, action: any = {}): RoomState {
         ...state,
         memberIds: state.memberIds.filter(userId => userId !== action.userId)
       }
-
-    case REMOVE:
-      return undefined
 
     default:
       return state

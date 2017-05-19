@@ -14,7 +14,7 @@ export default function addMeta (
       actionId: nextActionId(roomState.myUserId || '', roomState),
       roomId,
       source: CLIENT,
-      userId: roomState.myUserId || '',
+      userId: roomState.myUserId || ''
     }
   }
 }

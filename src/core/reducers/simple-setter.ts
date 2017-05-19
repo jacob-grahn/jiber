@@ -3,9 +3,9 @@ interface SetterState {
 }
 
 interface SetterAction {
-  type?: string,
-  key?: string,
-  value?: any
+  type: string,
+  key: string,
+  value: any
 }
 
 // Actions
@@ -13,17 +13,15 @@ const SET = 'hope/simpleSetter/SET'
 
 // Reducer
 export default function reducer (
-  state: SetterState,
-  action: SetterAction = {}
+  state: SetterState = {},
+  action: SetterAction
 ): SetterState {
   switch (action.type) {
-    case undefined:
-      return {}
-
     case SET:
+      const key: string = action.key
       return {
         ...state,
-        [action.key]: action.value
+        [key]: action.value
       }
 
     default:

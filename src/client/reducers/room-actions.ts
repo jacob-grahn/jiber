@@ -44,6 +44,6 @@ export function leave (roomId: string): Action {
 }
 
 // Misc
-export function isRoomAction(type: string): boolean {
+export function isRoomAction (type: string): boolean {
   return type.indexOf('hope/room/') === 0
 }

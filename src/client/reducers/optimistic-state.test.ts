@@ -22,7 +22,7 @@ test('user generated actions are used on the optimistic state', () => {
   const roomState = {
     optimisticActions: [],
     confirmedState: undefined,
-    optimisticState: state,
+    optimisticState: state
   }
   expect(optimisticState(state, action, roomState)).toEqual('123')
 })
@@ -52,7 +52,7 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
       } as HopeAction
     ],
     confirmedState: 'abc',
-    optimisticState: 'abc123456',
+    optimisticState: 'abc123456'
   }
   const action: HopeAction = {
     type: 'test',
