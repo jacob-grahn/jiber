@@ -1,5 +1,5 @@
 {
-  "name": "quantum-state",
+  "name": "hope-sync",
   "version": "0.0.1",
   "description": "Optimistic shared data store",
   "main": "dist/server/index.js",
@@ -12,21 +12,21 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^19.2.3",
-    "@types/ws": "0.0.40",
-    "jest": "^19.0.2",
-    "ts-jest": "^19.0.14",
+    "@types/ws": "0.0.41",
+    "jest": "^20.0.0",
+    "ts-jest": "^20.0.0",
     "tslint": "^5.1.0",
     "tslint-config-standard": "^5.0.2",
     "typescript": "^2.2.2"
   },
   "dependencies": {
-    "ws": "^2.2.3"
+    "ws": "^3.0.0"
   },
   "jest": {
     "transform": {
-      "^.+\\.ts$": "./node_modules/ts-jest/preprocessor.js"
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testResultsProcessor": "./node_modules/ts-jest/coverageprocessor.js",
+    "mapCoverage": true,
     "testRegex": "\\.test\\.ts$",
     "moduleFileExtensions": [
       "ts",
