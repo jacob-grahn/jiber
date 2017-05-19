@@ -23,13 +23,33 @@ export default function serverConnection (
   connect()
 
   /**
+   * Event handlers
+   */
+  function onMessage (event: MessageEvent): void {
+    const action = JSON.parse(event.data)
+  }
+  function onClose (): void {
+    reconnect()
+  }
+  function onOpen (): void {
+    retryCount = 0
+    login()
+  }
+  function onLogin (): void {
+    joinRooms()
+  }
+  function onJoinRoom (): void {
+    sendPendingActions()
+  }
+
+  /**
    * Open a socket connection
    */
   function connect () {
     socket = new WebSocket(`ws://${serverUrl}`)
-    socket.addEventListener('close', reconnect)
-    socket.addEventListener('open', sendQueue)
-    socket.addEventListener('message', handleMessage)
+    socket.addEventListener('close', onClose)
+    socket.addEventListener('open', onOpen)
+    socket.addEventListener('message', onMessage)
   }
 
   /**
@@ -40,6 +60,19 @@ export default function serverConnection (
     retryCount++
     const delay = retryCount * retryBackoffMs
     setTimeout(connect, delay)
+  }
+
+
+  function login () {
+
+  }
+
+  function joinRooms () {
+
+  }
+
+  function sendPendingActions () {
+
   }
 
   /**
@@ -75,14 +108,6 @@ export default function serverConnection (
       }
       i++
     }
-  }
-
-  /**
-   * Process incomming messages from the socket
-   */
-  function handleMessage (event: MessageEvent): void {
-    const action = JSON.parse(event.data)
-    pruneQueue(action.quantumId)
   }
 
   /**

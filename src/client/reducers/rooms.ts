@@ -1,7 +1,12 @@
 import { Reducer, Action, isFunction } from '../../core/index'
+import { RoomState } from './room'
 
 interface ReducerObj {
   [key: string]: Reducer
+}
+
+export interface RoomsState {
+  [key: string]: RoomState
 }
 
 export default function rooms (input: Reducer|ReducerObj): Reducer {
@@ -14,7 +19,7 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
     reducerObj = input as ReducerObj
   }
 
-  return (state: any = {}, action: Action): any => {
+  return (state: any = {}, action: Action): RoomsState => {
     if (!action.type) {
       return {}
     }
