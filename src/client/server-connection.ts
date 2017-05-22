@@ -42,9 +42,7 @@ export default function serverConnection (
     sendPendingActions()
   }
 
-  /**
-   * Open a socket connection
-   */
+  // Open a socket connection
   function connect () {
     socket = new WebSocket(`ws://${serverUrl}`)
     socket.addEventListener('close', onClose)
@@ -52,9 +50,7 @@ export default function serverConnection (
     socket.addEventListener('message', onMessage)
   }
 
-  /**
-   * Wait a bit, and then call connect()
-   */
+  // Wait a bit, and then call connect()
   function reconnect () {
     if (!open) return
     retryCount++

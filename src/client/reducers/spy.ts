@@ -1,10 +1,12 @@
 import { Action, Reducer } from '../../core/index'
-import { setState } from '../hope-state'
 
-export default function spyFactory (subReducer: Reducer): Reducer {
-  return function (state: any, action: Action) {
+export default function spyFactory (
+  subReducer: Reducer,
+  updateHandler: Function
+): Reducer {
+  return function spy (state: any, action: Action) {
     const nextState: any = subReducer(state, action)
-    setState(nextState)                                                         // side effect...
+    updateHandler(nextState)                                                    // side effect...
     return nextState
   }
 }
