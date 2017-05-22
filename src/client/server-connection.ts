@@ -1,7 +1,7 @@
 import { Action } from '../core/index'
 
 interface ServerConnection {
-  send: (action: Action) => Promise<boolean>,
+  send: (action: Action) => void,
   close: () => void
 }
 
@@ -13,7 +13,6 @@ export default function serverConnection (
   serverUrl: string,
   socketPort: number): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
-  const queue: Action[] = []
   const OPEN = 1
   let socket: WebSocket
   let retryCount = 0
@@ -72,47 +71,13 @@ export default function serverConnection (
   }
 
   /**
-   * Try to send any pending messages through the socket connection
-   */
-  function sendQueue () {
-    if (!open) return
-    if (socket.readyState !== OPEN) return
-
-    retryCount = 0
-    const curMs = new Date().getTime()
-    queue.forEach((action) => {
-      const sentAtMs = action.sentAtMs || 0
-      if (curMs - sentAtMs > resendThreshold) {
-        action.sentAtMs = curMs
-        const strAction = JSON.stringify(action)
-        socket.send(strAction)
-      }
-    })
-  }
-
-  /**
-   * Remove a confirmed action from the sendQueue
-   */
-  function pruneQueue (actionId: string) {
-    let i = 0
-    let len = queue.length
-    while (i < len) {
-      const action = queue[i]
-      if (action.quantumId === actionId) {
-        queue.splice(i, 1)
-        len--
-      }
-      i++
-    }
-  }
-
-  /**
    * Add a message to be sent
    */
-  function send (action: Action): Promise<boolean> {
-    queue.push()
-    sendQueue()
-    return Promise.resolve(true)
+  function send (action: Action): void {
+    if (!open) return
+    if (socket.readyState !== OPEN) return
+    const strAction = JSON.stringify(action)
+    socket.send(strAction)
   }
 
   /**
@@ -120,7 +85,6 @@ export default function serverConnection (
    */
   function close () {
     open = false
-    queue.length = 0
     if (socket.readyState === OPEN) socket.close()
   }
 
@@ -128,6 +92,7 @@ export default function serverConnection (
    * public methods
    */
   return {
+    connect,
     send,
     close
   }

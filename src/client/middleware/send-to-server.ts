@@ -1,14 +1,15 @@
-import { Action, Middleware } from '../../core/index'
-import Options from '../interfaces/options'
+import { Action, Middleware, CLIENT } from '../../core/index'
+import { getState } from '../hope-state'
+import serverConnection from '../server-connection'
 
 /**
  * Send events to the master server
  */
-export default function sendToServer (options: Options): Middleware {
-  let socket
-  let retryCount = 0
-
-  return (action): Action => {
+export default function sendToServer (): Middleware {
+  return (action: Action): Action => {
+    if (action.$hope.source === CLIENT) {
+      serverConnection.send(action)
+    }
     return action
   }
 }

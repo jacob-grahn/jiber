@@ -1,30 +1,37 @@
 import Action from './interfaces/action'
 import Reducer from './interfaces/reducer'
 import Middleware from './interfaces/middleware'
-import Store from './interfaces/store'
-import chainPromises from './utils/chain-promises'
 
-/**
- * Run async middleware before commiting actions to a reducer
- */
-export default function Store (
+export interface Store {
+  getState: () => any,
+  dispatch: {(action: Action): any}
+}
+
+export default function createStore (
   reducer: Reducer,
-  middleware: Array<Middleware> = []
+  initialState: any,
+  middleware: Middleware[] = []
 ): Store {
-  let state: any
+  let state: any = initialState
 
-  function dispatch (action: Action): Promise<any> {
-    return chainPromises(middleware, action).then(commit)
+  function dispatch (action: Action): any {
+    const finalAction = applyMiddleware(action)
+    state = reducer(state, finalAction)
+    return state
   }
 
-  function commit (action: Action): any {
-    state = reducer(state, action)
+  function applyMiddleware (action: Action): Action {
+    return middleware.reduce((action, middleware) => {
+      return middleware(action)
+    }, action)
+  }
+
+  function getState (): any {
     return state
   }
 
   return {
-    commit,
     dispatch,
-    state
+    getState
   }
 }
