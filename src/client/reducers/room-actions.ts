@@ -15,7 +15,7 @@ interface JoinResult {
   actionIds: {[key: string]: number},
   memberIds: string[]
 }
-export function joinResult (roomId: string,result: JoinResult): HopeAction {
+export function joinResult (roomId: string, result: JoinResult): HopeAction {
   const { confirmedState, myUserId, actionIds, memberIds } = result
   return {
     type: JOIN_RESULT,
