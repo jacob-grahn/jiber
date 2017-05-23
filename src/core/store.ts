@@ -9,7 +9,7 @@ export interface Store {
 
 export default function createStore (
   reducer: Reducer,
-  initialState: any,
+  initialState: any = undefined,
   middleware: Middleware[] = []
 ): Store {
   let state: any = initialState

@@ -18,17 +18,3 @@ test('actions without $hope metadata are ignored', () => {
   const action: Action = {type: 'test'}
   expect(roomReducer(state, action)).toBe('lolerskates')
 })
-
-test('actions with a string $hope metadata are upgraded', () => {
-  const state: any = undefined
-  const action: Action = {type: 'test', $hope: 'testRoom'}
-  expect(roomReducer(state, action).optimisticActions).toEqual([{
-    type: 'test',
-    $hope: {
-      roomId: 'testRoom',
-      userId: '',
-      actionId: 1,
-      source: CLIENT
-    }
-  }])
-})

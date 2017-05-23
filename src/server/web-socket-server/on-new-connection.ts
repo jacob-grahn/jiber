@@ -12,14 +12,14 @@ let nextId = 1
 export default function onNewConnection (connection: ws): void {
   const socketId = (nextId++).toString()
 
-  store.commit(socketInit(socketId, connection))
+  store.dispatch(socketInit(socketId, connection))
 
   connection.on('message', async (message) => {
     try {
       await onMessage(socketId, message)
     } catch (e) {
       console.log(e)
-      store.commit(socketSend(e.message))
+      store.dispatch(socketSend(e.message))
     }
   })
 

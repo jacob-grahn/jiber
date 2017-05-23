@@ -1,6 +1,7 @@
 import { Action } from '../core/index'
+import { login } from './reducers/hope-actions'
 
-interface ServerConnection {
+export interface ServerConnection {
   send: (action: Action) => void,
   close: () => void
 }
@@ -9,9 +10,11 @@ interface ServerConnection {
  * Attepts to keep an open connection with the specified server
  * Messages are held in a queue until the server sends back a confirmation
  */
-export default function serverConnection (
+export default function createServerConnection (
   serverUrl: string,
-  socketPort: number): ServerConnection {
+  socketPort: number,
+  credential: any
+): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
   const OPEN = 1
   let socket: WebSocket
@@ -21,24 +24,17 @@ export default function serverConnection (
 
   connect()
 
-  /**
-   * Event handlers
-   */
+  // Event handlers
   function onMessage (event: MessageEvent): void {
     const action = JSON.parse(event.data)
+    console.log('received action', action)
   }
   function onClose (): void {
     reconnect()
   }
   function onOpen (): void {
     retryCount = 0
-    login()
-  }
-  function onLogin (): void {
-    joinRooms()
-  }
-  function onJoinRoom (): void {
-    sendPendingActions()
+    send(login(credential))
   }
 
   // Open a socket connection
@@ -57,22 +53,7 @@ export default function serverConnection (
     setTimeout(connect, delay)
   }
 
-
-  function login () {
-
-  }
-
-  function joinRooms () {
-
-  }
-
-  function sendPendingActions () {
-
-  }
-
-  /**
-   * Add a message to be sent
-   */
+  // Add a message to be sent
   function send (action: Action): void {
     if (!open) return
     if (socket.readyState !== OPEN) return
@@ -80,19 +61,14 @@ export default function serverConnection (
     socket.send(strAction)
   }
 
-  /**
-   * Close this connection
-   */
+  // Close this connection
   function close () {
     open = false
     if (socket.readyState === OPEN) socket.close()
   }
 
-  /**
-   * public methods
-   */
+  // public methods
   return {
-    connect,
     send,
     close
   }

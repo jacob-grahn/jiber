@@ -8,8 +8,9 @@ export default async function onAction (
   action: Action
 ): Promise<void> {
   const roomId = action.room
-  const room = store.state.rooms[roomId]
-  const storage = store.state.options.storage
+  const state = store.getState()
+  const room = state.rooms[roomId]
+  const storage = state.options.storage
   if (!room) {                                                                  // make sure the room exists
     throw new Error('ROOM_NOT_FOUND')
   }

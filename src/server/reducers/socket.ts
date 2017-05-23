@@ -30,7 +30,10 @@ const LOGIN = 'hope/socket/LOGIN'
 const REMOVE = 'hope/socket/REMOVE'
 
 // Reducer
-function reducer (state: ClientState = defaultClientState, action: Action): ClientState {
+function reducer (
+  state: ClientState = defaultClientState,
+  action: Action
+): ClientState {
   switch (action.type) {
     case INIT:
       return {
@@ -46,8 +49,9 @@ function reducer (state: ClientState = defaultClientState, action: Action): Clie
       }
 
     case RECEIVE:
+      const globalState = store.getState()
       const timeMs = action.timeMs
-      const period = Math.floor(timeMs / store.state.options.rateLimit.periodMs)
+      const period = Math.floor(timeMs / globalState.options.rateLimit.periodMs)
       const isSamePeriod = (period === state.period)
       const messageCount = isSamePeriod ? (state.messageCount + 1) : 1
       return {

@@ -9,8 +9,8 @@ export default async function onMessage (
   socketId: string,
   message: string
 ): Promise<void> {
-  const socketData = store.state.socketDict[socketId]
-  const options = store.state.options
+  const socketData = store.getState().socketDict[socketId]
+  const options = store.getState().options
 
   if (socketData.messageCount >= options.rateLimit.max) {                       // rate limit incoming messages
     throw new Error('RATE_LIMIT_EXCEEDED')
@@ -20,7 +20,7 @@ export default async function onMessage (
   }
 
   const action = JSON.parse(message)                                            // don't parse until the above limits have been checked, parsing is expensive
-  store.commit(socketReceive(socketId))                                         // commit that data was received
+  store.dispatch(socketReceive(socketId))                                       // data was received
 
   if (action.type === LOG_IN) {
     await onLogIn(socketId, action)

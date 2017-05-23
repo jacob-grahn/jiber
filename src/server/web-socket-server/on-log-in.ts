@@ -7,6 +7,6 @@ export default async function onLogIn (
   socketId: string,
   action: Action
 ): Promise<void> {
-  const result = await store.state.options.onLogIn(action)
-  store.commit(logIn(result))
+  const result = await store.getState().options.onLogIn(action)
+  store.dispatch(logIn(result))
 }
