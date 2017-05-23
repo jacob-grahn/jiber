@@ -1,7 +1,7 @@
 {
-  "name": "hope-sync",
+  "name": "Hope",
   "version": "0.0.1",
-  "description": "Optimistic shared data store",
+  "description": "Hopefully synced data store",
   "main": "dist/server/index.js",
   "scripts": {
     "test": "jest",
