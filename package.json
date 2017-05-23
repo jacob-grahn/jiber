@@ -5,8 +5,10 @@
   "main": "dist/server/index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc",
-    "lint": "tslint --project tsconfig.json --type-check"
+    "build": "npm run build-client && npm run build-server",
+    "build-client": "tsc -p tsconfig.client.json",
+    "build-server": "tsc -p tsconfig.server.json",
+    "lint": "tslint -p tsconfig.client.json --type-check && tslint -p tsconfig.server.json --type-check"
   },
   "author": "Jacob Grahn",
   "license": "MIT",

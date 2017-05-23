@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "target": "ES6",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "sourceMap": false,
+        "outDir": "dist/server"
+    },
+    "files": [
+        "src/server/index.ts"
+    ]
+}
