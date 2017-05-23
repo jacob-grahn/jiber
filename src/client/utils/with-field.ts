@@ -1,6 +1,4 @@
-/**
- * Return objects that match a specified field
- */
+// Return objects that match a specified field
 export default function withField (
   list: any[],
   key: string,

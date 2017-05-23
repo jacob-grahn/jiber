@@ -7,9 +7,7 @@ interface State {
   [key: string]: any
 }
 
-/**
- * Take a collection of reducers to produce a single reducer
- */
+// Take a collection of reducers to produce a single reducer
 export default function combineReducers (reducerObj: ReducerObj): Reducer {
   const keys = Object.keys(reducerObj)
 

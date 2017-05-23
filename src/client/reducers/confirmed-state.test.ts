@@ -1,11 +1,11 @@
-import confirmedStateFactory from './confirmed-state'
+import createConfirmedState from './confirmed-state'
 import { joinResult } from './room-actions'
 import { Action } from '../../core/index'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
 }
-const confirmedState = confirmedStateFactory(adder)
+const confirmedState = createConfirmedState(adder)
 
 test('confirmed state is set on join success', () => {
   const state = 'something else'

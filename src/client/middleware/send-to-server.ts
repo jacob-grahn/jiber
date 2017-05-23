@@ -4,9 +4,7 @@ import { LOGIN_RESULT } from '../reducers/hope-actions'
 import { join, JOIN_RESULT } from '../reducers/room-actions'
 import { RoomState } from '../reducers/room'
 
-/**
- * Send events to the master server
- */
+// Send events to the master server
 export default function sendToServer (
   serverConnection: ServerConnection,
   getState: Function

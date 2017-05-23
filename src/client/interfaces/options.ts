@@ -1,12 +1,13 @@
 import { Reducer, Middleware } from '../../core/index'
 
 interface Options {
-  reducer: Reducer,
+  credential: string
   middleware: Array<Middleware>,
+  reducer: Reducer,
   roomId: string,
   serverUrl: string,
-  stunPort: number,
-  socketPort: number
+  socketPort: number,
+  stunPort: number
 }
 
 export { Options as default }

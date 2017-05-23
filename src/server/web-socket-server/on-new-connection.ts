@@ -6,9 +6,7 @@ import * as ws from 'ws'
 
 let nextId = 1
 
-/**
- * Set up a new connection with event listeners
- */
+// Set up a new connection with event listeners
 export default function onNewConnection (connection: ws): void {
   const socketId = (nextId++).toString()
 

@@ -11,10 +11,8 @@ const defaultOptions = {
   keyName: 'id'
 }
 
-/**
- * Factory to create a dict reducer that stores sub-states by key,
- * and updates those sub-states using the provided reducer
- */
+// Factory to create a dict reducer that stores sub-states by key,
+// and updates those sub-states using the provided reducer
 function stateDictionary (reducer: Reducer, inputOptions: Options): Reducer {
   const options = {...inputOptions, ...defaultOptions}
   const keyName = options.keyName

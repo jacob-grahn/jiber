@@ -1,4 +1,4 @@
-import injectMetadataFactory from './inject-metadata'
+import createInjectMetadata from './inject-metadata'
 import { Action, CLIENT, PEER } from '../../core/index'
 
 const state = {
@@ -8,7 +8,7 @@ const state = {
   }
 }
 const getState = () => state
-const injectMetadata = injectMetadataFactory(getState)
+const injectMetadata = createInjectMetadata(getState)
 
 test('actions with a string $hope metadata are upgraded', () => {
   const action: Action = {type: 'test', $hope: 'testRoom'}

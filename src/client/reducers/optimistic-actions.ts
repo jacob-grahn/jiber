@@ -39,9 +39,7 @@ export default function reducer (
   }
 }
 
-/**
- * Assign a userId to actions that don't have a userId
- */
+// Assign a userId to actions that don't have a userId
 function claimActions (
   actions: HopeAction[],
   userId: string
@@ -54,9 +52,7 @@ function claimActions (
   })
 }
 
-/**
- * Remove actions that have the same userId, and a lesser or equal actionId
- */
+// Remove actions that have the same userId, and a lesser or equal actionId
 function pruneActions (
   actions: HopeAction[],
   actionIds: {[key: string]: number}
@@ -78,9 +74,7 @@ function pruneActions (
   })
 }
 
-/**
- * remove optimistic actions that are not in memberIds
- */
+// remove optimistic actions that are not in memberIds
 function withoutNonMembers (
   actions: HopeAction[],
   memberIds: string[]
@@ -88,9 +82,7 @@ function withoutNonMembers (
   return actions.filter(action => memberIds.indexOf(action.$hope.userId) !== -1)
 }
 
-/**
- * remove actions belonging to userId
- */
+// remove actions belonging to userId
 function withoutUser (actions: HopeAction[], userId: string): HopeAction[] {
   return actions.filter(action => action.$hope.userId !== userId)
 }

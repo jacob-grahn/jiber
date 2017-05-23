@@ -7,7 +7,7 @@ interface RoomState {
   optimisticActions: HopeAction[]
 }
 
-export default function injectMetadataFactory (getState: Function) {
+export default function createInjectMetadata (getState: Function) {
   return function injectMetadata (action: Action): Action {
     if (!action.$hope) return action
     if (action.$hope.source) return action

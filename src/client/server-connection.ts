@@ -1,19 +1,16 @@
 import { Action } from '../core/index'
 import { login } from './reducers/hope-actions'
+import Options from './interfaces/options'
 
 export interface ServerConnection {
   send: (action: Action) => void,
   close: () => void
 }
 
-/**
- * Attepts to keep an open connection with the specified server
- * Messages are held in a queue until the server sends back a confirmation
- */
+// Attepts to keep an open connection with the specified server
+// Messages are held in a queue until the server sends back a confirmation
 export default function createServerConnection (
-  serverUrl: string,
-  socketPort: number,
-  credential: any
+  {serverUrl, socketPort, credential}: Options
 ): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
   const OPEN = 1

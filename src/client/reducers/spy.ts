@@ -1,6 +1,6 @@
 import { Action, Reducer } from '../../core/index'
 
-export default function spyFactory (
+export default function createSpy (
   subReducer: Reducer,
   updateHandler: Function
 ): Reducer {

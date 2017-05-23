@@ -5,10 +5,8 @@ interface Options {
   actions?: any[]
 }
 
-/**
- * Calculate what the next expected actionId for a user is
- * This is useful for rejecting invalid optimistic actions
- */
+// Calculate what the next expected actionId for a user is
+// This is useful for rejecting invalid optimistic actions
 export default function nextActionId (
   userId: string,
   { actionIds = {}, actions = [] }: Options

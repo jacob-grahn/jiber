@@ -53,9 +53,7 @@ function setState (roomId: string, newState: any): Promise<any> {
   return Promise.resolve(true)
 }
 
-/**
- * Store a state in memory
- */
+// Store a state in memory
 const storage: Storage = {
   addAction,
   getNewActions,

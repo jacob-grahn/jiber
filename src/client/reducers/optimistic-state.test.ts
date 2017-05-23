@@ -1,11 +1,11 @@
-import optimisticStateFactory from './optimistic-state'
+import createOptimisticState from './optimistic-state'
 import { CLIENT, PEER, SERVER } from '../../core/index'
 import HopeAction from '../interfaces/hope-action'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value
 }
-const optimisticState = optimisticStateFactory(adder)
+const optimisticState = createOptimisticState(adder)
 
 test('user generated actions are used on the optimistic state', () => {
   const state: any = undefined
