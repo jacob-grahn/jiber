@@ -1,0 +1,12 @@
+{
+  "name": "Hope Client",
+  "version": "0.0.1",
+  "description": "Hopefully synced data store",
+  "main": "dist/client/src/index.js",
+  "typings": "dist/client/src/index.d.ts",
+  "scripts": {},
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
