@@ -1,0 +1,16 @@
+{
+  "name": "hope-server",
+  "version": "0.0.1",
+  "description": "Hopefully synced data store",
+  "main": "server/index.js",
+  "typings": "server/index.d.ts",
+  "scripts": {},
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/ws": "0.0.41"
+  },
+  "dependencies": {
+    "ws": "^3.0.0"
+  }
+}

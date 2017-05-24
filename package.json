@@ -1,14 +1,14 @@
 {
-  "name": "Hope",
+  "name": "hope-monolith",
   "version": "0.0.1",
   "description": "Hopefully synced data store",
   "main": "dist/server/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest src",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "cd client && tsc -p tsconfig.json",
-    "build-server": "cd server && tsc -p tsconfig.json",
-    "lint": "tslint -p tsconfig.client.json --type-check && tslint -p tsconfig.server.json --type-check"
+    "build-client": "tsc -p tsconfig.client.json && cp src/client/package.json dist/client/package.json",
+    "build-server": "tsc -p tsconfig.server.json && cp src/server/package.json dist/server/package.json",
+    "lint": "tslint -p tsconfig.json --type-check"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
@@ -20,9 +20,7 @@
     "tslint-config-standard": "^5.0.2",
     "typescript": "^2.2.2"
   },
-  "dependencies": {
-    "ws": "^3.0.0"
-  },
+  "dependencies": {},
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"

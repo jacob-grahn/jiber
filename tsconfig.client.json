@@ -1,16 +1,15 @@
 {
     "compilerOptions": {
+        "declaration": true,
         "module": "es6",
         "noImplicitAny": true,
+        "outDir": "dist/client",
+        "rootDir": "src",
         "strictNullChecks": true,
         "sourceMap": false,
-        "target": "es6",
-        "rootDir": "src"
+        "target": "es6"
     },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "src/server/node_modules"
+    "files": [
+        "src/client/index.ts"
     ]
 }

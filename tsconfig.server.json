@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "outDir": "dist/server",
+        "rootDir": "src",
+        "strictNullChecks": true,
+        "sourceMap": false,
+        "target": "es6"
+    },
+    "files": [
+        "src/server/index.ts"
+    ]
+}
