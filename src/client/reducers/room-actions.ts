@@ -12,18 +12,16 @@ export const JOIN_RESULT = 'hope/room/JOIN_RESULT'
 export interface JoinResult {
   confirmedState: any,
   myUserId: string,
-  actionIds: {[key: string]: number},
-  memberIds: string[]
+  actionIds: {[key: string]: number}
 }
 export function joinResult (roomId: string, result: JoinResult): HopeAction {
-  const { confirmedState, myUserId, actionIds, memberIds } = result
+  const { confirmedState, myUserId, actionIds } = result
   return {
     type: JOIN_RESULT,
     $hope: {roomId, userId: myUserId, source: SERVER, actionId: 0},
     confirmedState,
     myUserId,
-    actionIds,
-    memberIds
+    actionIds
   }
 }
 

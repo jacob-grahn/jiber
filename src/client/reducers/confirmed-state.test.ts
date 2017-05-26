@@ -13,8 +13,7 @@ test('confirmed state is set on join success', () => {
   const result = {
     confirmedState: 'hello there',
     myUserId: '',
-    actionIds: {},
-    memberIds: []
+    actionIds: {}
   }
   const action = joinResult(roomId, result)
   expect(confirmedState(state, action)).toEqual('hello there')

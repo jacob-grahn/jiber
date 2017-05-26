@@ -2,7 +2,6 @@ import { Action, Reducer, combineReducers } from '../../core/index'
 import HopeAction from '../interfaces/hope-action'
 import actionIds from './action-ids'
 import createConfirmedState from './confirmed-state'
-import memberIds from './member-ids'
 import myUserId from './my-user-id'
 import optimisticActions from './optimistic-actions'
 import createOptimisticState from './optimistic-state'
@@ -12,7 +11,6 @@ import { NOT_JOINING } from './room-states'
 export interface RoomState {
   actionIds: {[key: string]: number},
   confirmedState: any,
-  memberIds: string[],
   myUserId: string,
   optimisticActions: HopeAction[],
   optimisticState: any,
@@ -22,7 +20,6 @@ export interface RoomState {
 const defaultRoomState: RoomState = {
   actionIds: {},
   confirmedState: undefined,
-  memberIds: [],
   myUserId: '',
   optimisticActions: [],
   optimisticState: undefined,
@@ -35,7 +32,6 @@ export default function createRoom (subReducer: Reducer): Reducer {
   const intermediateReducer = combineReducers({
     actionIds,
     confirmedState,
-    memberIds,
     myUserId,
     optimisticActions,
     status

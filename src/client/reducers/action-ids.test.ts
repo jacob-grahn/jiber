@@ -1,20 +1,19 @@
 import actionIds from './action-ids'
 import { joinResult, addMember, removeMember } from './room-actions'
 
-test('memberIds are set on join success', () => {
+test('actionIds are set on join success', () => {
   const state = {}
   const roomId = ''
   const result = {
     confirmedState: {},
     myUserId: '',
-    actionIds: {ike: 3},
-    memberIds: []
+    actionIds: {ike: 3}
   }
   const action = joinResult(roomId, result)
   expect(actionIds(state, action)).toEqual({ike: 3})
 })
 
-test('add memberId', () => {
+test('add actionId', () => {
   const state = {}
   const roomId = ''
   const userId = 'fil'
@@ -30,7 +29,7 @@ test('adding existing user is ignored', () => {
   expect(actionIds(state, action)).toEqual({sue: 5})
 })
 
-test('remove memberId', () => {
+test('remove actionId', () => {
   const state = {fil: 1}
   const roomId = ''
   const userId = 'fil'

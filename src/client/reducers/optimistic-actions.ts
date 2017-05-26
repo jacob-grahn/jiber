@@ -9,7 +9,7 @@ export default function reducer (
   switch (action.type) {
     case JOIN_RESULT:
       const state2 = claimActions(state, action.myUserId)
-      const state3 = withoutNonMembers(state2, action.memberIds)
+      const state3 = withoutNonMembers(state2, action.actionIds)
       return pruneActions(state3, action.actionIds)
 
     case REMOVE_MEMBER:
@@ -74,12 +74,12 @@ function pruneActions (
   })
 }
 
-// remove optimistic actions that are not in memberIds
+// remove optimistic actions that belong to users that are no longer members
 function withoutNonMembers (
   actions: HopeAction[],
-  memberIds: string[]
+  actionIds: {[userId: string]: number}
 ): HopeAction[] {
-  return actions.filter(action => memberIds.indexOf(action.$hope.userId) !== -1)
+  return actions.filter(action => actionIds[action.$hope.userId])
 }
 
 // remove actions belonging to userId

@@ -57,8 +57,7 @@ test('add userId to actions that do not have one', () => {
   const result = {
     confirmedState: {},
     myUserId: 'sue',
-    actionIds: {bob: 1, sue: 1},
-    memberIds: ['bob', 'sue']
+    actionIds: {bob: 1, sue: 1}
   }
   expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
@@ -77,8 +76,7 @@ test('remove outdated optimistic actions on join', () => {
   const result = {
     confirmedState: {},
     myUserId: 'sue',
-    actionIds: {sue: 5},
-    memberIds: ['sue']
+    actionIds: {sue: 5}
   }
   expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}

@@ -14,9 +14,9 @@ export default async function updateRoom (roomId: string): Promise<void> {
 
   if (room.isUpdating) return Promise.resolve()
 
-  store.dispatch(beginUpdate(roomId))                                             // start
+  store.dispatch(beginUpdate(roomId))                                           // start
 
-  const actions = await storage.getNewActions(roomId, room.stateTimeMs)         // get the queued actions
+  const actions = await storage.getActions(roomId, room.stateTimeMs)            // get the queued actions
   const stateTimeMs = actions[actions.length - 1].time
   if (actions.length === 0) return Promise.resolve()
 
@@ -26,6 +26,6 @@ export default async function updateRoom (roomId: string): Promise<void> {
 
   actions.forEach(action => sendToRoom(roomId, action))                         // send the actions to members of the room
   await storage.setState(roomId, roomState)                                     // store the new state
-  await storage.removeOldActions(roomId, stateTimeMs)                           // remove the actions
-  store.dispatch(finishUpdate(roomId, roomState, stateTimeMs))                    // done
+  await storage.removeActions(roomId, stateTimeMs)                              // remove the actions
+  store.dispatch(finishUpdate(roomId, roomState, stateTimeMs))                  // done
 }

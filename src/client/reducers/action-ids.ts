@@ -16,7 +16,7 @@ export default function reducer (
 
     case ADD_MEMBER:
       if (state[action.userId]) return state                                    // no need to be added twice
-      return {...state, [action.userId]: action.actionId || 0}                  // add the userId to the memberIds list
+      return {...state, [action.userId]: action.actionId || 0}                  // add the userId to the collection
 
     case REMOVE_MEMBER:
       return {...state, [action.userId]: undefined}

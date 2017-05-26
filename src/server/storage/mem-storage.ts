@@ -1,17 +1,20 @@
 import Storage from '../interfaces/storage'
 import { Action } from '../../core/index'
+import { InternalRoomState } from '../reducers/room'
 
 interface RoomStorage {
-  actions: Action[],
-  state: any,
-  lastUpdateMs: number
+  pendingActions: Action[],
+  state: InternalRoomState
 }
 
 const rooms: {[key: string]: RoomStorage} = {}
 const defaultRoomStorage: RoomStorage = {
-  actions: [],
-  state: null,
-  lastUpdateMs: 0
+  pendingActions: [],
+  state: {
+    actionIds: {},
+    confirmedState: null,
+    lastUpdateMs: 0
+  }
 }
 
 function getRoom (roomId: string): RoomStorage {
@@ -21,43 +24,44 @@ function getRoom (roomId: string): RoomStorage {
   return rooms[roomId]
 }
 
-function addAction (roomId: string, action: Action): Promise<any> {
+async function addActions (roomId: string, actions: Action[]): Promise<any> {
   const roomStorage = getRoom(roomId)
-  roomStorage.actions.push(action)
-  return Promise.resolve(true)
+  const timeMs = new Date().getTime()
+  actions.forEach(action => action.$hope.timeMs = timeMs)
+  roomStorage.pendingActions = [...roomStorage.pendingActions, ...actions]
+  return true
 }
 
-function getNewActions (roomId: string, minTimeMs: number): Promise<Action[]> {
+async function getActions (roomId: string, minTimeMs: number): Promise<Action[]> {
   const roomStorage = getRoom(roomId)
-  const actions = roomStorage.actions
-  const newActions = actions.filter(action => action.timeMs >= minTimeMs)
-  return Promise.resolve(newActions)
+  const actions = roomStorage.pendingActions
+  return actions.filter(action => action.$hope.timeMs >= minTimeMs)
 }
 
-function removeOldActions (roomId: string, minTimeMs: number): Promise<any> {
+async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
   const roomStorage = getRoom(roomId)
-  const actions = roomStorage.actions
-  const newActions = actions.filter(action => action.timeMs >= minTimeMs)
-  roomStorage.actions = newActions
-  return Promise.resolve(true)
+  const actions = roomStorage.pendingActions
+  const newActions = actions.filter(action => action.$hope.timeMs >= minTimeMs)
+  roomStorage.pendingActions = newActions
+  return true
 }
 
-function getState (roomId: string): Promise<any> {
+async function getState (roomId: string): Promise<any> {
   const roomStorage = getRoom(roomId)
-  return Promise.resolve(roomStorage.state)
+  return roomStorage
 }
 
-function setState (roomId: string, newState: any): Promise<any> {
+async function setState (roomId: string, newState: any): Promise<any> {
   const roomStorage = getRoom(roomId)
   roomStorage.state = newState
-  return Promise.resolve(true)
+  return true
 }
 
 // Store a state in memory
 const storage: Storage = {
-  addAction,
-  getNewActions,
-  removeOldActions,
+  addActions,
+  getActions,
+  removeActions,
   getState,
   setState
 }

@@ -8,8 +8,7 @@ test('status is set on join success', () => {
   const result = {
     confirmedState: {},
     myUserId: '',
-    actionIds: {},
-    memberIds: []
+    actionIds: {}
   }
   const action = joinResult(roomId, result)
   expect(status(state, action)).toEqual(JOINED)

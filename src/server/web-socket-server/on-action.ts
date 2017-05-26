@@ -14,9 +14,6 @@ export default async function onAction (
   if (!room) {                                                                  // make sure the room exists
     throw new Error('ROOM_NOT_FOUND')
   }
-  if (room.memberIds.indexOf(userId) === -1) {                                  // make sure user is a member of the room
-    throw new Error('NOT_ROOM_MEMBER')
-  }
   await storage.addAction({...action, userId})                                  // add the action to the global action queue
   await updateRoom(roomId)                                                      // trigger a room update
 }

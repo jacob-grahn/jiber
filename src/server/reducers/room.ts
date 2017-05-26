@@ -2,9 +2,13 @@ import { Action, Reducer, stateDictionary } from '../../core/index'
 
 // Setup
 const keyName = 'roomId'
-export interface RoomState {
-  memberIds: Array<string>,                                                     // List of user ids that have joined this room
-  roomState: any,                                                               // Last known copy of state from the db, this is sent to new members
+export interface InternalRoomState {
+  actionIds: {[userId: string]: number},
+  confirmedState: any,
+  lastUpdateMs: number,
+}
+export interface MetaRoomState {
+  roomState: InternalRoomState,                                                 // Last known copy of state from the db, this is sent to new members
   isUpdating: boolean,                                                          // Is this room in an update cycle
   updateStartedAt: number,                                                      // When the last update started
   stateTimeMs: number,                                                          // the time of the most recent action that affected the room state
@@ -13,8 +17,11 @@ export interface RoomState {
 }
 
 const defaultRoomState = {
-  memberIds: [],
-  roomState: {},
+  roomState: {
+    actionIds: {},
+    confirmedState: undefined,
+    lastUpdateMs: 0
+  },
   isUpdating: false,
   updateStartedAt: 0,
   stateTimeMs: 0,
@@ -31,9 +38,9 @@ const REMOVE = 'hope/room/REMOVE'
 
 // Reducer
 function roomReducer (
-  state: RoomState = defaultRoomState,
+  state: MetaRoomState = defaultRoomState,
   action: Action
-): RoomState {
+): MetaRoomState {
   switch (action.type) {
     case BEGIN_UPDATE:
       if (state.isUpdating) return state
@@ -55,16 +62,24 @@ function roomReducer (
       }
 
     case ADD_MEMBER:
-      if (state.memberIds.indexOf(action.userId) !== -1) return state           // do nothing if the user is already a member of this room
-      return {                                                                  // otherwise, add the userId to the memberIds list
+      if (state.roomState.actionIds[action.userId]) return state                // do nothing if the user is already a member of this room
+      return {                                                                  // otherwise, add the userId to the actionId collection
         ...state,
-        memberIds: [...state.memberIds, action.userId]
+        roomState: {
+          ...state.roomState,
+          actionIds: {...state.roomState.actionIds, [action.userId]: 0}
+        }
       }
 
     case REMOVE_MEMBER:
+      const roomState = state.roomState
+      const actionIds = {...roomState.actionIds, [action.userId]: undefined}
       return {
         ...state,
-        memberIds: state.memberIds.filter(userId => userId !== action.userId)
+        roomState: {
+          ...state.roomState,
+          actionIds
+        }
       }
 
     default:
