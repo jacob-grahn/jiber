@@ -1,13 +1,16 @@
 import { Action } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 
-let nextId = 1
+let idCounter = 0
 
 // Dummy account system that gives every login request a new accountId
-// This is used of no login function is provided in the initialization options
-export default function memAccounts (action: Action): LogInResult {
+// This is used if no login function is provided in the initialization options
+export default async function memAccounts (
+  action: Action
+): Promise<LogInResult> {
+  idCounter++
   return {
-    id: (nextId++).toString(),
+    id: idCounter.toString(),
     data: {}
   }
 }
