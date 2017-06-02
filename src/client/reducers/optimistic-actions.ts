@@ -1,5 +1,4 @@
-import { Action, CLIENT, SERVER, PEER } from '../../core/index'
-import HopeAction from '../interfaces/hope-action'
+import { Action, HopeAction, CLIENT, SERVER, PEER } from '../../core/index'
 import { JOIN_RESULT, REMOVE_MEMBER, isRoomAction } from './room-actions'
 
 export default function reducer (

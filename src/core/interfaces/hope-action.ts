@@ -4,7 +4,8 @@ export interface HopeMeta {
   roomId: string,
   userId: string,
   actionId: number,
-  source: SourceType
+  source: SourceType,
+  timeMs: number
 }
 
 export interface HopeAction {
@@ -12,5 +13,3 @@ export interface HopeAction {
   type: string,
   [key: string]: any
 }
-
-export { HopeAction as default }

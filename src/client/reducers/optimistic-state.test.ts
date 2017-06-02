@@ -1,6 +1,5 @@
 import createOptimisticState from './optimistic-state'
-import { CLIENT, PEER, SERVER } from '../../core/index'
-import HopeAction from '../interfaces/hope-action'
+import { HopeAction, CLIENT, PEER, SERVER } from '../../core/index'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value
@@ -16,7 +15,8 @@ test('user generated actions are used on the optimistic state', () => {
       actionId: 1,
       roomId: '',
       userId: '',
-      source: PEER
+      source: PEER,
+      timeMs: 0
     }
   }
   const roomState = {
@@ -37,7 +37,8 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
           actionId: 4,
           userId: 'sally',
           roomId: 'testRoom',
-          source: CLIENT
+          source: CLIENT,
+          timeMs: 0
         }
       } as HopeAction,
       {
@@ -47,7 +48,8 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
           actionId: 5,
           userId: 'sally',
           roomId: 'testRoom',
-          source: CLIENT
+          source: CLIENT,
+          timeMs: 0
         }
       } as HopeAction
     ],
@@ -61,7 +63,8 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
       roomId: 'testRoom',
       userId: 'sally',
       actionId: 3,
-      source: SERVER
+      source: SERVER,
+      timeMs: 0
     }
   }
 

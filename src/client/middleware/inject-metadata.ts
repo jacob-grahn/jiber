@@ -1,5 +1,4 @@
-import HopeAction from '../interfaces/hope-action'
-import { Action, CLIENT } from '../../core/index'
+import { Action, HopeAction, CLIENT } from '../../core/index'
 import nextActionId from '../utils/next-action-id'
 
 interface RoomState {

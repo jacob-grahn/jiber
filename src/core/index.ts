@@ -1,6 +1,7 @@
 export * from './interfaces/action'
 export * from './interfaces/middleware'
 export * from './interfaces/reducer'
+export * from './interfaces/hope-action'
 export { default as createStore, Store } from './store'
 export { default as simpleSetter } from './reducers/simple-setter'
 export { default as stateDictionary } from './reducers/state-dictionary'

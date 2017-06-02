@@ -1,5 +1,4 @@
-import { Action, Reducer, combineReducers } from '../../core/index'
-import HopeAction from '../interfaces/hope-action'
+import { Action, HopeAction, Reducer, combineReducers } from '../../core/index'
 import actionIds from './action-ids'
 import createConfirmedState from './confirmed-state'
 import myUserId from './my-user-id'

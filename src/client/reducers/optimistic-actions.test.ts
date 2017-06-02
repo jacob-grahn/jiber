@@ -1,7 +1,6 @@
 import optimisticActions from './optimistic-actions'
 import { joinResult } from './room-actions'
-import { Action, SERVER, CLIENT } from '../../core/index'
-import HopeAction from '../interfaces/hope-action'
+import { Action, HopeAction, SERVER, CLIENT } from '../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -18,7 +17,8 @@ test('prune actions that do not have a userId and actionId', () => {
       actionId: 1,
       userId: '',
       roomId: '',
-      source: SERVER
+      source: SERVER,
+      timeMs: 0
     }
   }
   expect(optimisticActions(actions, action)).toEqual([])
@@ -37,7 +37,8 @@ test('remove optimistic actions if newer confirmed action is received', () => {
       userId: 'bob',
       actionId: 2,
       roomId: '',
-      source: SERVER
+      source: SERVER,
+      timeMs: 0
     }
   }
   expect(optimisticActions(actions, action)).toEqual([
@@ -92,7 +93,8 @@ test('user generated actions are added to the optimistic list', () => {
       actionId: 1,
       roomId: '',
       userId: '',
-      source: CLIENT
+      source: CLIENT,
+      timeMs: 0
     }
   }
   const newState = optimisticActions(state, action)

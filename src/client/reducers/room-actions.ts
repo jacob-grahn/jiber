@@ -1,5 +1,4 @@
-import { Action, SERVER } from '../../core/index'
-import HopeAction from '../interfaces/hope-action'
+import { Action, HopeAction, SERVER } from '../../core/index'
 
 // Actions
 export const ADD_MEMBER = 'hope/room/ADD_MEMBER'
@@ -18,7 +17,7 @@ export function joinResult (roomId: string, result: JoinResult): HopeAction {
   const { confirmedState, myUserId, actionIds } = result
   return {
     type: JOIN_RESULT,
-    $hope: {roomId, userId: myUserId, source: SERVER, actionId: 0},
+    $hope: {roomId, userId: myUserId, source: SERVER, actionId: 0, timeMs: 0},
     confirmedState,
     myUserId,
     actionIds
