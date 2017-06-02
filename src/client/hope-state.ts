@@ -1,4 +1,4 @@
-import { RoomsState } from './reducers/rooms'
+import { RoomsState } from '../core/index'
 
 let state: RoomsState = {}
 

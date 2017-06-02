@@ -1,10 +1,9 @@
 import Storage from '../interfaces/storage'
 import { Action, HopeAction } from '../../core/index'
-import { InternalRoomState } from '../reducers/room'
 
 interface RoomStorage {
   pendingActions: HopeAction[],
-  state: InternalRoomState
+  state: any
 }
 
 const rooms: {[key: string]: RoomStorage} = {}

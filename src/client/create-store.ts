@@ -2,7 +2,6 @@ import createSendToServer from './middleware/send-to-server'
 import createSendToPeers from './middleware/send-to-peers'
 import createInjectMetadata from './middleware/inject-metadata'
 import { getState, setState } from './hope-state'
-import rooms from './reducers/rooms'
 import room from './reducers/room'
 import spy from './reducers/spy'
 import {
@@ -10,7 +9,8 @@ import {
   Store,
   Reducer,
   createStore,
-  simpleSetter
+  simpleSetter,
+  rooms
 } from '../core/index'
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
