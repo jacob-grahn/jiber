@@ -1,9 +1,9 @@
 import Storage from '../interfaces/storage'
-import { Action } from '../../core/index'
+import { Action, HopeAction } from '../../core/index'
 import { InternalRoomState } from '../reducers/room'
 
 interface RoomStorage {
-  pendingActions: Action[],
+  pendingActions: HopeAction[],
   state: InternalRoomState
 }
 
@@ -19,20 +19,34 @@ const defaultRoomStorage: RoomStorage = {
 
 function getRoom (roomId: string): RoomStorage {
   if (!rooms[roomId]) {
-    rooms[roomId] = {...defaultRoomStorage}
+    rooms[roomId] = JSON.parse(JSON.stringify(defaultRoomStorage))
   }
   return rooms[roomId]
 }
 
-async function addActions (roomId: string, actions: Action[]): Promise<any> {
+function clear () {
+  Object.keys(rooms).forEach(roomId => delete rooms[roomId])
+}
+
+async function addActions (
+  roomId: string,
+  actions: Action[]
+): Promise<any> {
   const roomStorage = getRoom(roomId)
+  const pendingActions = roomStorage.pendingActions
   const timeMs = new Date().getTime()
-  actions.forEach(action => action.$hope.timeMs = timeMs)
-  roomStorage.pendingActions = [...roomStorage.pendingActions, ...actions]
+  const timedActions = actions.map(action => {
+    const meta = action.$hope || {}
+    return {...action, $hope: {...meta, timeMs}}
+  })
+  pendingActions.splice(pendingActions.length, 0, ...timedActions)
   return true
 }
 
-async function getActions (roomId: string, minTimeMs: number): Promise<Action[]> {
+async function getActions (
+  roomId: string,
+  minTimeMs: number
+): Promise<HopeAction[]> {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
   return actions.filter(action => action.$hope.timeMs >= minTimeMs)
@@ -48,7 +62,7 @@ async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
 
 async function getState (roomId: string): Promise<any> {
   const roomStorage = getRoom(roomId)
-  return roomStorage
+  return roomStorage.state
 }
 
 async function setState (roomId: string, newState: any): Promise<any> {
@@ -58,12 +72,11 @@ async function setState (roomId: string, newState: any): Promise<any> {
 }
 
 // Store a state in memory
-const storage: Storage = {
+export default {
   addActions,
   getActions,
   removeActions,
   getState,
-  setState
+  setState,
+  clear
 }
-
-export { storage as default }
