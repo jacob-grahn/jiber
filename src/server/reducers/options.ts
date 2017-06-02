@@ -1,4 +1,4 @@
-import { simpleSetter, Reducer } from '../../core/index'
+import { Action, simpleSetter, Reducer } from '../../core/index'
 import LogInRequestHandler from '../interfaces/log-in-request-handler'
 import Storage from '../interfaces/storage'
 import memStorage from '../storage/mem-storage'
@@ -29,14 +29,11 @@ const defaultOptions: OptionsState = {
 const OPTIONS_SET = 'hope/options/OPTIONS_SET'
 
 // Reducer
-export default function reducer (
-  state: OptionsState,
-  action: any = {}
+export default function options (
+  state: OptionsState|undefined,
+  action: Action
 ): OptionsState {
   switch (action.type) {
-    case undefined:
-      return defaultOptions
-
     case OPTIONS_SET:
       return {
         ...defaultOptions,
@@ -44,7 +41,7 @@ export default function reducer (
       }
 
     default:
-      return state
+      return state || defaultOptions
   }
 }
 
