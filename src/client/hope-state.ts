@@ -1,6 +1,6 @@
 import { Dictionary } from '../core/index'
 
-interface HopeClientState {
+export interface HopeClientState {
   rooms: Dictionary,
   connected: boolean,
   account: any
