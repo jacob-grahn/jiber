@@ -1,5 +1,10 @@
 import { Action, HopeAction, CLIENT, SERVER, PEER } from '../../core/index'
-import { JOIN_RESULT, REMOVE_MEMBER, isRoomAction } from './room-actions'
+import {
+  JOIN_RESULT,
+  REMOVE_MEMBER,
+  CONFIRMED_ACTION,
+  OPTIMISTIC_ACTION
+} from './room-actions'
 
 export default function reducer (
   state: HopeAction[] = [],
@@ -14,26 +19,16 @@ export default function reducer (
     case REMOVE_MEMBER:
       return withoutUser(state, action.userId)
 
+    case CONFIRMED_ACTION:
+      return pruneActions(
+        state,
+        {[action.$hope.userId]: action.$hope.actionId}
+      )
+
+    case OPTIMISTIC_ACTION:
+      return [...state, action]
+
     default:
-      if (isRoomAction(action.type)) {                                          // Ignore internal actions
-        return state
-      }
-
-      if (action.$hope.source === CLIENT) {                                     // untrusted local client actions
-        return [...state, action]
-      }
-
-      if (action.$hope.source === PEER) {                                       // untrusted peer actions
-        return [...state, action as HopeAction]
-      }
-
-      if (action.$hope.source === SERVER) {                                     // trusted server actions
-        return pruneActions(
-          state,
-          {[action.$hope.userId]: action.$hope.actionId}
-        )
-      }
-
       return state
   }
 }

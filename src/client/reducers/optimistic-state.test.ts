@@ -1,5 +1,6 @@
 import createOptimisticState from './optimistic-state'
 import { HopeAction, CLIENT, PEER, SERVER } from '../../core/index'
+import { OPTIMISTIC_ACTION } from './room-actions'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value
@@ -9,7 +10,7 @@ const optimisticState = createOptimisticState(adder)
 test('user generated actions are used on the optimistic state', () => {
   const state: any = undefined
   const action: HopeAction = {
-    type: 'test',
+    type: OPTIMISTIC_ACTION,
     value: '123',
     $hope: {
       actionId: 1,

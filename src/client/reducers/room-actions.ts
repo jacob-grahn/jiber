@@ -6,6 +6,8 @@ export const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 export const JOIN = 'hope/room/JOIN'
 export const LEAVE = 'hope/room/LEAVE'
 export const JOIN_RESULT = 'hope/room/JOIN_RESULT'
+export const OPTIMISTIC_ACTION = 'hope/room/OPTIMISTIC_ACTION'
+export const CONFIRMED_ACTION = 'hope/room/CONFIRMED_ACTION'
 
 // Action Creators
 export interface JoinResult {
@@ -38,9 +40,4 @@ export function join (roomId: string): Action {
 
 export function leave (roomId: string): Action {
   return {type: LEAVE, $hope: roomId}
-}
-
-// Misc
-export function isRoomAction (type: string): boolean {
-  return type.indexOf('hope/room/') === 0
 }

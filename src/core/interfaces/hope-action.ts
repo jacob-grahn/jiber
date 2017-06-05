@@ -5,7 +5,8 @@ export interface HopeMeta {
   userId: string,
   actionId: number,
   source: SourceType,
-  timeMs: number
+  timeMs: number,
+  type?: string
 }
 
 export interface HopeAction {

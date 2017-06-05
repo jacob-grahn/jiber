@@ -1,5 +1,6 @@
 import { Action, HopeAction, CLIENT } from '../../core/index'
 import nextActionId from '../utils/next-action-id'
+import { OPTIMISTIC_ACTION } from '../reducers/room-actions'
 
 interface RoomState {
   myUserId?: string,
@@ -16,12 +17,14 @@ export default function createInjectMetadata (getState: Function) {
     const roomState: RoomState = getState()[roomId]                             // todo: this will not work with multiple room types
     return {
       ...action,
+      type: OPTIMISTIC_ACTION,
       $hope: {
         actionId: nextActionId(roomState.myUserId || '', roomState),
         roomId,
         source: CLIENT,
         userId: roomState.myUserId || '',
-        timeMs: new Date().getTime()
+        timeMs: new Date().getTime(),
+        type: action.type
       }
     }
   }

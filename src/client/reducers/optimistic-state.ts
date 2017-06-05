@@ -1,5 +1,5 @@
 import { Reducer, Action, HopeAction, CLIENT, SERVER, PEER } from '../../core/index'
-import { JOIN_RESULT, isRoomAction } from './room-actions'
+import { JOIN_RESULT, OPTIMISTIC_ACTION, CONFIRMED_ACTION } from './room-actions'
 import nextActionId from '../utils/next-action-id'
 
 export default function createOptimisticState (
@@ -15,24 +15,14 @@ export default function createOptimisticState (
         const actions = roomState.optimisticActions || []
         return actions.reduce(subReducer, action.confirmedState)
 
+      case OPTIMISTIC_ACTION:
+        return subReducer(state, {...action, type: action.$hope.type})
+
+      case CONFIRMED_ACTION:
+        const { optimisticActions, confirmedState } = roomState
+        return optimisticActions.reduce(subReducer, confirmedState)
+
       default:
-        if (isRoomAction(action.type)) {                                        // Ignore internal actions
-          return state
-        }
-
-        if (action.$hope.source === CLIENT) {                                   // Untrusted local client actions
-          return subReducer(state, action)
-        }
-
-        if (action.$hope.source === PEER) {                                     // Untrusted peer actions
-          return subReducer(state, action)
-        }
-
-        if (action.$hope.source === SERVER) {                                   // Trusted server actions
-          const { optimisticActions, confirmedState } = roomState
-          return optimisticActions.reduce(subReducer, confirmedState)
-        }
-
         return state
     }
   }

@@ -3,7 +3,7 @@ import {
   ADD_MEMBER,
   REMOVE_MEMBER,
   JOIN_RESULT,
-  isRoomAction
+  CONFIRMED_ACTION
 } from './room-actions'
 
 export default function reducer (
@@ -21,16 +21,11 @@ export default function reducer (
     case REMOVE_MEMBER:
       return {...state, [action.userId]: undefined}
 
+    case CONFIRMED_ACTION:                                                      // trust confirmed actionId
+      const meta = action.$hope
+      return {...state, [meta.userId]: meta.actionId}
+
     default:
-      if (isRoomAction(action.type)) {                                          // Ignore internal actions
-        return state
-      }
-
-      if (action.$hope && action.$hope.source === SERVER) {                     // trust actionId sent from server
-        const meta = action.$hope
-        return {...state, [meta.userId]: meta.actionId}
-      }
-
       return state
   }
 }

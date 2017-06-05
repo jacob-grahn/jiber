@@ -1,5 +1,5 @@
 import optimisticActions from './optimistic-actions'
-import { joinResult } from './room-actions'
+import { joinResult, OPTIMISTIC_ACTION, CONFIRMED_ACTION } from './room-actions'
 import { Action, HopeAction, SERVER, CLIENT } from '../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
@@ -12,7 +12,7 @@ test('prune actions that do not have a userId and actionId', () => {
     {$hope: {userId: 1}}
   ]
   const action: HopeAction = {
-    type: 'test',
+    type: CONFIRMED_ACTION,
     $hope: {
       actionId: 1,
       userId: '',
@@ -32,7 +32,7 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     {$hope: {actionId: 1, userId: 'sue'}}
   ]
   const action: HopeAction = {
-    type: 'test',
+    type: CONFIRMED_ACTION,
     $hope: {
       userId: 'bob',
       actionId: 2,
@@ -87,7 +87,7 @@ test('remove outdated optimistic actions on join', () => {
 test('user generated actions are added to the optimistic list', () => {
   const state: any = undefined
   const action: HopeAction = {
-    type: 'test',
+    type: OPTIMISTIC_ACTION,
     value: '123',
     $hope: {
       actionId: 1,
