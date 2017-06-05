@@ -1,5 +1,5 @@
 import createConfirmedState from './confirmed-state'
-import { joinResult } from './room-actions'
+import { confirmedState as confirmState } from './room-actions'
 import { Action } from '../../core/index'
 
 const adder = (state: any = '', action: Action): any => {
@@ -12,9 +12,8 @@ test('confirmed state is set on join success', () => {
   const roomId = ''
   const result = {
     confirmedState: 'hello there',
-    myUserId: '',
     actionIds: {}
   }
-  const action = joinResult(roomId, result)
+  const action = confirmState(roomId, result)
   expect(confirmedState(state, action)).toEqual('hello there')
 })

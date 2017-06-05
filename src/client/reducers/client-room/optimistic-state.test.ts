@@ -1,6 +1,6 @@
 import createOptimisticState from './optimistic-state'
-import { HopeAction, CLIENT, PEER, SERVER } from '../../core/index'
-import { OPTIMISTIC_ACTION } from './room-actions'
+import { HopeAction, CLIENT, PEER, SERVER } from '../../../core/index'
+import { OPTIMISTIC_ACTION } from './client-room'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value

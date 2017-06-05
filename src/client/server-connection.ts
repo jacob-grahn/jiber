@@ -1,5 +1,5 @@
 import { Action } from '../core/index'
-import { login } from './reducers/hope-actions'
+import { login } from './reducers/hope-client/hope-actions'
 import Options from './interfaces/options'
 
 export interface ServerConnection {

@@ -1,11 +1,17 @@
-import { RoomsState } from '../core/index'
+import { Dictionary } from '../core/index'
 
-let state: RoomsState = {}
+interface HopeClientState {
+  rooms: Dictionary,
+  connected: boolean,
+  account: any
+}
 
-export function getState (): RoomsState {
+let state: HopeClientState
+
+export function getState (): HopeClientState {
   return state
 }
 
-export function setState (state: RoomsState): void {
+export function setState (state: HopeClientState): void {
   this.state = state
 }

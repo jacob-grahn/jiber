@@ -1,6 +1,12 @@
 import optimisticActions from './optimistic-actions'
-import { joinResult, OPTIMISTIC_ACTION, CONFIRMED_ACTION } from './room-actions'
-import { Action, HopeAction, SERVER, CLIENT } from '../../core/index'
+import { OPTIMISTIC_ACTION } from './client-room'
+import {
+  HopeAction,
+  SERVER,
+  CLIENT,
+  CONFIRMED_ACTION,
+  confirmedState
+} from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -47,7 +53,7 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   ])
 })
 
-test('add userId to actions that do not have one', () => {
+/* test('add userId to actions that do not have one', () => {
   const list: any = [
     {},
     {type: 'WEE', $hope: {actionId: 5}},
@@ -57,14 +63,14 @@ test('add userId to actions that do not have one', () => {
   const roomId = 'room 1'
   const result = {
     confirmedState: {},
-    myUserId: 'sue',
     actionIds: {bob: 1, sue: 1}
   }
-  expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
+  const action = confirmedState(roomId, result)
+  expect(optimisticActions(list, action)).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
     {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
   ])
-})
+}) */
 
 test('remove outdated optimistic actions on join', () => {
   const list: any = [
@@ -76,10 +82,9 @@ test('remove outdated optimistic actions on join', () => {
   const roomId = 'room 1'
   const result = {
     confirmedState: {},
-    myUserId: 'sue',
     actionIds: {sue: 5}
   }
-  expect(optimisticActions(list, joinResult(roomId, result))).toEqual([
+  expect(optimisticActions(list, confirmedState(roomId, result))).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}
   ])
 })

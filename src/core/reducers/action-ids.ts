@@ -2,7 +2,7 @@ import { Action, SERVER } from '../../core/index'
 import {
   ADD_MEMBER,
   REMOVE_MEMBER,
-  JOIN_RESULT,
+  CONFIRMED_STATE,
   CONFIRMED_ACTION
 } from './room-actions'
 
@@ -12,7 +12,7 @@ export default function reducer (
 ): {[key: string]: number} {
   const type = action.$hope.type || action.type
   switch (type) {
-    case JOIN_RESULT:
+    case CONFIRMED_STATE:
       return action.actionIds
 
     case ADD_MEMBER:

@@ -1,6 +1,6 @@
 import { Action, HopeAction, CLIENT } from '../../core/index'
 import nextActionId from '../utils/next-action-id'
-import { OPTIMISTIC_ACTION } from '../reducers/room-actions'
+import { OPTIMISTIC_ACTION } from '../reducers/client-room/client-room'
 
 interface RoomState {
   myUserId?: string,

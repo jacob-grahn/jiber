@@ -1,10 +1,13 @@
-import { Action, HopeAction, CLIENT, SERVER, PEER } from '../../core/index'
 import {
-  JOIN_RESULT,
+  HopeAction,
+  CLIENT,
+  SERVER,
+  PEER,
+  CONFIRMED_STATE,
   REMOVE_MEMBER,
-  CONFIRMED_ACTION,
-  OPTIMISTIC_ACTION
-} from './room-actions'
+  CONFIRMED_ACTION
+} from '../../../core/index'
+import { OPTIMISTIC_ACTION } from './client-room'
 
 export default function reducer (
   state: HopeAction[] = [],
@@ -12,7 +15,7 @@ export default function reducer (
 ): HopeAction[] {
   const type = action.$hope.type || action.type
   switch (type) {
-    case JOIN_RESULT:
+    case CONFIRMED_STATE:
       const state2 = claimActions(state, action.myUserId)
       const state3 = withoutNonMembers(state2, action.actionIds)
       return pruneActions(state3, action.actionIds)
@@ -21,10 +24,9 @@ export default function reducer (
       return withoutUser(state, action.userId)
 
     case CONFIRMED_ACTION:
-      return pruneActions(
-        state,
-        {[action.$hope.userId]: action.$hope.actionId}
-      )
+      const userId = action.$hope.userId || ''
+      const actionId = action.$hope.actionId || 0
+      return pruneActions(state, {[userId]: actionId})
 
     case OPTIMISTIC_ACTION:
       return [...state, action]

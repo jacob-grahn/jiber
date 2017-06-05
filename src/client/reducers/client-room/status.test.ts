@@ -1,16 +1,15 @@
 import status from './status'
-import { joinResult, leave, join } from './room-actions'
-import { JOINED, NOT_JOINING, JOINING } from './room-states'
+import { confirmedState, leave, join } from '../../../core/index'
+import { JOINED, NOT_JOINING, JOINING } from './status'
 
 test('status is set on join success', () => {
   const state = ''
   const roomId = ''
   const result = {
     confirmedState: {},
-    myUserId: '',
     actionIds: {}
   }
-  const action = joinResult(roomId, result)
+  const action = confirmedState(roomId, result)
   expect(status(state, action)).toEqual(JOINED)
 })
 

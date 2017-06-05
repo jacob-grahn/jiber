@@ -1,6 +1,8 @@
-import { Action } from '../../core/index'
-import { JOIN, JOIN_RESULT, LEAVE } from './room-actions'
-import { JOINING, JOINED, NOT_JOINING } from './room-states'
+import { Action, JOIN, CONFIRMED_STATE, LEAVE } from '../../../core/index'
+
+export const NOT_JOINING = 'NOT_JOINING'
+export const JOINING = 'JOINING'
+export const JOINED = 'JOINED'
 
 export default function reducer (
   state: string = NOT_JOINING,
@@ -10,7 +12,7 @@ export default function reducer (
     case JOIN:
       return JOINING
 
-    case JOIN_RESULT:
+    case CONFIRMED_STATE:
       return JOINED
 
     case LEAVE:

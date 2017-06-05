@@ -1,15 +1,14 @@
 import actionIds from './action-ids'
-import { joinResult, addMember, removeMember } from './room-actions'
+import { confirmedState, addMember, removeMember } from './room-actions'
 
 test('actionIds are set on join success', () => {
   const state = {}
   const roomId = ''
   const result = {
     confirmedState: {},
-    myUserId: '',
     actionIds: {ike: 3}
   }
-  const action = joinResult(roomId, result)
+  const action = confirmedState(roomId, result)
   expect(actionIds(state, action)).toEqual({ike: 3})
 })
 

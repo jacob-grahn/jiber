@@ -1,4 +1,4 @@
-import { Action, Reducer } from '../../core/index'
+import { Action, Reducer } from '../../../core/index'
 
 export default function createSpy (
   subReducer: Reducer,

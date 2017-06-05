@@ -1,6 +1,14 @@
-import { Reducer, Action, HopeAction, CLIENT, SERVER, PEER } from '../../core/index'
-import { JOIN_RESULT, OPTIMISTIC_ACTION, CONFIRMED_ACTION } from './room-actions'
-import nextActionId from '../utils/next-action-id'
+import {
+  Reducer,
+  HopeAction,
+  CLIENT,
+  SERVER,
+  PEER,
+  CONFIRMED_STATE,
+  CONFIRMED_ACTION
+} from '../../../core/index'
+import { OPTIMISTIC_ACTION } from './client-room'
+import nextActionId from '../../utils/next-action-id'
 
 export default function createOptimisticState (
   subReducer: Reducer
@@ -12,7 +20,7 @@ export default function createOptimisticState (
   ): any {
     const type = action.$hope.type || action.type
     switch (type) {
-      case JOIN_RESULT:
+      case CONFIRMED_STATE:
         const actions = roomState.optimisticActions || []
         return actions.reduce(subReducer, action.confirmedState)
 

@@ -1,11 +1,7 @@
-import { Reducer, Action, isFunction } from '../../core/index'
+import { Reducer, Action, Dictionary, isFunction } from '../../core/index'
 
 export interface ReducerObj {
   [key: string]: Reducer
-}
-
-export interface RoomsState {
-  [key: string]: any
 }
 
 export default function rooms (input: Reducer|ReducerObj): Reducer {
@@ -18,24 +14,22 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
     reducerObj = input as ReducerObj
   }
 
-  return (state: any = {}, action: Action): RoomsState => {
-    if (!action.type) {
-      return {}
-    }
-    if (!action.$hope) {
+  return (state: any = {}, action: Action): Dictionary => {
+    if (!action.type || !action.$hope) {
       return state
     }
-    const roomId = action.$hope.roomId || action.$hope
-    const hasDot = roomId.indexOf('.') !== -1
 
-    if (reducer && !hasDot) {
+    const roomId = action.$hope.roomId || action.$hope
+
+    if (reducer) {
       const roomState = state[roomId]
       return {
         ...state,
         [roomId]: reducer(roomState, action)
       }
     }
-    if (reducerObj && hasDot) {
+
+    if (reducerObj) {
       const [roomType, subRoomId] = roomId.split('.')
       const roomTypeDict = state[roomType] || {}
       const roomState = roomTypeDict[subRoomId]
@@ -48,6 +42,7 @@ export default function rooms (input: Reducer|ReducerObj): Reducer {
         }
       }
     }
+
     return state
   }
 }

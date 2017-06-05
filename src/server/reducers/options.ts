@@ -1,4 +1,4 @@
-import { Action, simpleSetter, Reducer } from '../../core/index'
+import { Action, simpleSetter } from '../../core/index'
 import LogInRequestHandler from '../interfaces/log-in-request-handler'
 import Storage from '../interfaces/storage'
 import memStorage from '../storage/mem-storage'
@@ -8,7 +8,6 @@ import memAccounts from '../accounts/mem-accounts'
 interface OptionsState {
   webSocketPort: number,
   stunPort: number,
-  reducer: Reducer,
   onLogIn: LogInRequestHandler,
   storage: Storage,
   rateLimit: {periodMs: number, max: number},
@@ -18,7 +17,6 @@ interface OptionsState {
 const defaultOptions: OptionsState = {
   webSocketPort: 80,
   stunPort: 3478,
-  reducer: simpleSetter,
   onLogIn: memAccounts,
   storage: memStorage,
   rateLimit: {periodMs: 1000, max: 10},                                         // max of 10 messages per second

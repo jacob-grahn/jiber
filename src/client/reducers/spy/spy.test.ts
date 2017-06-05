@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from '../../../core/index'
 import spy from './spy'
 
 const adder = (state: any = '', action: Action): any => {

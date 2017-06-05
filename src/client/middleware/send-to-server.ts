@@ -1,8 +1,14 @@
-import { Action, Middleware, CLIENT, SERVER } from '../../core/index'
+import {
+  Action,
+  HopeAction,
+  Middleware,
+  CLIENT,
+  SERVER,
+  CONFIRMED_STATE,
+  join
+} from '../../core/index'
 import { ServerConnection } from '../server-connection'
-import { LOGIN_RESULT } from '../reducers/hope-actions'
-import { join, JOIN_RESULT } from '../reducers/room-actions'
-import { RoomState } from '../reducers/room'
+import { LOGIN_RESULT } from '../reducers/hope-client/hope-actions'
 
 // Send events to the master server
 export default function sendToServer (
@@ -18,7 +24,7 @@ export default function sendToServer (
       joinRooms(serverConnection, getState)
     }
 
-    if (action.$hope.source === SERVER && action.type === JOIN_RESULT) {        // re-send pending actions if reconnecting
+    if (action.$hope.source === SERVER && action.type === CONFIRMED_STATE) {        // re-send pending actions if reconnecting
       setTimeout(() => {
         sendPendingActions(serverConnection, getState, action.$hope.roomId)
       }, 0)
@@ -45,9 +51,10 @@ function sendPendingActions (
   roomId: string
 ) {
   const state = getState()
-  const room: RoomState = state[roomId]
-  room.optimisticActions.forEach(action => {
-    if (action.$hope.userId === room.myUserId) {
+  const room = state.rooms[roomId]
+  const myUserId = state.account.userId
+  room.optimisticActions.forEach((action: HopeAction) => {
+    if (action.$hope.userId === myUserId) {
       serverConnection.send(action)
     }
   })

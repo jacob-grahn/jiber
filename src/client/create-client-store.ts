@@ -2,15 +2,15 @@ import createSendToServer from './middleware/send-to-server'
 import createSendToPeers from './middleware/send-to-peers'
 import createInjectMetadata from './middleware/inject-metadata'
 import { getState, setState } from './hope-state'
-import room from './reducers/room'
-import spy from './reducers/spy'
+import clientRoom from './reducers/client-room/client-room'
+import spy from './reducers/spy/spy'
 import {
   Middleware,
   Store,
   Reducer,
   createStore,
   simpleSetter,
-  rooms
+  roomsById
 } from '../core/index'
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
@@ -46,7 +46,7 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
     sendToPeers
   ]
 
-  const roomsReducer = rooms(room(options.reducer))
+  const roomsReducer = roomsById(clientRoom(options.reducer))
   const topReducer = spy(roomsReducer, setState)
   return createStore(topReducer, clientMiddleware)
 }

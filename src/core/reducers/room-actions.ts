@@ -5,23 +5,23 @@ export const ADD_MEMBER = 'hope/room/ADD_MEMBER'
 export const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 export const JOIN = 'hope/room/JOIN'
 export const LEAVE = 'hope/room/LEAVE'
-export const JOIN_RESULT = 'hope/room/JOIN_RESULT'
-export const OPTIMISTIC_ACTION = 'hope/room/OPTIMISTIC_ACTION'
+export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
 export const CONFIRMED_ACTION = 'hope/room/CONFIRMED_ACTION'
 
 // Action Creators
-export interface JoinResult {
+export interface CoreRoomState {
   confirmedState: any,
-  myUserId: string,
   actionIds: {[key: string]: number}
 }
-export function joinResult (roomId: string, result: JoinResult): HopeAction {
-  const { confirmedState, myUserId, actionIds } = result
+export function confirmedState (
+  roomId: string,
+  result: CoreRoomState
+): HopeAction {
+  const { confirmedState, actionIds } = result
   return {
-    type: JOIN_RESULT,
-    $hope: {roomId, userId: myUserId, source: SERVER, actionId: 0, timeMs: 0},
+    type: CONFIRMED_STATE,
+    $hope: {roomId, source: SERVER, userId: '', timeMs: 0, actionId: 0},
     confirmedState,
-    myUserId,
     actionIds
   }
 }

@@ -1,5 +1,3 @@
-import { Action } from '../../core/index'
-
 // Actions
 export const LOGIN = 'hope/LOGIN'
 export const LOGIN_RESULT = 'hope/LOGIN_RESULT'
