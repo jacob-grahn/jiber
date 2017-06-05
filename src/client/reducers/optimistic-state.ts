@@ -10,13 +10,14 @@ export default function createOptimisticState (
     action: HopeAction,
     roomState: {optimisticActions: HopeAction[], confirmedState: any}
   ): any {
-    switch (action.type) {
+    const type = action.$hope.type || action.type
+    switch (type) {
       case JOIN_RESULT:
         const actions = roomState.optimisticActions || []
         return actions.reduce(subReducer, action.confirmedState)
 
       case OPTIMISTIC_ACTION:
-        return subReducer(state, {...action, type: action.$hope.type})
+        return subReducer(state, action)
 
       case CONFIRMED_ACTION:
         const { optimisticActions, confirmedState } = roomState

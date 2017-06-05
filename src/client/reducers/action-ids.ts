@@ -10,7 +10,8 @@ export default function reducer (
   state: {[key: string]: number} = {},
   action: Action
 ): {[key: string]: number} {
-  switch (action.type) {
+  const type = action.$hope.type || action.type
+  switch (type) {
     case JOIN_RESULT:
       return action.actionIds
 

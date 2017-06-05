@@ -17,14 +17,13 @@ export default function createInjectMetadata (getState: Function) {
     const roomState: RoomState = getState()[roomId]                             // todo: this will not work with multiple room types
     return {
       ...action,
-      type: OPTIMISTIC_ACTION,
       $hope: {
+        type: OPTIMISTIC_ACTION,
         actionId: nextActionId(roomState.myUserId || '', roomState),
         roomId,
         source: CLIENT,
         userId: roomState.myUserId || '',
-        timeMs: new Date().getTime(),
-        type: action.type
+        timeMs: new Date().getTime()
       }
     }
   }
