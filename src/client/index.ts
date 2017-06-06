@@ -1,1 +1,1 @@
-export * from './create-client-store'
+export { default as createHopeStore } from './create-client-store'

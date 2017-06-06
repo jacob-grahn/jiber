@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest src",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "tsc -p tsconfig.client.json && cp src/client/package.json dist/client/package.json && rollup dist/client/client/index.js --format cjs --output dist/client/hope-client.bundle.js",
+    "build-client": "tsc -p tsconfig.client.json && cp src/client/package.json dist/client/package.json && npm run bundle-client",
+    "bundle-client": "rollup -c",
     "build-server": "tsc -p tsconfig.server.json && cp src/server/package.json dist/server/package.json",
     "lint": "tslint -p tsconfig.json --type-check"
   },

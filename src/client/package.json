@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Hopefully synced data store",
   "main": "client/index.js",
+  "module": "client/index.js",
   "typings": "client/index.d.ts",
   "scripts": {},
   "author": "Jacob Grahn",
