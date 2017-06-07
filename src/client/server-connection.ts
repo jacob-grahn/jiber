@@ -18,12 +18,13 @@ export default function createServerConnection (
   let retryCount = 0
   let open = true
 
-  connect()
+  if (serverUrl) {
+    connect()
+  }
 
   // Event handlers
   function onMessage (event: MessageEvent): void {
     const action = JSON.parse(event.data)
-    console.log('received action', action)
   }
   function onClose (): void {
     reconnect()

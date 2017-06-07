@@ -3,12 +3,14 @@ import createSendToPeers from './middleware/send-to-peers'
 import createInjectMetadata from './middleware/inject-metadata'
 import { getState, setState } from './hope-state'
 import clientRoom from './reducers/client-room/client-room'
+import myUserId from './reducers/hope-client/my-user-id'
 import spy from './reducers/spy/spy'
 import {
   Store,
   createStore,
   simpleSetter,
-  roomsById
+  roomsById,
+  combineReducers
 } from '../core/index'
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
@@ -44,7 +46,8 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
     sendToPeers
   ]
 
-  const roomsReducer = roomsById(clientRoom(options.reducer))
-  const topReducer = spy(roomsReducer, setState)
-  return createStore(topReducer, clientMiddleware)
+  const rooms = roomsById(clientRoom(options.reducer))
+  const topReducer = combineReducers({rooms, myUserId})
+  const spiedReducer = spy(topReducer, setState)
+  return createStore(spiedReducer, clientMiddleware)
 }

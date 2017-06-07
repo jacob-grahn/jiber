@@ -9,10 +9,10 @@ export interface SetterAction {
 }
 
 // Actions
-const SET = 'hope/simpleSetter/SET'
+const SET = 'SET'
 
 // Reducer
-export default function reducer (
+export default function simpleSetter (
   state: SetterState = {},
   action: SetterAction
 ): SetterState {

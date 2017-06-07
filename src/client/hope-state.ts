@@ -12,6 +12,6 @@ export function getState (): HopeClientState {
   return state
 }
 
-export function setState (state: HopeClientState): void {
-  this.state = state
+export function setState (newState: HopeClientState): void {
+  state = newState
 }
