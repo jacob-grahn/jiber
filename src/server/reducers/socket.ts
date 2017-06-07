@@ -1,10 +1,10 @@
 import * as ws from 'ws'
 import store from '../store'
-import { Action, stateDictionary } from '../../core/index'
+import { Action, Reducer, stateDictionary } from '../../core/index'
 
 // Setup
 const keyName = 'socketId'
-interface ClientState {
+export interface ClientState {
   connection?: ws,                                                              // WebSocket client instance
   connectedAt: number,                                                          // When the socket connected
   lastSentAt: number,                                                           // When the socket last sent a message
@@ -30,7 +30,7 @@ const LOGIN = 'hope/socket/LOGIN'
 const REMOVE = 'hope/socket/REMOVE'
 
 // Reducer
-function reducer (
+function socketReducer (
   state: ClientState = defaultClientState,
   action: Action
 ): ClientState {
@@ -69,7 +69,8 @@ function reducer (
   }
 }
 
-export default stateDictionary(reducer, {keyName})
+export default stateDictionary(socketReducer, {keyName})
+export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators
 export function socketInit (socketId: string, connection: ws): Action {

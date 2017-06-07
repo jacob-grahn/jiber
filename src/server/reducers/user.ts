@@ -1,10 +1,10 @@
-import { Action, stateDictionary } from '../../core/index'
+import { Action, Reducer, stateDictionary } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 
 // Setup
 const keyName = 'userId'
-interface UserState {
-  actionId: number,                                                          // Starts at 0 and increments with every action sent
+export interface UserState {
+  actionId: number,                                                             // Starts at 0 and increments with every action sent
   loggedInAt: number,                                                           // Might be useful at some point
   userId: string,                                                               // User id
   account: {[key: string]: any}                                                 // Place to store misc account data
@@ -24,7 +24,7 @@ const UPDATE_ACCOUNT = 'hope/user/UPDATE_ACCOUNT'
 const REMOVE = 'hope/user/REMOVE'
 
 // Reducer
-function reducer (
+function userReducer (
   state: UserState = defaultUserState,
   action: Action
 ): UserState {
@@ -55,7 +55,8 @@ function reducer (
   }
 }
 
-export default stateDictionary(reducer, {keyName})
+export default stateDictionary(userReducer, {keyName})
+export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators
 export function incActionCount (userId: string): Action {
