@@ -1,6 +1,6 @@
 import * as ws from 'ws'
 import store from '../store'
-import { Action, Reducer, stateDictionary } from '../../core/index'
+import { Action, stateDictionary } from '../../core/index'
 
 // Setup
 const keyName = 'socketId'
@@ -60,6 +60,9 @@ function reducer (
         messageCount,
         lastReceivedAt: timeMs
       }
+
+    case LOGIN:
+      // i dunno do something
 
     default:
       return state

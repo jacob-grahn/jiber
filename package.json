@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest src",
     "build": "npm run build-client && npm run build-server",
-    "build-client": "tsc -p tsconfig.client.json && cp src/client/package.json dist/client/package.json && npm run bundle-client && npm run compress-client",
+    "build-client": "npm run compile-client && npm run package-client && npm run bundle-client && npm run compress-client",
+    "compile-client": "tsc -p tsconfig.client.json",
+    "package-client": "cp src/client/package.json dist/client/package.json",
     "bundle-client": "rollup -n $hope -o dist/client/hope-client.bundle.js -f iife dist/client/client/index.js",
     "compress-client": "uglifyjs -c -m -o dist/client/hope-client.bundle.min.js dist/client/hope-client.bundle.js",
     "build-server": "tsc -p tsconfig.server.json && cp src/server/package.json dist/server/package.json",

@@ -1,4 +1,4 @@
-import { Action, Reducer, SERVER } from '../../core/index'
+import { Action, Reducer } from '../../core/index'
 import { CONFIRMED_STATE, CONFIRMED_ACTION } from './room-actions'
 
 export default function (subReducer: Reducer): Reducer {

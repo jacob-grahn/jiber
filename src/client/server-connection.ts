@@ -16,7 +16,6 @@ export default function createServerConnection (
   const OPEN = 1
   let socket: WebSocket
   let retryCount = 0
-  let resendThreshold = 10000                                                   // re-send messages if they have not been confirmed within ten seconds
   let open = true
 
   connect()
@@ -36,7 +35,7 @@ export default function createServerConnection (
 
   // Open a socket connection
   function connect () {
-    socket = new WebSocket(`ws://${serverUrl}`)
+    socket = new WebSocket(`ws://${serverUrl}:${socketPort}`)
     socket.addEventListener('close', onClose)
     socket.addEventListener('open', onOpen)
     socket.addEventListener('message', onMessage)

@@ -4,7 +4,7 @@ import { Action } from '../../core/index'
 test('defaults to {}', () => {
   const state: any = undefined
   const action: Action = {type: 'weee'}
-  const reducer = (state: any, action: Action): any => state
+  const reducer = (state: any): any => state
   const roomsReducer = roomsById(reducer)
   expect(roomsReducer(state, action)).toEqual({})
 })
@@ -12,7 +12,7 @@ test('defaults to {}', () => {
 test('passes simple roomId to one reducer', () => {
   const state: any = undefined
   const action: Action = {type: 'test', $hope: 'room1'}
-  const reducer = (state: any, action: Action): any => 'hi there'
+  const reducer = (): any => 'hi there'
   const roomsReducer = roomsById(reducer)
   expect(roomsReducer(state, action)).toEqual({room1: 'hi there'})
 })
@@ -20,7 +20,7 @@ test('passes simple roomId to one reducer', () => {
 test('passes $hope object with roomId field to one reducer', () => {
   const state: any = undefined
   const action: Action = {type: 'test', $hope: {roomId: 'room2'}}
-  const reducer = (state: any, action: Action): any => 'hi there'
+  const reducer = (): any => 'hi there'
   const roomsReducer = roomsById(reducer)
   expect(roomsReducer(state, action)).toEqual({room2: 'hi there'})
 })
@@ -28,8 +28,8 @@ test('passes $hope object with roomId field to one reducer', () => {
 test('passes complex roomId to one of many reducers', () => {
   const state: any = undefined
   const action: Action = {type: 'test', $hope: 'chat.room1'}
-  const chatReducer = (state: any, action: Action): any => 'talk talk'
-  const drawReducer = (state: any, action: Action): any => 'draw draw'
+  const chatReducer = (): any => 'talk talk'
+  const drawReducer = (): any => 'draw draw'
   const roomsReducer = roomsById({
     chat: chatReducer,
     draw: drawReducer

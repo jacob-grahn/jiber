@@ -1,4 +1,4 @@
-import { createStore, simpleSetter, Store } from '../core/index'
+import { createStore, simpleSetter } from '../core/index'
 
 const storeInstance = createStore(simpleSetter)
 

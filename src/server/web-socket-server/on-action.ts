@@ -1,6 +1,5 @@
 import { Action } from '../../core/index'
 import store from '../store'
-import Storage from '../interfaces/storage'
 import updateRoom from './update-room'
 
 export default async function onAction (

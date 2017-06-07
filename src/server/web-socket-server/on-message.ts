@@ -23,7 +23,7 @@ export default async function onMessage (
   store.dispatch(socketReceive(socketId))                                       // data was received
 
   if (action.type === LOG_IN) {
-    await onLogIn(socketId, action)
+    await onLogIn(action)
   } else if (socketData.userId) {
     await onAction(socketData.userId, action)
   }

@@ -1,8 +1,5 @@
 import {
   HopeAction,
-  CLIENT,
-  SERVER,
-  PEER,
   CONFIRMED_STATE,
   REMOVE_MEMBER,
   CONFIRMED_ACTION

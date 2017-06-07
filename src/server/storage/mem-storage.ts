@@ -1,4 +1,3 @@
-import Storage from '../interfaces/storage'
 import { Action, HopeAction } from '../../core/index'
 
 interface RoomStorage {

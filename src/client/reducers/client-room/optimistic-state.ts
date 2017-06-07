@@ -1,14 +1,10 @@
 import {
   Reducer,
   HopeAction,
-  CLIENT,
-  SERVER,
-  PEER,
   CONFIRMED_STATE,
   CONFIRMED_ACTION
 } from '../../../core/index'
 import { OPTIMISTIC_ACTION } from './client-room'
-import nextActionId from '../../utils/next-action-id'
 
 export default function createOptimisticState (
   subReducer: Reducer

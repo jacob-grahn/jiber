@@ -1,4 +1,4 @@
-import { Action, SERVER } from '../../core/index'
+import { Action } from '../../core/index'
 import {
   ADD_MEMBER,
   REMOVE_MEMBER,

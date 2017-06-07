@@ -1,5 +1,4 @@
-import * as ws from 'ws'
-import { Action, Reducer, stateDictionary } from '../../core/index'
+import { Action, stateDictionary } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 
 // Setup

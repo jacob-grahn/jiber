@@ -2,7 +2,6 @@ import store from '../store'
 import Storage from '../interfaces/storage'
 import { beginUpdate, finishUpdate } from '../reducers/server-room/is-updating'
 import sendToRoom from './send-to-room'
-import { isFunction, Reducer } from '../../core/index'
 
 export default async function updateRoom (roomId: string): Promise<void> {
   const state = store.getState()
@@ -17,12 +16,10 @@ export default async function updateRoom (roomId: string): Promise<void> {
   if (actions.length === 0) return
   const stateTimeMs = actions[actions.length - 1].time
 
-  const roomState = actions.reduce((roomState, action) => {                     // process the actions
-    store.dispatch(action)
-  }, room.confirmedState)
+  actions.forEach(action => store.dispatch(action))                             // process the actions
 
   actions.forEach(action => sendToRoom(roomId, action))                         // send the actions to members of the room
-  await storage.setState(roomId, roomState)                                     // store the new state
+  await storage.setState(roomId, room.confirmedState)                           // store the new state
   await storage.removeActions(roomId, stateTimeMs)                              // remove the actions
 
   store.dispatch(finishUpdate(roomId))                                          // done

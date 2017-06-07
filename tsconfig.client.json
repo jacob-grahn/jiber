@@ -3,6 +3,8 @@
         "declaration": true,
         "module": "es6",
         "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
         "outDir": "dist/client",
         "rootDir": "src",
         "strictNullChecks": true,

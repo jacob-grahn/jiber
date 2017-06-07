@@ -3,6 +3,8 @@
         "declaration": true,
         "module": "commonjs",
         "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
         "outDir": "dist/server",
         "rootDir": "src",
         "strictNullChecks": true,

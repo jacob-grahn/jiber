@@ -1,4 +1,4 @@
-import { Action, simpleSetter } from '../../core/index'
+import { Action } from '../../core/index'
 import LogInRequestHandler from '../interfaces/log-in-request-handler'
 import Storage from '../interfaces/storage'
 import memStorage from '../storage/mem-storage'

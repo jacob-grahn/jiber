@@ -5,9 +5,7 @@ import { getState, setState } from './hope-state'
 import clientRoom from './reducers/client-room/client-room'
 import spy from './reducers/spy/spy'
 import {
-  Middleware,
   Store,
-  Reducer,
   createStore,
   simpleSetter,
   roomsById
