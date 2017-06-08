@@ -1,12 +1,10 @@
 import createSendToServer from './middleware/send-to-server'
-import createSendToPeers from './middleware/send-to-peers'
-import createInjectMetadata from './middleware/inject-metadata'
-import { getState, setState } from './hope-state'
+import injectMetadata from './middleware/inject-metadata'
 import clientRoom from './reducers/client-room/client-room'
 import myUserId from './reducers/hope-client/my-user-id'
-import spy from './reducers/spy/spy'
 import {
   Store,
+  Action,
   createStore,
   simpleSetter,
   roomsById,
@@ -19,8 +17,7 @@ import createServerConnection from './server-connection'
 const defaultOptions: Options = {
   reducer: simpleSetter,
   middleware: [],
-  roomId: 'default',
-  serverUrl: '',
+  url: '',
   stunPort: 3478,                                                               // 5349 for TLS
   socketPort: 80,
   credential: ''
@@ -34,20 +31,21 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
     ...optionInput
   }
 
-  const serverConnection = createServerConnection(options)
+  let store: Store                                                              // serverConnection needs store.dispatch, but the store
 
-  const sendToServer = createSendToServer(serverConnection, getState)
-  const sendToPeers = createSendToPeers()
-  const injectMetadata = createInjectMetadata(getState)
+  const serverConnection = createServerConnection({
+    ...options,
+    dispatch: (action: Action) => store.dispatch(action)
+  })
+  const sendToServer = createSendToServer(serverConnection)
   const clientMiddleware = [
     ...options.middleware,
     injectMetadata,
-    sendToServer,
-    sendToPeers
+    sendToServer
   ]
 
   const rooms = roomsById(clientRoom(options.reducer))
   const topReducer = combineReducers({rooms, myUserId})
-  const spiedReducer = spy(topReducer, setState)
-  return createStore(spiedReducer, clientMiddleware)
+  store = createStore(topReducer, clientMiddleware)
+  return store
 }

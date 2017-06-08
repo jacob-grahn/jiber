@@ -2,6 +2,7 @@ import {
   Action,
   HopeAction,
   Middleware,
+  Store,
   CLIENT,
   SERVER,
   CONFIRMED_STATE,
@@ -10,35 +11,34 @@ import {
 import { ServerConnection } from '../server-connection'
 import { LOGIN_RESULT } from '../reducers/hope-client/hope-actions'
 
-// Send events to the master server
-export default function sendToServer (
-  serverConnection: ServerConnection,
-  getState: Function
+export default function createSendToServer (
+  server: ServerConnection
 ): Middleware {
-  return (action: Action): Action => {
+  return (store: Store) => (next: Function) => (action: Action) => {
     if (action.$hope.source === CLIENT) {
-      serverConnection.send(action)
+      server.send(action)
     }
 
     if (action.$hope.source === SERVER && action.type === LOGIN_RESULT) {       // re-join rooms if reconnecting
-      joinRooms(serverConnection, getState)
+      rejoinRooms(server, store.getState())
     }
 
-    if (action.$hope.source === SERVER && action.type === CONFIRMED_STATE) {        // re-send pending actions if reconnecting
+    if (action.$hope.source === SERVER && action.type === CONFIRMED_STATE) {    // re-send pending actions if reconnecting
       setTimeout(() => {
-        sendPendingActions(serverConnection, getState, action.$hope.roomId)
+        const state = store.getState()
+        const roomState = state.rooms[action.$hope.roomId]
+        sendPendingActions(server, state, roomState)
       }, 0)
     }
 
-    return action
+    next(action)
   }
 }
 
-function joinRooms (
+function rejoinRooms (
   serverConnection: ServerConnection,
-  getState: Function
+  state: any
 ) {
-  const state = getState()
   const roomTypes = Object.keys(state)
   roomTypes.forEach(roomId => {
     serverConnection.send(join(roomId))
@@ -47,14 +47,11 @@ function joinRooms (
 
 function sendPendingActions (
   serverConnection: ServerConnection,
-  getState: Function,
-  roomId: string
+  state: any,
+  roomState: {optimisticActions: HopeAction[]},
 ) {
-  const state = getState()
-  const room = state.rooms[roomId]
-  const myUserId = state.account.userId
-  room.optimisticActions.forEach((action: HopeAction) => {
-    if (action.$hope.userId === myUserId) {
+  roomState.optimisticActions.forEach((action: HopeAction) => {
+    if (action.$hope.userId === state.myUserId) {
       serverConnection.send(action)
     }
   })

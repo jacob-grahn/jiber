@@ -3,11 +3,7 @@ import { Reducer } from './interfaces/reducer'
 import { Middleware } from './interfaces/middleware'
 
 export interface Store {
-  getState: () => {rooms: any, [other: string]: any},
-  getRoom: (roomType: string, roomId?: any) => {
-    confirmedState: any,
-    optimisticState: any
-  },
+  getState: (roomType?: string, roomId?: any) => any,
   dispatch: {(action: Action): any}
 }
 
@@ -25,23 +21,20 @@ export default function createStore (
   }
 
   function applyMiddleware (action: Action): Action {
-    return middleware.reduce((action, middleware) => {
+    /* return middleware.reduce((action, middleware) => {
       return middleware(action)
-    }, action)
+    }, action) */
+    return action
   }
 
-  function getState (): any {
-    return state
-  }
-
-  function getRoom (roomType: string, roomId: string): any {
+  function getState (roomType: string, roomId: string): any {
+    if (!roomId && !roomType) return state                                      // if there is no roomId or roomType
     if (!roomId) return state.rooms[roomType]                                   // if there is no roomId, use roomType as the roomId
     return state.rooms[roomType][roomId]                                        // or use roomType and roomId
   }
 
   return {
     dispatch,
-    getState,
-    getRoom
+    getState
   }
 }

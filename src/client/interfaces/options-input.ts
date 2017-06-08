@@ -4,8 +4,7 @@ interface OptionsInput {
   credential?: string
   middleware?: Array<Middleware>,
   reducer?: Reducer,
-  roomId?: string,
-  serverUrl?: string,
+  url?: string,
   socketPort?: number,
   stunPort?: number
 }

@@ -1,16 +1,22 @@
-import { Action } from '../core/index'
+import { Action, SERVER } from '../core/index'
 import { login } from './reducers/hope-client/hope-actions'
-import Options from './interfaces/options'
 
 export interface ServerConnection {
   send: (action: Action) => void,
   close: () => void
 }
 
+interface ServerConnectionOptions {
+  url: string,
+  socketPort: number,
+  credential?: string,
+  dispatch: Function
+}
+
 // Attepts to keep an open connection with the specified server
 // Messages are held in a queue until the server sends back a confirmation
 export default function createServerConnection (
-  {serverUrl, socketPort, credential}: Options
+  {url, socketPort, credential, dispatch}: ServerConnectionOptions
 ): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
   const OPEN = 1
@@ -18,13 +24,15 @@ export default function createServerConnection (
   let retryCount = 0
   let open = true
 
-  if (serverUrl) {
+  if (url) {
     connect()
   }
 
   // Event handlers
   function onMessage (event: MessageEvent): void {
     const action = JSON.parse(event.data)
+    action.$hope.source = SERVER
+    dispatch(action)
   }
   function onClose (): void {
     reconnect()
@@ -36,7 +44,7 @@ export default function createServerConnection (
 
   // Open a socket connection
   function connect () {
-    socket = new WebSocket(`ws://${serverUrl}:${socketPort}`)
+    socket = new WebSocket(`ws://${url}:${socketPort}`)
     socket.addEventListener('close', onClose)
     socket.addEventListener('open', onOpen)
     socket.addEventListener('message', onMessage)

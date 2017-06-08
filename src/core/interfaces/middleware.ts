@@ -1,5 +1,6 @@
 import { Action } from './action'
+import { Store } from '../store'
 
 export interface Middleware {
-  (action: Action): Action
+  (store: Store): (next: Function) => (action: Action) => void
 }
