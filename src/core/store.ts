@@ -10,31 +10,34 @@ export interface Store {
 export default function createStore (
   reducer: Reducer,
   initialState: any = undefined,
-  middleware: Middleware[] = []
+  middlewares: Middleware[] = []
 ): Store {
   let state: any = initialState
+  const applyMiddleware = initMiddleware(middlewares)
+  const store = {dispatch, getState}
 
-  function dispatch (action: Action): any {
-    const finalAction = applyMiddleware(action)
-    state = reducer(state, finalAction)
+  function dispatch (action: Action): void {
+    applyMiddleware(action)                                                     // applyMiddleware will evantually call applyAction
+  }
+
+  function applyAction (action: Action): void {                                 // replace the state with a new one created by the reducer
+    state = reducer(state, action)
+  }
+
+  function initMiddleware (
+    middlewares: Middleware[]
+  ): (action: Action) => void {
+    const withStore = middlewares.map(mid => mid(store))                        // give each middleware the store
+    const reversed = withStore.reverse()
+    return reversed.reduce(                                                     // set up each middleware to call the next
+      (next, mid) => mid(next),
+      applyAction                                                               // the final middleware calls applyAction
+    )
+  }
+
+  function getState (): any {
     return state
   }
 
-  function applyMiddleware (action: Action): Action {
-    /* return middleware.reduce((action, middleware) => {
-      return middleware(action)
-    }, action) */
-    return action
-  }
-
-  function getState (roomType: string, roomId: string): any {
-    if (!roomId && !roomType) return state                                      // if there is no roomId or roomType
-    if (!roomId) return state.rooms[roomType]                                   // if there is no roomId, use roomType as the roomId
-    return state.rooms[roomType][roomId]                                        // or use roomType and roomId
-  }
-
-  return {
-    dispatch,
-    getState
-  }
+  return store
 }
