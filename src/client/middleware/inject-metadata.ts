@@ -4,21 +4,22 @@ import { OPTIMISTIC_ACTION } from '../reducers/client-room/client-room'
 
 const injectMetadata: Middleware = (store: Store) => {
   return (next: Function) => (action: Action) => {
-    if (!action.$hope) return action
-    if (action.$hope.source) return action
+    if (!action.$hope) return next(action)
+    if (action.$hope.source) return next(action)
 
     const meta = action.$hope
     const roomId = (typeof meta === 'string') ? meta : meta.roomId
     const state = store.getState()
-    const roomState = state.rooms[roomId]                                       // todo: this will not work with multiple room types
+    const roomState = state.rooms[roomId]
+    const userId = state.myUserId || ''
     return next({
       ...action,
       $hope: {
         type: OPTIMISTIC_ACTION,
-        actionId: nextActionId(state.myUserId || '', roomState),
+        actionId: nextActionId(userId, roomState),
         roomId,
         source: CLIENT,
-        userId: roomState.myUserId || '',
+        userId,
         timeMs: new Date().getTime()
       }
     })
