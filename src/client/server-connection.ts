@@ -6,7 +6,7 @@ export interface ServerConnection {
   close: () => void
 }
 
-interface ServerConnectionOptions {
+export interface ServerConnectionOptions {
   url: string,
   socketPort: number,
   credential?: string,
@@ -22,7 +22,7 @@ export default function createServerConnection (
   const OPEN = 1
   let socket: WebSocket
   let retryCount = 0
-  let open = true
+  let open = false
 
   if (url) {
     connect()
@@ -44,6 +44,7 @@ export default function createServerConnection (
 
   // Open a socket connection
   function connect () {
+    open = true
     socket = new WebSocket(`ws://${url}:${socketPort}`)
     socket.addEventListener('close', onClose)
     socket.addEventListener('open', onOpen)
@@ -61,6 +62,7 @@ export default function createServerConnection (
   // Add a message to be sent
   function send (action: Action): void {
     if (!open) return
+    if (!socket) return
     if (socket.readyState !== OPEN) return
     const strAction = JSON.stringify(action)
     socket.send(strAction)
