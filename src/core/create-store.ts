@@ -17,7 +17,9 @@ export default function createStore (
   const store = {dispatch, getState}
   const applyMiddleware = initMiddleware(middlewares, store, applyAction)
 
-  function dispatch (action: Action): void {
+  dispatch({type: 'hope/INIT'})                                                 // initialize reducer with it's default state
+
+  function dispatch (action: Action): void {                                    // run an action through middleware and the reducer
     applyMiddleware(action)                                                     // applyMiddleware will evantually call applyAction
   }
 
