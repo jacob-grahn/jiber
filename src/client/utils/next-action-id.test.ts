@@ -16,7 +16,11 @@ test('ignore falsy actions', () => {
   expect(nextActionId('sue', state)).toEqual(101)
 })
 
-test('default next actionId to 1', () => {
+test('default next actionId to 1 with empty obj', () => {
   const state = {}
   expect(nextActionId('sue', state)).toEqual(1)
+})
+
+test('default next actionId to 1 with undefined', () => {
+  expect(nextActionId('sue')).toEqual(1)
 })

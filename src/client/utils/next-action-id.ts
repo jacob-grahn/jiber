@@ -9,7 +9,7 @@ export interface Options {
 // This is useful for rejecting invalid optimistic actions
 export default function nextActionId (
   userId: string,
-  { actionIds = {}, actions = [] }: Options
+  { actionIds = {}, actions = [] }: Options = {}
 ): number {
   const baseActionId = actionIds[userId] || 0
   const optimisticCount = withField(actions, 'userId', userId).length
