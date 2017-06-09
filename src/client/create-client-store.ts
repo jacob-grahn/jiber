@@ -25,7 +25,9 @@ const defaultOptions: Options = {
 
 // When creating a client store, add middleware to send actions to the server
 // and peers
-export default function clientStore (optionInput: OptionsInput = {}): Store {
+export default function createClientStore (
+  optionInput: OptionsInput = {}
+): Store {
   const options = {
     ...defaultOptions,
     ...optionInput
@@ -46,6 +48,6 @@ export default function clientStore (optionInput: OptionsInput = {}): Store {
 
   const rooms = roomsById(clientRoom(options.reducer))
   const topReducer = combineReducers({rooms, myUserId})
-  store = createStore(topReducer, clientMiddleware)
+  store = createStore(topReducer, undefined, clientMiddleware)
   return store
 }

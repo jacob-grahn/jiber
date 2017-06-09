@@ -16,7 +16,6 @@ export default function onNewConnection (connection: ws): void {
     try {
       await onMessage(socketId, message)
     } catch (e) {
-      console.log(e)
       store.dispatch(socketSend(e.message))
     }
   })

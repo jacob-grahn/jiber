@@ -12,7 +12,7 @@ const injectMetadata: Middleware = (store: Store) => {
     const state = store.getState()
     const roomState = state.rooms[roomId]
     const userId = state.myUserId || ''
-    return next({
+    const hopeAction = {
       ...action,
       $hope: {
         type: OPTIMISTIC_ACTION,
@@ -22,7 +22,9 @@ const injectMetadata: Middleware = (store: Store) => {
         userId,
         timeMs: new Date().getTime()
       }
-    })
+    }
+
+    return next(hopeAction)
   }
 }
 
