@@ -11,7 +11,7 @@ const state = {
   }
 }
 const store = {
-  dispatch: () => {},
+  dispatch: () => 'do nothing',
   getState: () => state
 }
 const final = (action: Action) => lastAction = action

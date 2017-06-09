@@ -3,7 +3,7 @@ import { Action } from './interfaces/action'
 import { Middleware } from './interfaces/middleware'
 import { Store } from './create-store'
 
-const store: Store = {dispatch: () => {}, getState: () => 'funstuff'}
+const store: Store = {dispatch: () => 'do nothing', getState: () => 'funstuff'}
 
 test ('middleware is given the store', () => {
   let givenStore
@@ -11,7 +11,7 @@ test ('middleware is given the store', () => {
     givenStore = store
     return (next) => (action) => next(action)
   }
-  const final = () => {}
+  const final = () => 'do nothing'
   initMiddleware([middleware], store, final)
   expect(givenStore).toBe(store)
 })
@@ -29,7 +29,7 @@ test ('next is either the next middleware, or the final function', () => {
     middleware2Internal = (action: Action) => next(action)
     return middleware2Internal
   }
-  const final = () => {}
+  const final = () => 'do nothing'
   initMiddleware([middleware1, middleware2], store, final)
   expect(next1).toBe(middleware2Internal)
   expect(next2).toBe(final)

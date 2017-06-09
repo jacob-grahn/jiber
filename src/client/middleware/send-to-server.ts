@@ -48,7 +48,7 @@ function rejoinRooms (
 function sendPendingActions (
   serverConnection: ServerConnection,
   state: any,
-  roomState: {optimisticActions: HopeAction[]},
+  roomState: {optimisticActions: HopeAction[]}
 ) {
   roomState.optimisticActions.forEach((action: HopeAction) => {
     if (action.$hope.userId === state.myUserId) {
