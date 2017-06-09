@@ -1,6 +1,6 @@
 import * as ws from 'ws'
 import store from '../store'
-import { Action, Reducer, stateDictionary } from '../../core/index'
+import { Action, Reducer, createDictionary } from '../../core/index'
 
 // Setup
 const keyName = 'socketId'
@@ -69,7 +69,7 @@ function socketReducer (
   }
 }
 
-export default stateDictionary(socketReducer, {keyName})
+export default createDictionary(socketReducer, keyName)
 export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators

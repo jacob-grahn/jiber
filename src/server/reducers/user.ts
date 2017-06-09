@@ -1,4 +1,4 @@
-import { Action, Reducer, stateDictionary } from '../../core/index'
+import { Action, Reducer, createDictionary } from '../../core/index'
 import LogInResult from '../interfaces/log-in-result'
 
 // Setup
@@ -55,7 +55,7 @@ function userReducer (
   }
 }
 
-export default stateDictionary(userReducer, {keyName})
+export default createDictionary(userReducer, keyName)
 export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators

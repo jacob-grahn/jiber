@@ -7,7 +7,7 @@ import {
   Action,
   createStore,
   simpleSetter,
-  roomsById,
+  createDictionary,
   combineReducers
 } from '../core/index'
 import Options from './interfaces/options'
@@ -46,7 +46,10 @@ export default function createClientStore (
     sendToServer
   ]
 
-  const rooms = roomsById(clientRoom(options.reducer))
+  const rooms = createDictionary(
+    clientRoom(options.reducer),
+    '$hope.roomId'
+  )
   const topReducer = combineReducers({rooms, myUserId})
   store = createStore(topReducer, undefined, clientMiddleware)
   return store
