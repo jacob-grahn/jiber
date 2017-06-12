@@ -1,5 +1,4 @@
 import * as ws from 'ws'
-import store from '../store'
 import { Action, Reducer, createDictionary } from '../../core/index'
 
 // Setup
@@ -49,9 +48,8 @@ function socketReducer (
       }
 
     case RECEIVE:
-      const globalState = store.getState()
       const timeMs = action.timeMs
-      const period = Math.floor(timeMs / globalState.options.rateLimit.periodMs)
+      const period = action.period
       const isSamePeriod = (period === state.period)
       const messageCount = isSamePeriod ? (state.messageCount + 1) : 1
       return {

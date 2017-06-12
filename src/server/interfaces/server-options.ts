@@ -2,14 +2,14 @@ import { Reducer } from '../../core/index'
 import LogInRequestHandler from './log-in-request-handler'
 import Storage from './storage'
 
-interface ServerOptions {
-  webSocketPort?: number,
+export interface ServerOptions {
+  socketPort?: number,
   stunPort?: number,
   reducer?: Reducer,
   onLogIn?: LogInRequestHandler,
   storage?: Storage,
-  rateLimit?: {periodMs: number, max: number},
-  maxMessageLength?: number
+  rateLimitPeriodMs?: number
+  rateLimit?: number,
+  maxMessageCharLength?: number,
+  initialState?: any
 }
-
-export { ServerOptions as default }
