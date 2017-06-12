@@ -1,4 +1,4 @@
-import { Action, SERVER } from '../core/index'
+import { Action, SERVER, get } from '../core/index'
 import { login } from './reducers/hope-client/hope-actions'
 
 export interface ServerConnection {
@@ -64,7 +64,8 @@ export default function createServerConnection (
     if (!open) return
     if (!socket) return
     if (socket.readyState !== OPEN) return
-    const smallerAction = {...action, $hope: action.$hope.roomId}
+    const roomId = get(action, '$hope.roomId')
+    const smallerAction = {...action, $hope: roomId}
     const strAction = JSON.stringify(smallerAction)
     socket.send(strAction)
   }

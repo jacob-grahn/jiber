@@ -5,7 +5,7 @@ export default function createOnAction (store: Store, updateRoom: Function) {
     userId: string,
     action: Action
   ): Promise<void> {
-    const roomId = action.room
+    const roomId = action.$hope
     const state = store.getState()
     const room = state.rooms[roomId]
     const storage = state.options.storage

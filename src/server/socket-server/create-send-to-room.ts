@@ -1,9 +1,9 @@
-import createSendToSocket from './create-send-to-socket'
 import { Action, Store } from '../../core/index'
 
-export default function createSendToRoom (store: Store) {
-  const sendToSocket = createSendToSocket(store)
-
+export default function createSendToRoom (
+  store: Store,
+  sendToSocket: Function
+) {
   return function sendToRoom (roomId: string, action: Action): void {
     const state = store.getState()
     const room = state.rooms[roomId]

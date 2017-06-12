@@ -4,10 +4,12 @@ import { ServerSettings } from '../interfaces/server-settings'
 import createOnConnect from './create-on-connect'
 import createOnMessage from './create-on-message'
 import createOnClose from './create-on-close'
-import createOnLogIn from './create-on-log-in'
+import createOnLogin from './create-on-login'
 import createOnAction from './create-on-action'
 import createUpdateRoom from './create-update-room'
 import createSendToRoom from './create-send-to-room'
+import createSendToSocket from './create-send-to-socket'
+import createSendToUser from './create-send-to-user'
 
 export interface SocketServer {
   start: () => void
@@ -16,12 +18,14 @@ export interface SocketServer {
 export default function createSocketServer (
   store: Store, settings: ServerSettings
 ): SocketServer {
-  const sendToRoom = createSendToRoom(store)
+  const sendToSocket = createSendToSocket(store)
+  const sendToUser = createSendToUser(store, sendToSocket)
+  const sendToRoom = createSendToRoom(store, sendToSocket)
   const updateRoom = createUpdateRoom(store, sendToRoom)
   const onClose = createOnClose(store)
   const onAction = createOnAction(store, updateRoom)
-  const onLogIn = createOnLogIn(store)
-  const onMessage = createOnMessage(store, onLogIn, onAction)
+  const onLogin = createOnLogin(store, settings.onLogin, sendToUser)
+  const onMessage = createOnMessage(store, settings, onLogin, onAction)
   const onConnect = createOnConnect(store, onMessage, onClose)
 
   function start () {

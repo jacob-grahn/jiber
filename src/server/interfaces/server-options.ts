@@ -1,12 +1,12 @@
 import { Reducer } from '../../core/index'
-import LogInRequestHandler from './log-in-request-handler'
+import LoginRequestHandler from './login-request-handler'
 import Storage from './storage'
 
 export interface ServerOptions {
   socketPort?: number,
   stunPort?: number,
   reducer?: Reducer,
-  onLogIn?: LogInRequestHandler,
+  onLogin?: LoginRequestHandler,
   storage?: Storage,
   rateLimitPeriodMs?: number
   rateLimit?: number,

@@ -1,5 +1,5 @@
 import { Action, Reducer, createDictionary } from '../../core/index'
-import LogInResult from '../interfaces/log-in-result'
+import LoginResult from '../interfaces/login-result'
 
 // Setup
 const keyName = 'userId'
@@ -8,18 +8,20 @@ export interface UserState {
   loggedInAt: number,                                                           // Might be useful at some point
   userId: string,                                                               // User id
   account: {[key: string]: any}                                                 // Place to store misc account data
+  socketId: string
 }
 
 const defaultUserState = {
   loggedInAt: 0,
   actionId: 0,
   userId: '',
-  account: {}
+  account: {},
+  socketId: ''
 }
 
 // Actions
 const INC_ACTION_COUNT = 'hope/user/INC_ACTION_COUNT'
-const LOG_IN = 'hope/user/LOG_IN'
+const LOGIN = 'hope/user/LOGIN'
 const UPDATE_ACCOUNT = 'hope/user/UPDATE_ACCOUNT'
 const REMOVE = 'hope/user/REMOVE'
 
@@ -29,13 +31,14 @@ function userReducer (
   action: Action
 ): UserState {
   switch (action.type) {
-    case LOG_IN:
+    case LOGIN:
       if (state.userId) return state                                            // prevent multiple logins
       return {
         ...state,
         loggedInAt: action.loggedInAt,
         userId: action.userId,
-        account: action.account
+        account: action.account,
+        socketId: action.socketId
       }
 
     case UPDATE_ACCOUNT:                                                        // if the account needs to be updated after logging in
@@ -63,11 +66,11 @@ export function incActionCount (userId: string): Action {
   return {type: INC_ACTION_COUNT, userId}
 }
 
-export function logIn (result: LogInResult): Action {
-  return {type: LOG_IN, userId: result.id, account: result.data}
+export function login (socketId: string, result: LoginResult): Action {
+  return {type: LOGIN, socketId, userId: result.id, account: result.data}
 }
 
-export function updateAccount (result: LogInResult): Action {
+export function updateAccount (result: LoginResult): Action {
   return {type: UPDATE_ACCOUNT, userId: result.id, account: result.data}
 }
 
