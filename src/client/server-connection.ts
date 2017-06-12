@@ -64,7 +64,8 @@ export default function createServerConnection (
     if (!open) return
     if (!socket) return
     if (socket.readyState !== OPEN) return
-    const strAction = JSON.stringify(action)
+    const smallerAction = {...action, $hope: action.$hope.roomId}
+    const strAction = JSON.stringify(smallerAction)
     socket.send(strAction)
   }
 
