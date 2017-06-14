@@ -1,5 +1,9 @@
 import * as ws from 'ws'
-import { Action, Reducer, createDictionary } from '../../core/index'
+import {
+  Action,
+  Reducer,
+  createDictionary
+} from '../../core/index'
 
 // Setup
 const keyName = 'socketId'
@@ -25,7 +29,6 @@ const defaultClientState = {
 const INIT = 'hope/socket/INIT'
 const SEND = 'hope/socket/SEND'
 const RECEIVE = 'hope/socket/RECEIVE'
-const LOGIN = 'hope/socket/LOGIN'
 const REMOVE = 'hope/socket/REMOVE'
 
 // Reducer
@@ -58,9 +61,6 @@ function socketReducer (
         messageCount,
         lastReceivedAt: timeMs
       }
-
-    case LOGIN:
-      // i dunno do something
 
     default:
       return state

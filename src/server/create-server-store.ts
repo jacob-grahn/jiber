@@ -5,6 +5,7 @@ import {
   createDictionary,
   simpleSetter,
   combineReducers,
+  users,
   Store
 } from '../core/index'
 import memStorage from './storage/mem-storage'
@@ -12,7 +13,6 @@ import memAccounts from './accounts/mem-accounts'
 import createSocketServer from './socket-server/create-socket-server'
 import serverRoom from './reducers/server-room/server-room'
 import sockets from './reducers/sockets'
-import users from './reducers/users'
 
 const defaultSettings: ServerSettings = {
   socketPort: 80,

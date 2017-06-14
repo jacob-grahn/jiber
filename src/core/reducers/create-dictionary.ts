@@ -1,3 +1,5 @@
+// TODO: create a remove option
+
 import { Reducer } from '../interfaces/reducer'
 import { Action } from '../interfaces/action'
 import get from '../utils/get'

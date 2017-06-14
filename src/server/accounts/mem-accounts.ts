@@ -6,8 +6,5 @@ let idCounter = 0
 // This is used if no login function is provided in the initialization options
 export default async function memAccounts (): Promise<LoginResult> {
   idCounter++
-  return {
-    id: idCounter.toString(),
-    data: {}
-  }
+  return {userId: idCounter.toString()}
 }

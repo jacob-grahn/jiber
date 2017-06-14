@@ -6,10 +6,10 @@ import {
   CLIENT,
   SERVER,
   CONFIRMED_STATE,
+  LOGIN_RESULT,
   join
 } from '../../core/index'
 import { ServerConnection } from '../server-connection'
-import { LOGIN_RESULT } from '../reducers/hope-client/hope-actions'
 
 export default function createSendToServer (
   server: ServerConnection

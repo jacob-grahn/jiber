@@ -1,6 +1,6 @@
 interface LoginResult {
-  id: string,
-  data: any
+  userId: string,
+  [key: string]: any
 }
 
 export { LoginResult as default }

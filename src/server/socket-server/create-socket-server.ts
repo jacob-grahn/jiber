@@ -9,7 +9,6 @@ import createOnAction from './create-on-action'
 import createUpdateRoom from './create-update-room'
 import createSendToRoom from './create-send-to-room'
 import createSendToSocket from './create-send-to-socket'
-import createSendToUser from './create-send-to-user'
 
 export interface SocketServer {
   start: () => void
@@ -19,12 +18,11 @@ export default function createSocketServer (
   store: Store, settings: ServerSettings
 ): SocketServer {
   const sendToSocket = createSendToSocket(store)
-  const sendToUser = createSendToUser(store, sendToSocket)
   const sendToRoom = createSendToRoom(store, sendToSocket)
   const updateRoom = createUpdateRoom(store, sendToRoom)
   const onClose = createOnClose(store)
   const onAction = createOnAction(store, updateRoom)
-  const onLogin = createOnLogin(store, settings.onLogin, sendToUser)
+  const onLogin = createOnLogin(store, settings.onLogin, sendToSocket)
   const onMessage = createOnMessage(store, settings, onLogin, onAction)
   const onConnect = createOnConnect(store, onMessage, onClose)
 

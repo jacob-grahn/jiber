@@ -1,5 +1,4 @@
-import { Action, SERVER, get } from '../core/index'
-import { login } from './reducers/hope-client/hope-actions'
+import { Action, SERVER, get, loginRequest } from '../core/index'
 
 export interface ServerConnection {
   send: (action: Action) => void,
@@ -31,7 +30,8 @@ export default function createServerConnection (
   // Event handlers
   function onMessage (event: MessageEvent): void {
     const action = JSON.parse(event.data)
-    action.$hope.source = SERVER
+    const meta = action.$hope || {}
+    meta.source = SERVER
     dispatch(action)
   }
   function onClose (): void {
@@ -39,7 +39,7 @@ export default function createServerConnection (
   }
   function onOpen (): void {
     retryCount = 0
-    send(login(credential))
+    send(loginRequest(credential))
   }
 
   // Open a socket connection

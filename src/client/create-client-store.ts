@@ -1,14 +1,15 @@
 import createSendToServer from './middleware/send-to-server'
 import injectMetadata from './middleware/inject-metadata'
 import clientRoom from './reducers/client-room/client-room'
-import myUserId from './reducers/hope-client/my-user-id'
+import me from './reducers/me'
 import {
   Store,
   Action,
   createStore,
   simpleSetter,
   createDictionary,
-  combineReducers
+  combineReducers,
+  users
 } from '../core/index'
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
@@ -50,7 +51,7 @@ export default function createClientStore (
     clientRoom(options.reducer),
     '$hope.roomId'
   )
-  const topReducer = combineReducers({rooms, myUserId})
+  const topReducer = combineReducers({rooms, users, me})
   store = createStore(topReducer, undefined, clientMiddleware)
   return store
 }

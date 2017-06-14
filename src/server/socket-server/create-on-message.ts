@@ -1,8 +1,6 @@
-import { Store } from '../../core/index'
+import { Store, LOGIN_REQUEST } from '../../core/index'
 import { socketReceive } from '../reducers/sockets'
 import { ServerSettings } from '../interfaces/server-settings'
-
-const LOGIN = 'hope/LOGIN'
 
 export default function createOnMessage (
   store: Store,
@@ -26,8 +24,8 @@ export default function createOnMessage (
     const action = JSON.parse(message)                                          // don't parse until the above limits have been checked, parsing is expensive
     store.dispatch(socketReceive(socketId))                                     // data was received
 
-    if (action.type === LOGIN) {
-      await onLogin(action)
+    if (action.type === LOGIN_REQUEST) {
+      await onLogin(socketId, action)
     } else if (socketData.userId) {
       await onAction(socketData.userId, action)
     }
