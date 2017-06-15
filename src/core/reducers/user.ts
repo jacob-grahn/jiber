@@ -20,6 +20,12 @@ export default function user (
     case ADD_USER:
       return action.user
 
+    case LOGIN_RESULT:
+      return action.user
+
+    case REMOVE_USER:
+      return {userId: ''}
+
     default:
       return state
   }
