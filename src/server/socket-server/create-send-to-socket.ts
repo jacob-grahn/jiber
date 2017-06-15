@@ -1,5 +1,5 @@
 import { Store } from '../../core/index'
-import { socketSend } from '../reducers/sockets'
+import { socketSend } from '../reducers/socket'
 
 const OPEN = 1
 
