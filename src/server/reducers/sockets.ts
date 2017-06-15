@@ -2,7 +2,7 @@ import * as ws from 'ws'
 import {
   Action,
   Reducer,
-  createDictionary
+  dictionary
 } from '../../core/index'
 
 // Setup
@@ -67,7 +67,7 @@ function socketReducer (
   }
 }
 
-export default createDictionary(socketReducer, keyName)
+export default dictionary(socketReducer, keyName)
 export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators

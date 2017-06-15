@@ -7,7 +7,7 @@ import {
   Action,
   createStore,
   simpleSetter,
-  createDictionary,
+  dictionary,
   combineReducers,
   users
 } from '../core/index'
@@ -47,7 +47,7 @@ export default function createClientStore (
     sendToServer
   ]
 
-  const rooms = createDictionary(
+  const rooms = dictionary(
     clientRoom(options.reducer),
     '$hope.roomId'
   )

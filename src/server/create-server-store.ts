@@ -2,7 +2,7 @@ import { ServerOptions } from './interfaces/server-options'
 import { ServerSettings } from './interfaces/server-settings'
 import {
   createStore,
-  createDictionary,
+  dictionary,
   simpleSetter,
   combineReducers,
   users,
@@ -33,7 +33,7 @@ export default function createServerStore (
   const reducer = combineReducers({
     sockets,
     users,
-    rooms: createDictionary(serverRoom(settings.reducer), '$hope')
+    rooms: dictionary(serverRoom(settings.reducer), '$hope')
   })
 
   const store = createStore(reducer, inputSettings.initialState)
