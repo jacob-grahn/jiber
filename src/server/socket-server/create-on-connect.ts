@@ -1,5 +1,5 @@
 import { Store } from '../../core/index'
-import { socketInit, socketSend } from '../reducers/sockets'
+import { socketInit, socketSend } from '../reducers/socket'
 import * as ws from 'ws'
 
 let nextId = 1

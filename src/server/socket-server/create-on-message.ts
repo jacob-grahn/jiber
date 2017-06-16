@@ -1,5 +1,5 @@
 import { Store, LOGIN_REQUEST } from '../../core/index'
-import { socketReceive } from '../reducers/sockets'
+import { socketReceive } from '../reducers/socket'
 import { ServerSettings } from '../interfaces/server-settings'
 
 export default function createOnMessage (

@@ -1,5 +1,5 @@
 import { Store, removeUser } from '../../core/index'
-import { socketRemove } from '../reducers/sockets'
+import { socketRemove } from '../reducers/socket'
 
 export default function createOnClose (store: Store) {
   return function onClose (socketId: string): void {
