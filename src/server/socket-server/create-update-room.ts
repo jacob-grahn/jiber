@@ -2,11 +2,14 @@ import { Store } from '../../core/index'
 import Storage from '../interfaces/storage'
 import { beginUpdate, finishUpdate } from '../reducers/server-room/is-updating'
 
-export default function createUpdateRoom (store: Store, sendToRoom: Function) {
+export default function createUpdateRoom (
+  store: Store,
+  sendToRoom: (roomId: string, data: any) => void,
+  storage: Storage
+) {
   return async function updateRoom (roomId: string): Promise<void> {
     const state = store.getState()
     const room = state.rooms[roomId]
-    const storage: Storage = state.options.storage
 
     if (room.isUpdating) return
 

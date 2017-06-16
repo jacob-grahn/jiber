@@ -1,4 +1,9 @@
-import { Action, JOIN, CONFIRMED_STATE, LEAVE } from '../../../core/index'
+import {
+  Action,
+  JOIN_ROOM,
+  CONFIRMED_STATE,
+  LEAVE_ROOM
+} from '../../../core/index'
 
 export const NOT_JOINING = 'NOT_JOINING'
 export const JOINING = 'JOINING'
@@ -9,13 +14,13 @@ export default function reducer (
   action: Action
 ): string {
   switch (action.type) {
-    case JOIN:
+    case JOIN_ROOM:
       return JOINING
 
     case CONFIRMED_STATE:
       return JOINED
 
-    case LEAVE:
+    case LEAVE_ROOM:
       return NOT_JOINING
 
     default:

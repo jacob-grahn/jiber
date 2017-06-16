@@ -12,9 +12,11 @@ export default function createOnLogin (
     action: Action
   ): Promise<LoginResult> {
     const result = await loginRequestHandler(action)
-    const userData = {userId: result.userId, socketId, public: result}
+    const userId = result.userId
+    const userData = {userId, socketId, public: result}
+    const addUserAction = {...addUser(userData), socketId, userId}
 
-    store.dispatch(addUser(userData))
+    store.dispatch(addUserAction)
     sendToSocket(socketId, loginResult(userData.public))
 
     return result

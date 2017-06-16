@@ -3,8 +3,8 @@ import { Action, HopeAction, SERVER } from '../../core/index'
 // Actions
 export const ADD_MEMBER = 'hope/room/ADD_MEMBER'
 export const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
-export const JOIN = 'hope/room/JOIN'
-export const LEAVE = 'hope/room/LEAVE'
+export const JOIN_ROOM = 'hope/room/JOIN_ROOM'
+export const LEAVE_ROOM = 'hope/room/LEAVE_ROOM'
 export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
 export const CONFIRMED_ACTION = 'hope/room/CONFIRMED_ACTION'
 
@@ -34,10 +34,10 @@ export function removeMember (roomId: string , userId: string): Action {
   return {type: REMOVE_MEMBER, $hope: roomId, userId}
 }
 
-export function join (roomId: string): Action {
-  return {type: JOIN, $hope: roomId}
+export function joinRoom (roomId: string): Action {
+  return {type: JOIN_ROOM, $hope: roomId}
 }
 
-export function leave (roomId: string): Action {
-  return {type: LEAVE, $hope: roomId}
+export function leaveRoom (roomId: string): Action {
+  return {type: LEAVE_ROOM, $hope: roomId}
 }

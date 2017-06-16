@@ -14,6 +14,7 @@ import {
 import Options from './interfaces/options'
 import OptionsInput from './interfaces/options-input'
 import createServerConnection from './server-connection'
+import createRoom from './create-room'
 
 const defaultOptions: Options = {
   reducer: simpleSetter,
@@ -38,7 +39,10 @@ export default function createClientStore (
 
   const serverConnection = createServerConnection({
     ...options,
-    dispatch: (action: Action) => store.dispatch(action)
+    store: {
+      dispatch: (action: Action) => store.dispatch(action),
+      getState: () => store.getState()
+    }
   })
   const sendToServer = createSendToServer(serverConnection)
   const clientMiddleware = [
@@ -47,11 +51,12 @@ export default function createClientStore (
     sendToServer
   ]
 
-  const rooms = dictionary(
-    clientRoom(options.reducer),
-    '$hope.roomId'
-  )
+  const rooms = dictionary(clientRoom(options.reducer), '$hope.roomId')
   const topReducer = combineReducers({rooms, users, me})
   store = createStore(topReducer, undefined, clientMiddleware)
-  return store
+
+  return {
+    ...store,
+    createRoom: createRoom(store)
+  }
 }

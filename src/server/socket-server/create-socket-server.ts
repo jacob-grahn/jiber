@@ -19,11 +19,11 @@ export default function createSocketServer (
 ): SocketServer {
   const sendToSocket = createSendToSocket(store)
   const sendToRoom = createSendToRoom(store, sendToSocket)
-  const updateRoom = createUpdateRoom(store, sendToRoom)
+  const updateRoom = createUpdateRoom(store, sendToRoom, settings.storage)
   const onClose = createOnClose(store)
-  const onAction = createOnAction(store, updateRoom)
+  const onAction = createOnAction(updateRoom, settings.storage)
   const onLogin = createOnLogin(store, settings.onLogin, sendToSocket)
-  const onMessage = createOnMessage(store, settings, onLogin, onAction)
+  const onMessage = createOnMessage(store, settings, onLogin, onAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose)
 
   function start () {

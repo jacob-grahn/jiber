@@ -1,4 +1,4 @@
-import { Action, Reducer } from '../../core/index'
+import { Action, ADD_USER } from '../../core/index'
 import { Socket } from '../interfaces/socket'
 
 // Setup
@@ -9,6 +9,7 @@ export interface ClientState {
   lastReceivedAt: number,                                                       // When the socket last received a message
   period: number,                                                               // Current block of time that is being rate limited
   messageCount: number                                                          // Total messages received in the current block of time
+  userId: string                                                                // account logged in on this socket
 }
 
 const defaultClientState = {
@@ -17,7 +18,8 @@ const defaultClientState = {
   lastSentAt: 0,
   lastReceivedAt: 0,
   period: 0,
-  messageCount: 0
+  messageCount: 0,
+  userId: ''
 }
 
 // Actions
@@ -57,12 +59,13 @@ export default function socket (
         lastReceivedAt: timeMs
       }
 
+    case ADD_USER:
+      return {...state, userId: action.userId}
+
     default:
       return state
   }
 }
-
-export { Reducer }                                                              // stop the compiler from complaining https://github.com/Microsoft/TypeScript/issues/6307
 
 // Action Creators
 export function socketInit (socketId: string, connection: Socket): Action {

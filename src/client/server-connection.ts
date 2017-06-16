@@ -1,7 +1,8 @@
-import { Action, SERVER, get, loginRequest } from '../core/index'
+import { Action, Store, SERVER, loginRequest, joinRoom } from '../core/index'
 
 export interface ServerConnection {
   send: (action: Action) => void,
+  sendQueue: () => void,
   close: () => void
 }
 
@@ -9,19 +10,22 @@ export interface ServerConnectionOptions {
   url: string,
   socketPort: number,
   credential?: string,
-  dispatch: Function
+  store: Store
 }
 
 // Attepts to keep an open connection with the specified server
 // Messages are held in a queue until the server sends back a confirmation
 export default function createServerConnection (
-  {url, socketPort, credential, dispatch}: ServerConnectionOptions
+  {url, socketPort, credential, store}: ServerConnectionOptions
 ): ServerConnection {
   const retryBackoffMs = 5000                                                   // wait 5 seconds before trying to reconnect, then 10 seconds, then 15, etc
   const OPEN = 1
+  const queue: Action[] = []
   let socket: WebSocket
   let retryCount = 0
-  let open = false
+  let connectionIsWanted = true
+
+  setInterval(sendQueue, 1000)                                                  // todo: fix this hack
 
   if (url) {
     connect()
@@ -32,9 +36,10 @@ export default function createServerConnection (
     const action = JSON.parse(event.data)
     const meta = action.$hope || {}
     meta.source = SERVER
-    dispatch(action)
+    store.dispatch(action)
   }
   function onClose (): void {
+    if (retryCount === 0) rejoinRooms()
     reconnect()
   }
   function onOpen (): void {
@@ -44,7 +49,7 @@ export default function createServerConnection (
 
   // Open a socket connection
   function connect () {
-    open = true
+    if (!connectionIsWanted) return
     socket = new WebSocket(`ws://${url}:${socketPort}`)
     socket.addEventListener('close', onClose)
     socket.addEventListener('open', onOpen)
@@ -53,7 +58,7 @@ export default function createServerConnection (
 
   // Wait a bit, and then call connect()
   function reconnect () {
-    if (!open) return
+    if (!connectionIsWanted) return
     retryCount++
     const delay = retryCount * retryBackoffMs
     setTimeout(connect, delay)
@@ -61,24 +66,53 @@ export default function createServerConnection (
 
   // Add a message to be sent
   function send (action: Action): void {
-    if (!open) return
-    if (!socket) return
-    if (socket.readyState !== OPEN) return
-    const roomId = get(action, '$hope.roomId')
-    const smallerAction = {...action, $hope: roomId}
-    const strAction = JSON.stringify(smallerAction)
-    socket.send(strAction)
+    if (canSend()) {
+      const strAction = JSON.stringify(action)
+      socket.send(strAction)
+    } else {
+      queue.push(action)
+    }
+  }
+
+  /* function isMember (roomId: string): boolean {
+    if (!roomId) return true
+    const state = store.getState()
+    const rooms = state.rooms
+    const myUserId = state.me.userId
+    return !!(myUserId && rooms[roomId] && rooms[roomId].actionIds[myUserId])
+  } */
+
+  function rejoinRooms () {
+    const state = store.getState()
+    Object.keys(state.rooms).forEach(roomId => {
+      const action = joinRoom(roomId)
+      send(action)
+    })
+  }
+
+  function sendQueue (): void {
+    const toSend = [...queue]
+    queue.splice(0, queue.length)
+    toSend.forEach(send)
+  }
+
+  function canSend (): boolean {
+    if (!connectionIsWanted) return false
+    if (!socket) return false
+    if (socket.readyState !== OPEN) return false
+    return true
   }
 
   // Close this connection
   function close () {
-    open = false
+    connectionIsWanted = false
     if (socket.readyState === OPEN) socket.close()
   }
 
   // public methods
   return {
     send,
+    sendQueue,
     close
   }
 }
