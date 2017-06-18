@@ -60,7 +60,7 @@ export default function socket (
       }
 
     case ADD_USER:
-      return {...state, userId: action.userId}
+      return {...state, userId: action.user.userId}
 
     default:
       return state
