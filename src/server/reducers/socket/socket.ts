@@ -1,4 +1,4 @@
-import { Action, combineReducers } from '../../../core/index'
+import { Action, Reducer, combineReducers } from '../../../core/index'
 import { Socket } from '../../interfaces/socket'
 import connection from './connection'
 import connectedAt from './connected-at'
@@ -14,13 +14,14 @@ export const REMOVE = 'hope/socket/REMOVE'
 export const RATE_LIMIT_OPTIONS = 'hope/socket/RATE_LIMIT_OPTIONS'
 
 // Reducer
-export default combineReducers({
+const reducer: Reducer = combineReducers({
   connection,
   connectedAt,
   lastReceivedAt,
   lastSentAt,
   rateLimit
 })
+export { reducer as default }
 
 // Action Creators
 export function socketInit (socketId: string, connection: Socket): Action {

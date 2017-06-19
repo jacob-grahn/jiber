@@ -1,14 +1,14 @@
 import * as WebSocket from 'ws'
 import { Store } from '../../core/index'
 import { ServerSettings } from '../interfaces/server-settings'
-import createOnConnect from './create-on-connect'
-import createOnMessage from './create-on-message'
-import createOnClose from './create-on-close'
-import createOnLogin from './create-on-login'
-import createOnAction from './create-on-action'
-import createUpdateRoom from './create-update-room'
-import createSendToRoom from './create-send-to-room'
-import createSendToSocket from './create-send-to-socket'
+import createOnConnect from './on-connect'
+import createOnMessage from './on-message'
+import createOnClose from './on-close'
+import createOnLogin from './on-login'
+import createOnAction from './on-action'
+import createUpdateRoom from './update-room'
+import createSendToRoom from './send-to-room'
+import createSendToSocket from './send-to-socket'
 
 export interface SocketServer {
   start: () => void

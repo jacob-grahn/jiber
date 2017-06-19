@@ -10,7 +10,7 @@ import {
 } from '../core/index'
 import memStorage from './storage/mem-storage'
 import memAccounts from './accounts/mem-accounts'
-import createSocketServer from './socket-server/create-socket-server'
+import createSocketServer from './socket-server/socket-server'
 import serverRoom from './reducers/server-room/server-room'
 import sockets from './reducers/socket/sockets'
 
