@@ -5,7 +5,7 @@ import createOnConnect from './on-connect'
 import createOnMessage from './on-message'
 import createOnClose from './on-close'
 import createOnLogin from './on-login'
-import createOnAction from './on-action'
+import createOnActions from './on-actions'
 import createUpdateRoom from './update-room'
 import createSendToRoom from './send-to-room'
 import createSendToSocket from './send-to-socket'
@@ -21,13 +21,13 @@ export default function createSocketServer (
   const sendToRoom = createSendToRoom(store, sendToSocket)
   const updateRoom = createUpdateRoom(store, sendToRoom, settings.storage)
   const onClose = createOnClose(store)
-  const onAction = createOnAction(updateRoom, settings.storage)
+  const onActions = createOnActions(updateRoom, settings.storage.addActions)
   const onLogin = createOnLogin(store, settings.onLogin, sendToSocket)
   const onMessage = createOnMessage(
     store,
     settings,
     onLogin,
-    onAction,
+    onActions,
     sendToSocket
   )
   const onConnect = createOnConnect(

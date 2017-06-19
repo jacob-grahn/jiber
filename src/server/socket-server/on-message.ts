@@ -6,7 +6,7 @@ export default function createOnMessage (
   store: Store,
   settings: ServerSettings,
   onLogin: Function,
-  onAction: Function,
+  onActions: Function,
   sendToSocket: (socketId: string, message: any) => void
 ) {
   return async function onMessage (
@@ -29,7 +29,7 @@ export default function createOnMessage (
       if (action.type === LOGIN_REQUEST) {
         await onLogin(socketId, action)
       } else if (socketData.userId) {
-        await onAction(socketData.userId, action)
+        await onActions(socketData.userId, action)
       }
     } catch (e) {
       sendToSocket(socketId, e.message)
