@@ -16,7 +16,7 @@ export default function createOnConnect (
     const socketId = (nextId++).toString()
 
     store.dispatch(socketInit(socketId, connection))
-    store.dispatch(rateLimitOptions(socketId, settings.rateLimitPeriodMs, settings.rateLimit))
+    store.dispatch(rateLimitOptions(socketId, settings.rateLimitPeriodMs))
 
     connection.on('message', async (message) => {
       try {

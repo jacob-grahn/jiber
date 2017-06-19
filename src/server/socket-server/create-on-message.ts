@@ -16,7 +16,7 @@ export default function createOnMessage (
     try {
       const socketData = store.getState().sockets[socketId]
 
-      if (socketData.messageCount >= settings.rateLimit) {                      // rate limit incoming messages
+      if (socketData.rateLimit.total >= settings.rateLimit) {                   // rate limit incoming messages
         throw new Error('RATE_LIMIT_EXCEEDED')
       }
       if (message.length > settings.maxMessageCharLength) {                     // length limit

@@ -29,10 +29,9 @@ export function socketInit (socketId: string, connection: Socket): Action {
 
 export function rateLimitOptions (
   socketId: string,
-  periodDuration: number,
-  max: number
+  periodDuration: number
 ): Action {
-  return {type: RATE_LIMIT_OPTIONS, socketId, periodDuration, max}
+  return {type: RATE_LIMIT_OPTIONS, socketId, periodDuration}
 }
 
 export function socketSend (socketId: string): Action {
