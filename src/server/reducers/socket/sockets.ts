@@ -1,4 +1,4 @@
-import { dictionary, Reducer } from '../../core/index'
+import { dictionary, Reducer } from '../../../core/index'
 import socket from './socket'
 
 const keyName = 'socketId'

@@ -23,8 +23,20 @@ export default function createSocketServer (
   const onClose = createOnClose(store)
   const onAction = createOnAction(updateRoom, settings.storage)
   const onLogin = createOnLogin(store, settings.onLogin, sendToSocket)
-  const onMessage = createOnMessage(store, settings, onLogin, onAction, sendToSocket)
-  const onConnect = createOnConnect(store, onMessage, onClose)
+  const onMessage = createOnMessage(
+    store,
+    settings,
+    onLogin,
+    onAction,
+    sendToSocket
+  )
+  const onConnect = createOnConnect(
+    store,
+    settings,
+    onMessage,
+    onClose,
+    sendToSocket
+  )
 
   function start () {
     const wss = new WebSocket.Server({port: settings.socketPort})

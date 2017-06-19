@@ -12,7 +12,7 @@ import memStorage from './storage/mem-storage'
 import memAccounts from './accounts/mem-accounts'
 import createSocketServer from './socket-server/create-socket-server'
 import serverRoom from './reducers/server-room/server-room'
-import sockets from './reducers/sockets'
+import sockets from './reducers/socket/sockets'
 
 const defaultSettings: ServerSettings = {
   socketPort: 80,
