@@ -9,26 +9,24 @@ async function sleep (ms: number): Promise<any> {
 beforeAll(storage.clear)
 afterEach(storage.clear)
 
-test('addActions', async () => {
+test('addAction', async () => {
   const room = 'memRoom1'
-  await storage.addActions(room, [{type: 'one'}, {type: 'two'}])
-  await storage.addActions(room, [{type: 'three'}, {type: 'four'}])
+  await storage.addAction(room, {type: 'one'})
+  await storage.addAction(room, {type: 'two'})
   const actions = await storage.getActions(room, 0)
-  const [a1, a2, a3, a4] = actions
-  expect(actions.length).toBe(4)
+  const [a1, a2] = actions
+  expect(actions.length).toBe(2)
   expect(a1.type).toBe('one')
   expect(a2.type).toBe('two')
-  expect(a3.type).toBe('three')
-  expect(a4.type).toBe('four')
 })
 
 test('getActions should return actions newer than timeMs', async () => {
   const room = 'memRoom2'
-  await storage.addActions(room, [{type: 'one'}])
+  await storage.addAction(room, {type: 'one'})
   await sleep(5)
 
   const timeMs = new Date().getTime()
-  await storage.addActions(room, [{type: 'two'}])
+  await storage.addAction(room, {type: 'two'})
 
   const allActions = await storage.getActions(room, 0)
   const nowActions = await storage.getActions(room, timeMs)
@@ -40,11 +38,11 @@ test('getActions should return actions newer than timeMs', async () => {
 
 test('removeActions should remove actions older than timeMs', async () => {
   const room = 'removeActions'
-  await storage.addActions(room, [{type: 'one'}])
+  await storage.addAction(room, {type: 'one'})
   await sleep(5)
 
   const timeMs = new Date().getTime()
-  await storage.addActions(room, [{type: 'two'}])
+  await storage.addAction(room, {type: 'two'})
 
   await storage.removeActions(room, timeMs)
   const actions = await storage.getActions(room, 0)

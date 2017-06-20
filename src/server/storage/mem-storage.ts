@@ -26,18 +26,16 @@ function clear () {
   Object.keys(rooms).forEach(roomId => delete rooms[roomId])
 }
 
-async function addActions (
+async function addAction (
   roomId: string,
-  actions: Action[]
+  action: Action
 ): Promise<any> {
   const roomStorage = getRoom(roomId)
   const pendingActions = roomStorage.pendingActions
   const timeMs = new Date().getTime()
-  const timedActions = actions.map(action => {
-    const meta = action.$hope || {}
-    return {...action, $hope: {...meta, timeMs}}
-  })
-  pendingActions.splice(pendingActions.length, 0, ...timedActions)
+  const meta = action.$hope || {}
+  const timedAction = {...action, $hope: {...meta, timeMs}}
+  pendingActions.push(timedAction)
   return true
 }
 
@@ -71,7 +69,7 @@ async function setState (roomId: string, state: RoomState): Promise<boolean> {
 
 // Store a state in memory
 export default {
-  addActions,
+  addAction,
   getActions,
   removeActions,
   getState,

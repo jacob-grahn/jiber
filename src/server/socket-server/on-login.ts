@@ -1,6 +1,5 @@
-import { Action, Store, loginResult, addUser } from '../../core/index'
+import { Action, Store, loginResult, addUser, LOGIN_REQUEST } from '../../core/index'
 import LoginRequestHandler from '../interfaces/login-request-handler'
-import LoginResult from '../interfaces/login-result'
 
 export default function createOnLogin (
   store: Store,
@@ -10,7 +9,8 @@ export default function createOnLogin (
   return async function onLogin (
     socketId: string,
     action: Action
-  ): Promise<LoginResult> {
+  ): Promise<void> {
+    if (action.type !== LOGIN_REQUEST) throw new Error('BAD_LOGIN_ACTION')
     const result = await loginRequestHandler(action)
     const userId = result.userId
     const userData = {userId, socketId, public: result}
@@ -18,7 +18,5 @@ export default function createOnLogin (
 
     store.dispatch(addUserAction)
     sendToSocket(socketId, loginResult(userData.public))
-
-    return result
   }
 }

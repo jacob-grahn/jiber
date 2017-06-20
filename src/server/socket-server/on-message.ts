@@ -1,13 +1,13 @@
-import { Store, LOGIN_REQUEST } from '../../core/index'
+import { Action, Store } from '../../core/index'
 import { socketReceive } from '../reducers/socket/socket'
 import ServerSettings from '../interfaces/server-settings'
 
 export default function createOnMessage (
   store: Store,
   settings: ServerSettings,
-  onLogin: Function,
-  onActions: Function,
-  sendToSocket: (socketId: string, message: any) => void
+  onAction: (userId: string, action: Action) => Promise<void>,
+  onLogin: (socketId: string, action: Action) => Promise<void>,
+  sendToSocket: (socketId: string, actions: Action) => void
 ) {
   return async function onMessage (
     socketId: string,
@@ -15,6 +15,7 @@ export default function createOnMessage (
   ): Promise<void> {
     try {
       const socketData = store.getState().sockets[socketId]
+      const userId = socketData.userId
 
       if (socketData.rateLimit.total >= settings.rateLimit) {                   // rate limit incoming messages
         throw new Error('RATE_LIMIT_EXCEEDED')
@@ -24,15 +25,15 @@ export default function createOnMessage (
       }
 
       const action = JSON.parse(message)                                        // don't parse until the above limits have been checked, parsing is expensive
-      store.dispatch(socketReceive(socketId))                                   // data was received
+      store.dispatch(socketReceive(socketId))                                   // record that data was received for rate limiting
 
-      if (action.type === LOGIN_REQUEST) {
+      if (userId) {
+        await onAction(userId, action)
+      } else {
         await onLogin(socketId, action)
-      } else if (socketData.userId) {
-        await onActions(socketData.userId, action)
       }
     } catch (e) {
-      sendToSocket(socketId, e.message)
+      sendToSocket(socketId, {type: 'ERROR', message: e.message})
     }
   }
 }
