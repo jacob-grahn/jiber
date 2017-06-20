@@ -1,7 +1,7 @@
 import { Action } from '../../core/index'
 import {
-  ADD_MEMBER,
-  REMOVE_MEMBER,
+  JOIN_ROOM,
+  LEAVE_ROOM,
   CONFIRMED_STATE,
   CONFIRMED_ACTION
 } from './room-actions'
@@ -15,11 +15,11 @@ export default function reducer (
     case CONFIRMED_STATE:
       return action.actionIds
 
-    case ADD_MEMBER:
+    case JOIN_ROOM:
       if (state[action.userId]) return state                                    // no need to be added twice
       return {...state, [action.userId]: action.actionId || 0}                  // add the userId to the collection
 
-    case REMOVE_MEMBER:
+    case LEAVE_ROOM:
       return {...state, [action.userId]: undefined}
 
     case CONFIRMED_ACTION:                                                      // trust confirmed actionId

@@ -5,6 +5,7 @@ import connectedAt from './connected-at'
 import lastReceivedAt from './last-received-at'
 import lastSentAt from './last-sent-at'
 import rateLimit from './rate-limit'
+import userId from './user-id'
 
 // Actions
 export const INIT = 'hope/socket/INIT'
@@ -19,7 +20,8 @@ const reducer: Reducer = combineReducers({
   connectedAt,
   lastReceivedAt,
   lastSentAt,
-  rateLimit
+  rateLimit,
+  userId
 })
 export default reducer
 

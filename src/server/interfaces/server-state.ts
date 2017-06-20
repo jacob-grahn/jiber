@@ -11,7 +11,8 @@ interface ServerState {
         periodDuration: number,
         period: number,
         total: number
-      }
+      },
+      userId: string
     }
   },
   users: {

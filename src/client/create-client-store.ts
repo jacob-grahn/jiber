@@ -42,7 +42,8 @@ export default function createClientStore (
     ...options,
     store: {
       dispatch: (action: Action) => store.dispatch(action),
-      getState: () => store.getState()
+      getState: () => store.getState(),
+      createRoom: () => { /* do nothing */ }
     }
   })
   const sendToServer = createSendToServer(serverConnection)

@@ -4,8 +4,6 @@ import RoomState from '../interfaces/room-state'
 import { SERVER } from '../constants/source-types'
 
 // Actions
-export const ADD_MEMBER = 'hope/room/ADD_MEMBER'
-export const REMOVE_MEMBER = 'hope/room/REMOVE_MEMBER'
 export const JOIN_ROOM = 'hope/room/JOIN_ROOM'
 export const LEAVE_ROOM = 'hope/room/LEAVE_ROOM'
 export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
@@ -26,18 +24,10 @@ export function confirmedState (
   }
 }
 
-export function addMember (roomId: string, userId: string): Action {
-  return {type: ADD_MEMBER, $hope: roomId, userId}
+export function joinRoom (roomId: string, userId: string): Action {
+  return {type: JOIN_ROOM, $hope: roomId, userId}
 }
 
-export function removeMember (roomId: string , userId: string): Action {
-  return {type: REMOVE_MEMBER, $hope: roomId, userId}
-}
-
-export function joinRoom (roomId: string): Action {
-  return {type: JOIN_ROOM, $hope: roomId}
-}
-
-export function leaveRoom (roomId: string): Action {
-  return {type: LEAVE_ROOM, $hope: roomId}
+export function leaveRoom (roomId: string, userId: string): Action {
+  return {type: LEAVE_ROOM, $hope: roomId, userId}
 }

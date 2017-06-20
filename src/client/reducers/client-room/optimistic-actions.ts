@@ -1,7 +1,7 @@
 import {
   HopeAction,
   CONFIRMED_STATE,
-  REMOVE_MEMBER,
+  LEAVE_ROOM,
   CONFIRMED_ACTION
 } from '../../../core/index'
 import { OPTIMISTIC_ACTION } from './client-room'
@@ -17,7 +17,7 @@ export default function reducer (
       const state3 = withoutNonMembers(state2, action.actionIds)
       return pruneActions(state3, action.actionIds)
 
-    case REMOVE_MEMBER:
+    case LEAVE_ROOM:
       return withoutUser(state, action.userId)
 
     case CONFIRMED_ACTION:

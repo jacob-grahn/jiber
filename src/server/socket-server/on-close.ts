@@ -1,4 +1,4 @@
-import { Action, Store, removeMember } from '../../core/index'
+import { Action, Store, leaveRoom } from '../../core/index'
 import { socketRemove } from '../reducers/socket/socket'
 
 export default function createOnClose (
@@ -21,7 +21,7 @@ export default function createOnClose (
         return room.actionIds[userId]
       })
       memberRoomIds.forEach(roomId => {
-        const action = removeMember(roomId, userId)
+        const action = leaveRoom(roomId, userId)
         return addAction(roomId, action)
       })
     }

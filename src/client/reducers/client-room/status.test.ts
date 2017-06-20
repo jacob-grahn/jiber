@@ -1,6 +1,10 @@
+// TODO: may not need status for rooms at all
+
 import status from './status'
-import { confirmedState, leaveRoom, joinRoom } from '../../../core/index'
-import { JOINED, NOT_JOINING, JOINING } from './status'
+// import { confirmedState, leaveRoom, joinRoom } from '../../../core/index'
+// import { JOINED, NOT_JOINING, JOINING } from './status'
+import { confirmedState } from '../../../core/index'
+import { JOINED, NOT_JOINING } from './status'
 
 test('status is set on join success', () => {
   const state = ''
@@ -14,7 +18,7 @@ test('status is set on join success', () => {
   expect(status(state, action)).toEqual(JOINED)
 })
 
-test('status is set on leave', () => {
+/* test('status is set on leave', () => {
   const state = ''
   const roomId = ''
   const action = leaveRoom(roomId)
@@ -26,7 +30,7 @@ test('status is set on join request', () => {
   const roomId = ''
   const action = joinRoom(roomId)
   expect(status(state, action)).toEqual(JOINING)
-})
+}) */
 
 test('status has a default', () => {
   const state = undefined

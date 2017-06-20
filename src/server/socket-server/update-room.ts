@@ -12,7 +12,7 @@ export default function createUpdateRoom (
   async function updateRoom (roomId: string): Promise<void> {
     await initializeIfNeeded(roomId)
     const actions = await processNewActions(roomId)
-    sendToRoom(roomId, actions)                                                 // send the actions to members of the room
+    actions.forEach(action => sendToRoom(roomId, action))                       // send the actions to members of the room
     startUpdateIfNeeded(roomId)                                                 // if more actions came in during the update, then start another update
   }
 

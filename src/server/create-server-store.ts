@@ -33,7 +33,7 @@ export default function createServerStore (
   const reducer = combineReducers({
     sockets,
     users,
-    rooms: dictionary(serverRoom(settings.reducer), '$hope')
+    rooms: dictionary(serverRoom(settings.reducer), '$hope.roomId')
   })
 
   const store = createStore(reducer, inputSettings.initialState)

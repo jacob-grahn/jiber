@@ -1,4 +1,5 @@
-import { Action, Store, SERVER, loginRequest, joinRoom } from '../core/index'
+import { Action, SERVER, loginRequest, joinRoom } from '../core/index'
+import ClientStore from './interfaces/client-store'
 
 export interface ServerConnection {
   send: (action: Action) => void,
@@ -10,7 +11,7 @@ export interface ServerConnectionOptions {
   url: string,
   socketPort: number,
   credential?: string,
-  store: Store
+  store: ClientStore
 }
 
 // Attepts to keep an open connection with the specified server
@@ -85,7 +86,7 @@ export default function createServerConnection (
   function rejoinRooms () {
     const state = store.getState()
     Object.keys(state.rooms).forEach(roomId => {
-      const action = joinRoom(roomId)
+      const action = joinRoom(roomId, state.me.userId)
       send(action)
     })
   }
