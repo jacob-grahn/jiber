@@ -1,4 +1,7 @@
-import { Action, HopeAction, SERVER } from '../../core/index'
+import Action from '../interfaces/action'
+import HopeAction from '../interfaces/hope-action'
+import RoomState from '../interfaces/room-state'
+import { SERVER } from '../constants/source-types'
 
 // Actions
 export const ADD_MEMBER = 'hope/room/ADD_MEMBER'
@@ -9,20 +12,17 @@ export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
 export const CONFIRMED_ACTION = 'hope/room/CONFIRMED_ACTION'
 
 // Action Creators
-export interface CoreRoomState {
-  confirmedState: any,
-  actionIds: {[key: string]: number}
-}
 export function confirmedState (
   roomId: string,
-  result: CoreRoomState
+  result: RoomState
 ): HopeAction {
-  const { confirmedState, actionIds } = result
+  const { confirmedState, actionIds, lastUpdatedAt } = result
   return {
     type: CONFIRMED_STATE,
     $hope: {roomId, source: SERVER, userId: '', timeMs: 0, actionId: 0},
     confirmedState,
-    actionIds
+    actionIds,
+    lastUpdatedAt
   }
 }
 

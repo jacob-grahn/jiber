@@ -1,11 +1,11 @@
-import { Action } from '../../core/index'
+import { Action, RoomState } from '../../core/index'
 
 interface Storage {
-  addActions: (roomId: string, actions: Action[]) => Promise<any>,
+  addActions: (roomId: string, actions: Action[]) => Promise<void>,
   getActions: (roomId: string, minTimeMs: number) => Promise<Action[]>,
-  removeActions: (roomId: string, maxTimeMs: number) => Promise<any>
-  getState: (roomId: string) => Promise<any>,
-  setState: (roomId: string, state: any) => Promise<boolean>,
+  removeActions: (roomId: string, maxTimeMs: number) => Promise<void>
+  getState: (roomId: string) => Promise<RoomState>,
+  setState: (roomId: string, state: RoomState) => Promise<boolean>,
   clear?: () => void
 }
 

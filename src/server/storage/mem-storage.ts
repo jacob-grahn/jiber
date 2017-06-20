@@ -1,8 +1,8 @@
-import { Action, HopeAction } from '../../core/index'
+import { Action, HopeAction, RoomState } from '../../core/index'
 
 interface RoomStorage {
   pendingActions: HopeAction[],
-  state: any
+  state: RoomState
 }
 
 const rooms: {[key: string]: RoomStorage} = {}
@@ -11,7 +11,7 @@ const defaultRoomStorage: RoomStorage = {
   state: {
     actionIds: {},
     confirmedState: null,
-    lastUpdateMs: 0
+    lastUpdatedAt: 0
   }
 }
 
@@ -58,14 +58,14 @@ async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
   return true
 }
 
-async function getState (roomId: string): Promise<any> {
+async function getState (roomId: string): Promise<RoomState> {
   const roomStorage = getRoom(roomId)
   return roomStorage.state
 }
 
-async function setState (roomId: string, newState: any): Promise<any> {
+async function setState (roomId: string, state: RoomState): Promise<boolean> {
   const roomStorage = getRoom(roomId)
-  roomStorage.state = newState
+  roomStorage.state = state
   return true
 }
 

@@ -5,7 +5,8 @@ export interface RoomActionDict {
 }
 
 export default function createOnActions (
-  addActions: (roomId: string, actions: Action[]) => Promise<void>
+  addActions: (roomId: string, actions: Action[]) => Promise<void>,
+  updateRoom: (roomId: string) => any
 ) {
   return async function onActions (
     userId: string,
@@ -33,5 +34,7 @@ export default function createOnActions (
       const actions: Action[] = roomDict[roomId]
       return addActions(roomId, actions)
     }))
+
+    roomIds.forEach(updateRoom)                                                 // trigger instant room updates for faster results
   }
 }

@@ -3,7 +3,8 @@ import createOnActions from './on-actions'
 
 test('return a function', () => {
   const addActions = () => Promise.resolve()
-  const onActions = createOnActions(addActions)
+  const updateRoom = () => {}
+  const onActions = createOnActions(addActions, updateRoom)
   expect(typeof onActions).toBe('function')
 })
 
@@ -12,12 +13,13 @@ test('divide actions by room, and them to storage', async () => {
   const addActions = async (roomId: string, actions: Action[]) => {
     calls.push({roomId, actions})
   }
+  const updateRoom = () => {}
   const actions: Action[] = [
     {type: 'DO_A_THING', $hope: {roomId: 'bob'}},
     {type: 'PLUNK', $hope: {roomId: 'awe'}},
     {type: 'SPLAT', $hope: {roomId: 'bob'}}
   ]
-  const onActions = createOnActions(addActions)
+  const onActions = createOnActions(addActions, updateRoom)
 
   await onActions('user1', actions)
 

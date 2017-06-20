@@ -6,7 +6,8 @@ test('actionIds are set on join success', () => {
   const roomId = ''
   const result = {
     confirmedState: {},
-    actionIds: {ike: 3}
+    actionIds: {ike: 3},
+    lastUpdatedAt: 0
   }
   const action = confirmedState(roomId, result)
   expect(actionIds(state, action)).toEqual({ike: 3})

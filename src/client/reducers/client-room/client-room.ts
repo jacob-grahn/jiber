@@ -3,6 +3,7 @@ import {
   Reducer,
   combineReducers,
   actionIds,
+  lastUpdatedAt,
   createConfirmedState
 } from '../../../core/index'
 import optimisticActions from './optimistic-actions'
@@ -20,7 +21,8 @@ export default function createRoom (subReducer: Reducer): Reducer {
     actionIds,
     confirmedState,
     optimisticActions,
-    status
+    status,
+    lastUpdatedAt
   })
 
   return function roomReducer (

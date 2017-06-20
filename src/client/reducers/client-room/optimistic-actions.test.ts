@@ -82,7 +82,8 @@ test('remove outdated optimistic actions on join', () => {
   const roomId = 'room 1'
   const result = {
     confirmedState: {},
-    actionIds: {sue: 5}
+    actionIds: {sue: 5},
+    lastUpdatedAt: 0
   }
   expect(optimisticActions(list, confirmedState(roomId, result))).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}

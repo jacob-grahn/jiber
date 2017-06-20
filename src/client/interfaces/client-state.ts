@@ -13,7 +13,8 @@ interface ClientState {
       confirmedState: any,
       optimisticState: any,
       optimisticActions: HopeAction[]
-      status: string
+      status: string,
+      lastUpdatedAt: number
     }
   },
   me: {

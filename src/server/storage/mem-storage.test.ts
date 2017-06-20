@@ -54,7 +54,8 @@ test('removeActions should remove actions older than timeMs', async () => {
 
 test ('setState + getState should return the last saved state', async () => {
   const room = 'getState'
-  await storage.setState(room, 'yay')
+  const roomState = {confirmedState: 'hi', actionIds: {}, lastUpdatedAt: 0}
+  await storage.setState(room, roomState)
   const state = await storage.getState(room)
-  expect(state).toBe('yay')
+  expect(state).toEqual(roomState)
 })

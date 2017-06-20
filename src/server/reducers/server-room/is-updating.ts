@@ -1,8 +1,8 @@
 import { Action } from '../../../core/index'
 
 // Action types
-const BEGIN_UPDATE = 'hope/BEGIN_UPDATE'
-const FINISH_UPDATE = 'hope/FINISH_UPDATE'
+export const BEGIN_UPDATE = 'hope/BEGIN_UPDATE'
+export const FINISH_UPDATE = 'hope/FINISH_UPDATE'
 
 // Reducer
 export default function isUpdating (
@@ -22,10 +22,10 @@ export default function isUpdating (
 }
 
 // Action creators
-export function beginUpdate (roomId: string) {
+export function beginUpdate (roomId: string): Action {
   return {type: BEGIN_UPDATE, $hope: {roomId}}
 }
 
-export function finishUpdate (roomId: string) {
+export function finishUpdate (roomId: string): Action {
   return {type: FINISH_UPDATE, $hope: {roomId}}
 }
