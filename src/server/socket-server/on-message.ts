@@ -1,6 +1,6 @@
 import { Store, LOGIN_REQUEST } from '../../core/index'
 import { socketReceive } from '../reducers/socket/socket'
-import { ServerSettings } from '../interfaces/server-settings'
+import ServerSettings from '../interfaces/server-settings'
 
 export default function createOnMessage (
   store: Store,

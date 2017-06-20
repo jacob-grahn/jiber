@@ -1,6 +1,6 @@
 import { Store } from '../../core/index'
 import { socketInit, rateLimitOptions} from '../reducers/socket/socket'
-import { ServerSettings } from '../interfaces/server-settings'
+import ServerSettings from '../interfaces/server-settings'
 import * as ws from 'ws'
 
 let nextId = 1

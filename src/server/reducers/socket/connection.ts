@@ -1,5 +1,5 @@
 import { Action } from '../../../core/index'
-import { Socket } from '../../interfaces/socket'
+import Socket from '../../interfaces/socket'
 import { INIT } from './socket'
 
 export default function connection (

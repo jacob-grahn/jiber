@@ -9,8 +9,10 @@ export interface HopeMeta {
   type?: string
 }
 
-export interface HopeAction {
+interface HopeAction {
   $hope: HopeMeta,
   type: string,
   [key: string]: any
 }
+
+export default HopeAction

@@ -1,6 +1,8 @@
-import { Action } from './action'
-import { Store } from '../create-store'
+import Action from './action'
+import Store from './store'
 
-export interface Middleware {
+interface Middleware {
   (store: Store): (next: Function) => (action: Action) => void
 }
+
+export default Middleware

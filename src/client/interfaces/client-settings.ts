@@ -1,6 +1,6 @@
 import { Reducer, Middleware } from '../../core/index'
 
-interface Options {
+interface ClientSettings {
   credential: string
   middleware: Array<Middleware>,
   reducer: Reducer,
@@ -9,4 +9,4 @@ interface Options {
   stunPort: number
 }
 
-export { Options as default }
+export default ClientSettings

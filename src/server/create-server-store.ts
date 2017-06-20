@@ -1,12 +1,12 @@
-import { ServerOptions } from './interfaces/server-options'
-import { ServerSettings } from './interfaces/server-settings'
+import ServerSettingsInput from './interfaces/server-settings-input'
+import ServerSettings from './interfaces/server-settings'
+import { ServerStore } from './interfaces/server-store'
 import {
   createStore,
   dictionary,
   simpleSetter,
   combineReducers,
-  users,
-  Store
+  users
 } from '../core/index'
 import memStorage from './storage/mem-storage'
 import memAccounts from './accounts/mem-accounts'
@@ -26,8 +26,8 @@ const defaultSettings: ServerSettings = {
 }
 
 export default function createServerStore (
-  inputSettings: ServerOptions = {}
-): Store {
+  inputSettings: ServerSettingsInput = {}
+): ServerStore {
   const settings: ServerSettings = {...defaultSettings, ...inputSettings}
 
   const reducer = combineReducers({

@@ -5,4 +5,4 @@ interface LoginRequestHandler {
   (action: Action): Promise<LoginResult>|LoginResult
 }
 
-export { LoginRequestHandler as default }
+export default LoginRequestHandler

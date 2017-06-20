@@ -1,12 +1,8 @@
-import { Action } from './interfaces/action'
-import { Reducer } from './interfaces/reducer'
-import { Middleware } from './interfaces/middleware'
+import Action from './interfaces/action'
+import Reducer from './interfaces/reducer'
+import Middleware from './interfaces/middleware'
+import Store from './interfaces/store'
 import initMiddleware from './init-middleware'
-
-export interface Store {
-  getState: (roomType?: string, roomId?: any) => any,
-  dispatch: {(action: Action): any}
-}
 
 export default function createStore (
   reducer: Reducer,

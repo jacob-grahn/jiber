@@ -1,5 +1,5 @@
 import createStore from './create-store'
-import { Reducer } from './interfaces/reducer'
+import Reducer from './interfaces/reducer'
 
 const nameReducer: Reducer = (state = '', action) => action.name || state
 

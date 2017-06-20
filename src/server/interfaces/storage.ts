@@ -9,4 +9,4 @@ interface Storage {
   clear?: () => void
 }
 
-export { Storage as default }
+export default Storage

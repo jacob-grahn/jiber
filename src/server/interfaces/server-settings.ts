@@ -2,7 +2,7 @@ import { Reducer } from '../../core/index'
 import LoginRequestHandler from './login-request-handler'
 import Storage from './storage'
 
-export interface ServerSettings {
+interface ServerSettings {
   socketPort: number,
   stunPort: number,
   reducer: Reducer,
@@ -12,3 +12,5 @@ export interface ServerSettings {
   rateLimit: number,
   maxMessageCharLength: number
 }
+
+export default ServerSettings

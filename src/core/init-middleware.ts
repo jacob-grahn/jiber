@@ -1,6 +1,6 @@
-import { Middleware } from './interfaces/middleware'
-import { Action } from './interfaces/action'
-import { Store } from './create-store'
+import Middleware from './interfaces/middleware'
+import Action from './interfaces/action'
+import Store from './interfaces/store'
 
 export default function initMiddleware (
   middlewares: Middleware[],

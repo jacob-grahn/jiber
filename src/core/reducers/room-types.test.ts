@@ -1,5 +1,5 @@
 import roomTypes from './room-types'
-import { Action } from '../interfaces/action'
+import Action from '../interfaces/action'
 
 test('passes roomType.roomId to one of many reducers', () => {
   const state: any = undefined

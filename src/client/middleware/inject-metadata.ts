@@ -28,4 +28,4 @@ const injectMetadata: Middleware = (store: Store) => {
   }
 }
 
-export { injectMetadata as default }
+export default injectMetadata

@@ -3,20 +3,21 @@ import injectMetadata from './middleware/inject-metadata'
 import clientRoom from './reducers/client-room/client-room'
 import me from './reducers/me'
 import {
-  Store,
   Action,
+  Store,
   createStore,
   simpleSetter,
   dictionary,
   combineReducers,
   users
 } from '../core/index'
-import Options from './interfaces/options'
-import OptionsInput from './interfaces/options-input'
+import ClientSettings from './interfaces/client-settings'
+import ClientSettingsInput from './interfaces/client-settings-input'
+import ClientStore from './interfaces/client-store'
 import createServerConnection from './server-connection'
 import createRoom from './create-room'
 
-const defaultOptions: Options = {
+const defaultOptions: ClientSettings = {
   reducer: simpleSetter,
   middleware: [],
   url: '',
@@ -28,8 +29,8 @@ const defaultOptions: Options = {
 // When creating a client store, add middleware to send actions to the server
 // and peers
 export default function createClientStore (
-  optionInput: OptionsInput = {}
-): Store {
+  optionInput: ClientSettingsInput = {}
+): ClientStore {
   const options = {
     ...defaultOptions,
     ...optionInput

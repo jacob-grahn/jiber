@@ -1,5 +1,5 @@
 import { Action, Reducer, combineReducers } from '../../../core/index'
-import { Socket } from '../../interfaces/socket'
+import Socket from '../../interfaces/socket'
 import connection from './connection'
 import connectedAt from './connected-at'
 import lastReceivedAt from './last-received-at'
@@ -21,7 +21,7 @@ const reducer: Reducer = combineReducers({
   lastSentAt,
   rateLimit
 })
-export { reducer as default }
+export default reducer
 
 // Action Creators
 export function socketInit (socketId: string, connection: Socket): Action {

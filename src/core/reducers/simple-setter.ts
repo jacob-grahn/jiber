@@ -1,4 +1,4 @@
-import { Action } from '../interfaces/action'
+import Action from '../interfaces/action'
 
 export interface SetterState {
   [key: string]: any

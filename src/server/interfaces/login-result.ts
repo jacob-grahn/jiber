@@ -3,4 +3,4 @@ interface LoginResult {
   [key: string]: any
 }
 
-export { LoginResult as default }
+export default LoginResult

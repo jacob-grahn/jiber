@@ -1,4 +1,4 @@
-import { Action } from '../interfaces/action'
+import Action from '../interfaces/action'
 
 // Actions
 export const LOGIN_REQUEST = 'hope/user/LOGIN_REQUEST'
