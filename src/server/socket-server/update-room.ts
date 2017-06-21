@@ -41,8 +41,10 @@ export default function createUpdateRoom (
     store.dispatch(beginUpdate(roomId))                                         // start
     const actions = await storage.getActions(roomId, room.lastUpdatedAt)        // get the queued actions
     actions.forEach(action => {                                                 // process the actions
+      const lastActionId = room.actionIds[action.$hope.userId] || 0
       action.$hope.source = SERVER
       action.$hope.type = CONFIRMED_ACTION
+      action.$hope.actionId = lastActionId + 1
       store.dispatch(action)
     })
     store.dispatch(finishUpdate(roomId))                                        // done
