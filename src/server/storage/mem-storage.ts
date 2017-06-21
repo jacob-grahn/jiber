@@ -45,7 +45,7 @@ async function getActions (
 ): Promise<HopeAction[]> {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
-  return actions.filter(action => action.$hope.timeMs >= minTimeMs)
+  return actions.filter(action => action.$hope.timeMs > minTimeMs)
 }
 
 async function removeActions (roomId: string, minTimeMs: number): Promise<any> {

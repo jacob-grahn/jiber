@@ -29,7 +29,7 @@ test('getActions should return actions newer than timeMs', async () => {
   await storage.addAction(room, {type: 'two'})
 
   const allActions = await storage.getActions(room, 0)
-  const nowActions = await storage.getActions(room, timeMs)
+  const nowActions = await storage.getActions(room, timeMs - 1)
   const futureActions = await storage.getActions(room, Number.MAX_VALUE)
   expect(allActions.length).toBe(2)
   expect(nowActions.length).toBe(1)
