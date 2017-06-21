@@ -1,4 +1,9 @@
-import { Action, confirmedState } from '../../core/index'
+import {
+  Action,
+  SERVER,
+  CONFIRMED_ACTION,
+  confirmedState
+} from '../../core/index'
 import Storage from '../interfaces/storage'
 import ServerStore from '../interfaces/server-store'
 import { beginUpdate, finishUpdate } from '../reducers/server-room/is-updating'
@@ -35,7 +40,11 @@ export default function createUpdateRoom (
 
     store.dispatch(beginUpdate(roomId))                                         // start
     const actions = await storage.getActions(roomId, room.lastUpdatedAt)        // get the queued actions
-    actions.forEach(action => store.dispatch(action))                           // process the actions
+    actions.forEach(action => {                                                 // process the actions
+      action.$hope.source = SERVER
+      action.$hope.type = CONFIRMED_ACTION
+      store.dispatch(action)
+    })
     store.dispatch(finishUpdate(roomId))                                        // done
     return actions
   }

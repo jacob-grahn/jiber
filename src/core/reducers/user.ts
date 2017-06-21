@@ -1,15 +1,11 @@
 import Action from '../interfaces/action'
+import UserState from '../interfaces/user-state'
 
 // Actions
 export const LOGIN_REQUEST = 'hope/user/LOGIN_REQUEST'
 export const LOGIN_RESULT = 'hope/user/LOGIN_RESULT'
 export const ADD_USER = 'hope/user/ADD_USER'
 export const REMOVE_USER = 'hope/user/REMOVE_USER'
-
-export interface UserState {
-  userId: string,
-  [key: string]: any
-}
 
 // Reducer
 export default function user (

@@ -75,18 +75,10 @@ export default function createServerConnection (
     }
   }
 
-  /* function isMember (roomId: string): boolean {
-    if (!roomId) return true
-    const state = store.getState()
-    const rooms = state.rooms
-    const myUserId = state.me.userId
-    return !!(myUserId && rooms[roomId] && rooms[roomId].actionIds[myUserId])
-  } */
-
   function rejoinRooms () {
     const state = store.getState()
     Object.keys(state.rooms).forEach(roomId => {
-      const action = joinRoom(roomId, state.me.userId)
+      const action = joinRoom(roomId)
       send(action)
     })
   }

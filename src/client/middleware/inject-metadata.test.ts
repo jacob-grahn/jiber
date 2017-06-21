@@ -3,7 +3,7 @@ import { Action, CLIENT, PEER } from '../../core/index'
 
 let lastAction: Action
 const state = {
-  myUserId: 'bob',
+  me: {userId: 'bob'},
   rooms: {
     testRoom: {
       actionIds: {bob: 5}

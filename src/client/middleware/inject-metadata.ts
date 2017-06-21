@@ -11,7 +11,7 @@ const injectMetadata: Middleware = (store: Store) => {
     const roomId = (typeof meta === 'string') ? meta : meta.roomId
     const state = store.getState()
     const roomState = state.rooms[roomId]
-    const userId = state.myUserId || ''
+    const userId = state.me.userId
     const hopeAction = {
       ...action,
       $hope: {

@@ -5,6 +5,8 @@ export { default as HopeAction } from './interfaces/hope-action'
 export { default as Dictionary } from './interfaces/dictionary'
 export { default as Store } from './interfaces/store'
 export { default as RoomState } from './interfaces/room-state'
+export { default as UserState } from './interfaces/user-state'
+
 export { default as createStore } from './create-store'
 export * from './reducers/room-actions'
 export { default as combineReducers } from './reducers/combine-reducers'

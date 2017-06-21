@@ -2,9 +2,7 @@ import { Action, Store, joinRoom } from '../core/index'
 
 export default function (store: Store) {
   return function createRoom (roomId: string) {
-    const state = store.getState()
-    const myUserId = state.me.userId
-    store.dispatch(joinRoom(roomId, myUserId))
+    store.dispatch(joinRoom(roomId))
     return {
       dispatch: (action: Action): void => {
         const roomAction: Action = {...action, $hope: roomId}

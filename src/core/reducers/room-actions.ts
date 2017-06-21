@@ -24,10 +24,10 @@ export function confirmedState (
   }
 }
 
-export function joinRoom (roomId: string, userId: string): Action {
-  return {type: JOIN_ROOM, $hope: roomId, userId}
+export function joinRoom (roomId: string): Action {
+  return {type: JOIN_ROOM, $hope: {roomId}}
 }
 
-export function leaveRoom (roomId: string, userId: string): Action {
-  return {type: LEAVE_ROOM, $hope: roomId, userId}
+export function leaveRoom (roomId: string): Action {
+  return {type: LEAVE_ROOM, $hope: {roomId}}
 }

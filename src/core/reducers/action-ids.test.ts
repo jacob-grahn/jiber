@@ -17,7 +17,8 @@ test('add actionId', () => {
   const state = {}
   const roomId = ''
   const userId = 'fil'
-  const action = joinRoom(roomId, userId)
+  const action = joinRoom(roomId)
+  action.$hope.userId = userId
   expect(actionIds(state, action)).toEqual({fil: 0})
 })
 
@@ -25,7 +26,8 @@ test('adding existing user is ignored', () => {
   const state = {sue: 5}
   const roomId = ''
   const userId = 'sue'
-  const action = joinRoom(roomId, userId)
+  const action = joinRoom(roomId)
+  action.$hope.userId = userId
   expect(actionIds(state, action)).toEqual({sue: 5})
 })
 
@@ -33,7 +35,8 @@ test('remove actionId', () => {
   const state = {fil: 1}
   const roomId = ''
   const userId = 'fil'
-  const action = leaveRoom(roomId, userId)
+  const action = leaveRoom(roomId)
+  action.$hope.userId = userId
   expect(actionIds(state, action)).toEqual({})
 })
 
@@ -41,6 +44,7 @@ test('removeing a non-member is ignored', () => {
   const state = {fil: 1}
   const roomId = ''
   const userId = 'pil'
-  const action = leaveRoom(roomId, userId)
+  const action = leaveRoom(roomId)
+  action.$hope.userId = userId
   expect(actionIds(state, action)).toEqual({fil: 1})
 })

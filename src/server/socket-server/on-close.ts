@@ -21,7 +21,8 @@ export default function createOnClose (
         return room.actionIds[userId]
       })
       memberRoomIds.forEach(roomId => {
-        const action = leaveRoom(roomId, userId)
+        const action = leaveRoom(roomId)
+        action.$hope.userId = userId
         return addAction(roomId, action)
       })
     }
