@@ -25,14 +25,12 @@ export default function createSocketServer (
   const onLogin = createOnLogin(store, settings.onLogin, sendToSocket)
   const onMessage = createOnMessage(
     store,
-    settings,
     onAction,
     onLogin,
     sendToSocket
   )
   const onConnect = createOnConnect(
     store,
-    settings,
     onMessage,
     onClose,
     sendToSocket

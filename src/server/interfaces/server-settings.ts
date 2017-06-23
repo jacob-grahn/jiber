@@ -7,10 +7,7 @@ interface ServerSettings {
   stunPort: number,
   reducer: Reducer,
   onLogin: LoginRequestHandler,
-  storage: Storage,
-  rateLimitPeriodMs: number
-  rateLimit: number,
-  maxMessageCharLength: number
+  storage: Storage
 }
 
 export default ServerSettings

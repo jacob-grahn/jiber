@@ -19,10 +19,7 @@ const defaultSettings: ServerSettings = {
   stunPort: 3478,
   reducer: simpleSetter,
   onLogin: memAccounts,
-  storage: memStorage,
-  rateLimitPeriodMs: 10000,
-  rateLimit: 100,
-  maxMessageCharLength: 1000
+  storage: memStorage
 }
 
 export default function createServerStore (

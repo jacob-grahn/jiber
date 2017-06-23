@@ -5,13 +5,6 @@ interface ServerState {
     [socketId: string]: {
       connection: Socket,
       connectedAt: number,
-      lastReceivedAt: number,
-      lastSentAt: number,
-      rateLimit: {
-        periodDuration: number,
-        period: number,
-        total: number
-      },
       userId: string
     }
   },

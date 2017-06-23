@@ -1,10 +1,7 @@
 import { Action, Store } from '../../core/index'
-import { socketReceive } from '../reducers/socket/socket'
-import ServerSettings from '../interfaces/server-settings'
 
 export default function createOnMessage (
   store: Store,
-  settings: ServerSettings,
   onAction: (userId: string, action: Action) => Promise<void>,
   onLogin: (socketId: string, action: Action) => Promise<void>,
   sendToSocket: (socketId: string, actions: Action) => void
@@ -14,26 +11,15 @@ export default function createOnMessage (
     message: string
   ): Promise<void> {
     try {
-      const socketData = store.getState().sockets[socketId]
-      const userId = socketData.userId
-      const time = new Date().getTime()
-      const rateLimitPeriod = Math.floor(time / settings.rateLimitPeriodMs)
+      const state = store.getState()                                            // look up their userId
+      const userId = state.sockets[socketId].userId                             // state.sockets[socketId] should always exist, so this should be safe...
 
-      if (socketData.rateLimit.period === rateLimitPeriod
-        && socketData.rateLimit.total >= settings.rateLimit) {                  // rate limit incoming messages
-        throw new Error('RATE_LIMIT_EXCEEDED')
-      }
-      if (message.length > settings.maxMessageCharLength) {                     // length limit
-        throw new Error('MESSAGE_TOO_LONG')
-      }
-
-      const action = JSON.parse(message)                                        // don't parse until the above limits have been checked, parsing is expensive
-      store.dispatch(socketReceive(socketId))                                   // record that data was received for rate limiting
+      const action = JSON.parse(message)
 
       if (userId) {
         await onAction(userId, action)
       } else {
-        await onLogin(socketId, action)
+        await onLogin(socketId, action)                                         // without a userId, logging in is all you can do
       }
     } catch (e) {
       sendToSocket(socketId, {type: 'ERROR', message: e.message})

@@ -1,5 +1,4 @@
 import { Action, Store } from '../../core/index'
-import { socketSend } from '../reducers/socket/socket'
 
 const OPEN = 1
 
@@ -9,7 +8,6 @@ export default function createSendToSocket (store: Store) {
     const connection = socket.connection
     if (connection.readyState === OPEN) {
       connection.send(JSON.stringify(action))
-      store.dispatch(socketSend(socketId))
     }
   }
 }

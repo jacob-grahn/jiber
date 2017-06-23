@@ -8,9 +8,6 @@ interface ServerSettingsInput {
   reducer?: Reducer,
   onLogin?: LoginRequestHandler,
   storage?: Storage,
-  rateLimitPeriodMs?: number
-  rateLimit?: number,
-  maxMessageCharLength?: number,
   initialState?: any
 }
 
