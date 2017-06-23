@@ -1,4 +1,4 @@
-import { default as user, addUser, loginResult, removeUser } from './user'
+import { default as user, addUser, removeUser } from './user'
 
 test('default to obj with empty userId', () => {
   const state = undefined

@@ -25,8 +25,6 @@ export default function createServerConnection (
   let retryCount = 0
   let connectionIsWanted = true
 
-  setInterval(sendQueue, 1000)                                                  // todo: fix this hack
-
   if (url) {
     connect()
   }
@@ -39,11 +37,12 @@ export default function createServerConnection (
     store.dispatch(action)
   }
   function onClose (): void {
-    if (retryCount === 0) rejoinRooms()
     reconnect()
   }
   function onOpen (): void {
     retryCount = 0
+    rejoinRooms()
+    sendQueue()
   }
 
   // Open a socket connection

@@ -15,10 +15,15 @@ export default function createUpdateRoom (
   storage: Storage
 ) {
   async function updateRoom (roomId: string): Promise<void> {
-    await initializeIfNeeded(roomId)
-    const actions = await processNewActions(roomId)
-    actions.forEach(action => sendToRoom(roomId, action))                       // send the actions to members of the room
-    startUpdateIfNeeded(roomId)                                                 // if more actions came in during the update, then start another update
+    try {
+      await initializeIfNeeded(roomId)
+      const actions = await processNewActions(roomId)
+      actions.forEach(action => sendToRoom(roomId, action))                       // send the actions to members of the room
+      startUpdateIfNeeded(roomId)                                                 // if more actions came in during the update, then start another update
+    }
+    catch(e) {
+      console.log(e.message)
+    }
   }
 
   async function initializeIfNeeded (roomId: string): Promise<void> {           // if the room does not exist, create a new room using a snapshot from storage
