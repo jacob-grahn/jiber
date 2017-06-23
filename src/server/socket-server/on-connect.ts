@@ -1,19 +1,18 @@
-import { Store } from '../../core/index'
+import { Store, loginResult } from '../../core/index'
 import { socketInit } from '../reducers/socket/socket'
 import * as ws from 'ws'
-
-let nextId = 1
 
 export default function createOnConnect (
   store: Store,
   onMessage: Function,
   onClose: Function,
   sendToSocket: Function
-): (connection: ws) => void {
-  return function onConnect (connection: ws): void {
-    const socketId = (nextId++).toString()
-
-    store.dispatch(socketInit(socketId, connection))
+) {
+  return function onConnect (connection: ws, request: any): void {
+    const state = store.getState()
+    const socketId = request.headers['sec-websocket-key']
+    const userId = state.sockets[socketId].userId
+    const user = state.users[userId]
 
     connection.on('message', async (message) => {
       try {
@@ -26,5 +25,8 @@ export default function createOnConnect (
     connection.on('close', () => {
       onClose(socketId)
     })
+
+    store.dispatch(socketInit(socketId, connection))
+    sendToSocket(socketId, loginResult(user.public))
   }
 }

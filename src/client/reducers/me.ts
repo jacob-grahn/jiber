@@ -1,4 +1,4 @@
-import { user, Action, UserState, LOGIN_RESULT, ADD_USER } from '../../core/index'
+import { Action, UserState, LOGIN_RESULT } from '../../core/index'
 
 export default function me (
   state: UserState = {userId: ''},
@@ -6,7 +6,7 @@ export default function me (
 ): UserState {
   switch (action.type) {
     case LOGIN_RESULT:
-      return user(state, {...action, type: ADD_USER})
+      return action.user
 
     default:
       return state

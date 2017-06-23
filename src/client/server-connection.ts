@@ -1,9 +1,8 @@
-import { Action, SERVER, loginRequest, joinRoom } from '../core/index'
+import { Action, SERVER, joinRoom } from '../core/index'
 import ClientStore from './interfaces/client-store'
 
 export interface ServerConnection {
   send: (action: Action) => void,
-  sendQueue: () => void,
   close: () => void
 }
 
@@ -45,13 +44,12 @@ export default function createServerConnection (
   }
   function onOpen (): void {
     retryCount = 0
-    send(loginRequest(credential))
   }
 
   // Open a socket connection
   function connect () {
     if (!connectionIsWanted) return
-    socket = new WebSocket(`ws://${url}:${socketPort}`)
+    socket = new WebSocket(`ws://${url}:${socketPort}`, credential || undefined)
     socket.addEventListener('close', onClose)
     socket.addEventListener('open', onOpen)
     socket.addEventListener('message', onMessage)
@@ -105,7 +103,6 @@ export default function createServerConnection (
   // public methods
   return {
     send,
-    sendQueue,
     close
   }
 }

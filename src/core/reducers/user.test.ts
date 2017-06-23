@@ -12,12 +12,6 @@ test('copy user data on ADD_USER', () => {
   expect(user(state, action)).toEqual({userId: 'sue'})
 })
 
-test('copy user data on LOGIN_RESULT', () => {
-  const state = undefined
-  const action = loginResult({userId: 'sue'})
-  expect(user(state, action)).toEqual({userId: 'sue'})
-})
-
 test('empty out data on REMOVE_USER', () => {
   const state = {userId: 'sue', age: 50}
   const action = removeUser('sue')

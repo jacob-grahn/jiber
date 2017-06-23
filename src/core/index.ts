@@ -18,11 +18,9 @@ export { default as actionIds } from './reducers/action-ids'
 export { default as roomTypes } from './reducers/room-types'
 export {
   default as user,
-  loginRequest,
-  loginResult,
   addUser,
   removeUser,
-  LOGIN_REQUEST,
+  loginResult,
   LOGIN_RESULT,
   ADD_USER
 } from './reducers/user'
