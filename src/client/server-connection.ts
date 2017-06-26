@@ -1,4 +1,4 @@
-import { Action, SERVER, joinRoom } from '../core/index'
+import { Action, SERVER, joinRoom, JOIN_ROOM, get } from '../core/index'
 import ClientStore from './interfaces/client-store'
 
 export interface ServerConnection {
@@ -65,9 +65,11 @@ export default function createServerConnection (
   // Add a message to be sent
   function send (action: Action): void {
     if (canSend()) {
-      const strAction = JSON.stringify(action)
+      const roomId = get(action, '$hope.roomId') || action.$hope
+      const smallerAction = {...action, $hope: roomId}
+      const strAction = JSON.stringify(smallerAction)
       socket.send(strAction)
-    } else {
+    } else if (action.type !== JOIN_ROOM) {
       queue.push(action)
     }
   }

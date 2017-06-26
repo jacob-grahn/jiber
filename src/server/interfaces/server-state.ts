@@ -1,3 +1,4 @@
+import { RoomState } from '../../core/index'
 import Socket from './socket'
 
 interface ServerState {
@@ -15,13 +16,7 @@ interface ServerState {
     }
   },
   rooms: {
-    [roomId: string]: {
-      actionIds: {[userId: string]: number},
-      isUpdating: boolean,
-      needsUpdate: boolean,
-      lastUpdatedAt: number,
-      confirmedState: any
-    }
+    [roomId: string]: RoomState
   }
 }
 

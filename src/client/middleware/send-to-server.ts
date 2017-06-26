@@ -1,4 +1,4 @@
-import { Action, Middleware, CLIENT, get } from '../../core/index'
+import { Action, Middleware, CLIENT } from '../../core/index'
 import { ServerConnection } from '../server-connection'
 
 export default function createSendToServer (
@@ -7,9 +7,7 @@ export default function createSendToServer (
   return () => (next: Function) => (action: Action) => {
     if (!action.$hope) return next(action)                                      // ignore actions without metadata
     if (action.$hope.source === CLIENT) {
-      const roomId = get(action, '$hope.roomId') || action.$hope
-      const smallerAction = {...action, $hope: roomId}
-      server.send(smallerAction)
+      server.send(action)
     }
     next(action)
   }

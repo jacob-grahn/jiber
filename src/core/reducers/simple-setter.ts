@@ -27,5 +27,5 @@ export default function simpleSetter (
 
 // Action Creators
 export function set (roomId: string, data: {[key: string]: any}) {
-  return {type: SET, $hope: roomId, data}
+  return {type: SET, $hope: {roomId}, data}
 }
