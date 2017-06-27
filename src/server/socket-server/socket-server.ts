@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws'
-import { Store } from '../../core/index'
+import { Action, Store } from '../../core/index'
 import ServerSettings from '../interfaces/server-settings'
 import createOnConnect from './on-connect'
 import createOnMessage from './on-message'
@@ -9,9 +9,11 @@ import createOnAuthorize from './on-authorize'
 import createUpdateRoom from './update-room'
 import createSendToRoom from './send-to-room'
 import createSendToSocket from './send-to-socket'
+import createSendToUser from './send-to-user'
 
 export interface SocketServer {
-  start: () => void
+  start: () => void,
+  sendToUser: (userId: string, action: Action) => void
 }
 
 export default function createSocketServer (
@@ -19,6 +21,7 @@ export default function createSocketServer (
 ): SocketServer {
   const sendToSocket = createSendToSocket(store)
   const sendToRoom = createSendToRoom(store, sendToSocket)
+  const sendToUser = createSendToUser(store, sendToSocket)
   const updateRoom = createUpdateRoom(store, sendToRoom, settings.storage)
   const onClose = createOnClose(store, settings.storage.addAction)
   const onAction = createOnAction(settings.storage.addAction, updateRoom)
@@ -37,7 +40,8 @@ export default function createSocketServer (
       verifyClient: onAuthorize
     })
     wss.on('connection', onConnect as any)                                      // get around the imperfect typescript definitions for ws
+    wss.on('error', (err) => console.log('wss error', err))
   }
 
-  return {start}
+  return {start, sendToUser}
 }

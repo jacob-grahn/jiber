@@ -10,8 +10,10 @@ export default function createStore (
   middlewares: Middleware[] = []
 ): Store {
   let state: any = initialState
-  const store = {dispatch, getState}
-  const applyMiddleware = initMiddleware(middlewares, store, applyAction)
+  let applyMiddleware: Function
+  const store = {dispatch, getState, setMiddleware}
+
+  setMiddleware(middlewares)
 
   dispatch({type: 'hope/INIT'})                                                 // initialize reducer with it's default state
 
@@ -25,6 +27,10 @@ export default function createStore (
 
   function getState (): any {
     return state
+  }
+
+  function setMiddleware (middlewares: Middleware[]): void {
+    applyMiddleware = initMiddleware(middlewares, store, applyAction)
   }
 
   return store

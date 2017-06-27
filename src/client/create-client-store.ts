@@ -3,8 +3,6 @@ import injectMetadata from './middleware/inject-metadata'
 import clientRoom from './reducers/client-room/client-room'
 import me from './reducers/me'
 import {
-  Action,
-  Store,
   createStore,
   simpleSetter,
   dictionary,
@@ -36,15 +34,14 @@ export default function createClientStore (
     ...optionInput
   }
 
-  let store: Store                                                              // serverConnection needs store.dispatch, but the store
+  const rooms = dictionary(clientRoom(options.reducer), '$hope.roomId')
+  const topReducer = combineReducers({rooms, users, me})
+  const store = createStore(topReducer, undefined)
+  const clientStore: ClientStore = {...store, createRoom: createRoom(store)}
 
   const serverConnection = createServerConnection({
     ...options,
-    store: {
-      dispatch: (action: Action) => store.dispatch(action),
-      getState: () => store.getState(),
-      createRoom: () => { /* do nothing */ }
-    }
+    store: clientStore
   })
   const sendToServer = createSendToServer(serverConnection)
   const clientMiddleware = [
@@ -52,13 +49,7 @@ export default function createClientStore (
     injectMetadata,
     sendToServer
   ]
+  store.setMiddleware(clientMiddleware)
 
-  const rooms = dictionary(clientRoom(options.reducer), '$hope.roomId')
-  const topReducer = combineReducers({rooms, users, me})
-  store = createStore(topReducer, undefined, clientMiddleware)
-
-  return {
-    ...store,
-    createRoom: createRoom(store)
-  }
+  return clientStore
 }

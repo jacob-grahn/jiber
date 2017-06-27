@@ -13,6 +13,7 @@ import memAccounts from './accounts/mem-accounts'
 import createSocketServer from './socket-server/socket-server'
 import serverRoom from './reducers/server-room/server-room'
 import sockets from './reducers/socket/sockets'
+import welcomeNewMembers from './middleware/welcome-new-members'
 
 const defaultSettings: ServerSettings = {
   socketPort: 80,
@@ -35,7 +36,10 @@ export default function createServerStore (
 
   const store = createStore(reducer, inputSettings.initialState)
   const socketServer = createSocketServer(store, settings)
-  socketServer.start()
 
+  const middleware = [welcomeNewMembers(socketServer.sendToUser)]
+  store.setMiddleware(middleware)
+
+  socketServer.start()
   return store
 }

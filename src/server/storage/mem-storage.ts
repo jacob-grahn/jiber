@@ -10,7 +10,7 @@ const defaultRoomStorage: RoomStorage = {
   pendingActions: [],
   state: {
     actionIds: {},
-    confirmedState: null,
+    confirmedState: undefined,
     lastUpdatedAt: 0
   }
 }

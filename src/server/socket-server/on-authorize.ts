@@ -19,6 +19,7 @@ export default function createOnAuthorize (
       store.dispatch(addUserAction)
       cb(true)
     } catch (e) {
+      console.log('authorize error', e)
       cb(false)
     }
   }
