@@ -1,36 +1,35 @@
 import {
   HopeAction,
+  SERVER,
   CONFIRMED_STATE,
-  LEAVE_ROOM,
-  CONFIRMED_ACTION
+  LEAVE_ROOM
 } from '../../../core/index'
-import { OPTIMISTIC_ACTION } from './client-room'
 
 export default function reducer (
   state: HopeAction[] = [],
   action: HopeAction
 ): HopeAction[] {
-  const type = action.$hope.type || action.type
-  switch (type) {
-    case CONFIRMED_STATE:
-      const state2 = claimActions(state, action.myUserId)
-      const state3 = withoutNonMembers(state2, action.actionIds)
-      return pruneActions(state3, action.actionIds)
-
-    case LEAVE_ROOM:
-      return withoutUser(state, action.userId)
-
-    case CONFIRMED_ACTION:
-      const userId = action.$hope.userId || ''
-      const actionId = action.$hope.actionId || 0
-      return pruneActions(state, {[userId]: actionId})
-
-    case OPTIMISTIC_ACTION:
-      return [...state, action]
-
-    default:
-      return state
+  if (action.type === CONFIRMED_STATE) {
+    const state2 = claimActions(state, action.myUserId)
+    const state3 = withoutNonMembers(state2, action.actionIds)
+    return pruneActions(state3, action.actionIds)
   }
+
+  if (action.type === LEAVE_ROOM) {
+    return withoutUser(state, action.userId)
+  }
+
+  if (action.$hope.source === SERVER && action.$hope.actionId) {                // confirmed action
+    const userId = action.$hope.userId || ''
+    const actionId = action.$hope.actionId || 0
+    return pruneActions(state, {[userId]: actionId})
+  }
+
+  if (action.$hope.actionId) {                                                  // optimistic action
+    return [...state, action]
+  }
+
+  return state
 }
 
 // Assign a userId to actions that don't have a userId

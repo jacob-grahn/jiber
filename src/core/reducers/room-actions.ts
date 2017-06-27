@@ -7,7 +7,6 @@ import { SERVER } from '../constants/source-types'
 export const JOIN_ROOM = 'hope/room/JOIN_ROOM'
 export const LEAVE_ROOM = 'hope/room/LEAVE_ROOM'
 export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
-export const CONFIRMED_ACTION = 'hope/room/CONFIRMED_ACTION'
 
 // Action Creators
 export function confirmedState (

@@ -1,18 +1,16 @@
-import { Action, Reducer } from '../../core/index'
-import { CONFIRMED_STATE, CONFIRMED_ACTION } from './room-actions'
+import { Action, Reducer, SERVER } from '../../core/index'
+import { CONFIRMED_STATE } from './room-actions'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmedState (state: any = undefined, action: Action): any {
-    const type = action.$hope.type || action.type
-    switch (type) {
-      case CONFIRMED_STATE:
-        return action.confirmedState
-
-      case CONFIRMED_ACTION:
-        return subReducer(state, action)
-
-      default:
-        return state
+    if (action.type === CONFIRMED_STATE) {
+      return action.confirmedState
     }
+
+    if (action.$hope.source === SERVER && action.$hope.actionId) {              // confirmed action
+      return subReducer(state, action)
+    }
+
+    return state
   }
 }

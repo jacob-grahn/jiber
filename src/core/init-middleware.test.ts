@@ -3,7 +3,11 @@ import Action from './interfaces/action'
 import Middleware from './interfaces/middleware'
 import Store from './interfaces/store'
 
-const store: Store = {dispatch: () => 'do nothing', getState: () => 'funstuff'}
+const store: Store = {
+  dispatch: () => 'do nothing',
+  getState: () => 'funstuff',
+  setMiddleware: () => 'do nothing'
+}
 
 test ('middleware is given the store', () => {
   let givenStore

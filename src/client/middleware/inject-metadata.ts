@@ -1,6 +1,5 @@
 import { Action, Store, Middleware, CLIENT } from '../../core/index'
 import nextActionId from '../utils/next-action-id'
-import { OPTIMISTIC_ACTION } from '../reducers/client-room/client-room'
 
 const injectMetadata: Middleware = (store: Store) => {
   return (next: Function) => (action: Action) => {
@@ -15,7 +14,6 @@ const injectMetadata: Middleware = (store: Store) => {
     const hopeAction = {
       ...action,
       $hope: {
-        type: OPTIMISTIC_ACTION,
         actionId: nextActionId(userId, roomState),
         roomId,
         source: CLIENT,

@@ -12,7 +12,8 @@ const state = {
 }
 const store = {
   dispatch: () => 'do nothing',
-  getState: () => state
+  getState: () => state,
+  setMiddleware: () => 'do nothing'
 }
 const final = (action: Action) => lastAction = action
 const inner = injectMetadata(store)(final)

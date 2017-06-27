@@ -2,7 +2,6 @@ import {
   Action,
   RoomState,
   SERVER,
-  CONFIRMED_ACTION,
   confirmedState
 } from '../../core/index'
 import Storage from '../interfaces/storage'
@@ -44,7 +43,6 @@ export default function createUpdateRoom (
   function addMetadata (room: RoomState, action: Action): Action {              // process the actions
     const lastActionId = room.actionIds[action.$hope.userId] || 0
     action.$hope.source = SERVER
-    action.$hope.type = CONFIRMED_ACTION
     action.$hope.actionId = lastActionId + 1
     return action
   }

@@ -10,9 +10,6 @@ import optimisticActions from './optimistic-actions'
 import createOptimisticState from './optimistic-state'
 import status from './status'
 
-// Action types
-export const OPTIMISTIC_ACTION = 'hope/room/OPTIMISTIC_ACTION'
-
 // Reducer
 export default function createRoom (subReducer: Reducer): Reducer {
   const confirmedState = createConfirmedState(subReducer)
