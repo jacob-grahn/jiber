@@ -3,6 +3,7 @@ import { Action, Store } from '../../core/index'
 import ServerSettings from '../interfaces/server-settings'
 import createOnConnect from './on-connect'
 import createOnMessage from './on-message'
+import createSaveRoom from './save-room'
 import createOnClose from './on-close'
 import createOnAction from './on-action'
 import createOnAuthorize from './on-authorize'
@@ -19,20 +20,17 @@ export interface SocketServer {
 export default function createSocketServer (
   store: Store, settings: ServerSettings
 ): SocketServer {
+  const storage = settings.storage
   const sendToSocket = createSendToSocket(store)
   const sendToRoom = createSendToRoom(store, sendToSocket)
   const sendToUser = createSendToUser(store, sendToSocket)
-  const updateRoom = createUpdateRoom(store, sendToRoom, settings.storage)
-  const onClose = createOnClose(store, settings.storage.addAction)
-  const onAction = createOnAction(settings.storage.addAction, updateRoom)
+  const saveRoom = createSaveRoom(store, storage)
+  const updateRoom = createUpdateRoom(store, storage, sendToRoom, saveRoom)
+  const onClose = createOnClose(store, storage.addAction)
+  const onAction = createOnAction(storage.addAction, updateRoom)
   const onAuthorize = createOnAuthorize(store, settings.onLogin)
   const onMessage = createOnMessage(store, onAction)
-  const onConnect = createOnConnect(
-    store,
-    onMessage,
-    onClose,
-    sendToSocket
-  )
+  const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
 
   function start () {
     const wss = new WebSocket.Server({

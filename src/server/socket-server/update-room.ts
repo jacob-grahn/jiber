@@ -10,8 +10,9 @@ import noConcurrent from '../utils/no-concurrent'
 
 export default function createUpdateRoom (
   store: ServerStore,
+  storage: Storage,
   sendToRoom: (roomId: string, data: any) => void,
-  storage: Storage
+  saveRoom: (roomId: string) => void
 ) {
   const updateRoom: (roomId: string) => Promise<void> = noConcurrent(
     async function (roomId: string): Promise<void> {
@@ -24,6 +25,8 @@ export default function createUpdateRoom (
           store.dispatch(actionWithMeta)
           sendToRoom(roomId, actionWithMeta)
         })
+
+        process.nextTick(() => saveRoom(roomId))
       } catch (e) {
         console.log('updateRoom error', e.message)
       }
