@@ -1,18 +1,11 @@
 import ServerSettingsInput from './interfaces/server-settings-input'
 import ServerSettings from './interfaces/server-settings'
 import { ServerStore } from './interfaces/server-store'
-import {
-  createStore,
-  dictionary,
-  simpleSetter,
-  combineReducers,
-  users
-} from '../core/index'
+import { createStore, simpleSetter } from '../core/index'
 import memStorage from './storage/mem-storage'
 import memAccounts from './accounts/mem-accounts'
 import createSocketServer from './socket-server/socket-server'
-import serverRoom from './reducers/server-room/server-room'
-import sockets from './reducers/socket/sockets'
+import createServerReducer from './server-reducer'
 import welcomeNewMembers from './middleware/welcome-new-members'
 
 const defaultSettings: ServerSettings = {
@@ -27,19 +20,12 @@ export default function createServerStore (
   inputSettings: ServerSettingsInput = {}
 ): ServerStore {
   const settings: ServerSettings = {...defaultSettings, ...inputSettings}
-
-  const reducer = combineReducers({
-    sockets,
-    users,
-    rooms: dictionary(serverRoom(settings.reducer), '$hope.roomId')
-  })
-
-  const store = createStore(reducer, inputSettings.initialState)
+  const serverReducer = createServerReducer(settings.reducer)
+  const store = createStore(serverReducer, inputSettings.initialState)
   const socketServer = createSocketServer(store, settings)
-
   const middleware = [welcomeNewMembers(socketServer.sendToUser)]
-  store.setMiddleware(middleware)
 
+  store.setMiddleware(middleware)
   socketServer.start()
   return store
 }
