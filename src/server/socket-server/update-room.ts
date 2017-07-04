@@ -18,7 +18,7 @@ export default function createUpdateRoom (
     async function (roomId: string): Promise<void> {
       try {
         const room = await getRoom (roomId)
-        const actions = await storage.getActions(roomId, room.lastUpdatedAt)    // get the queued actions
+        const actions = await storage.fetchActions(roomId, room.lastUpdatedAt)  // get the queued actions
 
         actions.forEach(action => {
           const actionWithMeta = addMetadata(room, action)
@@ -38,7 +38,7 @@ export default function createUpdateRoom (
     const room = state.rooms[roomId]
     if (room) return room
 
-    const roomState = await storage.getState(roomId)
+    const roomState = await storage.fetchState(roomId)
     store.dispatch(confirmedState(roomId, roomState))
     return store.getState().rooms[roomId]
   }

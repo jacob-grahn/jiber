@@ -26,7 +26,7 @@ function clear () {
   Object.keys(rooms).forEach(roomId => delete rooms[roomId])
 }
 
-async function addAction (
+async function pushAction (
   roomId: string,
   action: Action
 ): Promise<any> {
@@ -39,7 +39,7 @@ async function addAction (
   return true
 }
 
-async function getActions (
+async function fetchActions (
   roomId: string,
   minTimeMs: number
 ): Promise<HopeAction[]> {
@@ -56,12 +56,12 @@ async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
   return true
 }
 
-async function getState (roomId: string): Promise<RoomState> {
+async function fetchState (roomId: string): Promise<RoomState> {
   const roomStorage = getRoom(roomId)
   return roomStorage.state
 }
 
-async function setState (roomId: string, state: RoomState): Promise<boolean> {
+async function storeState (roomId: string, state: RoomState): Promise<boolean> {
   const roomStorage = getRoom(roomId)
   roomStorage.state = state
   return true
@@ -69,10 +69,10 @@ async function setState (roomId: string, state: RoomState): Promise<boolean> {
 
 // Store a state in memory
 export default {
-  addAction,
-  getActions,
+  pushAction,
+  fetchActions,
   removeActions,
-  getState,
-  setState,
+  fetchState,
+  storeState,
   clear
 }

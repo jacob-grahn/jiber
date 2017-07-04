@@ -3,7 +3,7 @@ import { socketRemove } from '../reducers/socket/socket'
 
 export default function createOnClose (
   store: Store,
-  addAction: (roomId: string, action: Action) => Promise<void>
+  pushAction: (roomId: string, action: Action) => Promise<void>
 ) {
   return function onClose (socketId: string): void {
     const state = store.getState()
@@ -23,7 +23,7 @@ export default function createOnClose (
       memberRoomIds.forEach(roomId => {
         const action = leaveRoom(roomId)
         action.$hope.userId = userId
-        return addAction(roomId, action)
+        return pushAction(roomId, action)
       })
     }
 

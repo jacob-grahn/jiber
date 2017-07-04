@@ -9,11 +9,11 @@ async function sleep (ms: number): Promise<any> {
 beforeAll(storage.clear)
 afterEach(storage.clear)
 
-test('addAction', async () => {
+test('pushAction', async () => {
   const room = 'memRoom1'
-  await storage.addAction(room, {type: 'one'})
-  await storage.addAction(room, {type: 'two'})
-  const actions = await storage.getActions(room, 0)
+  await storage.pushAction(room, {type: 'one'})
+  await storage.pushAction(room, {type: 'two'})
+  const actions = await storage.fetchActions(room, 0)
   const [a1, a2] = actions
   expect(actions.length).toBe(2)
   expect(a1.type).toBe('one')
@@ -22,15 +22,15 @@ test('addAction', async () => {
 
 test('getActions should return actions newer than timeMs', async () => {
   const room = 'memRoom2'
-  await storage.addAction(room, {type: 'one'})
+  await storage.pushAction(room, {type: 'one'})
   await sleep(5)
 
   const timeMs = new Date().getTime()
-  await storage.addAction(room, {type: 'two'})
+  await storage.pushAction(room, {type: 'two'})
 
-  const allActions = await storage.getActions(room, 0)
-  const nowActions = await storage.getActions(room, timeMs - 1)
-  const futureActions = await storage.getActions(room, Number.MAX_VALUE)
+  const allActions = await storage.fetchActions(room, 0)
+  const nowActions = await storage.fetchActions(room, timeMs - 1)
+  const futureActions = await storage.fetchActions(room, Number.MAX_VALUE)
   expect(allActions.length).toBe(2)
   expect(nowActions.length).toBe(1)
   expect(futureActions.length).toBe(0)
@@ -38,14 +38,14 @@ test('getActions should return actions newer than timeMs', async () => {
 
 test('removeActions should remove actions older than timeMs', async () => {
   const room = 'removeActions'
-  await storage.addAction(room, {type: 'one'})
+  await storage.pushAction(room, {type: 'one'})
   await sleep(5)
 
   const timeMs = new Date().getTime()
-  await storage.addAction(room, {type: 'two'})
+  await storage.pushAction(room, {type: 'two'})
 
   await storage.removeActions(room, timeMs)
-  const actions = await storage.getActions(room, 0)
+  const actions = await storage.fetchActions(room, 0)
   expect(actions.length).toBe(1)
   expect(actions[0].type).toBe('two')
 })
@@ -53,7 +53,7 @@ test('removeActions should remove actions older than timeMs', async () => {
 test ('setState + getState should return the last saved state', async () => {
   const room = 'getState'
   const roomState = {confirmedState: 'hi', actionIds: {}, lastUpdatedAt: 0}
-  await storage.setState(room, roomState)
-  const state = await storage.getState(room)
+  await storage.storeState(room, roomState)
+  const state = await storage.fetchState(room)
   expect(state).toEqual(roomState)
 })

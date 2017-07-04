@@ -2,20 +2,20 @@ import { Action } from '../../core/index'
 import createOnAction from './on-action'
 
 test('return a function', () => {
-  const addActions = () => Promise.resolve()
+  const pushAction = () => Promise.resolve()
   const updateRoom = () => { /* do nothing */ }
-  const onAction = createOnAction(addActions, updateRoom)
+  const onAction = createOnAction(pushAction, updateRoom)
   expect(typeof onAction).toBe('function')
 })
 
 test('add action to storage', async () => {
   const calls: any = []
-  const addAction = async (roomId: string, action: Action) => {
+  const pushAction = async (roomId: string, action: Action) => {
     calls.push({roomId, action})
   }
   const updateRoom = () => { /* do nothing */ }
   const action: Action = {type: 'SPLAT', $hope: 'bob'}
-  const onAction = createOnAction(addAction, updateRoom)
+  const onAction = createOnAction(pushAction, updateRoom)
 
   await onAction('user1', action)
 
