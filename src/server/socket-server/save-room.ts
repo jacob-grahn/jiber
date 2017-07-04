@@ -1,13 +1,17 @@
 import noConcurrent from '../utils/no-concurrent'
-import ServerStore from '../interfaces/server-store'
-import Storage from '../interfaces/storage'
+import ServerState from '../interfaces/server-state'
+import { RoomState } from '../../core/interfaces/room-state'
 
-export default function createSaveRoom (store: ServerStore, storage: Storage) {
+export default function createSaveRoom (
+  getState: () => ServerState,
+  removeActions: (roomId: string, maxTimeMs: number) => Promise<void>,
+  setState: (roomId: string, state: RoomState) => Promise<boolean>
+) {
   async function saveRoom (roomId: string) {
-    const state = store.getState()
+    const state = getState()
     const room = state.rooms[roomId]
-    await storage.setState(roomId, room)
-    await storage.removeActions(roomId, room.lastUpdatedAt)
+    await setState(roomId, room)
+    await removeActions(roomId, room.lastUpdatedAt)
     await new Promise(resolve => setTimeout(resolve, 1000))                     // todo: delay should be customizable
   }
 
