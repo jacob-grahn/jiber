@@ -1,4 +1,4 @@
-import {default as simpleSetter, set} from './simple-setter'
+import {default as simpleSetter} from './simple-setter'
 
 test('default to empty object', () => {
   const state = undefined
@@ -8,7 +8,7 @@ test('default to empty object', () => {
 
 test('copy data from action to state', () => {
   const state = {something: 'good'}
-  const action = {type: 'SET', data: {food: 'good'}}
+  const action = {type: 'SET', key: 'food', value: 'good'}
   expect(simpleSetter(state, action)).toEqual({something: 'good', food: 'good'})
 })
 
@@ -19,6 +19,6 @@ test('an empty data object is safely handled', () => {
 })
 
 test('set action creator works', () => {
-  const action = set('room1', {name: 'bob'})
+  const action = {type: 'SET', key: 'name', value: 'bob'}
   expect(simpleSetter(undefined, action)).toEqual({name: 'bob'})
 })

@@ -1,6 +1,6 @@
 import Action from '../interfaces/action'
 
-export interface SetterState {
+export interface SimpleSetterState {
   [key: string]: any
 }
 
@@ -9,23 +9,13 @@ const SET = 'SET'
 
 // Reducer
 export default function simpleSetter (
-  state: SetterState = {},
+  state: SimpleSetterState = {},
   action: Action
-): SetterState {
+): SimpleSetterState {
   switch (action.type) {
     case SET:
-      const data = action.data || {}
-      return {
-        ...state,
-        ...data
-      }
-
+      return {...state, [action.key]: action.value}
     default:
       return state
   }
-}
-
-// Action Creators
-export function set (roomId: string, data: {[key: string]: any}) {
-  return {type: SET, $hope: {roomId}, data}
 }
