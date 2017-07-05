@@ -31,7 +31,7 @@ export default function createRoom (subReducer: Reducer): Reducer {
     const finalOptimisticState = optimisticState(
       state.optimisticState,
       action,
-      state
+      intermediateState
     )
     return {...intermediateState, optimisticState: finalOptimisticState}
   }
