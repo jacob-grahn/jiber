@@ -9,8 +9,7 @@ export default function noConcurrent (
   const running: {[key: string]: boolean} = {}
   const scheduled: {[key: string]: boolean} = {}
 
-  return async function startAsync (): Promise<any> {
-    const args = Array.from(arguments)
+  return async function startAsync (...args: any[]): Promise<any> {
     const key = hasher(args)
 
     if (running[key]) {
@@ -24,7 +23,7 @@ export default function noConcurrent (
 
     if (scheduled[key]) {
       scheduled[key] = false
-      return startAsync()
+      return startAsync(...args)
     }
   }
 }

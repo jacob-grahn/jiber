@@ -16,6 +16,7 @@ export default function createUpdateRoom (
 ) {
   const updateRoom: (roomId: string) => Promise<void> = noConcurrent(
     async function (roomId: string): Promise<void> {
+      if (!roomId) return undefined
       try {
         const room = await getRoom (roomId)
         const actions = await storage.fetchActions(roomId, room.lastUpdatedAt)  // get the queued actions
@@ -23,6 +24,7 @@ export default function createUpdateRoom (
         actions.forEach(action => {
           const actionWithMeta = addMetadata(room, action)
           store.dispatch(actionWithMeta)
+          delete actionWithMeta.$hope.source
           sendToRoom(roomId, actionWithMeta)
         })
 

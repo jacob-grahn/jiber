@@ -49,3 +49,24 @@ test('different params can run concurrently', () => {
   /* tslint:enable */
   expect(names).toEqual(['sue', 'bob'])
 })
+
+test('deferred calls should be called with the same params', async () => {
+  let calledWith = ''
+  let resolve: Function = () => { /* do nothing */ }
+  const promise = new Promise((_resolve) => { resolve = _resolve })
+  const func = (param1: string, param2: string) => {
+    calledWith += param1 + param2
+    return promise
+  }
+  const ncFunc = noConcurrent(func)
+
+  /* tslint:disable */
+  ncFunc('some', 'params')
+  ncFunc('some', 'params')
+  /* tslint:enable */
+  expect(calledWith).toBe('someparams')
+
+  resolve()
+  await new Promise(resolve => setTimeout(resolve, 1))                          // need to wait a tiny bit for the promise to resolve
+  expect(calledWith).toBe('someparamssomeparams')
+})
