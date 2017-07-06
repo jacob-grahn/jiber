@@ -2,7 +2,7 @@ import {
   HopeAction,
   Reducer,
   combineReducers,
-  actionIds,
+  members,
   lastUpdatedAt,
   createConfirmedState
 } from '../../../core/index'
@@ -15,7 +15,7 @@ export default function createRoom (subReducer: Reducer): Reducer {
   const confirmedState = createConfirmedState(subReducer)
   const optimisticState = createOptimisticState(subReducer)
   const intermediateReducer = combineReducers({
-    actionIds,
+    members,
     confirmedState,
     optimisticActions,
     status,

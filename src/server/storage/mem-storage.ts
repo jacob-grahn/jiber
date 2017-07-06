@@ -9,7 +9,7 @@ const rooms: {[key: string]: RoomStorage} = {}
 const defaultRoomStorage: RoomStorage = {
   pendingActions: [],
   state: {
-    actionIds: {},
+    members: {},
     confirmedState: undefined,
     lastUpdatedAt: 0
   }

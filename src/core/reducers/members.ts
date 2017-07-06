@@ -6,17 +6,21 @@ import {
 } from './room-actions'
 import isConfirmedAction from '../utils/is-confirmed-action'
 
+export interface MembersState {
+  [userId: string]: {actionId: number}
+}
+
 export default function reducer (
-  state: {[key: string]: number} = {},
+  state: MembersState = {},
   action: Action
-): {[key: string]: number} {
+): MembersState {
   if (action.type === CONFIRMED_STATE) {
-    return action.actionIds
+    return action.members
   }
 
   if (action.type === JOIN_ROOM) {
     if (state[action.$hope.userId]) return state                                // no need to be added twice
-    return {...state, [action.$hope.userId]: action.actionId || 0}              // add the userId to the collection
+    return {...state, [action.$hope.userId]: {actionId: 0}}                     // add the userId to the collection
   }
 
   if (action.type === LEAVE_ROOM) {
@@ -26,7 +30,11 @@ export default function reducer (
   }
 
   if (isConfirmedAction(action)) {
-    return {...state, [action.$hope.userId]: action.$hope.actionId}
+    const userId = action.$hope.userId
+    const actionId = action.$hope.actionId
+    const user = state[userId] || {}
+    const updatedUser = {...user, actionId}
+    return {...state, [userId]: updatedUser}
   }
 
   return state

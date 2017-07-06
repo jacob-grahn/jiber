@@ -18,7 +18,7 @@ export default function createOnClose (
       const roomIds: string[] = Object.keys(state.rooms)
       const memberRoomIds = roomIds.filter(roomId => {
         const room = state.rooms[roomId]
-        return room.actionIds[userId]
+        return room.members[userId]
       })
       memberRoomIds.forEach(roomId => {
         const action = leaveRoom(roomId)

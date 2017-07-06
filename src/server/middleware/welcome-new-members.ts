@@ -11,7 +11,7 @@ export default ((sendToUser: (userId: string, action: HopeAction) => void) => {
       const message: HopeAction = {
         type: CONFIRMED_STATE,
         confirmedState: room.confirmedState,
-        actionIds: room.actionIds,
+        members: room.members,
         $hope: {
           roomId,
           userId: '',

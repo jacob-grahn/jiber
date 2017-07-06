@@ -13,12 +13,12 @@ export function confirmedState (
   roomId: string,
   result: RoomState
 ): HopeAction {
-  const { confirmedState, actionIds, lastUpdatedAt } = result
+  const { confirmedState, members, lastUpdatedAt } = result
   return {
     type: CONFIRMED_STATE,
     $hope: {roomId, source: SERVER, userId: '', timeMs: 0, actionId: 0},
     confirmedState,
-    actionIds,
+    members,
     lastUpdatedAt
   }
 }

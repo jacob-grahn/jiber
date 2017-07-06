@@ -11,7 +11,7 @@ test('status is set on join success', () => {
   const roomId = ''
   const result = {
     confirmedState: {},
-    actionIds: {},
+    members: {},
     lastUpdatedAt: 0
   }
   const action = confirmedState(roomId, result)

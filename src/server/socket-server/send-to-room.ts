@@ -7,7 +7,7 @@ export default function createSendToRoom (
   return function sendToRoom (roomId: string, action: Action): void {
     const state = store.getState()
     const room = state.rooms[roomId]
-    const memberIds: string[] = Object.keys(room.actionIds)
+    const memberIds: string[] = Object.keys(room.members)
     memberIds.forEach(memberId => {
       const user = state.users[memberId]
       const socketId = user.socketId

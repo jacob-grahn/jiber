@@ -9,7 +9,7 @@ interface ClientState {
   },
   rooms: {
     [roomId: string]: {
-      actionIds: {[userId: string]: number},
+      members: {[userId: string]: number},
       confirmedState: any,
       optimisticState: any,
       optimisticActions: HopeAction[]

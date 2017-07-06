@@ -1,6 +1,7 @@
 import {
   isConfirmedAction,
   HopeAction,
+  Member,
   CONFIRMED_STATE,
   LEAVE_ROOM
 } from '../../../core/index'
@@ -11,8 +12,8 @@ export default function reducer (
 ): HopeAction[] {
   if (action.type === CONFIRMED_STATE) {
     const state2 = claimActions(state, action.myUserId)
-    const state3 = withoutNonMembers(state2, action.actionIds)
-    return pruneActions(state3, action.actionIds)
+    const state3 = withoutNonMembers(state2, action.members)
+    return pruneActions(state3, action.members)
   }
 
   if (action.type === LEAVE_ROOM) {
@@ -22,7 +23,7 @@ export default function reducer (
   if (isConfirmedAction(action)) {                                              // confirmed action
     const userId = action.$hope.userId || ''
     const actionId = action.$hope.actionId || 0
-    return pruneActions(state, {[userId]: actionId})
+    return pruneActions(state, {[userId]: {actionId}})
   }
 
   if (action.$hope && action.$hope.actionId) {                                  // optimistic action
@@ -48,18 +49,21 @@ function claimActions (
 // Remove actions that have the same userId, and a lesser or equal actionId
 function pruneActions (
   actions: HopeAction[],
-  actionIds: {[key: string]: number}
+  members: {[userId: string]: Member}
 ): HopeAction[] {
   return actions.filter(action => {
     if (!action || !action.$hope) {                                             // remove when there is no $hope metadata
       return false
     }
-    const meta = action.$hope
+    const userId = action.$hope.userId
+    const actionId = action.$hope.actionId
 
-    if (!meta.userId || !meta.actionId) {                                       // remove if the metadata doesn't contain needed values
+    if (!userId || !actionId) {                                                 // remove if the metadata doesn't contain needed values
       return false
     }
-    if (actionIds[meta.userId] >= meta.actionId) {                              // remove if a newer or equal action has been confirmed
+
+    const member = members[userId]
+    if (member && member.actionId >= actionId) {                                // remove if a newer or equal action has been confirmed
       return false
     }
 
@@ -70,9 +74,9 @@ function pruneActions (
 // remove optimistic actions that belong to users that are no longer members
 function withoutNonMembers (
   actions: HopeAction[],
-  actionIds: {[userId: string]: number}
+  members: {[userId: string]: number}
 ): HopeAction[] {
-  return actions.filter(action => actionIds[action.$hope.userId])
+  return actions.filter(action => members[action.$hope.userId])
 }
 
 // remove actions belonging to userId

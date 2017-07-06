@@ -1,7 +1,7 @@
 import {
   Reducer,
   combineReducers,
-  actionIds,
+  members,
   lastUpdatedAt,
   createConfirmedState
 } from '../../../core/index'
@@ -9,7 +9,7 @@ import {
 export default function createServerRoom (subReducer: Reducer): Reducer {
   const confirmedState = createConfirmedState(subReducer)
   return combineReducers({
-    actionIds,
+    members,
     confirmedState,
     lastUpdatedAt
   })

@@ -1,6 +1,6 @@
 export interface RoomState {
   confirmedState: any,
-  actionIds: {[key: string]: number},
+  members: {[userId: string]: {actionId: number}},
   lastUpdatedAt: number
 }
 

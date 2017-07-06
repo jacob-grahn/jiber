@@ -1,7 +1,7 @@
 import withField from './with-field'
 
 export interface Options {
-  actionIds?: {[key: string]: number},
+  members?: {[userId: string]: {actionId: number}},
   actions?: any[]
 }
 
@@ -9,9 +9,9 @@ export interface Options {
 // This is useful for rejecting invalid optimistic actions
 export default function nextActionId (
   userId: string,
-  { actionIds = {}, actions = [] }: Options = {}
+  { members = {}, actions = [] }: Options = {}
 ): number {
-  const baseActionId = actionIds[userId] || 0
+  const baseActionId = members[userId] ? members[userId].actionId : 0
   const optimisticCount = withField(actions, 'userId', userId).length
   return baseActionId + optimisticCount + 1
 }

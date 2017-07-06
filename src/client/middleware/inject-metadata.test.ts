@@ -6,7 +6,7 @@ const state = {
   me: {userId: 'bob'},
   rooms: {
     testRoom: {
-      actionIds: {bob: 5}
+      members: {bob: {actionId: 5}}
     }
   }
 }

@@ -51,25 +51,6 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   ])
 })
 
-/* test('add userId to actions that do not have one', () => {
-  const list: any = [
-    {},
-    {type: 'WEE', $hope: {actionId: 5}},
-    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
-  ]
-
-  const roomId = 'room 1'
-  const result = {
-    confirmedState: {},
-    actionIds: {bob: 1, sue: 1}
-  }
-  const action = confirmedState(roomId, result)
-  expect(optimisticActions(list, action)).toEqual([
-    {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
-    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
-  ])
-}) */
-
 test('remove outdated optimistic actions on join', () => {
   const list: any = [
     {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
@@ -80,7 +61,7 @@ test('remove outdated optimistic actions on join', () => {
   const roomId = 'room 1'
   const result = {
     confirmedState: {},
-    actionIds: {sue: 5},
+    members: {sue: {actionId: 5}},
     lastUpdatedAt: 0
   }
   expect(optimisticActions(list, confirmedState(roomId, result))).toEqual([
