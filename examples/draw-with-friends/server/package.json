@@ -1,0 +1,14 @@
+{
+  "name": "draw-with-fiends",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "dependencies": {
+    "hope-server": "file:..\\..\\..\\dist\\server"
+  }
+}

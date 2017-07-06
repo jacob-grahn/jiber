@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Draw With Friends</title>
+    <script src="../../../dist/client/hope-client.bundle.js"></script>
+  </head>
+  <body style="background-color: grey; padding: 0; margin: 0;">
+    <canvas id="line-canvas" width="500" height="500"></canvas>
+
+    <script>
+
+      //////////////////////////////////////////////////////////////////////////
+      // INITIALIZE: create a room to sync our masterful drawing
+      //////////////////////////////////////////////////////////////////////////
+      const scale = 5                                                           // each 'pixel' is actually a 5px by 5px square
+      const store = $hope.createStore({url: 'localhost'})                       // $hope is a global variable when hope-client.bundle.js is loaded
+      const room = store.createRoom('room1')
+      const canvas = document.getElementById('line-canvas')
+      const ctx = canvas.getContext('2d')
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // RENDER LOOP: draw the state onto the canvas every frame
+      //////////////////////////////////////////////////////////////////////////
+      function render () {
+        const state = room.getState()
+        clearCanvas()
+        drawPixels(state)
+        requestAnimationFrame(render)
+      }
+
+      function clearCanvas () {
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+      }
+
+      function drawPixels (state) {
+        Object.keys(state).forEach(point => {
+          const [x, y] = point.split(',')
+          const color = state[point]
+          ctx.fillStyle = color
+          ctx.fillRect(x * scale, y * scale, scale, scale)
+        })
+      }
+
+      render()
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // I/O: color in pixels when a user clicks (or taps) and drags
+      //////////////////////////////////////////////////////////////////////////
+      function setPixel (e, color) {
+        const x = Math.floor(e.clientX / scale)
+        const y = Math.floor(e.clientY / scale)
+        const point = `${x},${y}`
+        const state = room.getState()
+        if (state[point] === color) return                                      // avoid dispatching redundant actions
+        room.dispatch({type: 'SET', key: point, value: color})
+      }
+
+      function randomColor () {
+        const hexChars = '0123456789ABCDEF'
+        let color = '#'
+        for (let i = 0; i < 6; i++) {
+          const index = Math.floor(Math.random() * hexChars.length)
+          color += hexChars.charAt(index)
+        }
+        return color
+      }
+
+      canvas.onmousedown = (e) => {
+        const color = randomColor()
+        setPixel(e, color)
+        canvas.onmousemove = (e) => setPixel(e, color)
+        window.onmouseup = (e) => canvas.onmousemove = undefined
+      }
+
+    </script>
+  </body>
+</html>
