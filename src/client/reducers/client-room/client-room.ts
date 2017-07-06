@@ -22,17 +22,15 @@ export default function createRoom (subReducer: Reducer): Reducer {
     lastUpdatedAt
   })
 
-  return function roomReducer (
-    state: any = {},
-    action: HopeAction
-  ): any {
-    if (!action.$hope) return state
+  return function roomReducer (state: any = {}, action: HopeAction): any {
     const intermediateState = intermediateReducer(state, action)
-    const finalOptimisticState = optimisticState(
-      state.optimisticState,
-      action,
-      intermediateState
-    )
-    return {...intermediateState, optimisticState: finalOptimisticState}
+    return {
+      ...intermediateState,
+      optimisticState: optimisticState(
+        state.optimisticState,
+        action,
+        intermediateState
+      )
+    }
   }
 }

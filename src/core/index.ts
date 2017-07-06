@@ -26,4 +26,5 @@ export {
 } from './reducers/user'
 export { default as users } from './reducers/users'
 export { default as get } from './utils/get'
+export { default as isConfirmedAction } from './utils/is-confirmed-action'
 export * from './constants/source-types'

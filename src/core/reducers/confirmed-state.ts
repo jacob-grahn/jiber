@@ -1,5 +1,6 @@
-import { Action, Reducer, SERVER } from '../../core/index'
+import { Action, Reducer } from '../../core/index'
 import { CONFIRMED_STATE } from './room-actions'
+import isConfirmedAction from '../utils/is-confirmed-action'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmedState (state: any = undefined, action: Action): any {
@@ -7,7 +8,7 @@ export default function (subReducer: Reducer): Reducer {
       return action.confirmedState
     }
 
-    if (action.$hope.source === SERVER && action.$hope.actionId) {              // confirmed action
+    if (isConfirmedAction(action)) {
       return subReducer(state, action)
     }
 

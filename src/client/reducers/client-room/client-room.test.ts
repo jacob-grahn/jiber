@@ -1,5 +1,5 @@
+import { Action, SERVER } from '../../../core/index'
 import room from './client-room'
-import { Action } from '../../../core/index'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
@@ -12,8 +12,14 @@ test('defaults to something', () => {
   expect(roomReducer(state, action)).toBeTruthy()
 })
 
-test('actions without $hope metadata are ignored', () => {
-  const state = 'lolerskates'
-  const action = {type: 'test'}
-  expect(roomReducer(state, action)).toBe('lolerskates')
+test('actions from the server update confirmed state', () => {
+  const state = {
+    confirmedState: 'yay'
+  }
+  const action = {
+    type: 'test',
+    value: 'ok',
+    $hope: {source: SERVER, actionId: 1}
+  }
+  expect(roomReducer(state, action).confirmedState).toBe('yayok')
 })

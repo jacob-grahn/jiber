@@ -9,7 +9,7 @@ export default function lastUpdatedAt (
     return action.lastUpdatedAt
   }
 
-  if (action.$hope.source === 'SERVER' && action.$hope.timeMs) {           // confirmed action
+  if (action.$hope && action.$hope.source === 'SERVER' && action.$hope.timeMs) {           // confirmed action
     return action.$hope.timeMs
   }
 

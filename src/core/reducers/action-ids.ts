@@ -1,9 +1,10 @@
-import { Action, SERVER } from '../../core/index'
+import { Action } from '../../core/index'
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
   CONFIRMED_STATE
 } from './room-actions'
+import isConfirmedAction from '../utils/is-confirmed-action'
 
 export default function reducer (
   state: {[key: string]: number} = {},
@@ -24,7 +25,7 @@ export default function reducer (
     return newState
   }
 
-  if (action.$hope.source === SERVER && action.$hope.actionId) {                // confirmed action
+  if (isConfirmedAction(action)) {
     return {...state, [action.$hope.userId]: action.$hope.actionId}
   }
 

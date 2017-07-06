@@ -1,6 +1,6 @@
 import {
+  isConfirmedAction,
   HopeAction,
-  SERVER,
   CONFIRMED_STATE,
   LEAVE_ROOM
 } from '../../../core/index'
@@ -19,13 +19,13 @@ export default function reducer (
     return withoutUser(state, action.userId)
   }
 
-  if (action.$hope.source === SERVER && action.$hope.actionId) {                // confirmed action
+  if (isConfirmedAction(action)) {                                              // confirmed action
     const userId = action.$hope.userId || ''
     const actionId = action.$hope.actionId || 0
     return pruneActions(state, {[userId]: actionId})
   }
 
-  if (action.$hope.actionId) {                                                  // optimistic action
+  if (action.$hope && action.$hope.actionId) {                                  // optimistic action
     return [...state, action]
   }
 
