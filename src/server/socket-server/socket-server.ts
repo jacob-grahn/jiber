@@ -27,7 +27,8 @@ export default function createSocketServer (
   const saveRoom = createSaveRoom(
     store.getState,
     storage.removeActions,
-    storage.storeState
+    storage.storeState,
+    settings.snapshotInterval
   )
   const updateRoom = createUpdateRoom(store, storage, sendToRoom, saveRoom)
   const onClose = createOnClose(store, storage.pushAction)

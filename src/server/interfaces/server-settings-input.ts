@@ -8,6 +8,7 @@ interface ServerSettingsInput {
   reducer?: Reducer,
   onLogin?: LoginRequestHandler,
   storage?: Storage,
+  snapshotInterval?: number,
   initialState?: any
 }
 

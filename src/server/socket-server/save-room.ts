@@ -5,7 +5,8 @@ import { RoomState } from '../../core/interfaces/room-state'
 export default function createSaveRoom (
   getState: () => ServerState,
   removeActions: (roomId: string, maxTimeMs: number) => Promise<void>,
-  setState: (roomId: string, state: RoomState) => Promise<boolean>
+  setState: (roomId: string, state: RoomState) => Promise<boolean>,
+  snapshotInterval: number = 1000
 ) {
   async function saveRoom (roomId: string) {
     if (!roomId) return
@@ -14,7 +15,7 @@ export default function createSaveRoom (
     if (!room) return
     await setState(roomId, room)
     await removeActions(roomId, room.lastUpdatedAt)
-    await new Promise(resolve => setTimeout(resolve, 1000))                     // todo: delay should be customizable
+    await new Promise(resolve => setTimeout(resolve, snapshotInterval))         // todo: delay should be customizable
   }
 
   return noConcurrent(saveRoom)

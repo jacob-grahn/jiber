@@ -7,7 +7,8 @@ interface ServerSettings {
   stunPort: number,
   reducer: Reducer,
   onLogin: LoginRequestHandler,
-  storage: Storage
+  storage: Storage,
+  snapshotInterval: number
 }
 
 export default ServerSettings
