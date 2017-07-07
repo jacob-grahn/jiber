@@ -11,11 +11,11 @@ import noConcurrent from '../utils/no-concurrent'
 export default function createUpdateRoom (
   store: ServerStore,
   storage: Storage,
-  sendToRoom: (roomId: string, data: any) => void,
   saveRoom: (roomId: string) => void
 ) {
-  const updateRoom: (roomId: string) => Promise<void> = noConcurrent(
-    async function (roomId: string): Promise<void> {
+
+  return function (sendToRoom: (roomId: string, data: any) => void) {
+    return noConcurrent(async function (roomId: string) {
       if (!roomId) return undefined
       try {
         const room = await getRoom (roomId)
@@ -32,8 +32,8 @@ export default function createUpdateRoom (
       } catch (e) {
         console.log('updateRoom error', e.message)
       }
-    }
-  )
+    })
+  }
 
   async function getRoom (roomId: string): Promise<RoomState> {                 // if the room does not exist, create a new room using a snapshot from storage
     const state = store.getState()
@@ -53,6 +53,4 @@ export default function createUpdateRoom (
     action.$hope.actionId = lastActionId + 1
     return action
   }
-
-  return updateRoom
 }

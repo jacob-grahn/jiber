@@ -17,12 +17,20 @@ function removeActions (roomId: string, timeMs: number) {
   return Promise.resolve()
 }
 
-function setState (roomId: string, roomState: RoomState) {
+function storeState (roomId: string, roomState: RoomState) {
   calledSetState = {roomId, roomState}
   return Promise.resolve(true)
 }
 
-const saveRoom = createSaveRoom(getState, removeActions, setState)
+const settings = {
+  storage: {
+    removeActions,
+    storeState
+  },
+  snapshotInterval: 1000
+}
+
+const saveRoom = createSaveRoom(getState, settings)
 
 test('it should get the room state and pass it to storage', async () => {
   await saveRoom('room1')
