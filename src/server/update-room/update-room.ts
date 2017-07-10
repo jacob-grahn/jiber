@@ -30,7 +30,7 @@ export default function createUpdateRoom (
 
         process.nextTick(() => saveRoom(roomId))
       } catch (e) {
-        console.log('updateRoom error', e.message)
+        console.log('updateRoom error', e)
       }
     })
   }

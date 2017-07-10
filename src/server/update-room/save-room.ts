@@ -2,7 +2,7 @@ import noConcurrent from '../utils/no-concurrent'
 import ServerState from '../interfaces/server-state'
 import { RoomState } from '../../core/interfaces/room-state'
 
-interface Settings {
+export interface SaveRoomSettings {
   snapshotInterval: number,
   storage: {
     removeActions: (roomId: string, maxTimeMs: number) => Promise<void>,
@@ -12,7 +12,7 @@ interface Settings {
 
 export default function createSaveRoom (
   getState: () => ServerState,
-  settings: Settings
+  settings: SaveRoomSettings
 ) {
   async function saveRoom (roomId: string) {
     if (!roomId) return

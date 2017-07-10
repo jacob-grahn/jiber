@@ -8,6 +8,7 @@ export default ((sendToUser: (userId: string, action: HopeAction) => void) => {
       const state = store.getState()
       const roomId = action.$hope.roomId
       const room = state.rooms[roomId]
+      if (!room) return
       const message: HopeAction = {
         type: CONFIRMED_STATE,
         confirmedState: room.confirmedState,
