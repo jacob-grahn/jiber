@@ -1,0 +1,13 @@
+{
+  "name": "hopedb-storage-mongo",
+  "version": "0.0.1",
+  "description": "Mongo backend for HopeDB",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "mongodb": "^2.2.30"
+  }
+}
