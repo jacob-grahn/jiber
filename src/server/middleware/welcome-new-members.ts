@@ -1,7 +1,12 @@
 import { HopeAction, JOIN_ROOM, CONFIRMED_STATE, SERVER } from '../../core/index'
 import ServerStore from '../interfaces/server-store'
+import filterPrivate from '../utils/filter-private'
 
-export default ((sendToUser: (userId: string, action: HopeAction) => void) => {
+export interface SendToUser {
+  (userId: string, action: HopeAction): void
+}
+
+export default (sendToUser: SendToUser) => {
   return (store: ServerStore) => (next: Function) => (action: HopeAction) => {
     next(action)
     if (action.type === JOIN_ROOM) {
@@ -11,7 +16,7 @@ export default ((sendToUser: (userId: string, action: HopeAction) => void) => {
       if (!room) return
       const message: HopeAction = {
         type: CONFIRMED_STATE,
-        confirmedState: room.confirmedState,
+        confirmedState: filterPrivate(room.confirmedState),
         members: room.members,
         $hope: {
           roomId,
@@ -24,4 +29,4 @@ export default ((sendToUser: (userId: string, action: HopeAction) => void) => {
       sendToUser(action.$hope.userId, message)
     }
   }
-})
+}
