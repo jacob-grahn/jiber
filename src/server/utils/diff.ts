@@ -7,10 +7,10 @@ export default function diff (
   left: any,
   right: any,
   path: string = ''
-): DiffList  {
+): DiffList {
   if (left === right) return []
   if (right === undefined) return [[DEL, path, undefined]]
-  if (typeof left !== typeof right) return [[SET, path, right]]
+  if ((typeof left) !== (typeof right)) return [[SET, path, right]]
   if (Array.isArray(left) !== Array.isArray(right)) return [[SET, path, right]]
 
   // works for arrays and objects, as they are both typeof 'object'
