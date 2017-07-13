@@ -65,8 +65,9 @@ test('recursively apply the dif to sub objects and arrays', () => {
       {label: 'a1', human: 'Sally Bartt'},
       {label: 'a2', human: {
         name: 'Greg Greggor',
-        offences: ['tardiness']}
-      }
+        offences: ['tardiness'],
+        awards: ['salesman of the year']
+      }}
     ],
     supplies: {
       paper: 12456,
@@ -92,6 +93,7 @@ test('recursively apply the dif to sub objects and arrays', () => {
   expect(diff(obj1, obj2)).toEqual([
     ['SET', 'cubicles.1.human.offences.1', 'nudity'],
     ['SET', 'cubicles.1.human.offences.2', 'pen theft'],
+    ['DEL', 'cubicles.1.human.awards', undefined],
     ['SET', 'cubicles.1.human.pendingExecution', true],
     ['SET', 'supplies.pens', 0]
   ])
