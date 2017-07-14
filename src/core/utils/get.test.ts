@@ -22,3 +22,7 @@ test('arrays should work', () => {
   const users = [{name: 'bob'}, {name: 'sue'}]
   expect(get(users, '0.name')).toBe('bob')
 })
+
+test('an empty path should return the initial value', () => {
+  expect(get('abc')).toEqual('abc')
+})

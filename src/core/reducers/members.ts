@@ -2,9 +2,11 @@ import { Action } from '../../core/index'
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
-  CONFIRMED_STATE
+  CONFIRMED_STATE,
+  DIFF
 } from './room-actions'
 import isConfirmedAction from '../utils/is-confirmed-action'
+import patch from '../utils/patch'
 
 export interface MembersState {
   [userId: string]: {actionId: number}
@@ -27,6 +29,10 @@ export default function reducer (
     const newState = {...state}
     delete newState[action.$hope.userId]
     return newState
+  }
+
+  if (action.type === DIFF) {
+    return patch(state, action.members)
   }
 
   if (isConfirmedAction(action)) {

@@ -1,7 +1,7 @@
+import { DiffList } from '../../core/index'
+
 const SET = 'SET'
 const DEL = 'DEL'
-
-type DiffList = [string, string, any][]
 
 export default function diff (
   left: any,
