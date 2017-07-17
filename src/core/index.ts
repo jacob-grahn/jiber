@@ -27,9 +27,12 @@ export {
   ADD_USER
 } from './reducers/user'
 export { default as users } from './reducers/users'
-export { default as get } from './utils/get'
-export { default as set } from './utils/set'
+
 export { default as del } from './utils/del'
-export { default as patch } from './utils/patch'
+export { default as diff } from './utils/diff'
+export { default as get } from './utils/get'
 export { default as isConfirmedAction } from './utils/is-confirmed-action'
+export { default as patch } from './utils/patch'
+export { default as set } from './utils/set'
+
 export * from './constants/source-types'

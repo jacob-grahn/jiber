@@ -1,21 +1,16 @@
-export default function set (obj: any, strPath: string, value: any): any {
-  if (!strPath) return value
-  const paths = strPath.split('.')
-  return setRecursive(obj, paths, value)
-}
-
-function setRecursive (obj: any, paths: string[], value: any): any {
-  if (paths.length === 0) return value
-  const [path, ...remainingPaths] = paths
-  const oldPathValue = obj[path] || {}
-  const newPathValue = setRecursive(oldPathValue, remainingPaths, value)
+export default function set (obj: any, path: string|string[], value: any): any {
+  if (!path) return value
+  if (!Array.isArray(path)) path = path.split('.')
+  if (path.length === 0) return value
+  const [key, ...remainingKeys] = path
+  const oldValue = obj[key] || {}
+  const newValue = set(oldValue, remainingKeys, value)
 
   if (Array.isArray(obj)) {
-    const numPath = Number(path)
     const newArr = [...obj]
-    newArr[numPath] = newPathValue
+    newArr[Number(key)] = newValue
     return newArr
   } else {
-    return {...obj, [path]: newPathValue}
+    return {...obj, [key]: newValue}
   }
 }

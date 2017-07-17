@@ -1,6 +1,6 @@
 import createConfirmedState from './confirmed-state'
 import { confirmedState as confirmState } from './room-actions'
-import { Action } from '../../core/index'
+import Action from '../interfaces/action'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value

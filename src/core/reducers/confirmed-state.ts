@@ -1,4 +1,5 @@
-import { Action, Reducer } from '../../core/index'
+import Action from '../interfaces/action'
+import Reducer from '../interfaces/reducer'
 import { CONFIRMED_STATE } from './room-actions'
 import isConfirmedAction from '../utils/is-confirmed-action'
 

@@ -1,11 +1,8 @@
-export default function get (value: any, strPath: string = ''): any {
-  if (!strPath) return value
-  const paths = strPath.split('.')
-  return paths.reduce(
-    (value, path) => {
-      if (!value) return undefined
-      return value[path]
-    },
+export default function get (value: any, path: string|string[] = ''): any {
+  if (!path) return value
+  if (!Array.isArray(path)) path = path.split('.')
+  return path.reduce(
+    (value, key) => value ? value[key] : undefined,
     value
   )
 }

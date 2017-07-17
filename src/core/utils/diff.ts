@@ -1,7 +1,5 @@
-import { DiffList } from '../../core/index'
-
-const SET = 'SET'
-const DEL = 'DEL'
+import DiffList from '../interfaces/diff-list'
+import { SET, DEL } from '../constants/delta-types'
 
 export default function diff (
   left: any,
@@ -16,6 +14,7 @@ export default function diff (
   // works for arrays and objects, as they are both typeof 'object'
   if (typeof left === 'object' && typeof right === 'object') {
     const keys: string[] = Object.keys({...left, ...right})
+    if (Array.isArray(left) && left.length > right.length) keys.reverse()       // delete array keys in reverse order
     return keys.reduce((results, key) => {
       const subPath = `${path}${path ? '.' : ''}${key}`
       const subResults = diff(left[key], right[key], subPath)

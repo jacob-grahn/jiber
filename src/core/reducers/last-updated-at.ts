@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import Action from '../interfaces/action'
 import { CONFIRMED_STATE } from './room-actions'
 
 export default function lastUpdatedAt (

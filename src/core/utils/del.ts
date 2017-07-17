@@ -1,33 +1,25 @@
-export default function del (obj: any, strPath: string): any {
-  if (!strPath) return undefined
-  const paths = strPath.split('.')
-  return delRecursive(obj, paths)
-}
+import get from './get'
+import set from './set'
 
-function delRecursive (obj: any, paths: string[]): any {
-  if (!obj) return undefined
-  if (paths.length === 0) return undefined
-  const [path, ...remainingPaths] = paths
+export default function del (obj: any, path: string|string[] = ''): any {
+  if (!path) return undefined
+  if (!Array.isArray(path)) path = path.split('.')
+  if (path.length === 0) return undefined
+  const parentPath = path.slice(0, path.length - 1)
+  const delKey = path[path.length - 1]
+  const parent = get(obj, parentPath)
+  if (!parent) return obj
 
-  if (paths.length === 1) {
-    if (Array.isArray(obj)) {
-      return obj.slice(obj.length - 1)
-    } else {
-      const newObj = {...obj}
-      delete newObj[path]
-      return newObj
+  let parentCopy: any
+  if (Array.isArray(parent)) {
+    const index = Number(delKey)
+    parentCopy = parent.slice(0, index)
+    if (index < parent.length - 1) {
+      parentCopy = parentCopy.concat(parent.slice(index + 1))
     }
-  }
-
-  const oldPathValue = obj[path]
-  const newPathValue = delRecursive(oldPathValue, remainingPaths)
-
-  if (Array.isArray(obj)) {
-    const numPath = Number(path)
-    const newArr = [...obj]
-    newArr[numPath] = newPathValue
-    return newArr
   } else {
-    return {...obj, [path]: newPathValue}
+    parentCopy = {...parent}
+    delete parentCopy[delKey]
   }
+  return set(obj, parentPath, parentCopy)
 }

@@ -1,4 +1,4 @@
-import {default as simpleSetter} from './simple-setter'
+import { default as simpleSetter } from './simple-setter'
 
 test('default to empty object', () => {
   const state = undefined

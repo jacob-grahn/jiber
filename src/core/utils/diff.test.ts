@@ -44,8 +44,17 @@ test('changed array elements should result in path updates', () => {
     ['SET', '2', 'piper']
   ])
   expect(diff(arr2, arr1)).toEqual([
-    ['SET', '0', 'hi'],
-    ['DEL', '2', undefined]
+    ['DEL', '2', undefined],
+    ['SET', '0', 'hi']
+  ])
+})
+
+test('removing multiple from end of array should be in reverse order', () => {
+  const arr1 = [0, 1, 2]
+  const arr2 = [0]
+  expect(diff(arr1, arr2)).toEqual([
+    ['DEL', '2', undefined],
+    ['DEL', '1', undefined]
   ])
 })
 
