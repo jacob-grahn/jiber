@@ -4,12 +4,8 @@ import { RoomState } from '../../core/index'
 let calledSetState: any
 let calledRemoveActions: any
 
-function getState () {
-  return {
-    rooms: {room1: {confirmedState: 'sue', lastUpdatedAt: 33, members: {}}},
-    sockets: {},
-    users: {}
-  }
+function getRoomState () {
+  return {confirmedState: 'sue', lastUpdatedAt: 33, members: {}}
 }
 
 function removeActions (roomId: string, timeMs: number) {
@@ -30,7 +26,7 @@ const settings = {
   snapshotInterval: 1000
 }
 
-const saveRoom = createSaveRoom(getState, settings)
+const saveRoom = createSaveRoom(getRoomState, settings)
 
 test('it should get the room state and pass it to storage', async () => {
   await saveRoom('room1')

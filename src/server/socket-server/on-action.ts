@@ -6,7 +6,7 @@ export interface RoomActionDict {
 
 export default function createOnAction (
   pushAction: (roomId: string, action: Action) => Promise<void>,
-  updateRoom: (roomId: string) => any
+  onRoomChange: (roomId: string) => any
 ) {
   return async function onAction (
     userId: string,
@@ -15,6 +15,6 @@ export default function createOnAction (
     const roomId = action.$hope
     const userAction = {...action, $hope: {userId, roomId}}
     await pushAction(roomId, userAction)
-    updateRoom(roomId)                                                          // trigger a room update
+    onRoomChange(roomId)                                                        // trigger a room update
   }
 }

@@ -1,6 +1,7 @@
 import * as WebSocket from 'ws'
-import { Action, Store } from '../../core/index'
+import { Store } from '../../core/index'
 import ServerSettings from '../interfaces/server-settings'
+import SocketServer from '../interfaces/socket-server'
 import createOnConnect from './on-connect'
 import createOnMessage from './on-message'
 import createOnClose from './on-close'
@@ -10,23 +11,21 @@ import createSendToRoom from './send-to-room'
 import createSendToSocket from './send-to-socket'
 import createSendToUser from './send-to-user'
 
-export interface SocketServer {
-  start: () => void,
-  sendToUser: (userId: string, action: Action) => void
-}
-
 export default function createSocketServer (
-  store: Store, settings: ServerSettings, updateRoom: Function
+  store: Store,
+  settings: ServerSettings
 ): SocketServer {
   const storage = settings.storage
   const sendToSocket = createSendToSocket(store)
   const sendToRoom = createSendToRoom(store, sendToSocket)
   const sendToUser = createSendToUser(store, sendToSocket)
   const onClose = createOnClose(store, storage.pushAction)
-  const onAction = createOnAction(storage.pushAction, updateRoom(sendToRoom))
+  const onAction = createOnAction(storage.pushAction, onRoomChange)
   const onAuthorize = createOnAuthorize(store, settings.onLogin)
   const onMessage = createOnMessage(store, onAction)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
+
+  const socketServer: SocketServer = {start, sendToUser, sendToRoom}
 
   function start () {
     const wss = new WebSocket.Server({
@@ -37,5 +36,9 @@ export default function createSocketServer (
     wss.on('error', (err) => console.log('wss error', err))
   }
 
-  return {start, sendToUser}
+  function onRoomChange (roomId: string): void {
+    if (socketServer.onRoomChange) socketServer.onRoomChange(roomId)
+  }
+
+  return socketServer
 }

@@ -1,5 +1,4 @@
 import noConcurrent from '../utils/no-concurrent'
-import ServerState from '../interfaces/server-state'
 import { RoomState } from '../../core/interfaces/room-state'
 
 export interface SaveRoomSettings {
@@ -11,16 +10,15 @@ export interface SaveRoomSettings {
 }
 
 export default function createSaveRoom (
-  getState: () => ServerState,
+  getRoomState: (roomId: string) => RoomState,
   settings: SaveRoomSettings
 ) {
   async function saveRoom (roomId: string) {
     if (!roomId) return
-    const state = getState()
-    const room = state.rooms[roomId]
-    if (!room) return
-    await settings.storage.storeState(roomId, room)
-    await settings.storage.removeActions(roomId, room.lastUpdatedAt)
+    const roomState = getRoomState(roomId)
+    if (!roomState) return
+    await settings.storage.storeState(roomId, roomState)
+    await settings.storage.removeActions(roomId, roomState.lastUpdatedAt)
     await new Promise(resolve => setTimeout(resolve, settings.snapshotInterval))
   }
 
