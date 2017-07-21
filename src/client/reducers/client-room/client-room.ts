@@ -4,21 +4,17 @@ import {
   combineReducers,
   members,
   lastUpdatedAt,
-  createConfirmedState
+  confirmed
 } from '../../../core/index'
 import optimisticActions from './optimistic-actions'
-import createOptimisticState from './optimistic-state'
-import status from './status'
+import optimistic from './optimistic'
 
 // Reducer
 export default function createRoom (subReducer: Reducer): Reducer {
-  const confirmedState = createConfirmedState(subReducer)
-  const optimisticState = createOptimisticState(subReducer)
   const intermediateReducer = combineReducers({
     members,
-    confirmedState,
+    confirmed: confirmed(subReducer),
     optimisticActions,
-    status,
     lastUpdatedAt
   })
 
@@ -26,7 +22,7 @@ export default function createRoom (subReducer: Reducer): Reducer {
     const intermediateState = intermediateReducer(state, action)
     return {
       ...intermediateState,
-      optimisticState: optimisticState(
+      optimistic: optimistic(subReducer)(
         state.optimisticState,
         action,
         intermediateState

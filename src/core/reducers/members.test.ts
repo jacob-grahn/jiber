@@ -1,15 +1,15 @@
 import members from './members'
-import { confirmedState, joinRoom, leaveRoom } from './room-actions'
+import { confirmedStateAction, joinRoom, leaveRoom } from './room-actions'
 
 test('members are set on join success', () => {
   const state = {}
   const roomId = ''
   const result = {
-    confirmedState: {},
+    confirmed: {},
     members: {ike: {actionId: 3}},
     lastUpdatedAt: 0
   }
-  const action = confirmedState(roomId, result)
+  const action = confirmedStateAction(roomId, result)
   expect(members(state, action)).toEqual({ike: {actionId: 3}})
 })
 

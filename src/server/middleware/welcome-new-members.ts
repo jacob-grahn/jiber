@@ -16,7 +16,7 @@ export default (sendToUser: SendToUser) => {
       if (!room) return
       const message: HopeAction = {
         type: CONFIRMED_STATE,
-        confirmedState: filterPrivate(room.confirmedState),
+        confirmed: filterPrivate(room.confirmed),
         members: room.members,
         $hope: {
           roomId,

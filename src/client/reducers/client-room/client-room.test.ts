@@ -14,12 +14,12 @@ test('defaults to something', () => {
 
 test('actions from the server update confirmed state', () => {
   const state = {
-    confirmedState: 'yay'
+    confirmed: 'yay'
   }
   const action = {
     type: 'test',
     value: 'ok',
     $hope: {source: SERVER, actionId: 1}
   }
-  expect(roomReducer(state, action).confirmedState).toBe('yayok')
+  expect(roomReducer(state, action).confirmed).toBe('yayok')
 })

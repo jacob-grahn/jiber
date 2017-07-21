@@ -5,7 +5,7 @@ let calledSetState: any
 let calledRemoveActions: any
 
 function getRoomState () {
-  return {confirmedState: 'sue', lastUpdatedAt: 33, members: {}}
+  return {confirmed: 'sue', lastUpdatedAt: 33, members: {}}
 }
 
 function removeActions (roomId: string, timeMs: number) {
@@ -32,7 +32,7 @@ test('it should get the room state and pass it to storage', async () => {
   await saveRoom('room1')
   expect(calledSetState).toEqual({
     roomId: 'room1',
-    roomState: {confirmedState: 'sue', lastUpdatedAt: 33, members: {}}
+    roomState: {confirmed: 'sue', lastUpdatedAt: 33, members: {}}
   })
   expect(calledRemoveActions).toEqual({roomId: 'room1', timeMs: 33})
 })

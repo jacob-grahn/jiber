@@ -3,7 +3,7 @@ import {
   HopeAction,
   SERVER,
   CLIENT,
-  confirmedState
+  confirmedStateAction
 } from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
@@ -60,11 +60,12 @@ test('remove outdated optimistic actions on join', () => {
 
   const roomId = 'room 1'
   const result = {
-    confirmedState: {},
+    confirmed: {},
     members: {sue: {actionId: 5}},
     lastUpdatedAt: 0
   }
-  expect(optimisticActions(list, confirmedState(roomId, result))).toEqual([
+  const action = confirmedStateAction(roomId, result)
+  expect(optimisticActions(list, action)).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}
   ])
 })

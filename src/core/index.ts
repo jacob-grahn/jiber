@@ -15,7 +15,7 @@ export { default as combineReducers } from './reducers/combine-reducers'
 export { default as simpleSetter } from './reducers/simple-setter'
 export { default as dictionary } from './reducers/dictionary'
 export { default as lastUpdatedAt } from './reducers/last-updated-at'
-export { default as createConfirmedState } from './reducers/confirmed-state'
+export { default as confirmed } from './reducers/confirmed'
 export { default as members } from './reducers/members'
 export { default as roomTypes } from './reducers/room-types'
 export {
@@ -36,3 +36,4 @@ export { default as patch } from './utils/patch'
 export { default as set } from './utils/set'
 
 export * from './constants/source-types'
+export * from './constants/action-types'

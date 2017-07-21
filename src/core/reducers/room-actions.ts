@@ -10,15 +10,15 @@ export const CONFIRMED_STATE = 'hope/room/CONFIRMED_STATE'
 export const DIFF = 'hope/room/DIFF'
 
 // Action Creators
-export function confirmedState (
+export function confirmedStateAction (
   roomId: string,
   result: RoomState
 ): HopeAction {
-  const { confirmedState, members, lastUpdatedAt } = result
+  const { confirmed, members, lastUpdatedAt } = result
   return {
     type: CONFIRMED_STATE,
     $hope: {roomId, source: SERVER, userId: '', timeMs: 0, actionId: 0},
-    confirmedState,
+    confirmed,
     members,
     lastUpdatedAt
   }

@@ -1,5 +1,7 @@
 interface Member {
-  actionId: number
+  actionId: number,
+  private?: any,
+  public?: any
 }
 
 export default Member

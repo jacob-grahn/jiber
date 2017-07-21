@@ -1,6 +1,10 @@
+import Member from './member'
+
 export interface RoomState {
-  confirmedState: any,
-  members: {[userId: string]: {actionId: number}},
+  private?: any,
+  confirmed: any,
+  optimistic?: any,
+  members: {[userId: string]: Member},
   lastUpdatedAt: number
 }
 

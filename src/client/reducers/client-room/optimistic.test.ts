@@ -1,10 +1,10 @@
-import createOptimisticState from './optimistic-state'
+import createOptimistic from './optimistic'
 import { HopeAction, CLIENT, PEER, SERVER } from '../../../core/index'
 
 const adder = (state: any = '', action: HopeAction): any => {
   return state + action.value
 }
-const optimisticState = createOptimisticState(adder)
+const optimistic = createOptimistic(adder)
 
 test('user generated actions are used on the optimistic state', () => {
   const state: any = undefined
@@ -24,7 +24,7 @@ test('user generated actions are used on the optimistic state', () => {
     confirmedState: undefined,
     optimisticState: state
   }
-  expect(optimisticState(state, action, roomState)).toEqual('123')
+  expect(optimistic(state, action, roomState)).toEqual('123')
 })
 
 test('optimistic state is recalculated when confirmed state is updated', () => {
@@ -68,6 +68,6 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
     }
   }
 
-  const newState = optimisticState(roomState.optimisticState, action, roomState)
+  const newState = optimistic(roomState.optimisticState, action, roomState)
   expect(newState).toEqual('abc123456')
 })

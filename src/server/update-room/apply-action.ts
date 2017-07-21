@@ -1,4 +1,12 @@
-import { Action, RoomState, SERVER, diff } from '../../core/index'
+import {
+  Action,
+  RoomState,
+  SERVER,
+  INJECT_PRIVATE,
+  CLEAN_PRIVATE,
+  PATCH,
+  diff
+} from '../../core/index'
 
 export default function (
   dispatch: (action: Action) => void,
@@ -25,21 +33,22 @@ export default function (
 
   function privateApply (action: Action): void {
     const roomId = action.$hope.roomId
+    const beforeState = getRoomState(roomId)
 
-    const state = getRoomState(roomId)
-    state.confirmedState.$serverOnly = state.serverOnly
-    state.confirmedState.$members = state.members
-
+    dispatch({type: INJECT_PRIVATE, $hope: action.$hope})
     dispatch(action)
+    dispatch({type: CLEAN_PRIVATE, $hope: action.$hope})
 
-    const newState = getRoomState(roomId)
-    newState.serverOnly = newState.confirmedState.$serverOnly
-    newState.members = newState.confirmedState.$members
-    delete newState.confirmedState.$serverOnly
-    delete newState.confirmedState.$members
+    const afterState = getRoomState(roomId)
+    const stateChanges = diff(beforeState.confirmed, afterState.confirmed)
+    const userChanges = diff(beforeState.members, afterState.members)
 
-    const deltas = diff(state.confirmedState, newState.confirmedState)
-    const patchAction = {type: 'hope/PATCH', deltas, $hope: {roomId}}
+    const patchAction = {
+      type: PATCH,
+      stateChanges,
+      userChanges,
+      $hope: {roomId}
+    }
     sendToRoom(roomId, patchAction)
   }
 }
