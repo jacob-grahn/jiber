@@ -43,13 +43,13 @@ export default function (
     dispatch({type: CLEAN_PRIVATE, $hope: action.$hope})
 
     const afterState = getRoomState(roomId)
-    const stateChanges = diff(beforeState.confirmed, afterState.confirmed)
-    const userChanges = diff(beforeState.members, afterState.members)
+    const confirmedChanges = diff(beforeState.confirmed, afterState.confirmed)
+    const memberChanges = diff(beforeState.members, afterState.members)
 
     const patchAction = {
       type: PATCH,
-      stateChanges,
-      userChanges,
+      confirmed: confirmedChanges,
+      member: memberChanges,
       $hope: {roomId}
     }
     sendToRoom(roomId, patchAction)

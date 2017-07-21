@@ -1,5 +1,5 @@
 import createOptimistic from './optimistic'
-import { Action, CLIENT, PEER, SERVER } from '../../../core/index'
+import { Action, CLIENT, PEER, SERVER, PATCH } from '../../../core/index'
 import ClientRoomState from '../../interfaces/client-room-state'
 
 const adder = (state: any = '', action: Action): any => {
@@ -27,7 +27,20 @@ test('user generated actions are used on the optimistic state', () => {
   expect(optimistic(state, action, roomState)).toEqual('123')
 })
 
-test('optimistic state is recalculated when confirmed state is updated', () => {
+test('optimistic state is rebased when confirmed state is PATCHed', () => {
+  const state: any = {}
+  const action = {type: PATCH}
+  const roomState: ClientRoomState = {
+    optimisticActions: [],
+    confirmed: {someValue: 'yay'},
+    optimistic: state,
+    members: {},
+    lastUpdatedAt: 0
+  }
+  expect(optimistic(state, action, roomState)).toEqual({someValue: 'yay'})
+})
+
+test('optimistic state is rebased when confirmed state is updated', () => {
   const roomState: ClientRoomState = {
     optimisticActions: [
       {

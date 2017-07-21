@@ -11,6 +11,7 @@ interface ServerState {
   },
   users: {
     [userId: string]: {
+      socketId: string,
       public: {userId: string, [key: string]: any},
       private: any
     }

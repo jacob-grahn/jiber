@@ -30,13 +30,11 @@ export default function createServerRoom (subReducer: Reducer): Reducer {
       }
 
       case CLEAN_PRIVATE: {
-        const members = state.confirmed.members
-        const _private = state.confirmed.private
-        const confirmed = {
-          ...state.confirmed,
-          $private: undefined,
-          $members: undefined
-        }
+        const members = state.confirmed.$members
+        const _private = state.confirmed.$private
+        const confirmed = {...state.confirmed}
+        delete confirmed.$private
+        delete confirmed.$members
         return {...state, confirmed, private: _private, members}
       }
 
