@@ -12,7 +12,8 @@ export default function createOnAction (
     userId: string,
     action: Action
   ): Promise<void> {
-    const roomId = action.$hope
+    if (!action.$hope || !action.$hope.roomId) return
+    const roomId = action.$hope.roomId
     const userAction = {...action, $hope: {userId, roomId}}
     await pushAction(roomId, userAction)
     onRoomChange(roomId)                                                        // trigger a room update

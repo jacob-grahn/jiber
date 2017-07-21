@@ -1,34 +1,34 @@
 import createOptimistic from './optimistic'
-import { HopeAction, CLIENT, PEER, SERVER } from '../../../core/index'
+import { Action, CLIENT, PEER, SERVER } from '../../../core/index'
+import ClientRoomState from '../../interfaces/client-room-state'
 
-const adder = (state: any = '', action: HopeAction): any => {
+const adder = (state: any = '', action: Action): any => {
   return state + action.value
 }
 const optimistic = createOptimistic(adder)
 
 test('user generated actions are used on the optimistic state', () => {
   const state: any = undefined
-  const action: HopeAction = {
+  const action = {
     type: 'bet',
     value: '123',
     $hope: {
       actionId: 1,
-      roomId: '',
-      userId: '',
-      source: PEER,
-      timeMs: 0
+      source: PEER
     }
   }
-  const roomState = {
+  const roomState: ClientRoomState = {
     optimisticActions: [],
-    confirmedState: undefined,
-    optimisticState: state
+    confirmed: undefined,
+    optimistic: state,
+    members: {},
+    lastUpdatedAt: 0
   }
   expect(optimistic(state, action, roomState)).toEqual('123')
 })
 
 test('optimistic state is recalculated when confirmed state is updated', () => {
-  const roomState = {
+  const roomState: ClientRoomState = {
     optimisticActions: [
       {
         type: 'test',
@@ -37,10 +37,9 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
           actionId: 4,
           userId: 'sally',
           roomId: 'testRoom',
-          source: CLIENT,
-          timeMs: 0
+          source: CLIENT
         }
-      } as HopeAction,
+      },
       {
         type: 'test',
         value: '456',
@@ -48,26 +47,26 @@ test('optimistic state is recalculated when confirmed state is updated', () => {
           actionId: 5,
           userId: 'sally',
           roomId: 'testRoom',
-          source: CLIENT,
-          timeMs: 0
+          source: CLIENT
         }
-      } as HopeAction
+      }
     ],
-    confirmedState: 'abc',
-    optimisticState: ''
+    confirmed: 'abc',
+    optimistic: '',
+    members: {},
+    lastUpdatedAt: 0
   }
-  const action: HopeAction = {
+  const action: Action = {
     type: 'test',
     value: 'abc',
     $hope: {
       roomId: 'testRoom',
       userId: 'sally',
       actionId: 3,
-      source: SERVER,
-      timeMs: 0
+      source: SERVER
     }
   }
 
-  const newState = optimistic(roomState.optimisticState, action, roomState)
+  const newState = optimistic(roomState.optimistic, action, roomState)
   expect(newState).toEqual('abc123456')
 })

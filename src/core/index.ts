@@ -1,7 +1,6 @@
 export { default as Action } from './interfaces/action'
 export { default as Middleware } from './interfaces/middleware'
 export { default as Reducer } from './interfaces/reducer'
-export { default as HopeAction } from './interfaces/hope-action'
 export { default as Member } from './interfaces/member'
 export { default as Dictionary } from './interfaces/dictionary'
 export { default as DiffList } from './interfaces/diff-list'

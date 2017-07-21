@@ -14,7 +14,7 @@ test('add action to storage', async () => {
     calls.push({roomId, action})
   }
   const updateRoom = () => { /* do nothing */ }
-  const action: Action = {type: 'SPLAT', $hope: 'bob'}
+  const action: Action = {type: 'SPLAT', $hope: {roomId: 'bob'}}
   const onAction = createOnAction(pushAction, updateRoom)
 
   await onAction('user1', action)

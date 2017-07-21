@@ -1,26 +1,14 @@
-import { HopeAction } from '../../core/index'
+import { UserState } from '../../core/index'
+import ClientRoomState from './client-room-state'
 
 interface ClientState {
   users: {
-    [userId: string]: {
-      userId: string,
-      [key: string]: any
-    }
+    [userId: string]: UserState
   },
   rooms: {
-    [roomId: string]: {
-      members: {[userId: string]: number},
-      confirmedState: any,
-      optimisticState: any,
-      optimisticActions: HopeAction[]
-      status: string,
-      timeMs: number
-    }
+    [roomId: string]: ClientRoomState
   },
-  me: {
-    userId: string,
-    [key: string]: any
-  }
+  me: UserState
 }
 
 export default ClientState

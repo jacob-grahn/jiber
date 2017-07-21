@@ -1,5 +1,4 @@
 import Action from '../interfaces/action'
-import HopeAction from '../interfaces/hope-action'
 import RoomState from '../interfaces/room-state'
 import { SERVER } from '../constants/source-types'
 
@@ -13,11 +12,11 @@ export const DIFF = 'hope/room/DIFF'
 export function confirmedStateAction (
   roomId: string,
   result: RoomState
-): HopeAction {
+): Action {
   const { confirmed, members, lastUpdatedAt } = result
   return {
     type: CONFIRMED_STATE,
-    $hope: {roomId, source: SERVER, userId: '', timeMs: 0, actionId: 0},
+    $hope: {roomId, source: SERVER},
     confirmed,
     members,
     lastUpdatedAt

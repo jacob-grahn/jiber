@@ -1,7 +1,7 @@
 import {
   isConfirmedAction,
   Reducer,
-  HopeAction,
+  Action,
   CONFIRMED_STATE
 } from '../../../core/index'
 
@@ -10,8 +10,8 @@ export default function createOptimisticState (
 ) {
   return function optimisticState (
     state: any = undefined,
-    action: HopeAction,
-    roomState: {optimisticActions: HopeAction[], confirmedState: any}
+    action: Action,
+    roomState: {optimisticActions: Action[], confirmed: any}
   ): any {
     if (action.type === CONFIRMED_STATE) {
       const { optimisticActions } = roomState
@@ -19,8 +19,8 @@ export default function createOptimisticState (
     }
 
     if (isConfirmedAction(action)) {                                            // confirmed action
-      const { optimisticActions, confirmedState } = roomState
-      return optimisticActions.reduce(subReducer, confirmedState)
+      const { optimisticActions, confirmed } = roomState
+      return optimisticActions.reduce(subReducer, confirmed)
     }
 
     if (action.$hope && action.$hope.actionId) {                                // optimistic action

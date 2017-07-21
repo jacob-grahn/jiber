@@ -1,8 +1,12 @@
-import { Action, HopeAction, RoomState } from '../../core/index'
+import { Action, RoomState } from '../../core/index'
 
 interface RoomStorage {
-  pendingActions: HopeAction[],
+  pendingActions: StoredAction[],
   state: RoomState
+}
+
+interface StoredAction extends Action {
+  $hope: {timeMs: number}
 }
 
 const rooms: {[key: string]: RoomStorage} = {}
@@ -42,7 +46,7 @@ async function pushAction (
 async function fetchActions (
   roomId: string,
   minTimeMs: number
-): Promise<HopeAction[]> {
+): Promise<Action[]> {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
   return actions.filter(action => action.$hope.timeMs > minTimeMs)

@@ -1,15 +1,19 @@
 import {
   isConfirmedAction,
-  HopeAction,
+  Action,
   Member,
   CONFIRMED_STATE,
   LEAVE_ROOM
 } from '../../../core/index'
 
 export default function reducer (
-  state: HopeAction[] = [],
-  action: HopeAction
-): HopeAction[] {
+  state: Action[] = [],
+  action: Action
+): Action[] {
+  if (!action.$hope) {
+    return state
+  }
+
   if (action.type === CONFIRMED_STATE) {
     const state2 = claimActions(state, action.myUserId)
     const state3 = withoutNonMembers(state2, action.members)
@@ -35,9 +39,9 @@ export default function reducer (
 
 // Assign a userId to actions that don't have a userId
 function claimActions (
-  actions: HopeAction[],
+  actions: Action[],
   userId: string
-): HopeAction[] {
+): Action[] {
   return actions.map(action => {
     if (action.$hope && action.$hope.userId) {
       return action
@@ -48,9 +52,9 @@ function claimActions (
 
 // Remove actions that have the same userId, and a lesser or equal actionId
 function pruneActions (
-  actions: HopeAction[],
+  actions: Action[],
   members: {[userId: string]: Member}
-): HopeAction[] {
+): Action[] {
   return actions.filter(action => {
     if (!action || !action.$hope) {                                             // remove when there is no $hope metadata
       return false
@@ -73,13 +77,19 @@ function pruneActions (
 
 // remove optimistic actions that belong to users that are no longer members
 function withoutNonMembers (
-  actions: HopeAction[],
+  actions: Action[],
   members: {[userId: string]: number}
-): HopeAction[] {
-  return actions.filter(action => members[action.$hope.userId])
+): Action[] {
+  return actions.filter(action => {
+    if (!action.$hope || !action.$hope.userId) return false
+    return members[action.$hope.userId]
+  })
 }
 
 // remove actions belonging to userId
-function withoutUser (actions: HopeAction[], userId: string): HopeAction[] {
-  return actions.filter(action => action.$hope.userId !== userId)
+function withoutUser (actions: Action[], userId: string): Action[] {
+  return actions.filter(action => {
+    if (!action.$hope) return false
+    return action.$hope.userId !== userId
+  })
 }

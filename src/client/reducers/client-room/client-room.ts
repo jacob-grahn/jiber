@@ -1,5 +1,5 @@
 import {
-  HopeAction,
+  Action,
   Reducer,
   combineReducers,
   members,
@@ -8,6 +8,15 @@ import {
 } from '../../../core/index'
 import optimisticActions from './optimistic-actions'
 import optimistic from './optimistic'
+import ClientRoomState from '../../interfaces/client-room-state'
+
+const defaultState: ClientRoomState = {
+  members: {},
+  confirmed: undefined,
+  optimistic: undefined,
+  optimisticActions: [],
+  lastUpdatedAt: 0
+}
 
 // Reducer
 export default function createRoom (subReducer: Reducer): Reducer {
@@ -18,12 +27,15 @@ export default function createRoom (subReducer: Reducer): Reducer {
     lastUpdatedAt
   })
 
-  return function roomReducer (state: any = {}, action: HopeAction): any {
+  return function roomReducer (
+    state: ClientRoomState = defaultState,
+    action: Action
+  ): ClientRoomState {
     const intermediateState = intermediateReducer(state, action)
     return {
       ...intermediateState,
       optimistic: optimistic(subReducer)(
-        state.optimisticState,
+        state.optimistic,
         action,
         intermediateState
       )
