@@ -5,16 +5,17 @@ export default function (store: Store) {
     store.dispatch(joinRoom(roomId))
     return {
       dispatch: (action: Action): void => {
-        const roomAction: Action = {...action, $hope: roomId}
+        const $hope = action.$hope ? {...action.$hope, roomId} : {roomId}
+        const roomAction: Action = {...action, $hope}
         store.dispatch(roomAction)
       },
       getState: (): any => {
         const state = store.getState()
-        return state.rooms[roomId].optimisticState
+        return state.rooms[roomId].optimistic
       },
       getConfirmedState: (): any => {
         const state = store.getState()
-        return state.rooms[roomId].confirmedState
+        return state.rooms[roomId].confirmed
       }
     }
   }

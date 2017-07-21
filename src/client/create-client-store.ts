@@ -15,7 +15,7 @@ export default function createClientStore (
 ): ClientStore {
   const options = {...defaultOptions, ...optionInput}
   const clientReducer = createClientReducer(options.reducer)
-  const store = createStore(clientReducer, undefined)
+  const store = createStore(clientReducer, options.initialState)
   const clientStore: ClientStore = {...store, createRoom: createRoom(store)}
   const serverOptions = {...options, store: clientStore}
   const serverConnection = createServerConnection(serverOptions)

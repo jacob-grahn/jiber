@@ -65,8 +65,8 @@ export default function createServerConnection (
   // Add a message to be sent
   function send (action: Action): void {
     if (canSend()) {
-      const roomId = get(action, '$hope.roomId') || action.$hope
-      const smallerAction = {...action, $hope: roomId}
+      const roomId = get(action, '$hope.roomId')
+      const smallerAction = {...action, $hope: {roomId}}
       const strAction = JSON.stringify(smallerAction)
       socket.send(strAction)
     } else if (action.type !== JOIN_ROOM) {

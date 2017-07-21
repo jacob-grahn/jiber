@@ -8,14 +8,14 @@ import {
 export default function createOptimisticState (
   subReducer: Reducer
 ) {
-  return function optimisticState (
+  return function optimistic (
     state: any = undefined,
     action: Action,
     roomState: {optimisticActions: Action[], confirmed: any}
   ): any {
     if (action.type === CONFIRMED_STATE) {
       const { optimisticActions } = roomState
-      return optimisticActions.reduce(subReducer, action.confirmedState)
+      return optimisticActions.reduce(subReducer, action.confirmed)
     }
 
     if (isConfirmedAction(action)) {                                            // confirmed action

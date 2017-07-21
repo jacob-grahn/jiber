@@ -6,7 +6,8 @@ interface ClientSettings {
   reducer: Reducer,
   url: string,
   socketPort: number,
-  stunPort: number
+  stunPort: number,
+  initialState: any
 }
 
 export default ClientSettings

@@ -7,7 +7,8 @@ const defaultOptions: ClientSettings = {
   url: '',
   stunPort: 3478,                                                               // 5349 for TLS
   socketPort: 80,
-  credential: ''
+  credential: '',
+  initialState: undefined
 }
 
 export default defaultOptions
