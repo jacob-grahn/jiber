@@ -1,5 +1,5 @@
 {
-  "name": "hopedb-server",
+  "name": "hopeful-server",
   "version": "0.0.1",
   "description": "Hopefully synced data store",
   "main": "server/index.js",
