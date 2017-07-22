@@ -1,24 +1,24 @@
 import Action from '../interfaces/action'
 import Reducer from '../interfaces/reducer'
 import { CONFIRMED_STATE } from './room-actions'
-import isConfirmedAction from '../utils/is-confirmed-action'
 import patch from '../utils/patch'
-import { PATCH } from '../constants/action-types'
+import { PATCH, CONFIRM_ACTION } from '../constants/action-types'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmed (state: any = undefined, action: Action): any {
-    if (action.type === CONFIRMED_STATE) {
-      return action.confirmed
-    }
+    switch (action.type) {
 
-    if (action.type === PATCH) {
-      return patch(state, action.confirmed)
-    }
+      case CONFIRMED_STATE:
+        return action.confirmed
 
-    if (isConfirmedAction(action)) {
-      return subReducer(state, action)
-    }
+      case CONFIRM_ACTION:
+        return subReducer(state, action.action)
 
-    return state
+      case PATCH:
+        return patch(state, action.confirmed)
+
+      default:
+        return state
+    }
   }
 }

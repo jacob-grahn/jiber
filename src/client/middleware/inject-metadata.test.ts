@@ -1,5 +1,5 @@
 import injectMetadata from './inject-metadata'
-import { Action, CLIENT, PEER } from '../../core/index'
+import { Action } from '../../core/index'
 
 let lastAction: Action
 const state = {
@@ -39,13 +39,6 @@ test('actionId is added to the metadata', () => {
   expect($hope.actionId).toEqual(6)
 })
 
-test('source is added to the metadata', () => {
-  const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
-  inner(action)
-  const $hope = lastAction.$hope || {}
-  expect($hope.source).toEqual(CLIENT)
-})
-
 test('timeMs is added to the metadata', () => {
   const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
   inner(action)
@@ -54,7 +47,7 @@ test('timeMs is added to the metadata', () => {
 })
 
 test('actions with existing metadata are not altered', () => {
-  const action = {type: 'test', $hope: {roomId: 'testRoom', source: PEER}}
+  const action = {type: 'test', $hope: {roomId: 'testRoom', actionId: 5}}
   inner(action)
   expect(lastAction).toEqual(action)
 })

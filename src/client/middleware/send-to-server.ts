@@ -1,4 +1,4 @@
-import { Action, Middleware, CLIENT } from '../../core/index'
+import { Action, Middleware } from '../../core/index'
 import { ServerConnection } from '../server-connection'
 
 export default function createSendToServer (

@@ -1,7 +1,7 @@
 import {
-  isConfirmedAction,
   Reducer,
   Action,
+  CONFIRM_ACTION,
   CONFIRMED_STATE,
   PATCH
 } from '../../../core/index'
@@ -19,7 +19,7 @@ export default function createOptimisticState (
       return optimisticActions.reduce(subReducer, roomState.confirmed)
     }
 
-    if (isConfirmedAction(action)) {                                            // confirmed action
+    if (action.type === CONFIRM_ACTION) {                                       // confirmed action
       const { optimisticActions, confirmed } = roomState
       return optimisticActions.reduce(subReducer, confirmed)
     }

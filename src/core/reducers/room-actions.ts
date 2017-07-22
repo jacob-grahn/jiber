@@ -1,6 +1,5 @@
 import Action from '../interfaces/action'
 import RoomState from '../interfaces/room-state'
-import { SERVER } from '../constants/source-types'
 
 // Actions
 export const JOIN_ROOM = 'hope/room/JOIN_ROOM'
@@ -16,7 +15,7 @@ export function confirmedStateAction (
   const { confirmed, members, lastUpdatedAt } = result
   return {
     type: CONFIRMED_STATE,
-    $hope: {roomId, source: SERVER},
+    $hope: {roomId},
     confirmed,
     members,
     lastUpdatedAt

@@ -1,4 +1,4 @@
-import { Action, SERVER, joinRoom, JOIN_ROOM, get } from '../core/index'
+import { Action, CONFIRM_ACTION, joinRoom, JOIN_ROOM, get } from '../core/index'
 import ClientStore from './interfaces/client-store'
 
 export interface ServerConnection {
@@ -32,9 +32,9 @@ export default function createServerConnection (
   // Event handlers
   function onMessage (event: MessageEvent): void {
     const action = JSON.parse(event.data)
-    const meta = action.$hope || {}
-    meta.source = SERVER
-    store.dispatch(action)
+    if (!action.$hope || !action.$hope.roomId) return
+    const roomId = action.$hope.roomId
+    store.dispatch({type: CONFIRM_ACTION, action, $hope: {roomId}})
   }
   function onClose (): void {
     reconnect()
