@@ -1,6 +1,5 @@
 import Action from '../interfaces/action'
-import { CONFIRMED_STATE } from './room-actions'
-import { CONFIRM_ACTION, PATCH } from '../../core/index'
+import { CONFIRMED_STATE, CONFIRM_ACTION, PATCH } from '../../core/index'
 
 export default function lastUpdatedAt (
   state: number = 0,

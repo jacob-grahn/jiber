@@ -1,8 +1,8 @@
-import { Action, Store, joinRoom } from '../core/index'
+import { Action, Store, JOIN_ROOM } from '../core/index'
 
 export default function (store: Store) {
   return function createRoom (roomId: string) {
-    store.dispatch(joinRoom(roomId))
+    store.dispatch({type: JOIN_ROOM, $hope: {roomId}})
     return {
       dispatch: (action: Action): void => {
         const $hope = action.$hope ? {...action.$hope, roomId} : {roomId}

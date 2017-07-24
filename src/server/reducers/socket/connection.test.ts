@@ -1,5 +1,5 @@
+import { INIT_SOCKET } from '../../../core/index'
 import connection from './connection'
-import { socketInit } from './socket'
 
 const fakeSocket = {send: (str: string) => str, readyState: 0}
 
@@ -11,6 +11,6 @@ test('default to undefined', () => {
 
 test('update on connection', () => {
   const state = undefined
-  const action = socketInit('5', fakeSocket)
+  const action = {type: INIT_SOCKET, connection: fakeSocket}
   expect(connection(state, action)).toEqual(fakeSocket)
 })

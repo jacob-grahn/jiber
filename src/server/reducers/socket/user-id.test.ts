@@ -1,8 +1,8 @@
-import { addUser } from '../../../core/index'
+import { ADD_USER } from '../../../core/index'
 import userId from './user-id'
 
 test('record userId on successful login', () => {
   const state = undefined
-  const action = addUser({userId: 'hi'})
+  const action = {type: ADD_USER, user: {userId: 'hi'}}
   expect(userId(state, action)).toEqual('hi')
 })

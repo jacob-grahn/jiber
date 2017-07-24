@@ -1,4 +1,4 @@
-import { Action, RoomState, confirmedStateAction } from '../../core/index'
+import { Action, RoomState, CONFIRMED_STATE } from '../../core/index'
 
 export default function (
   dispatch: (action: Action) => any,
@@ -12,7 +12,7 @@ export default function (
     if (roomState) return roomState
 
     const savedRoomState = await fetchRoomState(roomId)
-    dispatch(confirmedStateAction(roomId, savedRoomState))
+    dispatch({...savedRoomState, type: CONFIRMED_STATE, $hope: {roomId}})
     return getRoomState(roomId)
   }
 }

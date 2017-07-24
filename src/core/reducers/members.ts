@@ -3,9 +3,9 @@ import {
   JOIN_ROOM,
   LEAVE_ROOM,
   CONFIRMED_STATE,
-  DIFF
-} from './room-actions'
-import { CONFIRM_ACTION } from '../constants/action-types'
+  PATCH,
+  CONFIRM_ACTION
+} from '../constants/action-types'
 import patch from '../utils/patch'
 
 export interface MembersState {
@@ -34,7 +34,7 @@ export default function reducer (
       delete newState[action.$hope.userId]
       return newState
 
-    case DIFF:
+    case PATCH:
       return patch(state, action.members)
 
     case CONFIRM_ACTION:

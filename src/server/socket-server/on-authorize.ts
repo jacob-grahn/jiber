@@ -1,4 +1,4 @@
-import { Store, addUser } from '../../core/index'
+import { Store, ADD_USER } from '../../core/index'
 import LoginRequestHandler from '../interfaces/login-request-handler'
 
 export default function createOnAuthorize (
@@ -14,9 +14,9 @@ export default function createOnAuthorize (
       const credential = info.req.headers['sec-websocket-protocol']
       const result = await loginRequestHandler(credential)
       const userId = result.userId
-      const userData = {userId, socketId, public: result}
-      const addUserAction = {...addUser(userData), socketId, userId}
-      store.dispatch(addUserAction)
+      const user = {userId, socketId, public: result}
+      const action = {type: ADD_USER, user, socketId, userId}
+      store.dispatch(action)
       cb(true)
     } catch (e) {
       console.log('authorize error', e)

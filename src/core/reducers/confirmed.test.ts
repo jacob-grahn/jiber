@@ -1,7 +1,6 @@
 import confirmed from './confirmed'
-import { confirmedStateAction } from './room-actions'
 import Action from '../interfaces/action'
-import { PATCH } from '../constants/action-types'
+import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
@@ -10,15 +9,8 @@ const adder = (state: any = '', action: Action): any => {
 test('confirmed state is set on join success', () => {
   const state = 'something else'
   const roomId = ''
-  const result = {
-    confirmed: 'hello there',
-    members: {},
-    lastUpdatedAt: 0,
-    private: undefined,
-    optimistic: undefined
-  }
-  const action = confirmedStateAction(roomId, result)
-  expect(confirmed(adder)(state, action)).toEqual('hello there')
+  const action = {type: CONFIRMED_STATE, confirmed: 'hello', $hope: {roomId}}
+  expect(confirmed(adder)(state, action)).toEqual('hello')
 })
 
 test('confirmed state is updated on PATCH actions', () => {

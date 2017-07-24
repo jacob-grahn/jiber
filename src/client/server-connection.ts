@@ -1,4 +1,4 @@
-import { Action, CONFIRM_ACTION, joinRoom, JOIN_ROOM, get } from '../core/index'
+import { Action, CONFIRM_ACTION, JOIN_ROOM, get } from '../core/index'
 import ClientStore from './interfaces/client-store'
 
 export interface ServerConnection {
@@ -77,7 +77,7 @@ export default function createServerConnection (
   function rejoinRooms () {
     const state = store.getState()
     Object.keys(state.rooms).forEach(roomId => {
-      const action = joinRoom(roomId)
+      const action = {type: JOIN_ROOM, $hope: {roomId}}
       send(action)
     })
   }

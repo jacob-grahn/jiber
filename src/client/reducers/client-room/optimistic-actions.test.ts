@@ -1,5 +1,5 @@
 import optimisticActions from './optimistic-actions'
-import { confirmedStateAction, CONFIRM_ACTION } from '../../../core/index'
+import { CONFIRM_ACTION, CONFIRMED_STATE } from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -54,12 +54,16 @@ test('remove outdated optimistic actions on join', () => {
   ]
 
   const roomId = 'room 1'
-  const result = {
-    confirmed: {},
-    members: {sue: {actionId: 5}},
-    lastUpdatedAt: 0
+  const confirmed = {}
+  const members = {sue: {actionId: 5}}
+  const lastUpdatedAt = 0
+  const action = {
+    type: CONFIRMED_STATE,
+    confirmed,
+    members,
+    lastUpdatedAt,
+    $hope: {roomId}
   }
-  const action = confirmedStateAction(roomId, result)
   expect(optimisticActions(list, action)).toEqual([
     {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}
   ])

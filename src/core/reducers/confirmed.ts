@@ -1,8 +1,11 @@
 import Action from '../interfaces/action'
 import Reducer from '../interfaces/reducer'
-import { CONFIRMED_STATE } from './room-actions'
 import patch from '../utils/patch'
-import { PATCH, CONFIRM_ACTION } from '../constants/action-types'
+import {
+  PATCH,
+  CONFIRM_ACTION,
+  CONFIRMED_STATE
+} from '../constants/action-types'
 
 export default function (subReducer: Reducer): Reducer {
   return function confirmed (state: any = undefined, action: Action): any {

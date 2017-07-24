@@ -1,5 +1,4 @@
-import { Store, loginResult } from '../../core/index'
-import { socketInit } from '../reducers/socket/socket'
+import { Store, LOGIN_RESULT, INIT_SOCKET } from '../../core/index'
 import * as ws from 'ws'
 
 export default function createOnConnect (
@@ -26,7 +25,11 @@ export default function createOnConnect (
       onClose(socketId)
     })
 
-    store.dispatch(socketInit(socketId, connection))
-    sendToSocket(socketId, loginResult(user.public))
+    const timeMs = new Date().getTime()
+    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
+    store.dispatch(socketAction)
+
+    const action = {type: LOGIN_RESULT, user: user.public}
+    sendToSocket(socketId, action)
   }
 }
