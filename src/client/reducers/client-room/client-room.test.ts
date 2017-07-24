@@ -1,4 +1,4 @@
-import { Action } from '../../../core/index'
+import { Action, CONFIRM_ACTION } from '../../../core/index'
 import room from './client-room'
 
 const adder = (state: any = '', action: Action): any => {
@@ -17,9 +17,12 @@ test('actions from the server update confirmed state', () => {
     confirmed: 'yay'
   }
   const action = {
-    type: 'test',
-    value: 'ok',
-    $hope: {actionId: 1}
+    type: CONFIRM_ACTION,
+    action: {
+      type: 'test',
+      value: 'ok',
+      $hope: {actionId: 1}
+    }
   }
   expect(roomReducer(state, action).confirmed).toBe('yayok')
 })

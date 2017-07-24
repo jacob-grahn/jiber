@@ -22,8 +22,8 @@ export default function createClientStore (
   const sendToServer = createSendToServer(serverConnection)
   const clientMiddleware = [
     ...options.middleware,
-    injectMetadata,
-    sendToServer
+    sendToServer,
+    injectMetadata
   ]
   store.setMiddleware(clientMiddleware)
 

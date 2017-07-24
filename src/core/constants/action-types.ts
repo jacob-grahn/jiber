@@ -1,5 +1,5 @@
-export const INJECT_PRIVATE = 'hope/serverRoom/INJECT_PRIVATE'
-export const CLEAN_PRIVATE = 'hope/serverRoom/CLEAN_PRIVATE'
+export const INJECT_PRIVATE = 'hope/INJECT_PRIVATE'
+export const CLEAN_PRIVATE = 'hope/CLEAN_PRIVATE'
 
-export const PATCH = 'hope/clientRoom/PATCH'
-export const CONFIRM_ACTION = 'hope/clientRoom/CONFIRM_ACTION'
+export const PATCH = 'hope/PATCH'
+export const CONFIRM_ACTION = 'hope/CONFIRM_ACTION'

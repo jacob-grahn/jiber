@@ -6,7 +6,7 @@ export default function createSendToServer (
 ): Middleware {
   return () => (next: Function) => (action: Action) => {
     if (!action.$hope) return next(action)                                      // ignore actions without metadata
-    if (action.$hope.source === CLIENT) {
+    if (!action.$hope.actionId) {
       server.send(action)
     }
     next(action)

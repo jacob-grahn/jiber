@@ -10,31 +10,25 @@ export default function reducer (
   state: Action[] = [],
   action: Action
 ): Action[] {
-  if (!action.$hope) {
-    return state
-  }
+  switch (action.type) {
 
-  if (action.type === CONFIRMED_STATE) {
-    const state2 = claimActions(state, action.myUserId)
-    const state3 = withoutNonMembers(state2, action.members)
-    return pruneActions(state3, action.members)
-  }
+    case CONFIRMED_STATE:
+      const state2 = claimActions(state, action.myUserId)
+      const state3 = withoutNonMembers(state2, action.members)
+      return pruneActions(state3, action.members)
 
-  if (action.type === LEAVE_ROOM) {
-    return withoutUser(state, action.userId)
-  }
+    case LEAVE_ROOM:
+      return withoutUser(state, action.userId)
 
-  if (action.type === CONFIRM_ACTION) {                                         // confirmed action
-    const userId = action.$hope.userId || ''
-    const actionId = action.$hope.actionId || 0
-    return pruneActions(state, {[userId]: {actionId}})
-  }
+    case CONFIRM_ACTION:
+      const userId = action.action.$hope.userId
+      const actionId = action.action.$hope.actionId
+      if (!userId || !actionId) return state
+      return pruneActions(state, {[userId]: {actionId}})
 
-  if (action.$hope.actionId) {                                                  // optimistic action
-    return [...state, action]
+    default:
+      return [...state, action]
   }
-
-  return state
 }
 
 // Assign a userId to actions that don't have a userId

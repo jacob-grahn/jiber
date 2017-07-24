@@ -1,5 +1,5 @@
 import createOptimistic from './optimistic'
-import { Action, CLIENT, PEER, SERVER, PATCH } from '../../../core/index'
+import { Action, CONFIRM_ACTION, PATCH } from '../../../core/index'
 import ClientRoomState from '../../interfaces/client-room-state'
 
 const adder = (state: any = '', action: Action): any => {
@@ -13,8 +13,7 @@ test('user generated actions are used on the optimistic state', () => {
     type: 'bet',
     value: '123',
     $hope: {
-      actionId: 1,
-      source: PEER
+      actionId: 1
     }
   }
   const roomState: ClientRoomState = {
@@ -49,8 +48,7 @@ test('optimistic state is rebased when confirmed state is updated', () => {
         $hope: {
           actionId: 4,
           userId: 'sally',
-          roomId: 'testRoom',
-          source: CLIENT
+          roomId: 'testRoom'
         }
       },
       {
@@ -59,8 +57,7 @@ test('optimistic state is rebased when confirmed state is updated', () => {
         $hope: {
           actionId: 5,
           userId: 'sally',
-          roomId: 'testRoom',
-          source: CLIENT
+          roomId: 'testRoom'
         }
       }
     ],
@@ -70,13 +67,15 @@ test('optimistic state is rebased when confirmed state is updated', () => {
     lastUpdatedAt: 0
   }
   const action: Action = {
-    type: 'test',
-    value: 'abc',
-    $hope: {
-      roomId: 'testRoom',
-      userId: 'sally',
-      actionId: 3,
-      source: SERVER
+    type: CONFIRM_ACTION,
+    action: {
+      type: 'test',
+      value: 'abc',
+      $hope: {
+        roomId: 'testRoom',
+        userId: 'sally',
+        actionId: 3
+      }
     }
   }
 

@@ -1,17 +1,24 @@
 import Action from '../interfaces/action'
 import { CONFIRMED_STATE } from './room-actions'
+import { CONFIRM_ACTION, PATCH } from '../../core/index'
 
 export default function lastUpdatedAt (
   state: number = 0,
   action: Action
 ): number {
-  if (action.type === CONFIRMED_STATE) {
-    return action.lastUpdatedAt
-  }
+  switch (action.type) {
+    case CONFIRMED_STATE:
+      return action.lastUpdatedAt
 
-  if (action.$hope && action.$hope.source === 'SERVER' && action.$hope.timeMs) {           // confirmed action
-    return action.$hope.timeMs
-  }
+    case CONFIRM_ACTION:
+      if (!action.$hope) return state
+      return action.$hope.timeMs || 0
 
-  return state
+    case PATCH:
+      if (!action.$hope) return state
+      return action.$hope.timeMs || 0
+
+    default:
+      return state
+  }
 }

@@ -1,9 +1,5 @@
 import optimisticActions from './optimistic-actions'
-import {
-  SERVER,
-  CLIENT,
-  confirmedStateAction
-} from '../../../core/index'
+import { confirmedStateAction, CONFIRM_ACTION } from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -15,10 +11,13 @@ test('prune actions that do not have a userId and actionId', () => {
     {$hope: {userId: 1}}
   ]
   const action = {
-    type: 'lala',
-    $hope: {
-      actionId: 1,
-      source: SERVER
+    type: CONFIRM_ACTION,
+    action: {
+      type: 'lala',
+      $hope: {
+        actionId: 1,
+        userId: 1
+      }
     }
   }
   expect(optimisticActions(actions, action)).toEqual([])
@@ -32,11 +31,13 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     {$hope: {actionId: 1, userId: 'sue'}}
   ]
   const action = {
-    type: 'wee',
-    $hope: {
-      userId: 'bob',
-      actionId: 2,
-      source: SERVER
+    type: CONFIRM_ACTION,
+    action: {
+      type: 'wee',
+      $hope: {
+        userId: 'bob',
+        actionId: 2
+      }
     }
   }
   expect(optimisticActions(actions, action)).toEqual([
@@ -70,8 +71,7 @@ test('user generated actions are added to the optimistic list', () => {
     type: 'lasswe',
     value: '123',
     $hope: {
-      actionId: 1,
-      source: CLIENT
+      actionId: 1
     }
   }
   const newState = optimisticActions(state, action)
