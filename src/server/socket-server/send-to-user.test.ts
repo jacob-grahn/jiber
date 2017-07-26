@@ -28,7 +28,7 @@ test('call sendToSocket for user', () => {
       rooms: {},
       sockets: {},
       users: {
-        user1: {socketId: 's1', public: {userId: 'user1'}, private: undefined},
+        user1: {socketId: 's1', public: {userId: 'user1'}, private: undefined}
       }
     }
   }
