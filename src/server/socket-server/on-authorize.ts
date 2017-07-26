@@ -1,8 +1,8 @@
-import { Store, ADD_USER } from '../../core/index'
+import { Action, ADD_USER } from '../../core/index'
 import LoginRequestHandler from '../interfaces/login-request-handler'
 
 export default function createOnAuthorize (
-  store: Store,
+  dispatch: (action: Action) => void,
   loginRequestHandler: LoginRequestHandler
 ) {
   return async function onAuthorize (
@@ -16,7 +16,7 @@ export default function createOnAuthorize (
       const userId = result.userId
       const user = {userId, socketId, public: result}
       const action = {type: ADD_USER, user, socketId, userId}
-      store.dispatch(action)
+      dispatch(action)
       cb(true)
     } catch (e) {
       console.log('authorize error', e)
