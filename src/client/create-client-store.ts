@@ -19,7 +19,7 @@ export default function createClientStore (
   const clientStore: ClientStore = {...store, createRoom: createRoom(store)}
   const serverOptions = {...options, store: clientStore}
   const serverConnection = createServerConnection(serverOptions)
-  const sendToServer = createSendToServer(serverConnection)
+  const sendToServer = createSendToServer(serverConnection.send)
   const clientMiddleware = [
     ...options.middleware,
     sendToServer,
