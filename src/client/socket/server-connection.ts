@@ -48,21 +48,7 @@ export default function createServerConnection (
     store.dispatch({type: CONFIRM_ACTION, action, $hope: {roomId}})
   }
 
-  // Add a message to be sent
-  function send (action: Action): void {
-    const roomId = get(action, '$hope.roomId')
-    const smallerAction = {...action, $hope: {roomId}}
-    const strAction = JSON.stringify(smallerAction)
-    writeQueue.write(socket, strAction)
-  }
-
-  function rejoinRooms () {
-    const state = store.getState()
-    Object.keys(state.rooms).forEach(roomId => {
-      const action = {type: JOIN_ROOM, $hope: {roomId}}
-      send(action)
-    })
-  }
+  
 
 
   // public methods
