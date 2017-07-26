@@ -1,10 +1,15 @@
 import createSendToRoom from './send-to-room'
 
+let calledWith: any[] = []
+const sendToSocket = (socketId: string, action: Object) => {
+  calledWith.push({socketId, action})
+}
+
+beforeEach(() => {
+  calledWith = []
+})
+
 test('call sendToSocket for every member of a room', () => {
-  const calledWith: any[] = []
-  const sendToSocket = (socketId: string, action: Object) => {
-    calledWith.push({socketId, action})
-  }
   const getState = () => {
     return {
       rooms: {
@@ -33,10 +38,6 @@ test('call sendToSocket for every member of a room', () => {
 })
 
 test('do nothing if room does not exist', () => {
-  const calledWith: any[] = []
-  const sendToSocket = (socketId: string, action: Object) => {
-    calledWith.push({socketId, action})
-  }
   const getState = () => {
     return {
       rooms: {},
@@ -50,10 +51,6 @@ test('do nothing if room does not exist', () => {
 })
 
 test('only send to users that exist', () => {
-  const calledWith: any[] = []
-  const sendToSocket = (socketId: string, action: Object) => {
-    calledWith.push({socketId, action})
-  }
   const getState = () => {
     return {
       rooms: {

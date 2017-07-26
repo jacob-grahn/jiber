@@ -1,11 +1,12 @@
-import { Action, Store } from '../../core/index'
+import { Action } from '../../core/index'
+import ServerState from '../interfaces/server-state'
 
 export default function createSendToUser (
-  store: Store,
+  getState: () => ServerState,
   sendToSocket: Function
 ) {
   return function sendToUser (userId: string, action: Action): void {
-    const state = store.getState()
+    const state = getState()
     const user = state.users[userId]
     if (!user) return
     const socketId = user.socketId
