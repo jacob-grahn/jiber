@@ -1,12 +1,12 @@
 import { Action } from '../../core/index'
-import ServerStore from '../interfaces/server-store'
+import ServerState from '../interfaces/server-state'
 
 export default function createSendToRoom (
-  store: ServerStore,
+  getState: () => ServerState,
   sendToSocket: Function
 ) {
   return function sendToRoom (roomId: string, action: Action): void {
-    const state = store.getState()
+    const state = getState()
     const room = state.rooms[roomId]
     if (!room || !room.members) return
     const memberIds: string[] = Object.keys(room.members)
