@@ -1,25 +1,35 @@
 import { JOIN_ROOM } from '../../core/index'
-import rejoinRooms from './rejoin-rooms'
+import createRejoinRooms from './rejoin-rooms'
+
+////////////////////////////////////////////////////////////////////////////////
+// mocks
+////////////////////////////////////////////////////////////////////////////////
+let sentActions: any[]
+let state: any
+const sendAction = (socket: any, action: any) => {
+  sentActions.push([socket, action])
+}
+const getState = () => state
+const socket: any = 'fakesocket'
+
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+const rejoinRooms = createRejoinRooms(sendAction, getState)
+beforeEach(() => sentActions = [])
 
 test('send a join action for each room in the state', () => {
-  const getState = (): any => {
-    return ({
-      rooms: {
-        room1: {},
-        room2: {}
-      },
-      users: {},
-      lastUpdatedAt: 0
-    })
+  state = {
+    rooms: {
+      room1: {},
+      room2: {}
+    }
   }
 
-  let sentActions: any[] = []
-  const sendAction = (action: any) => sentActions.push(action)
-
-  rejoinRooms(sendAction, getState)
+  rejoinRooms(socket)
 
   expect(sentActions).toEqual([
-    {type: JOIN_ROOM, $hope: {roomId: 'room1'}},
-    {type: JOIN_ROOM, $hope: {roomId: 'room2'}}
+    ['fakesocket', {type: JOIN_ROOM, $hope: {roomId: 'room1'}}],
+    ['fakesocket', {type: JOIN_ROOM, $hope: {roomId: 'room2'}}]
   ])
 })

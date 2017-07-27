@@ -3,7 +3,7 @@ import injectMetadata from './middleware/inject-metadata'
 import { createStore } from '../core/index'
 import ClientSettingsInput from './interfaces/client-settings-input'
 import ClientStore from './interfaces/client-store'
-import createServerConnection from './server-connection'
+import createHopeSocket from './socket/index'
 import createRoom from './create-room'
 import defaultOptions from './default-options'
 import createClientReducer from './client-reducer'
@@ -18,8 +18,8 @@ export default function createClientStore (
   const store = createStore(clientReducer, options.initialState)
   const clientStore: ClientStore = {...store, createRoom: createRoom(store)}
   const serverOptions = {...options, store: clientStore}
-  const serverConnection = createServerConnection(serverOptions)
-  const sendToServer = createSendToServer(serverConnection.send)
+  const hopeSocket = createHopeSocket(clientStore, serverOptions)
+  const sendToServer = createSendToServer(hopeSocket.send)
   const clientMiddleware = [
     ...options.middleware,
     sendToServer,

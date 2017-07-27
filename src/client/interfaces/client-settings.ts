@@ -7,7 +7,8 @@ interface ClientSettings {
   url: string,
   socketPort: number,
   stunPort: number,
-  initialState: any
+  initialState: any,
+  backoffMs: number
 }
 
 export default ClientSettings
