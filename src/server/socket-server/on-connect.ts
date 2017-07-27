@@ -1,35 +1,43 @@
-import { Store, LOGIN_RESULT, INIT_SOCKET } from '../../core/index'
+import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
 import * as ws from 'ws'
+import ServerStore from '../interfaces/server-store'
 
 export default function createOnConnect (
-  store: Store,
-  onMessage: Function,
-  onClose: Function,
-  sendToSocket: Function
+  store: ServerStore,
+  onMessage: (socketId: string, message: string) => void,
+  onClose: (socketId: string) => void,
+  sendToSocket: (socketId: string, action: Action) => void
 ) {
-  return function onConnect (connection: ws, request: any): void {
+  return function onConnect (webSocket: ws, request: any): void {
     const state = store.getState()
-    const socketId = request.headers['sec-websocket-key']
-    const userId = state.sockets[socketId].userId
-    const user = state.users[userId]
 
-    connection.on('message', async (message) => {
-      try {
-        await onMessage(socketId, message)
-      } catch (e) {
-        sendToSocket(socketId, e.message)
-      }
-    })
+    const socketId = get(request, 'headers.sec-websocket-key')
+    if (!socketId) return
 
-    connection.on('close', () => {
-      onClose(socketId)
-    })
+    const userId = get(state, `sockets.${socketId}.userId`)
+    if (!userId) return
 
+    const publicUserState = get(state, `users.${userId}.public`)
+    if (!publicUserState) return
+
+    addListeners(socketId, webSocket)
+    initSocket(socketId, webSocket)
+    sendLoginResult(socketId, publicUserState)
+  }
+
+  function addListeners (socketId: string, webSocket: ws) {
+    webSocket.on('message', (message) => onMessage(socketId, message))
+    webSocket.on('close', () => onClose(socketId))
+  }
+
+  function initSocket (socketId: string, webSocket: ws) {
     const timeMs = new Date().getTime()
-    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
+    const socketAction = {type: INIT_SOCKET, socketId, webSocket, timeMs}
     store.dispatch(socketAction)
+  }
 
-    const action = {type: LOGIN_RESULT, user: user.public}
+  function sendLoginResult (socketId: string, user: any) {
+    const action = {type: LOGIN_RESULT, user}
     sendToSocket(socketId, action)
   }
 }

@@ -1,16 +1,24 @@
-import { Action, Store } from '../../core/index'
+import { Action } from '../../core/index'
+import ServerState from '../interfaces/server-state'
 
 export default function createOnMessage (
-  store: Store,
-  onAction: (userId: string, action: Action) => Promise<void>
+  getState: () => ServerState,
+  onAction: (userId: string, action: Action) => void,
+  sendToSocket: (socketId: string, action: Action) => void
 ) {
-  return async function onMessage (
+  return function onMessage (
     socketId: string,
     message: string
-  ): Promise<void> {
-    const state = store.getState()                                              // look up their userId
-    const userId = state.sockets[socketId].userId                               // state.sockets[socketId] should always exist, so this should be safe...
-    const action = JSON.parse(message)
-    await onAction(userId, action)
+  ): void {
+    try {
+      const state = getState()                                                  // look up their userId
+      const socket = state.sockets[socketId]
+      if (!socket || !socket.userId) return
+      const userId = socket.userId
+      const action = JSON.parse(message)
+      onAction(userId, action)
+    } catch (e) {
+      sendToSocket(socketId, e.message)
+    }
   }
 }

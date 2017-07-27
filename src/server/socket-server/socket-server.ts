@@ -22,7 +22,7 @@ export default function createSocketServer (
   const onClose = createOnClose(store, storage.pushAction)
   const onAction = createOnAction(storage.pushAction, onRoomChange)
   const onAuthorize = createOnAuthorize(store.dispatch, settings.onLogin)
-  const onMessage = createOnMessage(store, onAction)
+  const onMessage = createOnMessage(store.getState, onAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
 
   const socketServer: SocketServer = {start, sendToUser, sendToRoom}

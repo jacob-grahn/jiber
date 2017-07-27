@@ -8,7 +8,7 @@ test('return a function', () => {
   expect(typeof onAction).toBe('function')
 })
 
-test('add action to storage', async () => {
+test('add action to storage', () => {
   const calls: any = []
   const pushAction = async (roomId: string, action: Action) => {
     calls.push({roomId, action})
@@ -17,7 +17,7 @@ test('add action to storage', async () => {
   const action: Action = {type: 'SPLAT', $hope: {roomId: 'bob'}}
   const onAction = createOnAction(pushAction, updateRoom)
 
-  await onAction('user1', action)
+  onAction('user1', action)
 
   expect(calls[0].roomId).toBe('bob')
   expect(calls[0].action).toEqual(
