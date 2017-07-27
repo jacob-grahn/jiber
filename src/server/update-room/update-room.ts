@@ -6,7 +6,7 @@ export default function createUpdateRoom (
   fetchActions: (roomId: string, minTimeMs: number) => Promise<Action[]>,
   applyAction: (action: Action) => any,
   saveRoom: (roomId: string) => void
-): (roomId: string) => void {
+): (roomId: string) => Promise<void> {
 
   return noConcurrent(async function (roomId: string) {
     if (!roomId) return undefined
