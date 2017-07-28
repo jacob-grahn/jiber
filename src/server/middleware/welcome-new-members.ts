@@ -1,6 +1,5 @@
 import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
 import ServerStore from '../interfaces/server-store'
-import filterPrivate from '../utils/filter-private'
 
 export default function welcomeNewMembers (
   sendToUser: (userId: string, action: Action) => void
@@ -16,7 +15,7 @@ export default function welcomeNewMembers (
     if (!room) return
     const message: Action = {
       type: CONFIRMED_STATE,
-      confirmed: filterPrivate(room.confirmed),
+      confirmed: room.confirmed,
       members: room.members,
       $hope: {
         roomId,
