@@ -1,10 +1,10 @@
 import { RoomState } from '../../core/index'
-import Socket from './socket'
+import * as ws from 'ws'
 
 interface ServerState {
   sockets: {
     [socketId: string]: {
-      connection: Socket,
+      connection: ws,
       connectedAt: number,
       userId: string
     }

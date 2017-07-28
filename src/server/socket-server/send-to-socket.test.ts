@@ -1,3 +1,38 @@
-test('todo', () => {
-  expect(false).toBe(true)
+import createSendToSocket from './send-to-socket'
+
+////////////////////////////////////////////////////////////////////////////////
+// mocks
+////////////////////////////////////////////////////////////////////////////////
+let calls: any[]
+const getState: any = () => {
+  return {
+    sockets: {
+      socket1: {
+        connection: {
+          readyState: 1,
+          OPEN: 1,
+          send: (message: string) => calls.push(message)
+        }
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+const sendToSocket = createSendToSocket(getState)
+beforeEach(() => calls = [])
+
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
+test('send stringified action to a socket', () => {
+  sendToSocket('socket1', {type: 'test'})
+  expect(calls).toEqual(['{"type":"test"}'])
+})
+
+test('ignore non-existant sockets', () => {
+  sendToSocket('socket2', {type: 'test'})
+  expect(calls).toEqual([])
 })

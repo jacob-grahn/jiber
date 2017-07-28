@@ -1,10 +1,10 @@
 import { Action, INIT_SOCKET } from '../../../core/index'
-import Socket from '../../interfaces/socket'
+import * as ws from 'ws'
 
 export default function connection (
-  state: Socket|undefined = undefined,
+  state: ws|undefined = undefined,
   action: Action
-): Socket|undefined {
+): ws|undefined {
   switch (action.type) {
     case INIT_SOCKET:
       return action.connection

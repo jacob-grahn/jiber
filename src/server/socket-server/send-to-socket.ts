@@ -1,12 +1,12 @@
-import { Action, Store } from '../../core/index'
+import { Action } from '../../core/index'
+import * as ws from 'ws'
+import ServerState from '../interfaces/server-state'
 
-// const OPEN = 1
-
-export default function createSendToSocket (store: Store) {
+export default function createSendToSocket (getState: () => ServerState) {
   return function sendToSocket (socketId: string, action: Action): void {
-    const socket = store.getState().sockets[socketId]
+    const socket = getState().sockets[socketId]
     if (!socket || !socket.connection) return
-    const connection = socket.connection
+    const connection: ws = socket.connection
     if (connection.readyState === connection.OPEN) {
       connection.send(JSON.stringify(action))
     }
