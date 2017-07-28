@@ -9,6 +9,8 @@ export { default as RoomState } from './interfaces/room-state'
 export { default as UserState } from './interfaces/user-state'
 
 export { default as createStore } from './create-store'
+
+export { default as allowActions } from './reducers/allow-actions'
 export { default as combineReducers } from './reducers/combine-reducers'
 export { default as simpleSetter } from './reducers/simple-setter'
 export { default as dictionary } from './reducers/dictionary'
