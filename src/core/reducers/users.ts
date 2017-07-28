@@ -9,4 +9,4 @@ export default allowActions(
   [ADD_USER, REMOVE_USER]
 )
 
-export { Reducer }
+export { Reducer }                                                              // make the compiler happy

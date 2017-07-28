@@ -1,5 +1,9 @@
 import Action from '../interfaces/action'
-import { CONFIRMED_STATE, CONFIRM_ACTION, PATCH } from '../../core/index'
+import {
+  CONFIRMED_STATE,
+  CONFIRM_ACTION,
+  PATCH
+} from '../constants/action-types'
 
 export default function lastUpdatedAt (
   state: number = 0,
@@ -10,12 +14,11 @@ export default function lastUpdatedAt (
       return action.lastUpdatedAt
 
     case CONFIRM_ACTION:
-      if (!action.$hope) return state
-      return action.$hope.timeMs || 0
+      if (!action.$hope || !action.$hope.timeMs) return state
+      return action.$hope.timeMs
 
     case PATCH:
-      if (!action.$hope) return state
-      return action.$hope.timeMs || 0
+      return action.lastUpdatedAt
 
     default:
       return state
