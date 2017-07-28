@@ -10,18 +10,10 @@ interface StoredAction extends Action {
 }
 
 const rooms: {[key: string]: RoomStorage} = {}
-const defaultRoomStorage: RoomStorage = {
-  pendingActions: [],
-  state: {
-    members: {},
-    confirmed: undefined,
-    lastUpdatedAt: 0
-  }
-}
 
 function getRoom (roomId: string): RoomStorage {
   if (!rooms[roomId]) {
-    rooms[roomId] = JSON.parse(JSON.stringify(defaultRoomStorage))
+    rooms[roomId] = {pendingActions: [], state: undefined} as any
   }
   return rooms[roomId]
 }
