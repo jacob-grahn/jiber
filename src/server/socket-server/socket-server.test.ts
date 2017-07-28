@@ -1,3 +1,20 @@
-test('todo', () => {
-  expect(false).toBe(true)
+import createSocketServer from './socket-server'
+import defaultSettings from '../default-settings'
+
+////////////////////////////////////////////////////////////////////////////////
+// mocks
+////////////////////////////////////////////////////////////////////////////////
+const settings = {...defaultSettings}
+const store: any = {
+  getState: () => {}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
+test('it should give us a nice public interface', () => {
+  const socketServer = createSocketServer(store, settings)
+  expect(socketServer.start).toBeTruthy()
+  expect(socketServer.sendToUser).toBeTruthy()
+  expect(socketServer.sendToRoom).toBeTruthy()
 })

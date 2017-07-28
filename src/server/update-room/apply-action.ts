@@ -3,19 +3,20 @@ import {
   RoomState,
   INJECT_PRIVATE,
   CLEAN_PRIVATE,
+  CONFIRM_ACTION,
   PATCH,
   diff
 } from '../../core/index'
 
 export default function (
   dispatch: (action: Action) => void,
-  getRoomState: (roomId: string) => RoomState,
+  getRoom: (roomId: string) => RoomState,
   sendToRoom: (roomId: string, action: Action) => void
 ) {
   return function applyAction (action: Action): void {
     if (!action.$hope || !action.$hope.roomId) return
     const roomId = action.$hope.roomId
-    const roomState = getRoomState(roomId)
+    const roomState = getRoom(roomId)
     action = addMetadata(roomState, action)
 
     if (action.type.indexOf('$serverOnly/') === 0) {
@@ -27,28 +28,30 @@ export default function (
 
   function quickApply (action: Action): void {
     if (!action.$hope || !action.$hope.roomId) return
-    dispatch(action)
-    sendToRoom(action.$hope.roomId, action)
+    const roomId = action.$hope.roomId
+    dispatch({type: CONFIRM_ACTION, action, $hope: action.$hope})
+    sendToRoom(roomId, action)
   }
 
   function privateApply (action: Action): void {
     if (!action.$hope || !action.$hope.roomId) return
     const roomId = action.$hope.roomId
-    const beforeState = getRoomState(roomId)
+    const beforeState = getRoom(roomId)
 
-    dispatch({type: INJECT_PRIVATE, $hope: action.$hope})
-    dispatch(action)
-    dispatch({type: CLEAN_PRIVATE, $hope: action.$hope})
+    dispatch({type: INJECT_PRIVATE, $hope: {roomId}})
+    dispatch({type: CONFIRM_ACTION, action, $hope: action.$hope})
+    dispatch({type: CLEAN_PRIVATE, $hope: {roomId}})
 
-    const afterState = getRoomState(roomId)
+    const afterState = getRoom(roomId)
     const confirmedChanges = diff(beforeState.confirmed, afterState.confirmed)
     const memberChanges = diff(beforeState.members, afterState.members)
 
     const patchAction = {
       type: PATCH,
       confirmed: confirmedChanges,
-      member: memberChanges,
-      $hope: {roomId}
+      members: memberChanges,
+      $hope: {roomId},
+      lastUpdatedAt: afterState.lastUpdatedAt
     }
     sendToRoom(roomId, patchAction)
   }
