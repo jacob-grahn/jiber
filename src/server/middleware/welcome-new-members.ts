@@ -2,11 +2,9 @@ import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
 import ServerStore from '../interfaces/server-store'
 import filterPrivate from '../utils/filter-private'
 
-export interface SendToUser {
-  (userId: string, action: Action): void
-}
-
-export default (sendToUser: SendToUser) => {
+export default function welcomeNewMembers (
+  sendToUser: (userId: string, action: Action) => void
+) {
   return (store: ServerStore) => (next: Function) => (action: Action) => {
     next(action)
     if (action.type !== JOIN_ROOM) return
