@@ -33,7 +33,6 @@ export default function createSocketServer (
       verifyClient: onAuthorize
     })
     wss.on('connection', onConnect as any)                                      // get around the imperfect typescript definitions for ws
-    wss.on('error', (err) => console.log('wss error', err))
   }
 
   function onRoomChange (roomId: string): void {

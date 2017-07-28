@@ -1,5 +1,6 @@
 import { Action, RoomState } from '../../core/index'
 import noConcurrent from '../utils/no-concurrent'
+import logger from '../utils/logger'
 
 export default function createUpdateRoom (
   ensureRoom: (roomId: string) => Promise<RoomState>,
@@ -16,7 +17,7 @@ export default function createUpdateRoom (
       actions.forEach(applyAction)
       process.nextTick(() => saveRoom(roomId))
     } catch (e) {
-      console.log('updateRoom error', e)
+      logger.error('update-room.ts', e)
     }
   })
 }

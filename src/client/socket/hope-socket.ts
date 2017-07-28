@@ -14,7 +14,7 @@ export default function createHopeSocket (
   }
 
   connect()
-    .catch(console.log)
+    .catch(() => { /* do nothing */ })
 
   return {
     send: (action: Action) => sendAction(socket, action)

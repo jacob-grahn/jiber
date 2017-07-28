@@ -19,7 +19,6 @@ export default function createOnAuthorize (
       dispatch(action)
       cb(true)
     } catch (e) {
-      console.log('authorize error', e)
       cb(false)
     }
   }
