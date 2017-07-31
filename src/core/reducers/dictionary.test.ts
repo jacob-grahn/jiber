@@ -22,3 +22,11 @@ test('return unchanged state if id is not in the action', () => {
   const action = {type: 'what'}
   expect(reducer(state, action)).toEqual({})
 })
+
+test('remove field if its reducer returnes undefined', () => {
+  const voider = () => undefined
+  const reducer = dictionary(voider, 'id')
+  const state = {room1: 'hello'}
+  const action = {type: 'what', id: 'room1'}
+  expect(reducer(state, action)).toEqual({})
+})
