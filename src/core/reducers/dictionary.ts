@@ -18,9 +18,17 @@ export default function (reducer: Reducer, idKey: string): Reducer {
     const id = get(action, idKey)
     if (!id) return state
 
-    return {
-      ...state,
-      [id]: reducer(state[id], action)
+    const subState = reducer(state[id], action)
+
+    if (subState !== undefined) {
+      return {
+        ...state,
+        [id]: subState
+      }
+    } else {
+      const newState = {...state}
+      delete newState[id]
+      return newState
     }
   }
 }
