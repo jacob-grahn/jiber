@@ -31,10 +31,15 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('quick apply an action and send it out to room members', () => {
-  const action = {type: 'hi', $roomId: 'room1'}
+  const action = {type: 'hi', $roomId: 'room1', $timeMs: 5465}
   applyAction(action)
   expect(calls).toEqual([
-    ['dispatch', {type: CONFIRM_ACTION, action, $roomId: 'room1'}],
+    ['dispatch', {
+      type: CONFIRM_ACTION,
+      action,
+      $roomId: 'room1',
+      $timeMs: 5465
+    }],
     ['sendToRoom', 'room1', action]
   ])
 })

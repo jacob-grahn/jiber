@@ -35,7 +35,9 @@ export default function (
 
   function quickApply (action: Action): void {
     if (!action.$roomId) return
-    dispatch({type: CONFIRM_ACTION, action, $roomId: action.$roomId})
+    const $roomId = action.$roomId
+    const $timeMs = action.$timeMs
+    dispatch({type: CONFIRM_ACTION, action, $roomId, $timeMs})
     sendToRoom(action.$roomId, action)
   }
 
