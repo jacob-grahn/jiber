@@ -14,7 +14,7 @@
       // INIT: create a room to sync our masterful drawing
       //////////////////////////////////////////////////////////////////////////
       const scale = 5                                                           // each 'pixel' is actually a 5px by 5px square
-      const store = $hope.createStore({url: 'localhost'})                       // $hope is a global variable when hope-client.bundle.js is loaded
+      const store = $hopeful.createStore({url: 'localhost'})                    // $hopeful is a global variable when hope-client.bundle.js is loaded
       const room = store.createRoom('room1')
       const canvas = document.getElementById('line-canvas')
       const ctx = canvas.getContext('2d')
