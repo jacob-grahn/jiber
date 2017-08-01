@@ -36,7 +36,7 @@ test('return state from storage if it exists', async () => {
     type: CONFIRMED_STATE,
     roomId: 'room2',
     source: 'storage',
-    $hope: {roomId: 'room2'}
+    $roomId: 'room2'
   }])
 })
 

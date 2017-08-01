@@ -4,6 +4,7 @@ interface Action {
   $userId?: string,
   $actionId?: number,
   $timeMs?: number,
+  $source?: string
   [key: string]: any
 }
 

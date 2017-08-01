@@ -1,3 +1,5 @@
+// TODO: should this be a dict?
+
 import Action from '../interfaces/action'
 import {
   JOIN_ROOM,
@@ -16,31 +18,29 @@ export default function reducer (
   state: MembersState = {},
   action: Action
 ): MembersState {
-  if (!action.$hope) return state
-
   switch (action.type) {
 
     case CONFIRMED_STATE:
       return action.members
 
     case JOIN_ROOM:
-      if (!action.$hope.userId) return state
-      if (state[action.$hope.userId]) return state                              // no need to be added twice
-      return {...state, [action.$hope.userId]: {actionId: 0}}                   // add the userId to the collection
+      if (!action.$userId) return state
+      if (state[action.$userId]) return state                                   // no need to be added twice
+      return {...state, [action.$userId]: {actionId: 0}}                        // add the userId to the collection
 
     case LEAVE_ROOM:
-      if (!action.$hope.userId) return state
+      if (!action.$userId) return state
       const newState = {...state}
-      delete newState[action.$hope.userId]
+      delete newState[action.$userId]
       return newState
 
     case PATCH:
       return patch(state, action.members)
 
     case CONFIRM_ACTION:
-      if (!action.$hope.userId) return state
-      const userId = action.$hope.userId
-      const actionId = action.$hope.actionId
+      if (!action.$userId) return state
+      const userId = action.$userId
+      const actionId = action.$actionId
       const user = state[userId] || {}
       const updatedUser = {...user, actionId}
       return {...state, [userId]: updatedUser}

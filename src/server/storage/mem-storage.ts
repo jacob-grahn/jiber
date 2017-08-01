@@ -1,12 +1,8 @@
 import { Action, RoomState } from '../../core/index'
 
 interface RoomStorage {
-  pendingActions: StoredAction[],
+  pendingActions: Action[],
   state: RoomState
-}
-
-interface StoredAction extends Action {
-  $hope: {timeMs: number}
 }
 
 const rooms: {[key: string]: RoomStorage} = {}
@@ -25,14 +21,13 @@ function clear () {
 async function pushAction (
   roomId: string,
   action: Action
-): Promise<any> {
+): Promise<void> {
   const roomStorage = getRoom(roomId)
   const pendingActions = roomStorage.pendingActions
-  const timeMs = new Date().getTime()
-  const meta = action.$hope || {}
-  const timedAction = {...action, $hope: {...meta, timeMs}}
+  const $timeMs = new Date().getTime()
+  const timedAction = {...action, $timeMs}
   pendingActions.push(timedAction)
-  return true
+  return
 }
 
 async function fetchActions (
@@ -41,13 +36,15 @@ async function fetchActions (
 ): Promise<Action[]> {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
-  return actions.filter(action => action.$hope.timeMs > minTimeMs)
+  return actions.filter(action => action.$timeMs as number > minTimeMs)
 }
 
 async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
-  const newActions = actions.filter(action => action.$hope.timeMs >= minTimeMs)
+  const newActions = actions.filter(action => {
+    return action.$timeMs as number >= minTimeMs
+  })
   roomStorage.pendingActions = newActions
   return true
 }

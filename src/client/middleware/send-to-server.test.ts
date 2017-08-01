@@ -1,4 +1,4 @@
-import { Middleware } from '../../core/index'
+import { Middleware, CLIENT } from '../../core/index'
 import createSendToServer from './send-to-server'
 
 let sendCalledWith: any[]
@@ -18,22 +18,15 @@ beforeEach(() => {
   nextCalledWith = []
 })
 
-test('ignore actions without metadata', () => {
+test('ignore actions where $source !== CLIENT', () => {
   sendToServer(store)(next)({type: 'hi'})
   expect(sendCalledWith).toEqual([])
   expect(nextCalledWith).toEqual(['next'])
 })
 
-test('ignore actions with an actionId', () => {
-  sendToServer(store)(next)({type: 'hi'})
-  expect(sendCalledWith).toEqual([])
-  expect(nextCalledWith).toEqual(['next'])
-})
-
-test('send all other actions', () => {
-  sendToServer(store)(next)({type: 'hi', $roomId: 'room1'})
-  expect(sendCalledWith).toEqual([
-    {type: 'hi', $roomId: 'room1'}
-  ])
+test('send actions where $source === CLIENT', () => {
+  const action = {type: 'hi', $source: CLIENT}
+  sendToServer(store)(next)(action)
+  expect(sendCalledWith).toEqual([action])
   expect(nextCalledWith).toEqual(['next'])
 })

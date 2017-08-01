@@ -14,35 +14,42 @@ export default function (
   sendToRoom: (roomId: string, action: Action) => void
 ) {
   return function applyAction (action: Action): void {
-    if (!action.$hope || !action.$hope.roomId) return
-    const roomId = action.$hope.roomId
-    const roomState = getRoom(roomId)
+    if (!action.$roomId) return
+    const roomState = getRoom(action.$roomId)
     action = addMetadata(roomState, action)
 
     if (action.type.indexOf('$serverOnly/') === 0) {
       privateApply(action)
+    } else if (action.type.indexOf('hope/') === 0) {
+      rawApply(action)
     } else {
       quickApply(action)
     }
   }
 
+  function rawApply(action: Action): void {
+    if (!action.$roomId) return
+    dispatch(action)
+    sendToRoom(action.$roomId, action)
+  }
+
   function quickApply (action: Action): void {
-    if (!action.$hope || !action.$hope.roomId) return
-    const roomId = action.$hope.roomId
-    dispatch({type: CONFIRM_ACTION, action, $hope: action.$hope})
-    sendToRoom(roomId, action)
+    if (!action.$roomId) return
+    dispatch({type: CONFIRM_ACTION, action, $roomId: action.$roomId})
+    sendToRoom(action.$roomId, action)
   }
 
   function privateApply (action: Action): void {
-    if (!action.$hope || !action.$hope.roomId) return
-    const roomId = action.$hope.roomId
-    const beforeState = getRoom(roomId)
+    if (!action.$roomId) return
+    const $roomId = action.$roomId
+    const $timeMs = action.$timeMs
+    const beforeState = getRoom($roomId)
 
-    dispatch({type: INJECT_PRIVATE, $hope: {roomId}})
-    dispatch({type: CONFIRM_ACTION, action, $hope: action.$hope})
-    dispatch({type: CLEAN_PRIVATE, $hope: {roomId}})
+    dispatch({type: INJECT_PRIVATE, $roomId})
+    dispatch({type: CONFIRM_ACTION, action, $roomId, $timeMs})
+    dispatch({type: CLEAN_PRIVATE, $roomId})
 
-    const afterState = getRoom(roomId)
+    const afterState = getRoom($roomId)
     const confirmedChanges = diff(beforeState.confirmed, afterState.confirmed)
     const memberChanges = diff(beforeState.members, afterState.members)
 
@@ -50,18 +57,17 @@ export default function (
       type: PATCH,
       confirmed: confirmedChanges,
       members: memberChanges,
-      $hope: {roomId},
-      lastUpdatedAt: afterState.lastUpdatedAt
+      $roomId,
+      $timeMs
     }
-    sendToRoom(roomId, patchAction)
+    sendToRoom($roomId, patchAction)
   }
 }
 
 function addMetadata (roomState: RoomState, action: Action): Action {
-  if (!action.$hope || !action.$hope.userId) return action
-  const userId = action.$hope.userId
-  const member = roomState.members[userId] || {}
+  if (!action.$userId) return action
+  const member = roomState.members[action.$userId] || {}
   const lastActionId = member.actionId || 0
-  action.$hope.actionId = lastActionId + 1
+  action.$actionId = lastActionId + 1
   return action
 }

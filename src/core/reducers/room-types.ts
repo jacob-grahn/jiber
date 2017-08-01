@@ -8,9 +8,8 @@ export interface ReducerObj {
 
 export default function roomTypes (reducerObj: ReducerObj): Reducer {
   return (state: any = undefined, action: Action): Dictionary => {
-    if (!action.$hope || !action.$hope.roomId) return state
-    const roomId = action.$hope.roomId
-    const [roomType] = roomId.split('.')
+    if (!action.$roomId) return state
+    const [roomType] = action.$roomId.split('.')
     const reducer = reducerObj[roomType]
     return reducer(state, action)
   }

@@ -31,37 +31,47 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('quick apply an action and send it out to room members', () => {
-  const action = {type: 'hi', $hope: {roomId: 'room1'}}
+  const action = {type: 'hi', $roomId: 'room1'}
   applyAction(action)
   expect(calls).toEqual([
-    ['dispatch', {type: CONFIRM_ACTION, action, $hope: {roomId: 'room1'}}],
+    ['dispatch', {type: CONFIRM_ACTION, action, $roomId: 'room1'}],
+    ['sendToRoom', 'room1', action]
+  ])
+})
+
+test('raw apply an action and send it out to room members', () => {
+  const action = {type: 'hope/hi', $roomId: 'room1'}
+  applyAction(action)
+  expect(calls).toEqual([
+    ['dispatch', action],
     ['sendToRoom', 'room1', action]
   ])
 })
 
 test('private apply an action and send out a diff', () => {
-  const action = {type: '$serverOnly/hi', $hope: {roomId: 'room1', timeMs: 123}}
+  const action = {type: '$serverOnly/hi', $roomId: 'room1', $timeMs: 123}
   applyAction(action)
   expect(calls).toEqual([
     ['dispatch', {
       type: INJECT_PRIVATE,
-      $hope: {roomId: 'room1'}
+      $roomId: 'room1'
     }],
     ['dispatch', {
       type: CONFIRM_ACTION,
       action,
-      $hope: {roomId: 'room1', timeMs: 123}
+      $timeMs: 123,
+      $roomId: 'room1'
     }],
     ['dispatch', {
       type: CLEAN_PRIVATE,
-      $hope: {roomId: 'room1'}
+      $roomId: 'room1'
     }],
     ['sendToRoom', 'room1', {
       type: PATCH,
       confirmed: [],
       members: [],
-      lastUpdatedAt: undefined,
-      $hope: {roomId: 'room1'}
+      $timeMs: 123,
+      $roomId: 'room1'
     }]
   ])
 })

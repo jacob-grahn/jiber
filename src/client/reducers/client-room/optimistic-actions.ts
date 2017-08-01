@@ -48,6 +48,7 @@ function pruneActions (
   members: {[userId: string]: Member}
 ): Action[] {
   return actions.filter(action => {
+    if (!action) return false
     const userId = action.$userId
     const actionId = action.$actionId
 

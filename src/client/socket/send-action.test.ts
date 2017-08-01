@@ -38,7 +38,7 @@ test('write good actions to the socket', () => {
 })
 
 test('leave out everything but roomId', () => {
-  sendAction(socket, {type: 'hi', $roomId: 'room1', userId: 'yayaya'})
+  sendAction(socket, {type: 'hi', $roomId: 'room1', $userId: 'yayaya'})
   expect(sentMessages).toEqual([
     JSON.stringify({type: 'hi', $roomId: 'room1'})
   ])

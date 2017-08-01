@@ -31,7 +31,7 @@ export default function createServerRoom (subReducer: Reducer): Reducer {
 
       case CLEAN_PRIVATE: {
         const members = state.confirmed.$members
-        const _private = state.confirmed.$private
+        const _private = state.confirmed.$private                               // private is a reserved keyword, oops
         const confirmed = {...state.confirmed}
         delete confirmed.$private
         delete confirmed.$members

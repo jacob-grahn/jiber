@@ -30,9 +30,9 @@ export default function createOnConnect (
     webSocket.on('close', () => onClose(socketId))
   }
 
-  function initSocket (socketId: string, webSocket: ws) {
+  function initSocket (socketId: string, connection: ws) {
     const timeMs = new Date().getTime()
-    const socketAction = {type: INIT_SOCKET, socketId, webSocket, timeMs}
+    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
     store.dispatch(socketAction)
   }
 

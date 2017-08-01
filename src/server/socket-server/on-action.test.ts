@@ -14,13 +14,13 @@ test('add action to storage', () => {
     calls.push({roomId, action})
   }
   const updateRoom = () => { /* do nothing */ }
-  const action: Action = {type: 'SPLAT', $hope: {roomId: 'bob'}}
+  const action: Action = {type: 'SPLAT', $roomId: 'bob'}
   const onAction = createOnAction(pushAction, updateRoom)
 
   onAction('user1', action)
 
   expect(calls[0].roomId).toBe('bob')
   expect(calls[0].action).toEqual(
-    {type: 'SPLAT', $hope: {roomId: 'bob', userId: 'user1'}}
+    {type: 'SPLAT', $roomId: 'bob', $userId: 'user1'}
   )
 })

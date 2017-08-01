@@ -12,9 +12,9 @@ export default function createOnAction (
     userId: string,
     action: Action
   ): void {
-    if (!action.$hope || !action.$hope.roomId) return
-    const roomId = action.$hope.roomId
-    const userAction = {...action, $hope: {userId, roomId}}
+    if (!action.$roomId) return
+    const roomId = action.$roomId
+    const userAction = {...action, $userId: userId}
     pushAction(roomId, userAction)
       .then(() => onRoomChange(roomId))                                         // trigger a room update
       .catch(_e => { /* do nothing */ })

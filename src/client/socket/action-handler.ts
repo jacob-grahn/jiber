@@ -9,6 +9,7 @@ export default function createActionHandler (
       rejoinRooms(socket)
     }
     if (action.type === CONFIRMED_STATE) {
+      if (!action.$roomId) return
       resendPending(socket, action.$roomId)
     }
   }

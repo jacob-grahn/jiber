@@ -1,3 +1,4 @@
+import { CLIENT } from '../core/index'
 import createRoom from './create-room'
 
 let dispatchCalledWith: any[] = []
@@ -24,7 +25,7 @@ beforeEach(() => {
 test('auto join room', () => {
   createRoom(store)('room1')
   expect(dispatchCalledWith).toEqual([
-    {type: 'hope/JOIN_ROOM', $roomId: 'room1'}
+    {type: 'hope/JOIN_ROOM', $roomId: 'room1', $source: CLIENT}
   ])
 })
 
@@ -32,8 +33,8 @@ test('dispatch actions to roomId', () => {
   const room = createRoom(store)('room1')
   room.dispatch({type: 'hi'})
   expect(dispatchCalledWith).toEqual([
-    {type: 'hope/JOIN_ROOM', $roomId: 'room1'},
-    {type: 'hi', $roomId: 'room1'}
+    {type: 'hope/JOIN_ROOM', $roomId: 'room1', $source: CLIENT},
+    {type: 'hi', $roomId: 'room1', $source: CLIENT}
   ])
 })
 

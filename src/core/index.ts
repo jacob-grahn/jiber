@@ -28,3 +28,4 @@ export { default as patch } from './utils/patch'
 export { default as set } from './utils/set'
 
 export * from './constants/action-types'
+export * from './constants/source-types'

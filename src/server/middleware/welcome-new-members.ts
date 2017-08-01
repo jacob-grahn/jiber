@@ -6,22 +6,21 @@ export default function welcomeNewMembers (
 ) {
   return (store: ServerStore) => (next: Function) => (action: Action) => {
     next(action)
+
     if (action.type !== JOIN_ROOM) return
-    if (!action.$hope || !action.$hope.userId || !action.$hope.roomId) return
+    if (!action.$roomId || !action.$userId) return
 
     const state = store.getState()
-    const roomId = action.$hope.roomId
-    const room = state.rooms[roomId]
+    const room = state.rooms[action.$roomId]
     if (!room) return
+
     const message: Action = {
       type: CONFIRMED_STATE,
       confirmed: room.confirmed,
       members: room.members,
-      $hope: {
-        roomId,
-        timeMs: new Date().getTime()
-      }
+      $roomId: action.$roomId,
+      $timeMs: new Date().getTime()
     }
-    sendToUser(action.$hope.userId, message)
+    sendToUser(action.$userId, message)
   }
 }

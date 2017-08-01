@@ -4,6 +4,6 @@ import sockets from './socket/sockets'
 
 export default function makeServerReducer (subReducer: Reducer): Reducer {
   const room = serverRoom(subReducer)
-  const rooms = dictionary(room, '$hope.roomId')
+  const rooms = dictionary(room, '$roomId')
   return combineReducers({sockets, users, rooms})
 }
