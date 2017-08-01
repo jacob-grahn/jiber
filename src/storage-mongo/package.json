@@ -1,7 +1,7 @@
 {
-  "name": "hopedb-storage-mongo",
+  "name": "hopeful-storage-mongo",
   "version": "0.0.1",
-  "description": "Mongo backend for HopeDB",
+  "description": "Mongo backend for HopefulJS",
   "main": "index.js",
   "scripts": {},
   "author": "Jacob Grahn",

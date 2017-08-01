@@ -20,6 +20,6 @@ export default function createServerStore (
 
   store.setMiddleware(middleware)
   socketServer.onRoomChange = updateRoom
-  socketServer.start()
+  socketServer.start()                                                          // TODO: start should be called by the user
   return store
 }

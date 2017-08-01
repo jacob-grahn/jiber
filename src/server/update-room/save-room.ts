@@ -18,7 +18,8 @@ export default function createSaveRoom (
     const roomState = getRoomState(roomId)
     if (!roomState) return
     await settings.storage.storeState(roomId, roomState)
-    await settings.storage.removeActions(roomId, roomState.lastUpdatedAt)
+    const minTimeMs = roomState.lastUpdatedAt - (settings.snapshotInterval * 5)
+    await settings.storage.removeActions(roomId, minTimeMs)
     await new Promise(resolve => setTimeout(resolve, settings.snapshotInterval))
   }
 
