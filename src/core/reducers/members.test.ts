@@ -2,8 +2,10 @@ import members from './members'
 import {
   LEAVE_ROOM,
   JOIN_ROOM,
-  CONFIRMED_STATE
+  CONFIRMED_STATE,
+  PATCH
 } from '../constants/action-types'
+import { SERVER } from '../constants/source-types'
 
 test('members are set on join success', () => {
   const state = {}
@@ -35,7 +37,25 @@ test('remove actionId', () => {
 
 test('removeing a non-member is ignored', () => {
   const state = {fil: {actionId: 1}}
-  const $userId = 'pil'
+  const $userId = 'pluto'
   const action = {type: LEAVE_ROOM, $userId}
+  expect(members(state, action)).toEqual({fil: {actionId: 1}})
+})
+
+test('members can be PATCHed', () => {
+  const state = {fil: {actionId: 1}}
+  const action = {type: PATCH, members: [['SET', 'fil.actionId', 7]]}
+  expect(members(state, action)).toEqual({fil: {actionId: 7}})
+})
+
+test('actions from the server can update actionId', () => {
+  const state = {fil: {actionId: 1}}
+  const action = {type: 'wee', $userId: 'fil', $actionId: 5, $source: SERVER}
+  expect(members(state, action)).toEqual({fil: {actionId: 5}})
+})
+
+test('actions without $userId are ignored', () => {
+  const state = {fil: {actionId: 1}}
+  const action = {type: 'wee'}
   expect(members(state, action)).toEqual({fil: {actionId: 1}})
 })

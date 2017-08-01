@@ -25,7 +25,7 @@ export default function (
     }
   }
 
-  function publicApply(action: Action): void {
+  function publicApply (action: Action): void {
     if (!action.$roomId) return
     dispatch(action)
     sendToRoom(action.$roomId, action)
