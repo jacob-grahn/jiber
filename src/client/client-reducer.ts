@@ -4,7 +4,7 @@ import me from './reducers/me'
 
 export default function createClientReducer (subReducer: Reducer): Reducer {
   const room = clientRoom(subReducer)
-  const rooms = dictionary(room, '$hope.roomId')
+  const rooms = dictionary(room, '$roomId')
   const clientReducer = combineReducers({rooms, users, me})
   return clientReducer
 }

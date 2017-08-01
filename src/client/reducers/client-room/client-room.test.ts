@@ -21,7 +21,7 @@ test('actions from the server update confirmed state', () => {
     action: {
       type: 'test',
       value: 'ok',
-      $hope: {actionId: 1}
+      $actionId: 1
     }
   }
   expect(roomReducer(state, action).confirmed).toBe('yayok')

@@ -8,8 +8,8 @@ const adder = (state: any = '', action: Action): any => {
 
 test('confirmed state is set on join success', () => {
   const state = 'something else'
-  const roomId = ''
-  const action = {type: CONFIRMED_STATE, confirmed: 'hello', $hope: {roomId}}
+  const $roomId = ''
+  const action = {type: CONFIRMED_STATE, confirmed: 'hello', $roomId}
   expect(confirmed(adder)(state, action)).toEqual('hello')
 })
 

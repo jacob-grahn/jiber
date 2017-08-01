@@ -29,7 +29,7 @@ test('send a join action for each room in the state', () => {
   rejoinRooms(socket)
 
   expect(sentActions).toEqual([
-    ['fakesocket', {type: JOIN_ROOM, $hope: {roomId: 'room1'}}],
-    ['fakesocket', {type: JOIN_ROOM, $hope: {roomId: 'room2'}}]
+    ['fakesocket', {type: JOIN_ROOM, $roomId: 'room1'}],
+    ['fakesocket', {type: JOIN_ROOM, $roomId: 'room2'}]
   ])
 })

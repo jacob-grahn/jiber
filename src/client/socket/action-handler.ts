@@ -9,9 +9,7 @@ export default function createActionHandler (
       rejoinRooms(socket)
     }
     if (action.type === CONFIRMED_STATE) {
-      if (!action.$hope || !action.$hope.roomId) return
-      const roomId = action.$hope.roomId
-      resendPending(socket, roomId)
+      resendPending(socket, action.$roomId)
     }
   }
 

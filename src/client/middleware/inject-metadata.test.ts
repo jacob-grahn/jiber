@@ -18,36 +18,26 @@ const store = {
 const final = (action: Action) => lastAction = action
 const inner = injectMetadata(store)(final)
 
-test('actions with a string $hope metadata are upgraded', () => {
-  const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
+test('$userId is added to the metadata', () => {
+  const action: Action = {type: 'test', $roomId: 'testRoom'}
   inner(action)
-  const $hope = lastAction.$hope || {}
-  expect($hope.roomId).toEqual('testRoom')
-})
-
-test('myUserId is added to the metadata', () => {
-  const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
-  inner(action)
-  const $hope = lastAction.$hope || {}
-  expect($hope.userId).toEqual('bob')
+  expect(lastAction.$userId).toEqual('bob')
 })
 
 test('actionId is added to the metadata', () => {
-  const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
+  const action: Action = {type: 'test', $roomId: 'testRoom'}
   inner(action)
-  const $hope = lastAction.$hope || {}
-  expect($hope.actionId).toEqual(6)
+  expect(lastAction.$actionId).toEqual(6)
 })
 
 test('timeMs is added to the metadata', () => {
-  const action: Action = {type: 'test', $hope: {roomId: 'testRoom'}}
+  const action: Action = {type: 'test', $roomId: 'testRoom'}
   inner(action)
-  const $hope = lastAction.$hope || {}
-  expect($hope.timeMs).toBeTruthy()
+  expect(lastAction.$timeMs).toBeTruthy()
 })
 
 test('actions with existing metadata are not altered', () => {
-  const action = {type: 'test', $hope: {roomId: 'testRoom', actionId: 5}}
+  const action = {type: 'test', $roomId: 'testRoom', $actionId: 5}
   inner(action)
   expect(lastAction).toEqual(action)
 })

@@ -21,8 +21,8 @@ export default function reducer (
       return withoutUser(state, action.userId)
 
     case CONFIRM_ACTION:
-      const userId = action.action.$hope.userId
-      const actionId = action.action.$hope.actionId
+      const userId = action.action.$userId
+      const actionId = action.action.$actionId
       if (!userId || !actionId) return state
       return pruneActions(state, {[userId]: {actionId}})
 
@@ -34,13 +34,11 @@ export default function reducer (
 // Assign a userId to actions that don't have a userId
 function claimActions (
   actions: Action[],
-  userId: string
+  $userId: string
 ): Action[] {
   return actions.map(action => {
-    if (action.$hope && action.$hope.userId) {
-      return action
-    }
-    return {...action, $hope: {...action.$hope, userId}}
+    if (action.$userId) return action
+    return {...action, $userId}
   })
 }
 
@@ -50,11 +48,8 @@ function pruneActions (
   members: {[userId: string]: Member}
 ): Action[] {
   return actions.filter(action => {
-    if (!action || !action.$hope) {                                             // remove when there is no $hope metadata
-      return false
-    }
-    const userId = action.$hope.userId
-    const actionId = action.$hope.actionId
+    const userId = action.$userId
+    const actionId = action.$actionId
 
     if (!userId || !actionId) {                                                 // remove if the metadata doesn't contain needed values
       return false
@@ -75,15 +70,12 @@ function withoutNonMembers (
   members: {[userId: string]: number}
 ): Action[] {
   return actions.filter(action => {
-    if (!action.$hope || !action.$hope.userId) return false
-    return members[action.$hope.userId]
+    if (!action.$userId) return false
+    return members[action.$userId]
   })
 }
 
 // remove actions belonging to userId
 function withoutUser (actions: Action[], userId: string): Action[] {
-  return actions.filter(action => {
-    if (!action.$hope) return false
-    return action.$hope.userId !== userId
-  })
+  return actions.filter(action => action.$userId !== userId)
 }

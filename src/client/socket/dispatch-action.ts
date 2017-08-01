@@ -16,8 +16,7 @@ export default function createDispatchAction (
   }
 
   function dispatchOther (action: Action): void {
-    if (!action.$hope || !action.$hope.roomId) return
-    const roomId = action.$hope.roomId
-    dispatch({type: CONFIRM_ACTION, action, $hope: {roomId}})
+    if (!action.$roomId) return
+    dispatch({type: CONFIRM_ACTION, action, $roomId: action.$roomId})
   }
 }

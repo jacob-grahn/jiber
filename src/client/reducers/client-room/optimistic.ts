@@ -24,7 +24,7 @@ export default function createOptimisticState (
       return optimisticActions.reduce(subReducer, confirmed)
     }
 
-    if (action.$hope && action.$hope.actionId) {                                // optimistic action
+    if (action.$actionId) {                                                     // optimistic action
       return subReducer(state, action)
     }
 

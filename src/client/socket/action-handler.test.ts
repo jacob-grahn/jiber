@@ -20,13 +20,12 @@ test('call rejoinRooms after LOGIN_RESULT', () => {
 })
 
 test('call resendPending after CONFIRMED_STATE', () => {
-  actionHandler(socket, {type: CONFIRMED_STATE, $hope: {roomId: 'abc'}})
+  actionHandler(socket, {type: CONFIRMED_STATE, $roomId: 'abc'})
   expect(resendCalls).toEqual([{socket: 'fakesocket', roomId: 'abc'}])
 })
 
 test('ignore CONFIRMED_STATE if there is no roomId', () => {
   actionHandler(socket, {type: CONFIRMED_STATE})
-  actionHandler(socket, {type: CONFIRMED_STATE, $hope: {}})
   expect(resendCalls.length).toBe(0)
 })
 

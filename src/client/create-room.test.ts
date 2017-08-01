@@ -24,7 +24,7 @@ beforeEach(() => {
 test('auto join room', () => {
   createRoom(store)('room1')
   expect(dispatchCalledWith).toEqual([
-    {type: 'hope/JOIN_ROOM', $hope: {roomId: 'room1'}}
+    {type: 'hope/JOIN_ROOM', $roomId: 'room1'}
   ])
 })
 
@@ -32,8 +32,8 @@ test('dispatch actions to roomId', () => {
   const room = createRoom(store)('room1')
   room.dispatch({type: 'hi'})
   expect(dispatchCalledWith).toEqual([
-    {type: 'hope/JOIN_ROOM', $hope: {roomId: 'room1'}},
-    {type: 'hi', $hope: {roomId: 'room1'}}
+    {type: 'hope/JOIN_ROOM', $roomId: 'room1'},
+    {type: 'hi', $roomId: 'room1'}
   ])
 })
 

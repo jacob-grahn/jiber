@@ -6,18 +6,15 @@ test('prune actions that do not have a userId and actionId', () => {
     null,
     false,
     {},
-    {$hope: {}},
-    {$hope: {actionId: 1}},
-    {$hope: {userId: 1}}
+    {$actionId: 1},
+    {$userId: 1}
   ]
   const action = {
     type: CONFIRM_ACTION,
     action: {
       type: 'lala',
-      $hope: {
-        actionId: 1,
-        userId: 1
-      }
+      $actionId: 1,
+      $userId: 1
     }
   }
   expect(optimisticActions(actions, action)).toEqual([])
@@ -25,32 +22,30 @@ test('prune actions that do not have a userId and actionId', () => {
 
 test('remove optimistic actions if newer confirmed action is received', () => {
   const actions: any = [
-    {$hope: {actionId: 1, userId: 'bob'}},
-    {$hope: {actionId: 2, userId: 'bob'}},
-    {$hope: {actionId: 3, userId: 'bob'}},
-    {$hope: {actionId: 1, userId: 'sue'}}
+    {$actionId: 1, $userId: 'bob'},
+    {$actionId: 2, $userId: 'bob'},
+    {$actionId: 3, $userId: 'bob'},
+    {$actionId: 1, $userId: 'sue'}
   ]
   const action = {
     type: CONFIRM_ACTION,
     action: {
       type: 'wee',
-      $hope: {
-        userId: 'bob',
-        actionId: 2
-      }
+      $userId: 'bob',
+      $actionId: 2
     }
   }
   expect(optimisticActions(actions, action)).toEqual([
-    {$hope: {actionId: 3, userId: 'bob'}},
-    {$hope: {actionId: 1, userId: 'sue'}}
+    {$actionId: 3, $userId: 'bob'},
+    {$actionId: 1, $userId: 'sue'}
   ])
 })
 
 test('remove outdated optimistic actions on join', () => {
   const list: any = [
-    {type: 'WEE', $hope: {userId: 'sue', actionId: 5}},
-    {type: 'WEE', $hope: {userId: 'sue', actionId: 6}},
-    {type: 'WEE', $hope: {userId: 'bob', actionId: 2}}
+    {type: 'WEE', $userId: 'sue', $actionId: 5},
+    {type: 'WEE', $userId: 'sue', $actionId: 6},
+    {type: 'WEE', $userId: 'bob', $actionId: 2}
   ]
 
   const roomId = 'room 1'
@@ -62,10 +57,10 @@ test('remove outdated optimistic actions on join', () => {
     confirmed,
     members,
     lastUpdatedAt,
-    $hope: {roomId}
+    $roomId: roomId
   }
   expect(optimisticActions(list, action)).toEqual([
-    {type: 'WEE', $hope: {userId: 'sue', actionId: 6}}
+    {type: 'WEE', $userId: 'sue', $actionId: 6}
   ])
 })
 
@@ -74,9 +69,7 @@ test('user generated actions are added to the optimistic list', () => {
   const action = {
     type: 'lasswe',
     value: '123',
-    $hope: {
-      actionId: 1
-    }
+    $actionId: 1
   }
   const newState = optimisticActions(state, action)
   expect(newState[0].value).toEqual('123')

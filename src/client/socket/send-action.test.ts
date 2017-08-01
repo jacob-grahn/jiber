@@ -14,37 +14,32 @@ test('do nothing if there is no action', () => {
   expect(sentMessages.length).toBe(0)
 })
 
-test('do nothing if there is no meta', () => {
+test('do nothing if there is no roomId', () => {
   sendAction(socket, {type: 'hi'})
   expect(sentMessages.length).toBe(0)
 })
 
-test('do nothing if there is no roomId', () => {
-  sendAction(socket, {type: 'hi', $hope: {}})
-  expect(sentMessages.length).toBe(0)
-})
-
 test('do nothing if there is no socket', () => {
-  sendAction(undefined as any, {type: 'hi', $hope: {roomId: 'room1'}})
+  sendAction(undefined as any, {type: 'hi', $roomId: 'room1'})
   expect(sentMessages.length).toBe(0)
 })
 
 test('do nothing if the socket is not connected', () => {
   const socket: any = {readyState: 0}
-  sendAction(socket, {type: 'hi', $hope: {roomId: 'room1'}})
+  sendAction(socket, {type: 'hi', $roomId: 'room1'})
   expect(sentMessages.length).toBe(0)
 })
 
 test('write good actions to the socket', () => {
-  sendAction(socket, {type: 'hi', $hope: {roomId: 'room1'}})
+  sendAction(socket, {type: 'hi', $roomId: 'room1'})
   expect(sentMessages).toEqual([
-    JSON.stringify({type: 'hi', $hope: {roomId: 'room1'}})
+    JSON.stringify({type: 'hi', $roomId: 'room1'})
   ])
 })
 
 test('leave out everything but roomId', () => {
-  sendAction(socket, {type: 'hi', $hope: {roomId: 'room1', userId: 'yayaya'}})
+  sendAction(socket, {type: 'hi', $roomId: 'room1', userId: 'yayaya'})
   expect(sentMessages).toEqual([
-    JSON.stringify({type: 'hi', $hope: {roomId: 'room1'}})
+    JSON.stringify({type: 'hi', $roomId: 'room1'})
   ])
 })

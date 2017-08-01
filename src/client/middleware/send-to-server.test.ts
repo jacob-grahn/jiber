@@ -31,9 +31,9 @@ test('ignore actions with an actionId', () => {
 })
 
 test('send all other actions', () => {
-  sendToServer(store)(next)({type: 'hi', $hope: {roomId: 'room1'}})
+  sendToServer(store)(next)({type: 'hi', $roomId: 'room1'})
   expect(sendCalledWith).toEqual([
-    {type: 'hi', $hope: {roomId: 'room1'}}
+    {type: 'hi', $roomId: 'room1'}
   ])
   expect(nextCalledWith).toEqual(['next'])
 })

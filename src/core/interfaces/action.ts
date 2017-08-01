@@ -1,12 +1,9 @@
 interface Action {
   type: string,
-  $hope?: {
-    roomId?: string,
-    userId?: string,
-    actionId?: number,
-    source?: string,
-    timeMs?: number
-  }
+  $roomId?: string,
+  $userId?: string,
+  $actionId?: number,
+  $timeMs?: number,
   [key: string]: any
 }
 

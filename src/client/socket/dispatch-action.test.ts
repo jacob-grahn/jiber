@@ -22,12 +22,15 @@ test('actions starting with "hope/" are dispatched as-is', () => {
 })
 
 test('other actions with a roomId are wrapped in CONFIRM_ACTION', () => {
-  dispatchAction({type: 'SOME_EVENT', $hope: {roomId: 'aRoom'}})
+  dispatchAction({type: 'SOME_EVENT', $roomId: 'aRoom'})
   expect(calls).toEqual([{
     type: CONFIRM_ACTION,
-    $hope: {roomId: 'aRoom'},
-    action: {type: 'SOME_EVENT', $hope: {roomId: 'aRoom'}}}
-  ])
+    $roomId: 'aRoom',
+    action: {
+      type: 'SOME_EVENT',
+      $roomId: 'aRoom'
+    }
+  }])
 })
 
 test('ignore other actions that do not have a roomId', () => {

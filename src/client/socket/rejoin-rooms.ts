@@ -7,8 +7,8 @@ export default function rejoinRooms (
 ) {
   return function (socket: WebSocket) {
     const state = getState()
-    Object.keys(state.rooms).forEach(roomId => {
-      const action = {type: JOIN_ROOM, $hope: {roomId}}
+    Object.keys(state.rooms).forEach($roomId => {
+      const action = {type: JOIN_ROOM, $roomId}
       sendAction(socket, action)
     })
   }
