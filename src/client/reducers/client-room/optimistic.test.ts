@@ -1,5 +1,5 @@
 import createOptimistic from './optimistic'
-import { Action, CONFIRM_ACTION, PATCH } from '../../../core/index'
+import { Action, PATCH, SERVER } from '../../../core/index'
 import ClientRoomState from '../../interfaces/client-room-state'
 
 const adder = (state: any = '', action: Action): any => {
@@ -61,14 +61,12 @@ test('optimistic state is rebased when confirmed state is updated', () => {
     lastUpdatedAt: 0
   }
   const action: Action = {
-    type: CONFIRM_ACTION,
-    action: {
-      type: 'test',
-      value: 'abc',
-      $roomId: 'testRoom',
-      $userId: 'sally',
-      $actionId: 3
-    }
+    type: 'test',
+    value: 'abc',
+    $roomId: 'testRoom',
+    $userId: 'sally',
+    $actionId: 3,
+    $source: SERVER
   }
 
   const newState = optimistic(roomState.optimistic, action, roomState)

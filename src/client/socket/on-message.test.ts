@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action, SERVER } from '../../core/index'
 import createOnMessage from './on-message'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,8 +27,8 @@ test('call dispatchAction and then actionHandler', () => {
   const event: any = {data: message, target: socket}
   onMessage(event)
   expect(calls).toEqual([
-    {func: 'dispatchAction', action: {type: 'hi'}},
-    {func: 'actionHandler', action: {type: 'hi'}, socket: 'fakesocket'}
+    {func: 'dispatchAction', action: {type: 'hi', $source: SERVER}},
+    {func: 'actionHandler', action: {type: 'hi', $source: SERVER}, socket: 'fakesocket'}
   ])
 })
 

@@ -2,8 +2,7 @@ import {
   Action,
   PATCH,
   INJECT_PRIVATE,
-  CLEAN_PRIVATE,
-  CONFIRM_ACTION
+  CLEAN_PRIVATE
 } from '../../core/index'
 import createApplyAction from './apply-action'
 
@@ -34,12 +33,7 @@ test('quick apply an action and send it out to room members', () => {
   const action = {type: 'hi', $roomId: 'room1', $timeMs: 5465}
   applyAction(action)
   expect(calls).toEqual([
-    ['dispatch', {
-      type: CONFIRM_ACTION,
-      action,
-      $roomId: 'room1',
-      $timeMs: 5465
-    }],
+    ['dispatch', action],
     ['sendToRoom', 'room1', action]
   ])
 })
@@ -61,12 +55,7 @@ test('private apply an action and send out a diff', () => {
       type: INJECT_PRIVATE,
       $roomId: 'room1'
     }],
-    ['dispatch', {
-      type: CONFIRM_ACTION,
-      action,
-      $timeMs: 123,
-      $roomId: 'room1'
-    }],
+    ['dispatch', action],
     ['dispatch', {
       type: CLEAN_PRIVATE,
       $roomId: 'room1'

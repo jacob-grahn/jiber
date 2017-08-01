@@ -1,5 +1,5 @@
 import optimisticActions from './optimistic-actions'
-import { CONFIRM_ACTION, CONFIRMED_STATE } from '../../../core/index'
+import { CONFIRMED_STATE, SERVER } from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -10,12 +10,10 @@ test('prune actions that do not have a userId and actionId', () => {
     {$userId: 1}
   ]
   const action = {
-    type: CONFIRM_ACTION,
-    action: {
-      type: 'lala',
-      $actionId: 1,
-      $userId: 1
-    }
+    type: 'lala',
+    $actionId: 1,
+    $userId: '1',
+    $source: SERVER
   }
   expect(optimisticActions(actions, action)).toEqual([])
 })
@@ -28,12 +26,10 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     {$actionId: 1, $userId: 'sue'}
   ]
   const action = {
-    type: CONFIRM_ACTION,
-    action: {
-      type: 'wee',
-      $userId: 'bob',
-      $actionId: 2
-    }
+    type: 'wee',
+    $userId: 'bob',
+    $actionId: 2,
+    $source: SERVER
   }
   expect(optimisticActions(actions, action)).toEqual([
     {$actionId: 3, $userId: 'bob'},

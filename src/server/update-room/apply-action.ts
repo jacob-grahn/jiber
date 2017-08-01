@@ -3,8 +3,8 @@ import {
   RoomState,
   INJECT_PRIVATE,
   CLEAN_PRIVATE,
-  CONFIRM_ACTION,
   PATCH,
+  SERVER,
   diff
 } from '../../core/index'
 
@@ -20,24 +20,14 @@ export default function (
 
     if (action.type.indexOf('$serverOnly/') === 0) {
       privateApply(action)
-    } else if (action.type.indexOf('hope/') === 0) {
-      rawApply(action)
     } else {
-      quickApply(action)
+      publicApply(action)
     }
   }
 
-  function rawApply(action: Action): void {
+  function publicApply(action: Action): void {
     if (!action.$roomId) return
     dispatch(action)
-    sendToRoom(action.$roomId, action)
-  }
-
-  function quickApply (action: Action): void {
-    if (!action.$roomId) return
-    const $roomId = action.$roomId
-    const $timeMs = action.$timeMs
-    dispatch({type: CONFIRM_ACTION, action, $roomId, $timeMs})
     sendToRoom(action.$roomId, action)
   }
 
@@ -48,7 +38,7 @@ export default function (
     const beforeState = getRoom($roomId)
 
     dispatch({type: INJECT_PRIVATE, $roomId})
-    dispatch({type: CONFIRM_ACTION, action, $roomId, $timeMs})
+    dispatch(action)
     dispatch({type: CLEAN_PRIVATE, $roomId})
 
     const afterState = getRoom($roomId)
@@ -67,6 +57,7 @@ export default function (
 }
 
 function addMetadata (roomState: RoomState, action: Action): Action {
+  action.$source = SERVER
   if (!action.$userId) return action
   const member = roomState.members[action.$userId] || {}
   const lastActionId = member.actionId || 0

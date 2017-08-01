@@ -5,9 +5,9 @@ import {
   JOIN_ROOM,
   LEAVE_ROOM,
   CONFIRMED_STATE,
-  PATCH,
-  CONFIRM_ACTION
+  PATCH
 } from '../constants/action-types'
+import { SERVER } from '../constants/source-types'
 import patch from '../utils/patch'
 
 export interface MembersState {
@@ -37,15 +37,14 @@ export default function reducer (
     case PATCH:
       return patch(state, action.members)
 
-    case CONFIRM_ACTION:
-      if (!action.$userId) return state
-      const userId = action.$userId
-      const actionId = action.$actionId
-      const user = state[userId] || {}
-      const updatedUser = {...user, actionId}
-      return {...state, [userId]: updatedUser}
-
     default:
+      if (action.$source === SERVER && action.$actionId && action.$userId) {
+        const userId = action.$userId
+        const actionId = action.$actionId
+        const user = state[userId] || {}
+        const updatedUser = {...user, actionId}
+        return {...state, [userId]: updatedUser}
+      }
       return state
   }
 }

@@ -1,9 +1,9 @@
 import {
   Action,
   Member,
-  CONFIRM_ACTION,
   CONFIRMED_STATE,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  SERVER
 } from '../../../core/index'
 
 export default function reducer (
@@ -20,13 +20,13 @@ export default function reducer (
     case LEAVE_ROOM:
       return withoutUser(state, action.userId)
 
-    case CONFIRM_ACTION:
-      const userId = action.action.$userId
-      const actionId = action.action.$actionId
-      if (!userId || !actionId) return state
-      return pruneActions(state, {[userId]: {actionId}})
-
     default:
+      if (action.$source === SERVER) {
+        const userId = action.$userId
+        const actionId = action.$actionId
+        if (!userId || !actionId) return state
+        return pruneActions(state, {[userId]: {actionId}})
+      }
       return [...state, action]
   }
 }

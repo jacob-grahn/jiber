@@ -1,9 +1,9 @@
 import {
   Reducer,
   Action,
-  CONFIRM_ACTION,
   CONFIRMED_STATE,
-  PATCH
+  PATCH,
+  SERVER
 } from '../../../core/index'
 
 export default function createOptimisticState (
@@ -19,15 +19,11 @@ export default function createOptimisticState (
       return optimisticActions.reduce(subReducer, roomState.confirmed)
     }
 
-    if (action.type === CONFIRM_ACTION) {                                       // confirmed action
+    if (action.$source === SERVER) {                                             // confirmed action
       const { optimisticActions, confirmed } = roomState
       return optimisticActions.reduce(subReducer, confirmed)
-    }
-
-    if (action.$actionId) {                                                     // optimistic action
+    } else {                                                                    // optimistic action
       return subReducer(state, action)
     }
-
-    return state
   }
 }
