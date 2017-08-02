@@ -4,20 +4,24 @@ import {
   RoomState,
   INJECT_PRIVATE,
   CLEAN_PRIVATE,
+  CLOSE_ROOM,
   combineReducers,
   members,
   lastUpdatedAt,
   confirmed
-} from '../../../core/index'
+} from '../../core/index'
 
 export default function createServerRoom (subReducer: Reducer): Reducer {
-  const serverRoom = combineReducers({
+  const coreReducer = combineReducers({
     members,
     confirmed: confirmed(subReducer),
     lastUpdatedAt
   })
 
-  return function (state: RoomState, action: Action): RoomState {
+  return function serverRoom (
+    state: RoomState,
+    action: Action
+  ): RoomState|undefined {
     switch (action.type) {
 
       case INJECT_PRIVATE: {
@@ -38,8 +42,11 @@ export default function createServerRoom (subReducer: Reducer): Reducer {
         return {...state, confirmed, private: _private, members}
       }
 
+      case CLOSE_ROOM:
+        return undefined
+
       default:
-        return serverRoom(state, action)
+        return coreReducer(state, action)
     }
   }
 }

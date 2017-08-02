@@ -9,6 +9,8 @@ interface ServerSettingsInput {
   onLogin?: LoginRequestHandler,
   storage?: Storage,
   snapshotInterval?: number,
+  syncInterval?: number,
+  maxRoomAge?: number,
   initialState?: any
 }
 

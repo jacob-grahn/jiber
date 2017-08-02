@@ -9,7 +9,9 @@ const defaultSettings: ServerSettings = {
   reducer: simpleSetter,
   onLogin: memAccounts,
   storage: memStorage,
-  snapshotInterval: 1000
+  snapshotInterval: 5000,                                                       // five seconds
+  syncInterval: 1000,                                                           // one second
+  maxRoomAge: 1000 * 60 * 60                                                    // one hour
 }
 
 export default defaultSettings

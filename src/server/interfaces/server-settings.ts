@@ -8,7 +8,9 @@ interface ServerSettings {
   reducer: Reducer,
   onLogin: LoginRequestHandler,
   storage: Storage,
-  snapshotInterval: number
+  snapshotInterval: number,
+  syncInterval: number,
+  maxRoomAge: number,
 }
 
 export default ServerSettings

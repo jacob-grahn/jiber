@@ -5,6 +5,7 @@ export const PATCH = 'hope/PATCH'
 export const JOIN_ROOM = 'hope/JOIN_ROOM'
 export const LEAVE_ROOM = 'hope/LEAVE_ROOM'
 export const CONFIRMED_STATE = 'hope/CONFIRMED_STATE'
+export const CLOSE_ROOM = 'hope/CLOSE_ROOM'
 
 export const ADD_USER = 'hope/ADD_USER'
 export const REMOVE_USER = 'hope/REMOVE_USER'
