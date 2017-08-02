@@ -57,6 +57,7 @@ async function fetchActions (roomId, minTimeMs) {
     delete action._hopeUserId
     delete action._hopeRoomId
     delete action._hopeDate
+    delete action._id
     return action
   })
   return parsedActions
