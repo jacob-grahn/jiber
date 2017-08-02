@@ -15,6 +15,7 @@ export default function createSocketServer (
   store: Store,
   settings: ServerSettings
 ): SocketServer {
+  let wss: WebSocket.Server|undefined
   const storage = settings.storage
   const sendToSocket = createSendToSocket(store.getState)
   const sendToRoom = createSendToRoom(store.getState, sendToSocket)
@@ -25,14 +26,21 @@ export default function createSocketServer (
   const onMessage = createOnMessage(store.getState, onAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
 
-  const socketServer: SocketServer = {start, sendToUser, sendToRoom}
+  const socketServer: SocketServer = {start, stop, sendToUser, sendToRoom}
 
   function start () {
-    const wss = new WebSocket.Server({
+    stop()
+    wss = new WebSocket.Server({
       port: settings.socketPort,
       verifyClient: onAuthorize
     })
     wss.on('connection', onConnect as any)                                      // get around the imperfect typescript definitions for ws
+  }
+
+  function stop () {
+    if (!wss) return
+    wss.close()
+    wss = undefined
   }
 
   function onRoomChange (roomId: string): void {

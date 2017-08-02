@@ -1,9 +1,12 @@
 import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
 import * as ws from 'ws'
-import ServerStore from '../interfaces/server-store'
+import ServerState from '../interfaces/server-state'
 
 export default function createOnConnect (
-  store: ServerStore,
+  store: {
+    dispatch: (action: Action) => void,
+    getState: () => ServerState
+  },
   onMessage: (socketId: string, message: string) => void,
   onClose: (socketId: string) => void,
   sendToSocket: (socketId: string, action: Action) => void

@@ -1,6 +1,7 @@
 // dependency injection for updateRoom
 
-import ServerStore from '../interfaces/server-store'
+import { Action } from '../../core/index'
+import ServerState from '../interfaces/server-state'
 import ServerSettings from '../interfaces/server-settings'
 import SocketServer from '../interfaces/socket-server'
 import createApplyAction from './apply-action'
@@ -10,7 +11,10 @@ import createSaveRoom from './save-room'
 import createUpdateRoom from './update-room'
 
 export default function (
-  store: ServerStore,
+  store: {
+    dispatch: (action: Action) => void,
+    getState: () => ServerState
+  },
   settings: ServerSettings,
   socketServer: SocketServer
 ) {
