@@ -1,10 +1,20 @@
 import LoginResult from '../interfaces/login-result'
 
-let idCounter = 0
-
 // Dummy account system that gives every login request a new accountId
-// This is used if no login function is provided in the initialization options
 export default async function memAccounts (): Promise<LoginResult> {
-  idCounter++
-  return {userId: idCounter.toString()}
+  return {userId: randStr(12)}
+}
+
+function randStr (len: number) {
+  let str = ''
+  for (let i = len; i > 0; i--) {
+    str += randChar()
+  }
+  return str
+}
+
+function randChar () {
+  const chars = '0123456789abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const index = Math.floor(Math.random() * (chars.length - 1))
+  return chars.charAt(index)
 }
