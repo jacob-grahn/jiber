@@ -1,6 +1,11 @@
 import { Action } from '../../core/index'
 import ServerState from '../interfaces/server-state'
 
+/**
+ * handles 'message' socket event
+ * json decodes the message, and passes the result to onAction
+ * if there is an error, it is written back to the socket
+ */
 export default function createOnMessage (
   getState: () => ServerState,
   onAction: (userId: string, action: Action) => void,

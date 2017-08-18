@@ -1,11 +1,18 @@
 import { Action } from '../../core/index'
 import ServerState from '../interfaces/server-state'
 
-export default function createSendToUser (
+export type CreateSendToUser = (
   getState: () => ServerState,
-  sendToSocket: Function
-) {
-  return function sendToUser (userId: string, action: Action): void {
+  sendToSocket: (socketId: string, action: Action) => void
+) => SendToUser
+
+export type SendToUser = (userId: string, action: Action) => void
+
+/**
+ * send an action to a particular user
+ */
+export const createSendToUser: CreateSendToUser = (getState, sendToSocket) => {
+  return (userId, action) => {
     const state = getState()
     const user = state.users[userId]
     if (!user) return

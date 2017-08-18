@@ -1,6 +1,12 @@
-import { Action, REMOVE_SOCKET, LEAVE_ROOM } from '../../core/index'
+import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from '../../core/index'
 import ServerState from '../interfaces/server-state'
 
+/**
+ * handles 'close' socket events
+ * remove the user from all of the rooms they are in
+ * remove event handlers from the socket, just in case
+ * remove the socket from the store
+ */
 export default function createOnClose (
   store: {
     dispatch: (action: Action) => void,
@@ -17,18 +23,30 @@ export default function createOnClose (
     connection.removeAllListeners()
 
     if (socketData.userId) {
-      const userId = socketData.userId
-      const roomIds: string[] = Object.keys(state.rooms)
-      const memberRoomIds = roomIds.filter(roomId => {
-        const room = state.rooms[roomId]
-        return room.members[userId]
-      })
-      memberRoomIds.forEach(roomId => {
-        const action = {type: LEAVE_ROOM, $roomId: roomId, $userId: userId}
-        return pushAction(roomId, action)
-      })
+      removeUserFromRooms(pushAction, socketData.userId, state.rooms)
     }
 
     store.dispatch({type: REMOVE_SOCKET, socketId})
   }
+}
+
+/**
+ * remove the user from all of the rooms they are in
+ * this is done at the db level, so they will be removed
+ * from these rooms on all servers
+ */
+function removeUserFromRooms (
+  pushAction: (roomId: string, action: Action) => Promise<void>,
+  userId: string,
+  rooms: {[roomId: string]: RoomState}
+) {
+  const roomIds: string[] = Object.keys(rooms)
+  const memberRoomIds = roomIds.filter(roomId => {
+    const room = rooms[roomId]
+    return room.members[userId]
+  })
+  memberRoomIds.forEach(roomId => {
+    const action = {type: LEAVE_ROOM, $roomId: roomId, $userId: userId}
+    return pushAction(roomId, action)
+  })
 }

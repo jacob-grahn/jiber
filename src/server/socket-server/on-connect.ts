@@ -2,6 +2,11 @@ import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
 import * as ws from 'ws'
 import ServerState from '../interfaces/server-state'
 
+/**
+ * handles 'connect' socket event
+ * adds some event listeners to the newly created socket
+ * dispatches an event to add the socket to the store
+ */
 export default function createOnConnect (
   store: {
     dispatch: (action: Action) => void,

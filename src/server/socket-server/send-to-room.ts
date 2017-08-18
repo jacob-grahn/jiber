@@ -1,6 +1,9 @@
 import { Action } from '../../core/index'
 import ServerState from '../interfaces/server-state'
 
+/**
+ * send an action to every member of a room
+ */
 export default function createSendToRoom (
   getState: () => ServerState,
   sendToSocket: Function

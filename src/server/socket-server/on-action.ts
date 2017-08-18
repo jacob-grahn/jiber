@@ -4,6 +4,11 @@ export interface RoomActionDict {
   [key: string]: Action[]
 }
 
+/**
+ * handles incoming actions
+ * saves action to the db
+ * then triggers a room update by calling onRoomChange()
+ */
 export default function createOnAction (
   pushAction: (roomId: string, action: Action) => Promise<void>,
   onRoomChange: (roomId: string) => any
