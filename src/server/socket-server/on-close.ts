@@ -1,7 +1,11 @@
-import { Action, Store, REMOVE_SOCKET, LEAVE_ROOM } from '../../core/index'
+import { Action, REMOVE_SOCKET, LEAVE_ROOM } from '../../core/index'
+import ServerState from '../interfaces/server-state'
 
 export default function createOnClose (
-  store: Store,
+  store: {
+    dispatch: (action: Action) => void,
+    getState: () => ServerState
+  },
   pushAction: (roomId: string, action: Action) => Promise<void>
 ) {
   return function onClose (socketId: string): void {
