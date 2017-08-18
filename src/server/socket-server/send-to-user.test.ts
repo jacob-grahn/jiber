@@ -1,4 +1,4 @@
-import createSendToUser from './send-to-user'
+import { createSendToUser } from './send-to-user'
 
 let calledWith: any[] = []
 const sendToSocket = (socketId: string, action: Object) => {

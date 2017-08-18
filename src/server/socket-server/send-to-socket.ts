@@ -2,11 +2,14 @@ import { Action } from '../../core/index'
 import * as ws from 'ws'
 import ServerState from '../interfaces/server-state'
 
+export type CreateSendToSocket = (getState: () => ServerState) => SendToSocket
+export type SendToSocket = (socketId: string, action: Action) => void
+
 /**
  * send an action to a particular socket
  */
-export default function createSendToSocket (getState: () => ServerState) {
-  return function sendToSocket (socketId: string, action: Action): void {
+export const createSendToSocket: CreateSendToSocket = (getState) => {
+  return (socketId, action) => {
     const socket = getState().sockets[socketId]
     if (!socket || !socket.connection) return
     const connection: ws = socket.connection

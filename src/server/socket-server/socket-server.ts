@@ -1,9 +1,10 @@
 import { Action } from '../../core/index'
 import * as WebSocket from 'ws'
 import SocketServer from '../interfaces/socket-server'
+import { SendToUser } from './send-to-user'
 
 export default function createSocketServer (
-  sendToUser: (userId: string, action: Action) => void,
+  sendToUser: SendToUser,
   sendToRoom: (roomId: string, action: Action) => void,
   onConnect: (webSocket: WebSocket, request: any) => void,
   onAuthorize: (

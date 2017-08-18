@@ -7,8 +7,8 @@ import createOnClose from './on-close'
 import createOnAction from './on-action'
 import createOnAuthorize from './on-authorize'
 import createSendToRoom from './send-to-room'
-import createSendToSocket from './send-to-socket'
-import createSendToUser from './send-to-user'
+import { createSendToSocket } from './send-to-socket'
+import { createSendToUser } from './send-to-user'
 import createSocketServer from './socket-server'
 
 export default function (

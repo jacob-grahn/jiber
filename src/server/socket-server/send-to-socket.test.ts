@@ -1,4 +1,4 @@
-import createSendToSocket from './send-to-socket'
+import { createSendToSocket } from './send-to-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
