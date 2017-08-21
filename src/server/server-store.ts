@@ -1,16 +1,16 @@
 import ServerSettingsInput from './interfaces/server-settings-input'
 import ServerStore from './interfaces/server-store'
 import { createStore } from '../core/index'
-import createSocketServer from './socket-server/socket-server'
-import createServerReducer from './reducers/server-reducer'
-import createUpdateRoom from './update-room/index'
-import createWelcomeNewMembers from './middleware/welcome-new-members'
-import createSyncScheduler from './sync-scheduler/index'
+import { createSocketServer } from './socket-server/index'
+import { createServerReducer } from './reducers/server-reducer'
+import { createUpdateRoom } from './update-room/index'
+import { createWelcomeNewMembers } from './middleware/welcome-new-members'
+import { createSyncScheduler } from './sync-scheduler/index'
 import defaultSettings from './default-settings'
 
-export default function createServerStore (
+export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
-): ServerStore {
+): ServerStore => {
   const settings = {...defaultSettings, ...inputSettings}
   const serverReducer = createServerReducer(settings.reducer)
   const store = createStore(serverReducer, inputSettings.initialState)

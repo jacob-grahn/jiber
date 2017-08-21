@@ -1,4 +1,4 @@
-import diff from './diff'
+import { diff } from './diff'
 
 test('unchanged simple values should result in an empty array', () => {
   expect(diff(null, null)).toEqual([])

@@ -2,7 +2,10 @@
  * This does the same thing as Array.map, but it also works with objects
  */
 
-export default function map (obj: any, func: Function) {
+export const map = (
+  obj: any,
+  func: (value: any, key?: any) => any
+) => {
   // for arrays
   if (Array.isArray(obj)) return obj.map(func as any)
 

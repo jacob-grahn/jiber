@@ -1,6 +1,6 @@
 import { simpleSetter } from '../core/index'
 import memStorage from './storage/mem-storage'
-import memAccounts from './accounts/mem-accounts'
+import { memAccounts } from './accounts/mem-accounts'
 import ServerSettings from './interfaces/server-settings'
 
 const defaultSettings: ServerSettings = {

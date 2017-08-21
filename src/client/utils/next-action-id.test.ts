@@ -1,4 +1,4 @@
-import nextActionId from './next-action-id'
+import { nextActionId } from './next-action-id'
 
 test('total base actionId with optimistic actions', () => {
   const state = {

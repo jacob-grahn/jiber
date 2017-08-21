@@ -7,21 +7,18 @@ interface RoomStorage {
 
 const rooms: {[key: string]: RoomStorage} = {}
 
-function getRoom (roomId: string): RoomStorage {
+const getRoom = (roomId: string): RoomStorage => {
   if (!rooms[roomId]) {
     rooms[roomId] = {pendingActions: [], state: undefined} as any
   }
   return rooms[roomId]
 }
 
-function clear () {
+const clear = () => {
   Object.keys(rooms).forEach(roomId => delete rooms[roomId])
 }
 
-async function pushAction (
-  roomId: string,
-  action: Action
-): Promise<void> {
+const pushAction = async (roomId: string, action: Action): Promise<void> => {
   const roomStorage = getRoom(roomId)
   const pendingActions = roomStorage.pendingActions
   const $timeMs = new Date().getTime()
@@ -30,16 +27,19 @@ async function pushAction (
   return
 }
 
-async function fetchActions (
+const fetchActions = async (
   roomId: string,
   minTimeMs: number
-): Promise<Action[]> {
+): Promise<Action[]> => {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
   return actions.filter(action => action.$timeMs as number > minTimeMs)
 }
 
-async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
+const removeActions = async (
+  roomId: string,
+  minTimeMs: number
+): Promise<any> => {
   const roomStorage = getRoom(roomId)
   const actions = roomStorage.pendingActions
   const newActions = actions.filter(action => {
@@ -49,15 +49,14 @@ async function removeActions (roomId: string, minTimeMs: number): Promise<any> {
   return true
 }
 
-async function fetchState (roomId: string): Promise<RoomState> {
+const fetchState = async (roomId: string): Promise<RoomState> => {
   const roomStorage = getRoom(roomId)
   return roomStorage.state
 }
 
-async function storeState (roomId: string, state: RoomState): Promise<boolean> {
+const storeState = async (roomId: string, state: RoomState): Promise<void> => {
   const roomStorage = getRoom(roomId)
   roomStorage.state = state
-  return true
 }
 
 // Store a state in memory

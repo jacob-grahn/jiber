@@ -1,12 +1,12 @@
 import { RoomState } from '../../core/index'
 import ServerState from '../interfaces/server-state'
-import map from '../utils/map'
+import { map } from '../utils/map'
 
-export default function createSyncRooms (
+export const createSyncRooms = (
   getState: () => ServerState,
   syncRoom: (room: RoomState, roomId: string) => void
-) {
-  return function syncRooms () {
+) => {
+  return () => {
     const state = getState()
     map(state.rooms, syncRoom)
   }

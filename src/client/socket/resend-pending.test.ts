@@ -1,4 +1,4 @@
-import createResendPending from './resend-pending'
+import { createResendPending } from './resend-pending'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

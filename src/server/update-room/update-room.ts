@@ -1,15 +1,14 @@
 import { Action, RoomState } from '../../core/index'
-import noConcurrent from '../utils/no-concurrent'
+import { noConcurrent } from '../utils/no-concurrent'
 import logger from '../utils/logger'
 
-export default function createUpdateRoom (
+export const createUpdateRoom = (
   ensureRoom: (roomId: string) => Promise<RoomState>,
   fetchActions: (roomId: string, minTimeMs: number) => Promise<Action[]>,
   applyAction: (action: Action) => any,
   saveRoom: (roomId: string) => void
-): (roomId: string) => Promise<void> {
-
-  return noConcurrent(async function (roomId: string) {
+) => {
+  return noConcurrent(async (roomId: string) => {
     if (!roomId) return undefined
     try {
       const roomState = await ensureRoom(roomId)
@@ -19,5 +18,5 @@ export default function createUpdateRoom (
     } catch (e) {
       logger.error('update-room.ts', e)
     }
-  })
+  }) as (roomId: string) => Promise<void>
 }

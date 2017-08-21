@@ -1,4 +1,4 @@
-import createServerReducer from './server-reducer'
+import { createServerReducer } from './server-reducer'
 
 const identity = (state: any) => state
 

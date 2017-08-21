@@ -1,20 +1,28 @@
-// ensure that only one instance of an async function runs at a time
-// If the called function is already running, schedule it to run later
-// There may be an existing word for this like debounce or memoize
-// but I don't know what that word is
+/**
+ * turn an array of values into a single string
+ */
+const hasher = (args: any[]): string => {
+  return args.map(String).join(',')
+}
 
-export default function noConcurrent (
+/**
+ * ensure that only one instance of an async function runs at a time
+ * If the called function is already running, schedule it to run later
+ * There may be an existing word for this like debounce or memoize
+ * but I don't know what that word is
+ */
+export const noConcurrent = (
   func: (...args: any[]) => Promise<any>
-): (...args: any[]) => Promise<void> {
+) => {
   const running: {[key: string]: boolean} = {}
   const scheduled: {[key: string]: boolean} = {}
 
-  return async function startAsync (...args: any[]): Promise<any> {
+  const startAsync = async (...args: any[]): Promise<any> => {
     const key = hasher(args)
 
     if (running[key]) {
       scheduled[key] = true
-      return
+      return undefined
     }
 
     running[key] = true
@@ -26,8 +34,6 @@ export default function noConcurrent (
       return startAsync(...args)
     }
   }
-}
 
-function hasher (args: any[]): string {
-  return args.map(String).join(',')
+  return startAsync as (...args: any[]) => Promise<void>
 }

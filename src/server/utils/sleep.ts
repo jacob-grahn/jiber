@@ -1,3 +1,3 @@
-export default function sleep (timeMs: number) {
+export const sleep = (timeMs: number) => {
   return new Promise(resolve => setTimeout(resolve, timeMs))
 }

@@ -1,10 +1,10 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
+import { Action, JOIN_ROOM, CONFIRMED_STATE, Next } from '../../core/index'
 import ServerStore from '../interfaces/server-store'
 
-export default function welcomeNewMembers (
+export const createWelcomeNewMembers = (
   sendToUser: (userId: string, action: Action) => void
-) {
-  return (store: ServerStore) => (next: Function) => (action: Action) => {
+) => {
+  return (store: ServerStore) => (next: Next) => (action: Action) => {
     next(action)
 
     if (action.type !== JOIN_ROOM) return

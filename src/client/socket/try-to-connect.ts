@@ -1,14 +1,21 @@
 import ClientSettings from '../interfaces/client-settings'
 
-export default function tryToConnect (
+export const createTryToConnect = (
   createWebSocket: (url: string, credential: string) => WebSocket,
   {url, socketPort, credential, backoffMs}: ClientSettings
-) {
-  return function (): Promise<any> {
+) => {
+  return (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!url) reject('NO_SOCKET_URL')
 
-      function connect (retryCount = 0) {
+      const onopen = (socket: WebSocket) => {
+        delete socket.onclose
+        delete socket.onerror
+        delete socket.onopen
+        resolve(socket)
+      }
+
+      const connect = (retryCount = 0) => {
         const delay = retryCount * backoffMs
         setTimeout(() => {
           const fullUrl = `ws://${url}:${socketPort}`
@@ -17,13 +24,6 @@ export default function tryToConnect (
           socket.onerror = (err) => reject(err)
           socket.onopen = () => onopen(socket)
         }, delay)
-      }
-
-      function onopen (socket: WebSocket) {
-        delete socket.onclose
-        delete socket.onerror
-        delete socket.onopen
-        resolve(socket)
       }
 
       connect()

@@ -1,5 +1,5 @@
 import { Action } from '../core/index'
-import createClientReducer from './client-reducer'
+import { createClientReducer } from './client-reducer'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value

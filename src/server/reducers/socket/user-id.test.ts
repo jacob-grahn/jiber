@@ -1,5 +1,5 @@
 import { ADD_USER } from '../../../core/index'
-import userId from './user-id'
+import { userId } from './user-id'
 
 test('record userId on successful login', () => {
   const state = undefined

@@ -1,5 +1,5 @@
 import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
-import createWelcomeNewMembers from './welcome-new-members'
+import { createWelcomeNewMembers } from './welcome-new-members'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

@@ -1,11 +1,11 @@
 import { Action } from '../../core/index'
 import ServerState from '../interfaces/server-state'
+import { SendToSocket } from './send-to-socket'
 
 export type CreateSendToUser = (
   getState: () => ServerState,
-  sendToSocket: (socketId: string, action: Action) => void
+  sendToSocket: SendToSocket
 ) => SendToUser
-
 export type SendToUser = (userId: string, action: Action) => void
 
 /**

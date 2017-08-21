@@ -1,5 +1,5 @@
 import { LOGIN_RESULT } from '../../core/index'
-import me from './me'
+import { me } from './me'
 
 test('update account on login success', () => {
   const action = {type: LOGIN_RESULT, user: 'bob'}

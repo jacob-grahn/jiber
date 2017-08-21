@@ -1,14 +1,18 @@
 import { Action } from '../../core/index'
 import ServerState from '../interfaces/server-state'
+import { SendToSocket } from './send-to-socket'
+
+export type CreateSendToRoom = (
+  getState: () => ServerState,
+  sendToSocket: SendToSocket
+) => SendToRoom
+export type SendToRoom = (roomId: string, action: Action) => void
 
 /**
  * send an action to every member of a room
  */
-export default function createSendToRoom (
-  getState: () => ServerState,
-  sendToSocket: Function
-) {
-  return function sendToRoom (roomId: string, action: Action): void {
+export const createSendToRoom: CreateSendToRoom = (getState, sendToSocket) => {
+  return (roomId, action) => {
     const state = getState()
     const room = state.rooms[roomId]
     if (!room || !room.members) return

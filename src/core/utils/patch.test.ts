@@ -1,4 +1,4 @@
-import patch from './patch'
+import { patch } from './patch'
 import { SET, DEL } from '../constants/delta-types'
 import DiffList from '../interfaces/diff-list'
 

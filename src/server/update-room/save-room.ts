@@ -1,19 +1,20 @@
-import noConcurrent from '../utils/no-concurrent'
+import { noConcurrent } from '../utils/no-concurrent'
 import { RoomState } from '../../core/interfaces/room-state'
+import { RemoveActions, StoreState } from '../interfaces/storage'
 
 export interface SaveRoomSettings {
   snapshotInterval: number,
   storage: {
-    removeActions: (roomId: string, maxTimeMs: number) => Promise<void>,
-    storeState: (roomId: string, state: RoomState) => Promise<boolean>
+    removeActions: RemoveActions,
+    storeState: StoreState
   }
 }
 
-export default function createSaveRoom (
+export const createSaveRoom = (
   getRoomState: (roomId: string) => RoomState,
   settings: SaveRoomSettings
-) {
-  async function saveRoom (roomId: string) {
+) => {
+  const saveRoom = async (roomId: string) => {
     if (!roomId) return
     const roomState = getRoomState(roomId)
     if (!roomState) return

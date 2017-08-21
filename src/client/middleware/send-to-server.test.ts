@@ -1,5 +1,5 @@
 import { Middleware, CLIENT } from '../../core/index'
-import createSendToServer from './send-to-server'
+import { createSendToServer } from './send-to-server'
 
 let sendCalledWith: any[]
 let nextCalledWith: any[]

@@ -1,4 +1,4 @@
-import withField from './with-field'
+import { withField } from './with-field'
 
 test('return values with a matching userId property', () => {
   const actions = [

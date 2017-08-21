@@ -1,4 +1,4 @@
-import createSocketServer from './index'
+import { createSocketServer } from './index'
 import defaultSettings from '../default-settings'
 
 ////////////////////////////////////////////////////////////////////////////////

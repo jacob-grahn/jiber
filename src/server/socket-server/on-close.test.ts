@@ -1,5 +1,5 @@
 import { Action, LEAVE_ROOM, REMOVE_SOCKET } from '../../core/index'
-import createOnClose from './on-close'
+import { createOnClose } from './on-close'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

@@ -1,5 +1,5 @@
 import { JOIN_ROOM } from '../../core/index'
-import createRejoinRooms from './rejoin-rooms'
+import { createRejoinRooms } from './rejoin-rooms'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

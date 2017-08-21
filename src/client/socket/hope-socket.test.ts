@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import createHopeSocket from './hope-socket'
+import { createHopeSocket } from './hope-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

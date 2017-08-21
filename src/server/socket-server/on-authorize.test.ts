@@ -1,7 +1,7 @@
 
 import { Action } from '../../core/index'
 import LoginResult from '../interfaces/login-result'
-import makeOnAuthorize from './on-authorize'
+import { createOnAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {
   let receivedCredential: any
@@ -12,7 +12,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
     return result
   }
   const cb = (_result: boolean) => { /* do nothing */ }
-  const onAuthorize = makeOnAuthorize(dispatch, loginRequestHandler)
+  const onAuthorize = createOnAuthorize(dispatch, loginRequestHandler)
   const info = {
     origin: '',
     req: {headers: {'sec-websocket-key': '', 'sec-websocket-protocol': 'abc'}},

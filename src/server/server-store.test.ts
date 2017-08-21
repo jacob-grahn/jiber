@@ -1,4 +1,4 @@
-import createServerStore from './create-server-store'
+import { createServerStore } from './server-store'
 
 test('it should make something, for sure', () => {
   const store = createServerStore()

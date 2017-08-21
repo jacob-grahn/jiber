@@ -1,35 +1,47 @@
-import { Action } from '../../core/index'
 import * as WebSocket from 'ws'
-import SocketServer from '../interfaces/socket-server'
+import { OnAuthorize } from './on-authorize'
+import { OnConnect } from './on-connect'
+import { SendToRoom } from './send-to-room'
 import { SendToUser } from './send-to-user'
 
-export default function createSocketServer (
+export type CreateSocketServer = (
+  onAuthorize: OnAuthorize,
+  onConnect: OnConnect,
+  sendToRoom: SendToRoom,
   sendToUser: SendToUser,
-  sendToRoom: (roomId: string, action: Action) => void,
-  onConnect: (webSocket: WebSocket, request: any) => void,
-  onAuthorize: (
-    info: {origin: string, req: any, secure: boolean},
-    cb: (result: boolean, code?: number, name?: string) => void
-  ) => void,
   socketPort: number
-) {
+) => SocketServer
+export interface SocketServer {
+  start: () => void,
+  stop: () => void,
+  sendToRoom: SendToRoom,
+  sendToUser: SendToUser,
+  onRoomChange?: (roomId: string) => void
+}
+
+export const createSocketServer: CreateSocketServer = (
+  onAuthorize,
+  onConnect,
+  sendToRoom,
+  sendToUser,
+  socketPort
+) => {
   let wss: WebSocket.Server|undefined
-  const socketServer: SocketServer = {start, stop, sendToUser, sendToRoom}
 
-  function start () {
-    stop()
-    wss = new WebSocket.Server({
-      port: socketPort,
-      verifyClient: onAuthorize
-    })
-    wss.on('connection', onConnect as any)
-  }
-
-  function stop () {
+  const stop = () => {
     if (!wss) return
     wss.close()
     wss = undefined
   }
 
-  return socketServer
+  const start = () => {
+    stop()
+    wss = new WebSocket.Server({
+      port: socketPort,
+      verifyClient: onAuthorize as any
+    })
+    wss.on('connection', onConnect as any)
+  }
+
+  return {start, stop, sendToUser, sendToRoom}
 }

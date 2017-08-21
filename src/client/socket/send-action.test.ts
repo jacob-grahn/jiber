@@ -1,4 +1,4 @@
-import sendAction from './send-action'
+import { sendAction } from './send-action'
 
 let sentMessages: string[]
 const socket: any = {

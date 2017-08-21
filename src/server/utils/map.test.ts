@@ -1,4 +1,4 @@
-import map from './map'
+import { map } from './map'
 
 test('map an array', () => {
   const arr = [1, 2, 3]

@@ -8,20 +8,18 @@ import {
   combineReducers,
   members,
   lastUpdatedAt,
-  confirmed
+  createConfirmed
 } from '../../core/index'
 
-export default function createServerRoom (subReducer: Reducer): Reducer {
+export const createServerRoom = (subReducer: Reducer): Reducer => {
+  const confirmed = createConfirmed(subReducer)
   const coreReducer = combineReducers({
     members,
-    confirmed: confirmed(subReducer),
+    confirmed,
     lastUpdatedAt
   })
 
-  return function serverRoom (
-    state: RoomState,
-    action: Action
-  ): RoomState|undefined {
+  return (state: RoomState, action: Action): RoomState|undefined => {
     switch (action.type) {
 
       case INJECT_PRIVATE: {

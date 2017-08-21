@@ -1,4 +1,4 @@
-import set from './set'
+import { set } from './set'
 
 test('deep paths work', () => {
   const user = {name: {first: 'sue'}}

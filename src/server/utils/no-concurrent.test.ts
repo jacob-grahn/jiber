@@ -1,4 +1,4 @@
-import noConcurrent from './no-concurrent'
+import { noConcurrent } from './no-concurrent'
 
 test('pass params on to inner function', async () => {
   let params: any = {}
@@ -14,7 +14,7 @@ test('pass params on to inner function', async () => {
 
 test('calls while the function is working should run later', async () => {
   let callCount = 0
-  let resolve: Function = () => { /* do nothing */ }
+  let resolve = () => { /* do nothing */ }
   const promise = new Promise((_resolve) => { resolve = _resolve })
   const func = () => {
     callCount++
@@ -52,7 +52,7 @@ test('different params can run concurrently', () => {
 
 test('deferred calls should be called with the same params', async () => {
   let calledWith = ''
-  let resolve: Function = () => { /* do nothing */ }
+  let resolve = () => { /* do nothing */ }
   const promise = new Promise((_resolve) => { resolve = _resolve })
   const func = (param1: string, param2: string) => {
     calledWith += param1 + param2

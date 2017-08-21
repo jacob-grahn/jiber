@@ -8,30 +8,27 @@ import {
   diff
 } from '../../core/index'
 
-export default function (
+const addMetadata = (roomState: RoomState, action: Action): Action => {
+  action.$source = SERVER
+  if (!action.$userId) return action
+  const member = roomState.members[action.$userId] || {}
+  const lastActionId = member.actionId || 0
+  action.$actionId = lastActionId + 1
+  return action
+}
+
+export const createApplyAction = (
   dispatch: (action: Action) => void,
   getRoom: (roomId: string) => RoomState,
   sendToRoom: (roomId: string, action: Action) => void
-) {
-  return function applyAction (action: Action): void {
-    if (!action.$roomId) return
-    const roomState = getRoom(action.$roomId)
-    action = addMetadata(roomState, action)
-
-    if (action.type.indexOf('$serverOnly/') === 0) {
-      privateApply(action)
-    } else {
-      publicApply(action)
-    }
-  }
-
-  function publicApply (action: Action): void {
+) => {
+  const publicApply = (action: Action): void => {
     if (!action.$roomId) return
     dispatch(action)
     sendToRoom(action.$roomId, action)
   }
 
-  function privateApply (action: Action): void {
+  const privateApply = (action: Action): void => {
     if (!action.$roomId) return
     const $roomId = action.$roomId
     const $timeMs = action.$timeMs
@@ -54,13 +51,16 @@ export default function (
     }
     sendToRoom($roomId, patchAction)
   }
-}
 
-function addMetadata (roomState: RoomState, action: Action): Action {
-  action.$source = SERVER
-  if (!action.$userId) return action
-  const member = roomState.members[action.$userId] || {}
-  const lastActionId = member.actionId || 0
-  action.$actionId = lastActionId + 1
-  return action
+  return (action: Action): void => {
+    if (!action.$roomId) return
+    const roomState = getRoom(action.$roomId)
+    action = addMetadata(roomState, action)
+
+    if (action.type.indexOf('$serverOnly/') === 0) {
+      privateApply(action)
+    } else {
+      publicApply(action)
+    }
+  }
 }

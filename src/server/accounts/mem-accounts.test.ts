@@ -1,4 +1,4 @@
-import memAccounts from './mem-accounts'
+import { memAccounts } from './mem-accounts'
 
 test('it should provide random userIds', async () => {
   const account1 = await memAccounts()

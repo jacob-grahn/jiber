@@ -1,10 +1,10 @@
 import { Action, SERVER } from '../../../core/index'
-import room from './client-room'
+import { createClientRoom } from './client-room'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
 }
-const roomReducer = room(adder)
+const roomReducer = createClientRoom(adder)
 
 test('defaults to something', () => {
   const state = undefined

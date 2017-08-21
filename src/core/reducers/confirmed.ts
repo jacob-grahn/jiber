@@ -1,11 +1,11 @@
 import Action from '../interfaces/action'
 import Reducer from '../interfaces/reducer'
-import patch from '../utils/patch'
+import { patch } from '../utils/patch'
 import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
 
-export default function (subReducer: Reducer): Reducer {
-  return function confirmed (state: any = undefined, action: Action): any {
+export const createConfirmed = (subReducer: Reducer): Reducer => {
+  return (state: any = undefined, action: Action): any => {
     switch (action.type) {
 
       case CONFIRMED_STATE:

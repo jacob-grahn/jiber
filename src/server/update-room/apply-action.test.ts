@@ -4,7 +4,7 @@ import {
   INJECT_PRIVATE,
   CLEAN_PRIVATE
 } from '../../core/index'
-import createApplyAction from './apply-action'
+import { createApplyAction } from './apply-action'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

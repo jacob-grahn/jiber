@@ -1,8 +1,8 @@
 import Action from '../interfaces/action'
 
-export default function lastUpdatedAt (
+export const lastUpdatedAt = (
   state: number = 0,
   action: Action
-): number {
+): number => {
   return action.$timeMs || state
 }

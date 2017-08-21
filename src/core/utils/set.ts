@@ -1,4 +1,4 @@
-export default function set (obj: any, path: string|string[], value: any): any {
+export const set = (obj: any, path: string|string[], value: any): any => {
   if (!path) return value
   if (!Array.isArray(path)) path = path.split('.')
   if (path.length === 0) return value

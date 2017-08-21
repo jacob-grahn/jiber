@@ -1,4 +1,4 @@
-import createClientStore from './create-client-store'
+import { createClientStore } from './client-store'
 
 test('it should make a working client store', () => {
   const clientStore = createClientStore()

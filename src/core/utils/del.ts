@@ -1,7 +1,7 @@
-import get from './get'
-import set from './set'
+import { get } from './get'
+import { set } from './set'
 
-export default function del (obj: any, path: string|string[] = ''): any {
+export const del = (obj: any, path: string|string[] = ''): any => {
   if (!path) return undefined
   if (!Array.isArray(path)) path = path.split('.')
   if (path.length === 0) return undefined

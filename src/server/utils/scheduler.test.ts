@@ -1,5 +1,5 @@
-import createScheduler from './scheduler'
-import sleep from '../utils/sleep'
+import { createScheduler } from './scheduler'
+import { sleep } from '../utils/sleep'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup

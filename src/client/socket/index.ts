@@ -1,19 +1,16 @@
 import ClientStore from '../interfaces/client-store'
 import ClientSettings from '../interfaces/client-settings'
-import createHopeSocket from './hope-socket'
-import createOnMessage from './on-message'
-import createActionHandler from './action-handler'
-import createWebSocket from './create-web-socket'
-import createRejoinRooms from './rejoin-rooms'
-import createResendPending from './resend-pending'
-import sendAction from './send-action'
-import createTryToConnect from './try-to-connect'
+import { createHopeSocket } from './hope-socket'
+import { createOnMessage } from './on-message'
+import { createActionHandler } from './action-handler'
+import { createWebSocket } from './create-web-socket'
+import { createRejoinRooms } from './rejoin-rooms'
+import { createResendPending } from './resend-pending'
+import { sendAction } from './send-action'
+import { createTryToConnect } from './try-to-connect'
 import { Action } from '../../core/index'
 
-export default function (
-  store: ClientStore,
-  settings: ClientSettings
-) {
+export const createSocket = (store: ClientStore, settings: ClientSettings) => {
   const resendPending = createResendPending(sendAction, store.getState)
   const rejoinRooms = createRejoinRooms(sendAction, store.getState)
   const actionHandler = createActionHandler(rejoinRooms, resendPending)

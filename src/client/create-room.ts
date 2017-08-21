@@ -1,28 +1,22 @@
-import { Action, Store, JOIN_ROOM, CLIENT } from '../core/index'
-import ClientRoomState from './interfaces/client-room-state'
+import { Action, JOIN_ROOM, CLIENT, get } from '../core/index'
+import ClientStore from './interfaces/client-store'
 
-const $source = CLIENT
-
-export default function (store: Store) {
-  return function createRoom ($roomId: string) {
-    dispatch({type: JOIN_ROOM})
-
-    function getRoom (): ClientRoomState {
+export const createCreateRoom = (store: ClientStore) => {
+  return ($roomId: string) => {
+    const getRoom = () => {
       const state = store.getState()
-      return state.rooms[$roomId] || {}
+      const roomState = state.rooms[$roomId]
+      return roomState
     }
 
-    function dispatch (action: Action): void {
-      return store.dispatch({...action, $roomId, $source})
+    const dispatch = (action: Action) => {
+      store.dispatch({...action, $roomId, $source: CLIENT})
     }
 
-    function getState (): any {
-      return getRoom().optimistic
-    }
+    const getState = () => get(getRoom(), 'optimistic')
+    const getConfirmedState = () => get(getRoom(), 'confirmed')
 
-    function getConfirmedState (): any {
-      return getRoom().confirmed
-    }
+    dispatch({type: JOIN_ROOM})
 
     return {
       dispatch,

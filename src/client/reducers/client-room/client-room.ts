@@ -4,10 +4,10 @@ import {
   combineReducers,
   members,
   lastUpdatedAt,
-  confirmed
+  createConfirmed
 } from '../../../core/index'
-import optimisticActions from './optimistic-actions'
-import optimistic from './optimistic'
+import { optimisticActions } from './optimistic-actions'
+import { createOptimistic } from './optimistic'
 import ClientRoomState from '../../interfaces/client-room-state'
 
 const defaultState: ClientRoomState = {
@@ -19,22 +19,22 @@ const defaultState: ClientRoomState = {
 }
 
 // Reducer
-export default function createRoom (subReducer: Reducer): Reducer {
+export const createClientRoom = (subReducer: Reducer): Reducer => {
   const intermediateReducer = combineReducers({
     members,
-    confirmed: confirmed(subReducer),
+    confirmed: createConfirmed(subReducer),
     optimisticActions,
     lastUpdatedAt
   })
 
-  return function roomReducer (
+  return (
     state: ClientRoomState = defaultState,
     action: Action
-  ): ClientRoomState {
+  ): ClientRoomState => {
     const intermediateState = intermediateReducer(state, action)
     return {
       ...intermediateState,
-      optimistic: optimistic(subReducer)(
+      optimistic: createOptimistic(subReducer)(
         state.optimistic,
         action,
         intermediateState

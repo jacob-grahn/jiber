@@ -1,9 +1,9 @@
-import { Action, Middleware, CLIENT } from '../../core/index'
+import { Action, Next, CLIENT } from '../../core/index'
 
-export default function sendToServer (
+export const createSendToServer = (
   send: (action: Action) => void
-): Middleware {
-  return () => (next: Function) => (action: Action) => {
+) => {
+  return () => (next: Next) => (action: Action) => {
     if (action.$source === CLIENT) send(action)
     next(action)
   }

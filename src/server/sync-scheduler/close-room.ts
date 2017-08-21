@@ -1,9 +1,9 @@
 import { Action, CLOSE_ROOM } from '../../core/index'
 
-export default function createCloseRoom (
+export const createCloseRoom = (
   dispatch: (action: Action) => void
-) {
-  return function closeRoom ($roomId: string): void {
+) => {
+  return ($roomId: string): void => {
     dispatch({type: CLOSE_ROOM, $roomId})
   }
 }

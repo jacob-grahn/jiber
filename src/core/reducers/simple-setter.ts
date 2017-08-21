@@ -8,10 +8,10 @@ export interface SimpleSetterState {
 const SET = 'SET'
 
 // Reducer
-export default function simpleSetter (
+export const simpleSetter = (
   state: SimpleSetterState = {},
   action: Action
-): SimpleSetterState {
+): SimpleSetterState => {
   switch (action.type) {
     case SET:
       return {...state, [action.key]: action.value}

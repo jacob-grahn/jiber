@@ -1,5 +1,5 @@
 import { Action, LOGIN_RESULT, INIT_SOCKET } from '../../core/index'
-import createOnConnect from './on-connect'
+import { createOnConnect } from './on-connect'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
@@ -20,7 +20,7 @@ const sendToSocket = (socketId: string, action: Action) => {
   calls.push(['sendToSocket', socketId, action])
 }
 const webSocket: any = {
-  on: (_event: string, _cb: Function) => undefined
+  on: (_event: string, _cb: any) => undefined
 }
 
 ////////////////////////////////////////////////////////////////////////////////

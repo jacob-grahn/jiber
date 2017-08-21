@@ -1,11 +1,11 @@
 import DiffList from '../interfaces/diff-list'
 import { SET, DEL } from '../constants/delta-types'
 
-export default function diff (
+export const diff = (
   left: any,
   right: any,
   path: string = ''
-): DiffList {
+): DiffList => {
   if (left === right) return []
   if (right === undefined) return [[DEL, path, undefined]]
   if ((typeof left) !== (typeof right)) return [[SET, path, right]]

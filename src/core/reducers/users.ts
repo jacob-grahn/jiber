@@ -1,12 +1,11 @@
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
-import allowActions from './allow-actions'
-import dictionary from './dictionary'
+import { createAllowActions } from './allow-actions'
+import { createDictionary } from './dictionary'
 import Reducer from '../interfaces/reducer'
-import user from './user'
+import { user } from './user'
 
-export default allowActions(
-  dictionary(user, 'user.userId'),
-  [ADD_USER, REMOVE_USER]
-)
+const dictionary = createDictionary(user, 'user.userId')
+const allowedActions = createAllowActions(dictionary, [ADD_USER, REMOVE_USER])
+export const users = allowedActions
 
 export { Reducer }                                                              // make the compiler happy

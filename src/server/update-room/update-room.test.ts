@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import createUpdateRoom from './update-room'
+import { createUpdateRoom } from './update-room'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

@@ -3,10 +3,10 @@ import UserState from '../interfaces/user-state'
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
 
 // Reducer
-export default function user (
+export const user = (
   state: UserState = {userId: ''},
   action: Action
-): UserState {
+): UserState => {
   switch (action.type) {
     case ADD_USER:
       return action.user

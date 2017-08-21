@@ -1,9 +1,9 @@
-import { dictionary, combineReducers, users, Reducer } from '../../core/index'
-import serverRoom from './server-room'
+import { createDictionary, combineReducers, users, Reducer } from '../../core/index'
+import { createServerRoom } from './server-room'
 import sockets from './socket/sockets'
 
-export default function makeServerReducer (subReducer: Reducer): Reducer {
-  const room = serverRoom(subReducer)
-  const rooms = dictionary(room, '$roomId')
+export const createServerReducer = (subReducer: Reducer): Reducer => {
+  const room = createServerRoom(subReducer)
+  const rooms = createDictionary(room, '$roomId')
   return combineReducers({sockets, users, rooms})
 }

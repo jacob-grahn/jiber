@@ -1,10 +1,10 @@
 import { Action, CONFIRMED_STATE, LOGIN_RESULT } from '../../core/index'
 
-export default function createActionHandler (
+export const createActionHandler = (
   rejoinRooms: (socket: WebSocket) => void,
   resendPending: (socket: WebSocket, roomId: string) => void
-) {
-  return function actionHandler (socket: WebSocket, action: Action): void {
+) => {
+  return (socket: WebSocket, action: Action): void => {
     if (action.type === LOGIN_RESULT) {
       rejoinRooms(socket)
     }
@@ -13,5 +13,4 @@ export default function createActionHandler (
       resendPending(socket, action.$roomId)
     }
   }
-
 }

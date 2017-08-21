@@ -1,4 +1,4 @@
-import del from './del'
+import { del } from './del'
 
 test('deep paths work', () => {
   const user = {name: {first: 'sue'}}

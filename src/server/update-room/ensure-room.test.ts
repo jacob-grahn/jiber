@@ -1,5 +1,5 @@
 import { Action, CONFIRMED_STATE } from '../../core/index'
-import createEnsureRoom from './ensure-room'
+import { createEnsureRoom } from './ensure-room'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

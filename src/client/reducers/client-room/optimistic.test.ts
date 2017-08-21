@@ -1,4 +1,4 @@
-import createOptimistic from './optimistic'
+import { createOptimistic } from './optimistic'
 import { Action, PATCH, SERVER } from '../../../core/index'
 import ClientRoomState from '../../interfaces/client-room-state'
 

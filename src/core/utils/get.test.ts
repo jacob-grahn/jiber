@@ -1,4 +1,4 @@
-import get from './get'
+import { get } from './get'
 
 test('non object or array input values result in undefined', () => {
   expect(get(undefined, 'something')).toBe(undefined)

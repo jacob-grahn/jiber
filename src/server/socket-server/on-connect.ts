@@ -1,22 +1,49 @@
 import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
 import * as ws from 'ws'
 import ServerState from '../interfaces/server-state'
+import { OnClose } from './on-close'
+import { OnMessage } from './on-message'
+import { SendToSocket } from './send-to-socket'
+
+export type CreateOnConnect = (
+  store: {
+    dispatch: (action: Action) => void,
+    getState: () => ServerState
+  },
+  onMessage: OnMessage,
+  onClose: OnClose,
+  sendToSocket: SendToSocket
+) => OnConnect
+export type OnConnect = (webSocket: ws, request: any) => void
 
 /**
  * handles 'connect' socket event
  * adds some event listeners to the newly created socket
  * dispatches an event to add the socket to the store
  */
-export default function createOnConnect (
-  store: {
-    dispatch: (action: Action) => void,
-    getState: () => ServerState
-  },
-  onMessage: (socketId: string, message: string) => void,
-  onClose: (socketId: string) => void,
-  sendToSocket: (socketId: string, action: Action) => void
-) {
-  return function onConnect (webSocket: ws, request: any): void {
+export const createOnConnect: CreateOnConnect = (
+  store,
+  onMessage,
+  onClose,
+  sendToSocket
+) => {
+  const addListeners = (socketId: string, webSocket: ws) => {
+    webSocket.on('message', (message) => onMessage(socketId, message))
+    webSocket.on('close', () => onClose(socketId))
+  }
+
+  const initSocket = (socketId: string, connection: ws) => {
+    const timeMs = new Date().getTime()
+    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
+    store.dispatch(socketAction)
+  }
+
+  const sendLoginResult = (socketId: string, user: any) => {
+    const action = {type: LOGIN_RESULT, user}
+    sendToSocket(socketId, action)
+  }
+
+  return (webSocket, request) => {
     const state = store.getState()
 
     const socketId = get(request, 'headers.sec-websocket-key')
@@ -31,21 +58,5 @@ export default function createOnConnect (
     addListeners(socketId, webSocket)
     initSocket(socketId, webSocket)
     sendLoginResult(socketId, publicUserState)
-  }
-
-  function addListeners (socketId: string, webSocket: ws) {
-    webSocket.on('message', (message) => onMessage(socketId, message))
-    webSocket.on('close', () => onClose(socketId))
-  }
-
-  function initSocket (socketId: string, connection: ws) {
-    const timeMs = new Date().getTime()
-    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
-    store.dispatch(socketAction)
-  }
-
-  function sendLoginResult (socketId: string, user: any) {
-    const action = {type: LOGIN_RESULT, user}
-    sendToSocket(socketId, action)
   }
 }

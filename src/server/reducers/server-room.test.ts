@@ -1,4 +1,4 @@
-import createServerRoom from './server-room'
+import { createServerRoom } from './server-room'
 
 const identity = (val: any) => val
 

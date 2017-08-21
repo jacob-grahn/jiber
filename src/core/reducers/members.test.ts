@@ -1,4 +1,4 @@
-import members from './members'
+import { members } from './members'
 import {
   LEAVE_ROOM,
   JOIN_ROOM,

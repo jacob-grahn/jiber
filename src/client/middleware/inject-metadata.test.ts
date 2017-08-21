@@ -1,4 +1,4 @@
-import injectMetadata from './inject-metadata'
+import { injectMetadata } from './inject-metadata'
 import { Action } from '../../core/index'
 
 let lastAction: Action

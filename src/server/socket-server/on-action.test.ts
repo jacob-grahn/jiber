@@ -1,7 +1,7 @@
 import { Action } from '../../core/index'
-import createOnAction from './on-action'
+import { createOnAction } from './on-action'
 
-test('return a function', () => {
+test('return a func', () => {
   const pushAction = () => Promise.resolve()
   const updateRoom = () => { /* do nothing */ }
   const onAction = createOnAction(pushAction, updateRoom)

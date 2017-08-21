@@ -1,6 +1,6 @@
 import {
-  dictionary,
-  allowActions,
+  createDictionary,
+  createAllowActions,
   Reducer,
   INIT_SOCKET,
   REMOVE_SOCKET,
@@ -8,8 +8,10 @@ import {
 } from '../../../core/index'
 import socket from './socket'
 
-export default allowActions(
-  dictionary(socket, 'socketId'),
+const dictionary = createDictionary(socket, 'socketId')
+
+export default createAllowActions(
+  dictionary,
   [INIT_SOCKET, REMOVE_SOCKET, ADD_USER]
 )
 

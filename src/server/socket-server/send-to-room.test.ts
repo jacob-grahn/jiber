@@ -1,4 +1,4 @@
-import createSendToRoom from './send-to-room'
+import { createSendToRoom } from './send-to-room'
 
 let calledWith: any[] = []
 const sendToSocket = (socketId: string, action: Object) => {

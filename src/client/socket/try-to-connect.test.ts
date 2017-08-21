@@ -1,4 +1,4 @@
-import createTryToConnect from './try-to-connect'
+import { createTryToConnect } from './try-to-connect'
 
 let socket: WebSocket
 let tryCount = 0

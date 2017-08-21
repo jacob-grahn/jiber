@@ -1,9 +1,9 @@
 import { Action, UserState, LOGIN_RESULT } from '../../core/index'
 
-export default function me (
+export const me = (
   state: UserState = {userId: ''},
   action: Action
-): UserState {
+): UserState => {
   switch (action.type) {
     case LOGIN_RESULT:
       return action.user

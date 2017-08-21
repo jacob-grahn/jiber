@@ -1,4 +1,4 @@
-import optimisticActions from './optimistic-actions'
+import { optimisticActions } from './optimistic-actions'
 import { CONFIRMED_STATE, SERVER } from '../../../core/index'
 
 test('prune actions that do not have a userId and actionId', () => {

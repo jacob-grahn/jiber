@@ -1,4 +1,4 @@
-import initMiddleware from './init-middleware'
+import { initMiddleware } from './init-middleware'
 import Action from './interfaces/action'
 import Middleware from './interfaces/middleware'
 import Store from './interfaces/store'
@@ -20,7 +20,7 @@ test ('middleware is given the store', () => {
   expect(givenStore).toBe(store)
 })
 
-test ('next is either the next middleware, or the final function', () => {
+test ('next is either the next middleware, or the final func', () => {
   let next1
   let next2
   let middleware2Internal

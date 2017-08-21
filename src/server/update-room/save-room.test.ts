@@ -1,4 +1,4 @@
-import createSaveRoom from './save-room'
+import { createSaveRoom } from './save-room'
 import { RoomState } from '../../core/index'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -7,18 +7,18 @@ import { RoomState } from '../../core/index'
 let calledSetState: any
 let calledRemoveActions: any
 
-function getRoomState () {
+const getRoomState = () => {
   return {confirmed: 'sue', lastUpdatedAt: 33, members: {}}
 }
 
-function removeActions (roomId: string, timeMs: number) {
+const removeActions = (roomId: string, timeMs: number) => {
   calledRemoveActions = {roomId, timeMs}
   return Promise.resolve()
 }
 
-function storeState (roomId: string, roomState: RoomState) {
+const storeState = (roomId: string, roomState: RoomState) => {
   calledSetState = {roomId, roomState}
-  return Promise.resolve(true)
+  return Promise.resolve()
 }
 
 const settings = {

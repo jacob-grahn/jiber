@@ -1,5 +1,5 @@
 import { LOGIN_RESULT, CONFIRMED_STATE } from '../../core/index'
-import createActionHandler from './action-handler'
+import { createActionHandler } from './action-handler'
 
 let rejoinCalls: any[]
 let resendCalls: any[]

@@ -1,4 +1,4 @@
-import sleep from './sleep'
+import { sleep } from './sleep'
 
 // timers are imperfect
 // so this checks that the results fall within an acceptable range

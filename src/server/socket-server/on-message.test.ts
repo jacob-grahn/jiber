@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import createOnMessage from './on-message'
+import { createOnMessage } from './on-message'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

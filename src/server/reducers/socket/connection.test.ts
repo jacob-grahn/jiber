@@ -1,5 +1,5 @@
 import { INIT_SOCKET } from '../../../core/index'
-import connection from './connection'
+import { connection } from './connection'
 
 const fakeSocket = {send: (str: string) => str, readyState: 0}
 

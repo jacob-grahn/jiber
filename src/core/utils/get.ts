@@ -1,4 +1,4 @@
-export default function get (value: any, path: string|string[] = ''): any {
+export const get = (value: any, path: string|string[] = ''): any => {
   if (!path) return value
   if (!Array.isArray(path)) path = path.split('.')
   return path.reduce(

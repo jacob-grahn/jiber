@@ -1,4 +1,4 @@
-import user from './user'
+import { user } from './user'
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
 
 test('default to obj with empty userId', () => {

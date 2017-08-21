@@ -1,4 +1,4 @@
-import lastUpdatedAt from './last-updated-at'
+import { lastUpdatedAt } from './last-updated-at'
 
 test('update if $timeMs exists', () => {
   expect(lastUpdatedAt(0, {type: 'cool', $timeMs: 5}))

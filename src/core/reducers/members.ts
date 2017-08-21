@@ -6,35 +6,17 @@ import {
   PATCH
 } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
-import patch from '../utils/patch'
-import createDictionary from './dictionary'
-
-const memberDict = createDictionary(member, '$userId')
+import { patch } from '../utils/patch'
+import { createDictionary } from './dictionary'
 
 export interface MembersState {
   [userId: string]: {actionId: number}
 }
 
-export default function members (
-  state: MembersState = {},
-  action: Action
-): MembersState {
-  switch (action.type) {
-    case CONFIRMED_STATE:
-      return action.members
-
-    case PATCH:
-      return patch(state, action.members)
-
-    default:
-      return memberDict(state, action)
-  }
-}
-
-function member (
+const member = (
   state: {actionId: number}|undefined = undefined,
   action: Action
-) {
+) => {
   switch (action.type) {
     case JOIN_ROOM:
       if (state) return state                                                   // no need to be added twice
@@ -48,5 +30,23 @@ function member (
         return {...state, actionId: action.$actionId}
       }
       return state
+  }
+}
+
+const memberDict = createDictionary(member, '$userId')
+
+export const members = (
+  state: MembersState = {},
+  action: Action
+): MembersState => {
+  switch (action.type) {
+    case CONFIRMED_STATE:
+      return action.members
+
+    case PATCH:
+      return patch(state, action.members)
+
+    default:
+      return memberDict(state, action)
   }
 }

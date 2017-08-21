@@ -1,4 +1,4 @@
-import createCloseRoom from './close-room'
+import { createCloseRoom } from './close-room'
 import { Action, CLOSE_ROOM } from '../../core/index'
 
 ////////////////////////////////////////////////////////////////////////////////

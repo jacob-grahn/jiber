@@ -6,14 +6,14 @@ const defaultRoomState: RoomState = {
   lastUpdatedAt: 0
 }
 
-export default function (
+export const createEnsureRoom = (
   dispatch: (action: Action) => any,
   getRoomState: (roomId: string) => RoomState,
   fetchRoomState: (roomId: string) => Promise<RoomState>
-) {
+) => {
 
   // if the room does not exist, create a new room using a snapshot from storage
-  return async function ensureRoomState ($roomId: string): Promise<RoomState> {
+  return async ($roomId: string): Promise<RoomState> => {
     const roomState = getRoomState($roomId)
     if (roomState) return roomState
 
