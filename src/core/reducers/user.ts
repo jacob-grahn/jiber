@@ -1,5 +1,5 @@
-import Action from '../interfaces/action'
-import UserState from '../interfaces/user-state'
+import { Action } from '../interfaces/action'
+import { UserState } from '../interfaces/user-state'
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
 
 // Reducer

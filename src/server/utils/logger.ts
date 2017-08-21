@@ -7,7 +7,7 @@ const logAtLevel = (min: number) => {
   }
 }
 
-export default {
+export const logger = {
   debug: logAtLevel(0),
   info: logAtLevel(1),
   warning: logAtLevel(2),

@@ -1,4 +1,4 @@
-import socket from './socket'
+import { socket } from './socket'
 
 test('should combine some reducers', () => {
   const state = socket(undefined, {type: 'wee'})

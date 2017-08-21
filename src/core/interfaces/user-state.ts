@@ -1,6 +1,4 @@
-interface UserState {
+export interface UserState {
   userId: string,
   [key: string]: any
 }
-
-export default UserState

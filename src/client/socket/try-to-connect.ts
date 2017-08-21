@@ -1,4 +1,4 @@
-import ClientSettings from '../interfaces/client-settings'
+import { ClientSettings } from '../interfaces/client-settings'
 
 export const createTryToConnect = (
   createWebSocket: (url: string, credential: string) => WebSocket,

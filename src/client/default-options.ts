@@ -1,7 +1,7 @@
 import { simpleSetter } from '../core/index'
-import ClientSettings from './interfaces/client-settings'
+import { ClientSettings } from './interfaces/client-settings'
 
-const defaultOptions: ClientSettings = {
+export const defaultOptions: ClientSettings = {
   reducer: simpleSetter,
   middleware: [],
   url: '',
@@ -11,5 +11,3 @@ const defaultOptions: ClientSettings = {
   initialState: undefined,
   backoffMs: 5000
 }
-
-export default defaultOptions

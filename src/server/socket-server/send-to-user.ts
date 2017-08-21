@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import ServerState from '../interfaces/server-state'
+import { ServerState } from '../interfaces/server-state'
 import { SendToSocket } from './send-to-socket'
 
 export type CreateSendToUser = (

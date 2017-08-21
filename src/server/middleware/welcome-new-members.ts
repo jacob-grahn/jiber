@@ -1,5 +1,5 @@
 import { Action, JOIN_ROOM, CONFIRMED_STATE, Next } from '../../core/index'
-import ServerStore from '../interfaces/server-store'
+import { ServerStore } from '../interfaces/server-store'
 
 export const createWelcomeNewMembers = (
   sendToUser: (userId: string, action: Action) => void

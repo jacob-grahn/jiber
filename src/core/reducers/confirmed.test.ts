@@ -1,5 +1,5 @@
 import { createConfirmed } from './confirmed'
-import Action from '../interfaces/action'
+import { Action } from '../interfaces/action'
 import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
 
 const adder = (state: any = '', action: Action): any => {

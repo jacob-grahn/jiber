@@ -1,6 +1,6 @@
 import { Action } from '../../core/index'
 import * as ws from 'ws'
-import ServerState from '../interfaces/server-state'
+import { ServerState } from '../interfaces/server-state'
 
 export type CreateSendToSocket = (getState: () => ServerState) => SendToSocket
 export type SendToSocket = (socketId: string, action: Action) => void

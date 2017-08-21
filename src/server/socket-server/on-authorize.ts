@@ -1,5 +1,5 @@
 import { Action, ADD_USER } from '../../core/index'
-import LoginRequestHandler from '../interfaces/login-request-handler'
+import { LoginRequestHandler } from '../interfaces/login-request-handler'
 
 export type CreateOnAuthorize = (
   dispatch: (action: Action) => void,

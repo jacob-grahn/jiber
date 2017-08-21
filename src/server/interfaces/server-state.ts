@@ -1,7 +1,7 @@
 import { RoomState } from '../../core/index'
 import * as ws from 'ws'
 
-interface ServerState {
+export interface ServerState {
   sockets: {
     [socketId: string]: {
       connection: ws,
@@ -20,5 +20,3 @@ interface ServerState {
     [roomId: string]: RoomState
   }
 }
-
-export default ServerState

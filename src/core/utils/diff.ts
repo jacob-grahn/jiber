@@ -1,4 +1,4 @@
-import DiffList from '../interfaces/diff-list'
+import { DiffList } from '../interfaces/diff-list'
 import { SET, DEL } from '../constants/delta-types'
 
 export const diff = (

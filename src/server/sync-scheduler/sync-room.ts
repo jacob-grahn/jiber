@@ -1,5 +1,5 @@
 import { RoomState } from '../../core/index'
-import ServerSettings from '../interfaces/server-settings'
+import { ServerSettings } from '../interfaces/server-settings'
 
 export const createSyncRoom = (
   updateRoom: (roomId: string) => void,

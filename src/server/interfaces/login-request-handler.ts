@@ -1,8 +1,6 @@
 import { Action } from '../../core/index'
-import LoginResult from './login-result'
+import { LoginResult } from './login-result'
 
-interface LoginRequestHandler {
+export interface LoginRequestHandler {
   (action: Action): Promise<LoginResult>|LoginResult
 }
-
-export default LoginRequestHandler

@@ -1,12 +1,12 @@
-import ServerSettingsInput from './interfaces/server-settings-input'
-import ServerStore from './interfaces/server-store'
+import { ServerSettingsInput } from './interfaces/server-settings-input'
+import { ServerStore } from './interfaces/server-store'
 import { createStore } from '../core/index'
 import { createSocketServer } from './socket-server/index'
 import { createServerReducer } from './reducers/server-reducer'
 import { createUpdateRoom } from './update-room/index'
 import { createWelcomeNewMembers } from './middleware/welcome-new-members'
 import { createSyncScheduler } from './sync-scheduler/index'
-import defaultSettings from './default-settings'
+import { defaultSettings } from './default-settings'
 
 export const createServerStore = (
   inputSettings: ServerSettingsInput = {}

@@ -1,5 +1,5 @@
-import Reducer from '../interfaces/reducer'
-import Action from '../interfaces/action'
+import { Reducer } from '../interfaces/reducer'
+import { Action } from '../interfaces/action'
 import { get } from '../utils/get'
 
 export interface Dictionary {

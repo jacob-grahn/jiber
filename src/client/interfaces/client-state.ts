@@ -1,7 +1,7 @@
 import { UserState } from '../../core/index'
-import ClientRoomState from './client-room-state'
+import { ClientRoomState } from './client-room-state'
 
-interface ClientState {
+export interface ClientState {
   users: {
     [userId: string]: UserState
   },
@@ -10,5 +10,3 @@ interface ClientState {
   },
   me: UserState
 }
-
-export default ClientState

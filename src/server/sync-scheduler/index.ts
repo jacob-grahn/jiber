@@ -1,6 +1,6 @@
 import { Action } from '../../core/index'
-import ServerSettings from '../interfaces/server-settings'
-import ServerState from '../interfaces/server-state'
+import { ServerSettings } from '../interfaces/server-settings'
+import { ServerState } from '../interfaces/server-state'
 import { createScheduler } from '../utils/scheduler'
 import { createSyncRoom } from './sync-room'
 import { createSyncRooms } from './sync-rooms'

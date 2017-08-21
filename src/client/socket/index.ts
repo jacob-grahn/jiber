@@ -1,5 +1,5 @@
-import ClientStore from '../interfaces/client-store'
-import ClientSettings from '../interfaces/client-settings'
+import { ClientStore } from '../client-store'
+import { ClientSettings } from '../interfaces/client-settings'
 import { createHopeSocket } from './hope-socket'
 import { createOnMessage } from './on-message'
 import { createActionHandler } from './action-handler'

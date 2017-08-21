@@ -6,11 +6,11 @@ import {
   REMOVE_SOCKET,
   ADD_USER
 } from '../../../core/index'
-import socket from './socket'
+import { socket } from './socket'
 
 const dictionary = createDictionary(socket, 'socketId')
 
-export default createAllowActions(
+export const sockets = createAllowActions(
   dictionary,
   [INIT_SOCKET, REMOVE_SOCKET, ADD_USER]
 )

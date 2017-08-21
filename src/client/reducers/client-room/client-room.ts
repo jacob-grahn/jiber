@@ -8,7 +8,7 @@ import {
 } from '../../../core/index'
 import { optimisticActions } from './optimistic-actions'
 import { createOptimistic } from './optimistic'
-import ClientRoomState from '../../interfaces/client-room-state'
+import { ClientRoomState } from '../../interfaces/client-room-state'
 
 const defaultState: ClientRoomState = {
   members: {},

@@ -1,10 +1,8 @@
-import Action from './action'
-import Middleware from './middleware'
+import { Action } from './action'
+import { Middleware } from './middleware'
 
-interface Store {
+export interface Store {
   getState: () => any,
   dispatch: {(action: Action): any},
   setMiddleware: (middleware: Middleware[]) => void
 }
-
-export default Store

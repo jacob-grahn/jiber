@@ -1,4 +1,4 @@
-interface Action {
+export interface Action {
   type: string,
   $roomId?: string,
   $userId?: string,
@@ -7,5 +7,3 @@ interface Action {
   $source?: string
   [key: string]: any
 }
-
-export default Action

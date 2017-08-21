@@ -1,5 +1,5 @@
 import { Store } from '../../core/index'
-import ServerSettings from '../interfaces/server-settings'
+import { ServerSettings } from '../interfaces/server-settings'
 import { createOnConnect } from './on-connect'
 import { createOnMessage } from './on-message'
 import { createOnClose } from './on-close'

@@ -1,6 +1,6 @@
 import { Reducer, Middleware } from '../../core/index'
 
-interface ClientSettings {
+export interface ClientSettings {
   credential: string
   middleware: Array<Middleware>,
   reducer: Reducer,
@@ -10,5 +10,3 @@ interface ClientSettings {
   initialState: any,
   backoffMs: number
 }
-
-export default ClientSettings

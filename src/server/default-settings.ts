@@ -1,9 +1,9 @@
 import { simpleSetter } from '../core/index'
-import memStorage from './storage/mem-storage'
+import { memStorage } from './storage/mem-storage'
 import { memAccounts } from './accounts/mem-accounts'
-import ServerSettings from './interfaces/server-settings'
+import { ServerSettings } from './interfaces/server-settings'
 
-const defaultSettings: ServerSettings = {
+export const defaultSettings: ServerSettings = {
   socketPort: 80,
   stunPort: 3478,
   reducer: simpleSetter,
@@ -13,5 +13,3 @@ const defaultSettings: ServerSettings = {
   syncInterval: 1000,                                                           // one second
   maxRoomAge: 1000 * 60 * 60                                                    // one hour
 }
-
-export default defaultSettings

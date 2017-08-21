@@ -1,4 +1,4 @@
-import ServerState from '../interfaces/server-state'
+import { ServerState } from '../interfaces/server-state'
 import { OnAction } from './on-action'
 import { SendToSocket } from './send-to-socket'
 

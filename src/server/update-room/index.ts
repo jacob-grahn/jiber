@@ -1,6 +1,6 @@
 import { Action } from '../../core/index'
-import ServerState from '../interfaces/server-state'
-import ServerSettings from '../interfaces/server-settings'
+import { ServerState } from '../interfaces/server-state'
+import { ServerSettings } from '../interfaces/server-settings'
 import { SocketServer } from '../socket-server/socket-server'
 import { createApplyAction } from './apply-action'
 import { createEnsureRoom } from './ensure-room'

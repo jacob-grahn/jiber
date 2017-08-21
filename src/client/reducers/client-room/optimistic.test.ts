@@ -1,6 +1,6 @@
 import { createOptimistic } from './optimistic'
 import { Action, PATCH, SERVER } from '../../../core/index'
-import ClientRoomState from '../../interfaces/client-room-state'
+import { ClientRoomState } from '../../interfaces/client-room-state'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value

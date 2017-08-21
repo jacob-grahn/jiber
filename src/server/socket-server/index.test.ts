@@ -1,5 +1,5 @@
 import { createSocketServer } from './index'
-import defaultSettings from '../default-settings'
+import { defaultSettings } from '../default-settings'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

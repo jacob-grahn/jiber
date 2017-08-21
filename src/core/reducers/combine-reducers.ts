@@ -1,4 +1,4 @@
-import Reducer from '../interfaces/reducer'
+import { Reducer } from '../interfaces/reducer'
 
 export interface ReducerObj {
   [key: string]: Reducer

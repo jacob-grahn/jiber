@@ -1,10 +1,11 @@
-import storage from './mem-storage'
+import { memStorage } from './mem-storage'
 
 const sleep = async (ms: number): Promise<any> => {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
   })
 }
+const storage = memStorage
 
 beforeAll(storage.clear)
 afterEach(storage.clear)

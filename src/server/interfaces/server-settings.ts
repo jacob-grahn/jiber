@@ -1,8 +1,8 @@
 import { Reducer } from '../../core/index'
-import LoginRequestHandler from './login-request-handler'
-import Storage from './storage'
+import { LoginRequestHandler } from './login-request-handler'
+import { Storage } from './storage'
 
-interface ServerSettings {
+export interface ServerSettings {
   socketPort: number,
   stunPort: number,
   reducer: Reducer,
@@ -12,5 +12,3 @@ interface ServerSettings {
   syncInterval: number,
   maxRoomAge: number,
 }
-
-export default ServerSettings

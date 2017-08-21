@@ -1,5 +1,5 @@
 import { RoomState } from '../../core/index'
-import ServerState from '../interfaces/server-state'
+import { ServerState } from '../interfaces/server-state'
 import { map } from '../utils/map'
 
 export const createSyncRooms = (

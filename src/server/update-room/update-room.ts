@@ -1,6 +1,6 @@
 import { Action, RoomState } from '../../core/index'
 import { noConcurrent } from '../utils/no-concurrent'
-import logger from '../utils/logger'
+import { logger } from '../utils/logger'
 
 export const createUpdateRoom = (
   ensureRoom: (roomId: string) => Promise<RoomState>,

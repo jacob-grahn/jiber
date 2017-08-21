@@ -1,4 +1,4 @@
-import LoginResult from '../interfaces/login-result'
+import { LoginResult } from '../interfaces/login-result'
 
 const randChar = () => {
   const chars = '0123456789abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ'

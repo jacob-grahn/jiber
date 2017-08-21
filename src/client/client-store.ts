@@ -1,12 +1,18 @@
+import { Store } from '../core/index'
 import { createSendToServer } from './middleware/send-to-server'
 import { injectMetadata } from './middleware/inject-metadata'
 import { createStore } from '../core/index'
-import ClientSettingsInput from './interfaces/client-settings-input'
-import ClientStore from './interfaces/client-store'
+import { ClientSettingsInput } from './interfaces/client-settings-input'
+import { ClientState } from './interfaces/client-state'
 import { createSocket } from './socket/index'
 import { createCreateRoom } from './create-room'
-import defaultOptions from './default-options'
+import { defaultOptions } from './default-options'
 import { createClientReducer } from './client-reducer'
+
+export interface ClientStore extends Store {
+  getState: () => ClientState,
+  createRoom: (roomId: string) => any
+}
 
 /**
  * When creating a client store, add middleware to send actions to the server

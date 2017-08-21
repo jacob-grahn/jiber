@@ -1,6 +1,6 @@
 import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
 import * as ws from 'ws'
-import ServerState from '../interfaces/server-state'
+import { ServerState } from '../interfaces/server-state'
 import { OnClose } from './on-close'
 import { OnMessage } from './on-message'
 import { SendToSocket } from './send-to-socket'

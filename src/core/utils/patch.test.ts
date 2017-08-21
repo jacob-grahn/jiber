@@ -1,6 +1,6 @@
 import { patch } from './patch'
 import { SET, DEL } from '../constants/delta-types'
-import DiffList from '../interfaces/diff-list'
+import { DiffList } from '../interfaces/diff-list'
 
 test('loop through diffs and apply them', () => {
   const data = {color: 'blue'}

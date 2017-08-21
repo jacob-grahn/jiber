@@ -60,7 +60,7 @@ const storeState = async (roomId: string, state: RoomState): Promise<void> => {
 }
 
 // Store a state in memory
-export default {
+export const memStorage = {
   pushAction,
   fetchActions,
   removeActions,

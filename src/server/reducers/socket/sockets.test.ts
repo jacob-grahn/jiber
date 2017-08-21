@@ -1,5 +1,5 @@
 import { INIT_SOCKET } from '../../../core/index'
-import sockets from './sockets'
+import { sockets } from './sockets'
 
 test('create a socket dictionary', () => {
   expect(sockets(undefined, {type: INIT_SOCKET, socketId: '444'}))

@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import ClientState from '../interfaces/client-state'
+import { ClientState } from '../interfaces/client-state'
 
 export const createResendPending = (
   sendAction: (socket: WebSocket, action: Action) => void,

@@ -1,6 +1,6 @@
 
 import { Action } from '../../core/index'
-import LoginResult from '../interfaces/login-result'
+import { LoginResult } from '../interfaces/login-result'
 import { createOnAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {

@@ -1,4 +1,4 @@
-import Member from './member'
+import { Member } from './member'
 
 export interface RoomState {
   private?: any,
@@ -6,5 +6,3 @@ export interface RoomState {
   members: {[userId: string]: Member},
   lastUpdatedAt: number
 }
-
-export default RoomState

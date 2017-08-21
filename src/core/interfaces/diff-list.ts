@@ -1,2 +1,1 @@
-type DiffList = [string, string, any][]
-export default DiffList
+export type DiffList = [string, string, any][]

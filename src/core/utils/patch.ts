@@ -1,4 +1,4 @@
-import DiffList from '../interfaces/diff-list'
+import { DiffList } from '../interfaces/diff-list'
 import { del } from './del'
 import { set } from './set'
 import { SET, DEL } from '../constants/delta-types'

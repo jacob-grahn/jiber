@@ -1,5 +1,5 @@
 import { combineReducers } from './combine-reducers'
-import Action from '../interfaces/action'
+import { Action } from '../interfaces/action'
 
 const reducer = (state: string = '', action: Action) => action.str || state
 

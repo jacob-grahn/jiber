@@ -1,5 +1,5 @@
 import { JOIN_ROOM, Action } from '../../core/index'
-import ClientState from '../interfaces/client-state'
+import { ClientState } from '../interfaces/client-state'
 
 export const createRejoinRooms = (
   sendAction: (socket: WebSocket, action: Action) => void,

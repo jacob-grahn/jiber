@@ -1,5 +1,5 @@
-import Action from '../interfaces/action'
-import Reducer from '../interfaces/reducer'
+import { Action } from '../interfaces/action'
+import { Reducer } from '../interfaces/reducer'
 import { patch } from '../utils/patch'
 import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'

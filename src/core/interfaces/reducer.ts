@@ -1,7 +1,5 @@
-import Action from './action'
+import { Action } from './action'
 
-interface Reducer {
+export interface Reducer {
   (state: any, action: Action): any
 }
-
-export default Reducer

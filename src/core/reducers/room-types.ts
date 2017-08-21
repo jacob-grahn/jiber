@@ -1,6 +1,6 @@
-import Reducer from '../interfaces/reducer'
-import Action from '../interfaces/action'
-import Dictionary from '../interfaces/dictionary'
+import { Reducer } from '../interfaces/reducer'
+import { Action } from '../interfaces/action'
+import { Dictionary } from './dictionary'
 import { ReducerObj } from './combine-reducers'
 
 export const roomTypes = (reducerObj: ReducerObj): Reducer => {
