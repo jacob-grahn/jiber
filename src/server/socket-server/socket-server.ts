@@ -15,8 +15,7 @@ export interface SocketServer {
   start: () => void,
   stop: () => void,
   sendToRoom: SendToRoom,
-  sendToUser: SendToUser,
-  onRoomChange?: (roomId: string) => void
+  sendToUser: SendToUser
 }
 
 export const createSocketServer: CreateSocketServer = (
@@ -25,8 +24,8 @@ export const createSocketServer: CreateSocketServer = (
   sendToRoom,
   sendToUser,
   socketPort
-) => {
-  let wss: WebSocket.Server|undefined
+): SocketServer => {
+  let wss: WebSocket.Server | undefined
 
   const stop = () => {
     if (!wss) return

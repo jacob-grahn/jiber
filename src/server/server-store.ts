@@ -1,3 +1,4 @@
+import * as EventEmitter from 'events'
 import { ServerSettingsInput } from './interfaces/server-settings-input'
 import { ServerStore } from './interfaces/server-store'
 import { createStore } from '../core/index'
@@ -11,17 +12,18 @@ import { defaultSettings } from './default-settings'
 export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
 ): ServerStore => {
+  const emitter = new EventEmitter()
   const settings = {...defaultSettings, ...inputSettings}
   const serverReducer = createServerReducer(settings.reducer)
   const store = createStore(serverReducer, inputSettings.initialState)
-  const socketServer = createSocketServer(store, settings)
+  const socketServer = createSocketServer(store, settings, emitter)
   const updateRoom = createUpdateRoom(store, settings, socketServer)
   const welcomeNewMembers = createWelcomeNewMembers(socketServer.sendToUser)
   const syncScheduler = createSyncScheduler(store, updateRoom, settings)
   const middleware = [welcomeNewMembers]
 
   store.setMiddleware(middleware)
-  socketServer.onRoomChange = updateRoom
+  emitter.on('ACTION_ADDED', updateRoom)
 
   return {
     ...store,
