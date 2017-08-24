@@ -6,8 +6,8 @@ export type CreateSocketServer = (
   onAuthorize: OnAuthorize,
   onConnect: OnConnect,
   socketPort: number
-) => SocketServer
-export interface SocketServer {
+) => SocketServerToggle
+export interface SocketServerToggle {
   start: () => void,
   stop: () => void
 }
@@ -16,7 +16,7 @@ export const createSocketServer: CreateSocketServer = (
   onAuthorize,
   onConnect,
   socketPort
-): SocketServer => {
+): SocketServerToggle => {
   let wss: WebSocket.Server | undefined
 
   const stop = () => {
