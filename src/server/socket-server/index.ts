@@ -32,10 +32,8 @@ export const createSocketServer = (
   const socketServer = _createSocketServer(
     onAuthorize,
     onConnect,
-    sendToRoom,
-    sendToUser,
     settings.socketPort
   )
 
-  return socketServer
+  return {...socketServer, sendToUser, sendToRoom}
 }
