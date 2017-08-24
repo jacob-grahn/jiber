@@ -4,18 +4,9 @@ import {
   INJECT_PRIVATE,
   CLEAN_PRIVATE,
   PATCH,
-  SERVER,
   diff
 } from '../../core/index'
-
-const addMetadata = (roomState: RoomState, action: Action): Action => {
-  action.$source = SERVER
-  if (!action.$userId) return action
-  const member = roomState.members[action.$userId] || {}
-  const lastActionId = member.actionId || 0
-  action.$actionId = lastActionId + 1
-  return action
-}
+import { addMetadata } from './add-metadata'
 
 export const createApplyAction = (
   dispatch: (action: Action) => void,
