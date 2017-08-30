@@ -7,14 +7,17 @@ export const createHopeSocket = (
 ) => {
   let socket: WebSocket
 
-  const connect = async () => {
-    socket = await tryToConnect()
-    socket.onmessage = onMessage
-    socket.onclose = connect                                                    // try to reconnect if the connection is lost
+  const connect = () => {
+    tryToConnect()
+    .then(_socket => {
+      socket = _socket
+      socket.onmessage = onMessage
+      socket.onclose = connect                                                  // try to reconnect if the connection is lost
+    })
+    .catch(_e => { /* do nothing */ })
   }
 
   connect()
-    .catch(() => { /* do nothing */ })
 
   return {
     send: (action: Action) => sendAction(socket, action)
