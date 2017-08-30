@@ -1,5 +1,6 @@
 import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
 import { createWelcomeNewMembers } from './welcome-new-members'
+import { SEND_TO_USER } from '../../core/constants/event-types'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
@@ -17,15 +18,17 @@ const store: any = {
     }
   }
 }
-const sendToUser = (userId: string, action: Action) => {
-  calls.push(['sendToUser', userId, action])
+const emitter: any = {
+  emit: (type: string, userId: string, action: Action) => {
+    calls.push(['emitter', type, userId, action])
+  }
 }
 const next = () => calls.push(['next'])
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const welcomeNewMembers = createWelcomeNewMembers(sendToUser)
+const welcomeNewMembers = createWelcomeNewMembers(emitter)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,11 +62,17 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
     $userId: 'user1',
     $roomId: 'room1'
   })
-  const callAction = calls[1][2]
-  expect(callAction.type).toBe(CONFIRMED_STATE)
-  expect(callAction.confirmed).toEqual('hi')
-  expect(callAction.members).toEqual(['bob', 'sally'])
-  expect(callAction.$roomId).toEqual('room1')
+  expect(calls[1]).toEqual([
+    'emitter',
+    SEND_TO_USER,
+    'user1',
+    {
+      type: CONFIRMED_STATE,
+      confirmed: 'hi',
+      members: ['bob', 'sally'],
+      $roomId: 'room1'
+    }
+  ])
 })
 
 test('non-existant rooms are ignored', () => {

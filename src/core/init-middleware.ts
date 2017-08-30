@@ -1,6 +1,6 @@
 import { Middleware } from './interfaces/middleware'
 import { Action } from './interfaces/action'
-import { Store } from './interfaces/store'
+import { Store } from './store'
 import { Next } from './interfaces/next'
 
 export const initMiddleware = (

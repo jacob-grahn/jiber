@@ -1,4 +1,4 @@
-import { Store } from '../core/index'
+import { Action, Store } from '../core/index'
 import { createSendToServer } from './middleware/send-to-server'
 import { injectMetadata } from './middleware/inject-metadata'
 import { createStore } from '../core/index'
@@ -21,18 +21,14 @@ export interface ClientStore extends Store {
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const options = {...defaultOptions, ...optionInput}
   const clientReducer = createClientReducer(options.reducer)
-  const store = createStore(clientReducer, options.initialState) as ClientStore
+  const send = (action: Action) => hopeSocket.send(action)                      // tslint:disable-line
+  const sendToServer = createSendToServer(send)
+  const middleware = [...options.middleware, sendToServer, injectMetadata]
+  const store = createStore(clientReducer, options.initialState, middleware)
   const createRoom = createCreateRoom(store)
   const clientStore: ClientStore = {...store, createRoom}
   const serverOptions = {...options, store: clientStore}
   const hopeSocket = createSocket(clientStore, serverOptions)
-  const sendToServer = createSendToServer(hopeSocket.send)
-  const clientMiddleware = [
-    ...options.middleware,
-    sendToServer,
-    injectMetadata
-  ]
-  store.setMiddleware(clientMiddleware)
 
   return clientStore
 }

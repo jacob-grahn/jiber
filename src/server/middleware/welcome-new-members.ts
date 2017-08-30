@@ -1,9 +1,9 @@
+import * as EventEmitter from 'events'
 import { Action, JOIN_ROOM, CONFIRMED_STATE, Next } from '../../core/index'
 import { ServerStore } from '../interfaces/server-store'
+import { SEND_TO_USER } from '../../core/constants/event-types'
 
-export const createWelcomeNewMembers = (
-  sendToUser: (userId: string, action: Action) => void
-) => {
+export const createWelcomeNewMembers = (emitter: EventEmitter) => {
   return (store: ServerStore) => (next: Next) => (action: Action) => {
     next(action)
 
@@ -18,9 +18,9 @@ export const createWelcomeNewMembers = (
       type: CONFIRMED_STATE,
       confirmed: room.confirmed,
       members: room.members,
-      $roomId: action.$roomId,
-      $timeMs: new Date().getTime()
+      $roomId: action.$roomId
     }
-    sendToUser(action.$userId, message)
+
+    emitter.emit(SEND_TO_USER, action.$userId, message)
   }
 }

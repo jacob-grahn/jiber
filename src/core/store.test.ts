@@ -1,4 +1,4 @@
-import { createStore } from './create-store'
+import { createStore } from './store'
 import { Reducer } from './interfaces/reducer'
 
 const nameReducer: Reducer = (state = '', action) => action.name || state

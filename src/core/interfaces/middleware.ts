@@ -1,5 +1,5 @@
 import { Action } from './action'
-import { Store } from './store'
+import { Store } from '../store'
 import { Next } from './next'
 
 export interface Middleware {

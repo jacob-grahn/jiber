@@ -1,7 +1,6 @@
-import { Action, JOIN_ROOM, CLIENT, get } from '../core/index'
-import { ClientStore } from './client-store'
+import { Action, Store, JOIN_ROOM, CLIENT, get } from '../core/index'
 
-export const createCreateRoom = (store: ClientStore) => {
+export const createCreateRoom = (store: Store) => {
   return ($roomId: string) => {
     const getRoom = () => {
       const state = store.getState()

@@ -13,16 +13,16 @@ export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
 ): ServerStore => {
   const emitter = new EventEmitter()
+  const initialState = inputSettings.initialState
   const settings = {...defaultSettings, ...inputSettings}
   const serverReducer = createServerReducer(settings.reducer)
-  const store = createStore(serverReducer, inputSettings.initialState)
+  const welcomeNewMembers = createWelcomeNewMembers(emitter)
+  const middleware = [welcomeNewMembers]
+  const store = createStore(serverReducer, initialState, middleware)
   const socketServer = createSocketServer(store, settings, emitter)
   const updateRoom = createUpdateRoom(store, settings, socketServer)
-  const welcomeNewMembers = createWelcomeNewMembers(socketServer.sendToUser)
   const syncScheduler = createSyncScheduler(store, updateRoom, settings)
-  const middleware = [welcomeNewMembers]
 
-  store.setMiddleware(middleware)
   emitter.on('ACTION_ADDED', updateRoom)
 
   return {

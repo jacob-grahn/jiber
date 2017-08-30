@@ -3,12 +3,11 @@ export * from './interfaces/middleware'
 export * from './interfaces/reducer'
 export * from './interfaces/member'
 export * from './interfaces/diff-list'
-export * from './interfaces/store'
 export * from './interfaces/room-state'
 export * from './interfaces/user-state'
 export * from './interfaces/next'
 
-export * from './create-store'
+export * from './store'
 
 export * from './reducers/allow-actions'
 export * from './reducers/combine-reducers'

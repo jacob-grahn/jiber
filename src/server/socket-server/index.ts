@@ -10,6 +10,7 @@ import { createSendToRoom, SendToRoom } from './send-to-room'
 import { createSendToSocket } from './send-to-socket'
 import { createSendToUser, SendToUser } from './send-to-user'
 import { createSocketServer as _createSocketServer } from './socket-server'
+import { SEND_TO_USER } from '../../core/constants/event-types'
 
 export interface SocketServer {
   start: () => void,
@@ -32,6 +33,8 @@ export const createSocketServer = (
   const onAuthorize = createOnAuthorize(store.dispatch, settings.onLogin)
   const onMessage = createOnMessage(store.getState, onAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
+
+  emitter.on(SEND_TO_USER, sendToUser)
 
   const socketServer = _createSocketServer(
     onAuthorize,

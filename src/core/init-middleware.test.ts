@@ -1,12 +1,11 @@
 import { initMiddleware } from './init-middleware'
 import { Action } from './interfaces/action'
 import { Middleware } from './interfaces/middleware'
-import { Store } from './interfaces/store'
+import { Store } from './store'
 
 const store: Store = {
   dispatch: () => 'do nothing',
-  getState: () => 'funstuff',
-  setMiddleware: () => 'do nothing'
+  getState: () => 'funstuff'
 }
 
 test ('middleware is given the store', () => {
