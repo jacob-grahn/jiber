@@ -17,15 +17,9 @@ export const createDictionary = (reducer: Reducer, idKey: string): Reducer => {
 
     const subState = reducer(state[id], action)
 
-    if (subState !== undefined) {
-      return {
-        ...state,
-        [id]: subState
-      }
-    } else {
-      const newState = {...state}
-      delete newState[id]
-      return newState
+    return {
+      ...state,
+      [id]: subState
     }
   }
 }
