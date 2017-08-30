@@ -1,11 +1,11 @@
 import { createSocketServer } from './index'
-import { defaultSettings } from '../default-settings'
+import { defaultServerSettings } from '../default-server-settings'
 import * as EventEmitter from 'events'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
-const settings = {...defaultSettings}
+const settings = {...defaultServerSettings}
 const store: any = {
   getState: () => { /* do nothing */ }
 }

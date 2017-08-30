@@ -6,7 +6,7 @@ import { ClientSettingsInput } from './interfaces/client-settings-input'
 import { ClientState } from './interfaces/client-state'
 import { createSocket } from './socket/index'
 import { createCreateRoom } from './create-room'
-import { defaultOptions } from './default-options'
+import { defaultClientSettings } from './default-client-settings'
 import { createClientReducer } from './client-reducer'
 
 export interface ClientStore extends Store {
@@ -19,7 +19,7 @@ export interface ClientStore extends Store {
  * and peers
  */
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
-  const options = {...defaultOptions, ...optionInput}
+  const options = {...defaultClientSettings, ...optionInput}
   const clientReducer = createClientReducer(options.reducer)
   const send = (action: Action) => hopeSocket.send(action)                      // tslint:disable-line
   const sendToServer = createSendToServer(send)

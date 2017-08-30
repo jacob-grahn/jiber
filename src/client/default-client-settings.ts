@@ -1,8 +1,7 @@
-import { simpleSetter } from '../core/index'
 import { ClientSettings } from './interfaces/client-settings'
 
-export const defaultOptions: ClientSettings = {
-  reducer: simpleSetter,
+export const defaultClientSettings: ClientSettings = {
+  reducer: (state, action) => { return {...state, ...action} },
   middleware: [],
   url: '',
   stunPort: 3478,                                                               // 5349 for TLS

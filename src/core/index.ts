@@ -11,7 +11,6 @@ export * from './store'
 
 export * from './reducers/allow-actions'
 export * from './reducers/combine-reducers'
-export * from './reducers/simple-setter'
 export * from './reducers/dictionary'
 export * from './reducers/last-updated-at'
 export * from './reducers/confirmed'

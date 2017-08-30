@@ -7,14 +7,14 @@ import { createServerReducer } from './reducers/server-reducer'
 import { createUpdateRoom } from './update-room/index'
 import { createWelcomeNewMembers } from './middleware/welcome-new-members'
 import { createSyncScheduler } from './sync-scheduler/index'
-import { defaultSettings } from './default-settings'
+import { defaultServerSettings } from './default-server-settings'
 
 export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
 ): ServerStore => {
   const emitter = new EventEmitter()
   const initialState = inputSettings.initialState
-  const settings = {...defaultSettings, ...inputSettings}
+  const settings = {...defaultServerSettings, ...inputSettings}
   const serverReducer = createServerReducer(settings.reducer)
   const welcomeNewMembers = createWelcomeNewMembers(emitter)
   const middleware = [welcomeNewMembers]
