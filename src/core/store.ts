@@ -8,6 +8,10 @@ export interface Store {
   dispatch: {(action: Action): any},
 }
 
+/**
+ * A store holds sate, and provides an interface to dispatch actions that
+ * act on that state
+ */
 export const createStore = (
   reducer: Reducer,
   initialState: any = undefined,

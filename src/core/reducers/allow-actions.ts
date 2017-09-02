@@ -1,6 +1,9 @@
 import { Reducer } from '../interfaces/reducer'
 import { Action } from '../interfaces/action'
 
+/**
+ * Whitelist of actions to allow through to the subReducer
+ */
 export const createAllowActions = (
   subReducer: Reducer,
   allowedActions: string[]

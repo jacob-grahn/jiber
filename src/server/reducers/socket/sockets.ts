@@ -8,6 +8,9 @@ import {
 } from '../../../core/index'
 import { socket } from './socket'
 
+/**
+ * Dictionary to look up sockets by id
+ */
 const dictionary = createDictionary(socket, 'socketId')
 
 export const sockets = createAllowActions(

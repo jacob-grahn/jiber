@@ -4,6 +4,9 @@ import { patch } from '../utils/patch'
 import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
 
+/**
+ * State that has been confirmed by the SERVER
+ */
 export const createConfirmed = (subReducer: Reducer): Reducer => {
   return (state: any = undefined, action: Action): any => {
     switch (action.type) {

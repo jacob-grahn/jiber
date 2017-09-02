@@ -13,6 +13,9 @@ export interface MembersState {
   [userId: string]: {actionId: number}
 }
 
+/**
+ * Keep track of a user who has joined this room
+ */
 const member = (
   state: {actionId: number}|undefined = undefined,
   action: Action

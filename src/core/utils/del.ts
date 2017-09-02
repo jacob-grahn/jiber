@@ -1,6 +1,9 @@
 import { get } from './get'
 import { set } from './set'
 
+/**
+ * remove a key from a collection
+ */
 export const del = (obj: any, path: string|string[] = ''): any => {
   if (!path) return undefined
   if (!Array.isArray(path)) path = path.split('.')

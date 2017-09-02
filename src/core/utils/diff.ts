@@ -1,6 +1,9 @@
 import { DiffList } from '../interfaces/diff-list'
 import { SET, DEL } from '../constants/delta-types'
 
+/**
+ * Create a list of differences between two collections
+ */
 export const diff = (
   left: any,
   right: any,

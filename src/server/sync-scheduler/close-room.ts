@@ -1,3 +1,6 @@
+/**
+ * todo: is this really needed?
+ */
 import { Action, CLOSE_ROOM } from '../../core/index'
 
 export const createCloseRoom = (

@@ -19,6 +19,9 @@ export interface SocketServer {
   sendToRoom: SendToRoom
 }
 
+/**
+ * Odd manual dependency injection
+ */
 export const createSocketServer = (
   store: Store,
   settings: ServerSettings,

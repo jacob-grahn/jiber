@@ -11,6 +11,10 @@ import {
   createConfirmed
 } from '../../core/index'
 
+/**
+ * A server room stores confirmedState, who is a member, and when
+ * the last update was
+ */
 export const createServerRoom = (subReducer: Reducer): Reducer => {
   const confirmed = createConfirmed(subReducer)
   const coreReducer = combineReducers({

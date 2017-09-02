@@ -3,6 +3,9 @@ import { Action, JOIN_ROOM, CONFIRMED_STATE, Next } from '../../core/index'
 import { ServerStore } from '../interfaces/server-store'
 import { SEND_TO_USER } from '../../core/constants/event-types'
 
+/**
+ * When a user joins a room, send them the current state of that room
+ */
 export const createWelcomeNewMembers = (emitter: EventEmitter) => {
   return (store: ServerStore) => (next: Next) => (action: Action) => {
     next(action)

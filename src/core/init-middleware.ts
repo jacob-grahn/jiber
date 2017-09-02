@@ -3,6 +3,9 @@ import { Action } from './interfaces/action'
 import { Store } from './store'
 import { Next } from './interfaces/next'
 
+/**
+ * Chain a bunch of middleware together
+ */
 export const initMiddleware = (
   middlewares: Middleware[],
   store: Store,

@@ -2,7 +2,9 @@ import { Action } from '../interfaces/action'
 import { UserState } from '../interfaces/user-state'
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
 
-// Reducer
+/**
+ * Keep track of the users that are connected to the server
+ */
 export const user = (
   state: UserState = {userId: ''},
   action: Action

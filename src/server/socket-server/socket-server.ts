@@ -12,6 +12,9 @@ export interface SocketServerToggle {
   stop: () => void
 }
 
+/**
+ * Listen for incoming user actions
+ */
 export const createSocketServer: CreateSocketServer = (
   onAuthorize,
   onConnect,

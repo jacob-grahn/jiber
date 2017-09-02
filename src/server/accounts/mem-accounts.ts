@@ -14,7 +14,10 @@ const randStr = (len: number) => {
   return str
 }
 
-// Dummy account system that gives every login request a new accountId
+/**
+ * Dummy account system that gives every login request a new accountId
+ * todo: split out these other functions
+ */
 export const memAccounts = async (): Promise<LoginResult> => {
   return {userId: randStr(12)}
 }
