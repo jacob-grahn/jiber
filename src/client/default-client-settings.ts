@@ -1,5 +1,8 @@
 import { ClientSettings } from './interfaces/client-settings'
 
+/**
+ * Default settings
+ */
 export const defaultClientSettings: ClientSettings = {
   reducer: (state, action) => { return {...state, ...action} },
   middleware: [],

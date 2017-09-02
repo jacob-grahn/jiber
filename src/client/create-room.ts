@@ -1,5 +1,8 @@
 import { Action, Store, JOIN_ROOM, CLIENT, get } from '../core/index'
 
+/**
+ * Create a room interface to make some code more convinient
+ */
 export const createCreateRoom = (store: Store) => {
   return ($roomId: string) => {
     const getRoom = () => {

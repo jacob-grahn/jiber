@@ -1,5 +1,8 @@
 import { ClientSettings } from '../interfaces/client-settings'
 
+/**
+ * Try to create a connection to the server
+ */
 export const createTryToConnect = (
   createWebSocket: (url: string, credential: string) => WebSocket,
   {url, socketPort, credential, backoffMs}: ClientSettings

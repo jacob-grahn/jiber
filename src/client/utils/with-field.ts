@@ -1,4 +1,6 @@
-// Return objects that match a specified field
+/**
+ * Return objects that match a specified field
+ */
 export const withField = (
   list: any[],
   key: string,

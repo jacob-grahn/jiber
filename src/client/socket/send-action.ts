@@ -1,5 +1,8 @@
 import { Action } from '../../core/index'
 
+/**
+ * Send an action to the server
+ */
 export const sendAction = (socket: WebSocket, action: Action): void => {
   if (!action || !action.$roomId) return
   if (!socket || socket.readyState !== socket.OPEN) return
