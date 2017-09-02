@@ -56,6 +56,11 @@ const withoutUser = (actions: Action[], userId: string): Action[] => {
   return actions.filter(action => action.$userId !== userId)
 }
 
+/**
+ * Keep optimistic actions that have not been confirmed by the server yet
+ * todo: this state2 state3 bit needs to be improved
+ * todo: there are too many functions in this file
+ */
 export const optimisticActions = (
   state: Action[] = [],
   action: Action

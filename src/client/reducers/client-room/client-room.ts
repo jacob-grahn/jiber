@@ -18,7 +18,11 @@ const defaultState: ClientRoomState = {
   lastUpdatedAt: 0
 }
 
-// Reducer
+/**
+ * An overcomplicated reducer that calculates a confirmed state,
+ * then uses the confirmed state to calculate an optimistic state
+ * todo: find a simpler way to do this?
+ */
 export const createClientRoom = (subReducer: Reducer): Reducer => {
   const intermediateReducer = combineReducers({
     members,

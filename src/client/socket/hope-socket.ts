@@ -1,5 +1,10 @@
 import { Action } from '../../core/index'
 
+/**
+ * Create an always retrying socket connection
+ * Handle incoming messages with onMessage
+ * todo: passing in sendAction is a little odd
+ */
 export const createHopeSocket = (
   tryToConnect: () => Promise<WebSocket>,
   onMessage: (event: MessageEvent) => void,

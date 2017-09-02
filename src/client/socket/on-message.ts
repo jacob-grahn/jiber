@@ -1,5 +1,8 @@
 import { Action, SERVER } from '../../core/index'
 
+/**
+ * Send incoming actions to the reducer
+ */
 export const createOnMessage = (
   dispatch: (action: Action) => void,
   actionHandler: (socket: WebSocket, action: Action) => void

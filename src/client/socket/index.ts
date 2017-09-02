@@ -10,6 +10,9 @@ import { sendAction } from './send-action'
 import { createTryToConnect } from './try-to-connect'
 import { Action } from '../../core/index'
 
+/**
+ * Some odd manual dependency injection
+ */
 export const createSocket = (store: ClientStore, settings: ClientSettings) => {
   const resendPending = createResendPending(sendAction, store.getState)
   const rejoinRooms = createRejoinRooms(sendAction, store.getState)

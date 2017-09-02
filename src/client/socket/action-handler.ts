@@ -1,10 +1,19 @@
 import { Action, CONFIRMED_STATE, LOGIN_RESULT } from '../../core/index'
 
-export const createActionHandler = (
+export type CreateActionHandler = (
   rejoinRooms: (socket: WebSocket) => void,
   resendPending: (socket: WebSocket, roomId: string) => void
+) => ActionHandler
+export type ActionHandler = (socket: WebSocket, action: Action) => void
+
+/**
+ * Trigger special behaviors for certain actions from the server
+ */
+export const createActionHandler: CreateActionHandler = (
+  rejoinRooms,
+  resendPending
 ) => {
-  return (socket: WebSocket, action: Action): void => {
+  return (socket, action): void => {
     if (action.type === LOGIN_RESULT) {
       rejoinRooms(socket)
     }
