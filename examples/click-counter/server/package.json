@@ -1,0 +1,14 @@
+{
+  "name": "click-counter-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "dependencies": {
+    "rejibe-server": "file:..\\..\\..\\dist\\server"
+  }
+}

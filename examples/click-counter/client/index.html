@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Click Counter</title>
+    <script src="../../../dist/client/rejibe-client.bundle.js"></script>
+  </head>
+  <body style="padding: 48px; font-size: 48px;">
+    <script>
+
+      // Count how many times the screen is clicked
+      // This reducer function should be the same on the client and server
+      const clickCounter = (state = 0, action) => {
+        switch (action.type) {
+          case 'CLICK':
+            return state + 1
+          default:
+            return state
+        }
+      }
+
+      // Pass our custom app logic to rejibe
+      const store = $rejibe.createStore({url: 'localhost', reducer: clickCounter})
+
+      // Pick a room to join
+      const room = store.createRoom('room1')
+
+      // Display the click count on the screen
+      room.subscribe(() => {
+        document.body.innerHTML = `There have been ${room.getState()} clicks!`
+      })
+
+      // click handler
+      window.onclick = () => room.dispatch({type: 'CLICK'})
+
+    </script>
+  </body>
+</html>
