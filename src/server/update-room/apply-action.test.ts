@@ -39,7 +39,7 @@ test('quick apply an action and send it out to room members', () => {
 })
 
 test('raw apply an action and send it out to room members', () => {
-  const action = {type: 'hope/hi', $roomId: 'room1'}
+  const action = {type: 'hi', $roomId: 'room1'}
   applyAction(action)
   expect(calls).toEqual([
     ['dispatch', action],

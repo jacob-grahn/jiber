@@ -1,5 +1,5 @@
 import { Action } from '../../core/index'
-import { createHopeSocket } from './hope-socket'
+import { createTrySocket } from './try-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
@@ -14,10 +14,10 @@ const sendAction = (socket: WebSocket, action: Action) => {
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const hopeSocket = createHopeSocket(tryToConnect, onMessage, sendAction)
+const socket = createTrySocket(tryToConnect, onMessage, sendAction)
 beforeEach(() => calls = [])
 
 it('socket.send should call sendAction', () => {
-  hopeSocket.send({type: 'hi'})
+  socket.send({type: 'hi'})
   expect(calls).toEqual([['fakesocket', {type: 'hi'}]])
 })

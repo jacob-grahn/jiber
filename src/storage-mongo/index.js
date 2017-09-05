@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const settings = {
-  mongoUrl: 'mongodb://localhost:27017/hopetest',
+  mongoUrl: 'mongodb://localhost:27017/rejibetest',
   mongoActionCollection: 'actions',
   mongoRoomCollection: 'rooms'
 }
@@ -23,8 +23,8 @@ function toPromise () {
 async function pushAction (roomId, action) {
   const db = await getDb()
   const collection = db.collection(settings.mongoActionCollection)
-  action._hopeRoomId = action.$roomId
-  action._hopeUserId = action.$userId
+  action._rejibeRoomId = action.$roomId
+  action._rejibeUserId = action.$userId
   delete action.$roomId
   delete action.$userId
   delete action.$timeMs
@@ -36,7 +36,7 @@ async function pushAction (roomId, action) {
     collection,
     'update',
     {_id: {$lt: 0}},
-    {$set: action, $currentDate: {'_hopeDate': true}},
+    {$set: action, $currentDate: {'_rejibeDate': true}},
     {upsert: true}
   )
 }
@@ -47,16 +47,16 @@ async function fetchActions (roomId, minTimeMs) {
   const actionCursor = await toPromise(
     collection,
     'find',
-    {_hopeDate: {$gt: new Date(minTimeMs)}}
+    {_rejibeDate: {$gt: new Date(minTimeMs)}}
   )
   const actions = await actionCursor.toArray()
   const parsedActions = actions.map(action => {
-    action.$userId = action._hopeUserId
-    action.$roomId = action._hopeRoomId
-    action.$timeMs = new Date(action._hopeDate).getTime()
-    delete action._hopeUserId
-    delete action._hopeRoomId
-    delete action._hopeDate
+    action.$userId = action._rejibeUserId
+    action.$roomId = action._rejibeRoomId
+    action.$timeMs = new Date(action._rejibeDate).getTime()
+    delete action._rejibeUserId
+    delete action._rejibeRoomId
+    delete action._rejibeDate
     delete action._id
     return action
   })
@@ -69,7 +69,7 @@ async function removeActions (roomId, minTimeMs) {
   await toPromise(
     collection,
     'removeMany',
-    {_hopeDate: {$lte: new Date(minTimeMs)}}
+    {_rejibeDate: {$lte: new Date(minTimeMs)}}
   )
 }
 

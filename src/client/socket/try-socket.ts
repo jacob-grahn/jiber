@@ -5,7 +5,7 @@ import { Action } from '../../core/index'
  * Handle incoming messages with onMessage
  * todo: passing in sendAction is a little odd
  */
-export const createHopeSocket = (
+export const createTrySocket = (
   tryToConnect: () => Promise<WebSocket>,
   onMessage: (event: MessageEvent) => void,
   sendAction: (socket: WebSocket, action: Action) => void

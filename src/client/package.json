@@ -1,7 +1,7 @@
 {
-  "name": "hope-client",
+  "name": "rejibe-client",
   "version": "0.0.1",
-  "description": "Hopefully synced data store",
+  "description": "Synced data store",
   "main": "client/index.js",
   "module": "client/index.js",
   "typings": "client/index.d.ts",

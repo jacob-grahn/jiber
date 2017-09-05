@@ -1,7 +1,7 @@
 {
-  "name": "hope-monolith",
+  "name": "rejibe-monolith",
   "version": "0.0.1",
-  "description": "Hopefully synced data store",
+  "description": "Synced data store",
   "main": "dist/server/index.js",
   "scripts": {
     "test": "jest src",
@@ -9,8 +9,8 @@
     "build-client": "npm run compile-client && npm run package-client && npm run bundle-client && npm run compress-client",
     "compile-client": "tsc -p tsconfig.client.json",
     "package-client": "cp src/client/package.json dist/client/package.json",
-    "bundle-client": "rollup -n $hopeful -o dist/client/hope-client.bundle.js -f iife dist/client/client/index.js",
-    "compress-client": "uglifyjs -c -m -o dist/client/hope-client.bundle.min.js dist/client/hope-client.bundle.js",
+    "bundle-client": "rollup -n $rejibe -o dist/client/rejibe-client.bundle.js -f iife dist/client/client/index.js",
+    "compress-client": "uglifyjs -c -m -o dist/client/rejibe-client.bundle.min.js dist/client/rejibe-client.bundle.js",
     "build-server": "tsc -p tsconfig.server.json && cp src/server/package.json dist/server/package.json",
     "lint": "tslint -p tsconfig.json --type-check"
   },

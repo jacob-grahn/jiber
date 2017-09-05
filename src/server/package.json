@@ -1,7 +1,7 @@
 {
-  "name": "hopeful-server",
+  "name": "rejibe-server",
   "version": "0.0.1",
-  "description": "Hopefully synced data store",
+  "description": "Synced data store",
   "main": "server/index.js",
   "typings": "server/index.d.ts",
   "scripts": {},

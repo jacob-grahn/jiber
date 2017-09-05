@@ -9,6 +9,6 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "dependencies": {
-    "hope-server": "file:..\\..\\..\\dist\\server"
+    "rejibe-server": "file:..\\..\\..\\dist\\server"
   }
 }

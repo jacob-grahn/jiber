@@ -21,14 +21,14 @@ export interface ClientStore extends Store {
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const options = {...defaultClientSettings, ...optionInput}
   const clientReducer = createClientReducer(options.reducer)
-  const send = (action: Action) => hopeSocket.send(action)                      // tslint:disable-line
+  const send = (action: Action) => socket.send(action)                          // tslint:disable-line
   const sendToServer = createSendToServer(send)
   const middleware = [...options.middleware, sendToServer, injectMetadata]
   const store = createStore(clientReducer, options.initialState, middleware)
   const createRoom = createCreateRoom(store)
   const clientStore: ClientStore = {...store, createRoom}
   const serverOptions = {...options, store: clientStore}
-  const hopeSocket = createSocket(clientStore, serverOptions)
+  const socket = createSocket(clientStore, serverOptions)
 
   return clientStore
 }

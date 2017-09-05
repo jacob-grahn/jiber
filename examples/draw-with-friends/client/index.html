@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Draw With Friends</title>
-    <script src="../../../dist/client/hope-client.bundle.js"></script>
+    <script src="../../../dist/client/rejibe-client.bundle.js"></script>
   </head>
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
@@ -14,7 +14,7 @@
       // INIT: create a room to sync our masterful drawing
       //////////////////////////////////////////////////////////////////////////
       const scale = 5                                                           // each 'pixel' is actually a 5px by 5px square
-      const store = $hopeful.createStore({url: 'localhost'})                    // $hopeful is a global variable when hope-client.bundle.js is loaded
+      const store = $rejibe.createStore({url: 'localhost'})                     // $rejibe is a global variable when rejibe-client.bundle.js is loaded
       const room = store.createRoom('room1')
       const canvas = document.getElementById('line-canvas')
       const ctx = canvas.getContext('2d')

@@ -2,6 +2,7 @@ import { Action } from './interfaces/action'
 import { Reducer } from './interfaces/reducer'
 import { Middleware } from './interfaces/middleware'
 import { initMiddleware } from './init-middleware'
+import { INIT_SOCKET } from './constants/action-types'
 
 export interface Store {
   getState: () => any,
@@ -41,7 +42,7 @@ export const createStore = (
   }
 
   setMiddleware(middlewares)
-  dispatch({type: 'hope/INIT_SOCKET'})                                          // initialize reducer with it's default state
+  dispatch({type: INIT_SOCKET})                                                 // initialize reducer with it's default state
 
   return {dispatch, getState}
 }

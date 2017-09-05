@@ -1,6 +1,6 @@
 /**
-* Store room data in memory
-*/
+ * Store room data in memory
+ */
 
 import { Action, RoomState } from '../../core/index'
 

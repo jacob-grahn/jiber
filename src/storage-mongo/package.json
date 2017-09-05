@@ -1,7 +1,7 @@
 {
-  "name": "hopeful-storage-mongo",
+  "name": "rejibe-storage-mongo",
   "version": "0.0.1",
-  "description": "Mongo backend for HopefulJS",
+  "description": "Mongo backend for Rejibe",
   "main": "index.js",
   "scripts": {},
   "author": "Jacob Grahn",

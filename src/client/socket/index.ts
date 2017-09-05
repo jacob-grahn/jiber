@@ -1,6 +1,6 @@
 import { ClientStore } from '../client-store'
 import { ClientSettings } from '../interfaces/client-settings'
-import { createHopeSocket } from './hope-socket'
+import { createTrySocket } from './try-socket'
 import { createOnMessage } from './on-message'
 import { createActionHandler } from './action-handler'
 import { createWebSocket } from './create-web-socket'
@@ -19,8 +19,8 @@ export const createSocket = (store: ClientStore, settings: ClientSettings) => {
   const actionHandler = createActionHandler(rejoinRooms, resendPending)
   const tryToConnect = createTryToConnect(createWebSocket, settings)
   const onMessage = createOnMessage(store.dispatch, actionHandler)
-  const hopeSocket = createHopeSocket(tryToConnect, onMessage, sendAction)
-  return hopeSocket
+  const socket = createTrySocket(tryToConnect, onMessage, sendAction)
+  return socket
 }
 
 export { Action }                                                               // TS4058: make the compiler happy
