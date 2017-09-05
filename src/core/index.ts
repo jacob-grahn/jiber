@@ -24,6 +24,7 @@ export * from './utils/diff'
 export * from './utils/get'
 export * from './utils/patch'
 export * from './utils/set'
+export * from './utils/subscription'
 
 export * from './constants/action-types'
 export * from './constants/source-types'

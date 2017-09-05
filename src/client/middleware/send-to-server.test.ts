@@ -9,7 +9,7 @@ const next = () => nextCalledWith.push('next')
 const store = {
   getState: () => undefined,
   dispatch: (_action: any) => undefined,
-  setMiddleware: (_middleware: any) => undefined
+  subscribe: () => () => 'do nothing'
 }
 const sendToServer: Middleware = createSendToServer(send)
 

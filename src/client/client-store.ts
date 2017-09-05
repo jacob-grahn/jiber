@@ -5,7 +5,7 @@ import { createStore } from '../core/index'
 import { ClientSettingsInput } from './interfaces/client-settings-input'
 import { ClientState } from './interfaces/client-state'
 import { createSocket } from './socket/index'
-import { createCreateRoom } from './create-room'
+import { createCreateRoom } from './room'
 import { defaultClientSettings } from './default-client-settings'
 import { createClientReducer } from './client-reducer'
 

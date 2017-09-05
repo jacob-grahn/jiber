@@ -1,5 +1,5 @@
 import { CLIENT, JOIN_ROOM } from '../core/index'
-import { createCreateRoom } from './create-room'
+import { createCreateRoom } from './room'
 
 let dispatchCalledWith: any[] = []
 const store = {
@@ -15,7 +15,7 @@ const store = {
       lastUpdatedAt: 0
     }
   },
-  setMiddleware: () => { /* do nothing */ }
+  subscribe: () => () => 'do nothing'
 } as any
 
 beforeEach(() => {

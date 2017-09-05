@@ -1,3 +1,5 @@
+// todo: I think it would look nicer of onLogin was just login
+
 import { memStorage } from './storage/mem-storage'
 import { memAccounts } from './accounts/mem-accounts'
 import { ServerSettings } from './interfaces/server-settings'

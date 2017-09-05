@@ -5,7 +5,8 @@ import { Store } from './store'
 
 const store: Store = {
   dispatch: () => 'do nothing',
-  getState: () => 'funstuff'
+  getState: () => 'funstuff',
+  subscribe: () => () => 'do nothing'
 }
 
 test ('middleware is given the store', () => {

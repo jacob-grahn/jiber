@@ -50,7 +50,7 @@
               credential: name
             })
             const room = store.createRoom('room1')
-            store.subscribe(() => this.winner = room.getState())
+            room.subscribe(() => this.winner = room.getState())
             this.room = room
           },
           win () {

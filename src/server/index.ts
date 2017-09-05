@@ -1,1 +1,1 @@
-export * from './server-store'
+export { createServerStore as createStore } from './server-store'

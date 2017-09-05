@@ -1,10 +1,26 @@
-import { Action, Store, JOIN_ROOM, CLIENT, get } from '../core/index'
+import {
+  Action,
+  Store,
+  JOIN_ROOM,
+  CLIENT,
+  get,
+  createSubscription
+} from '../core/index'
 
 /**
  * Create a room interface to make some code more convinient
  */
 export const createCreateRoom = (store: Store) => {
   return ($roomId: string) => {
+
+    // subscribe to events that target this room
+    const subscription = createSubscription()
+    store.subscribe((action: Action) => {
+      if (action.$roomId === $roomId) {
+        subscription.publish(action)
+      }
+    })
+
     const getRoom = () => {
       const state = store.getState()
       const roomState = state.rooms[$roomId]
@@ -23,7 +39,8 @@ export const createCreateRoom = (store: Store) => {
     return {
       dispatch,
       getState,
-      getConfirmedState
+      getConfirmedState,
+      subscribe: subscription.subscribe
     }
   }
 }
