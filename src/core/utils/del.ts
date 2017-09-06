@@ -3,6 +3,7 @@ import { set } from './set'
 
 /**
  * remove a key from a collection
+ * todo: would it be so bad if this was replaced with set(obj, path, undefined)?
  */
 export const del = (obj: any, path: string|string[] = ''): any => {
   if (!path) return undefined

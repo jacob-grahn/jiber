@@ -1,10 +1,11 @@
 import { ClientSettings } from './interfaces/client-settings'
+import { swiss } from '../core/index'
 
 /**
  * Default settings
  */
 export const defaultClientSettings: ClientSettings = {
-  reducer: (state, action) => { return {...state, ...action} },
+  reducer: swiss,
   middleware: [],
   url: '',
   stunPort: 3478,                                                               // 5349 for TLS
