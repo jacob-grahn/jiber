@@ -16,7 +16,7 @@ export * from './reducers/last-updated-at'
 export * from './reducers/confirmed'
 export * from './reducers/members'
 export * from './reducers/room-types'
-export * from './reducers/swiss'
+export * from './swiss/swiss'
 export * from './reducers/user'
 export * from './reducers/users'
 

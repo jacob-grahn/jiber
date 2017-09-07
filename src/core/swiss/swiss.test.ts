@@ -35,9 +35,9 @@ test(SUBTRACT, () => {
 })
 
 test(PUSH, () => {
-  const state = {booksRead: false}
-  const action = {type: PUSH, path: 'booksRead', value: ['Batman', 'Catman']}
-  expect(swiss(state, action)).toEqual({booksRead: [false, 'Batman', 'Catman']})
+  const state = {peeps: ['Antman', 'Batman']}
+  const action = {type: PUSH, path: 'peeps', value: ['Catman', 'Datman']}
+  expect(swiss(state, action)).toEqual({peeps: ['Antman', 'Batman', 'Catman', 'Datman']})
 })
 
 test(POP, () => {
