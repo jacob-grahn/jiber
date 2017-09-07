@@ -1,6 +1,5 @@
 
 import { Action } from '../../core/index'
-import { LoginResult } from '../interfaces/login-result'
 import { createOnAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {
@@ -8,7 +7,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
   const dispatch = (_action: Action) => { /* do nothing */ }
   const loginRequestHandler = async (credential: any) => {
     receivedCredential = credential
-    const result: LoginResult = {userId: ''}
+    const result = {userId: ''}
     return result
   }
   const cb = (_result: boolean) => { /* do nothing */ }

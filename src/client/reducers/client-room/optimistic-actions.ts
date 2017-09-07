@@ -1,6 +1,6 @@
 import {
   Action,
-  Member,
+  UserDict,
   CONFIRMED_STATE,
   LEAVE_ROOM,
   SERVER
@@ -20,7 +20,7 @@ const claimActions = (
 // Remove actions that have the same userId, and a lesser or equal actionId
 const pruneActions = (
   actions: Action[],
-  members: {[userId: string]: Member}
+  members: UserDict
 ): Action[] => {
   return actions.filter(action => {
     if (!action) return false
@@ -32,7 +32,7 @@ const pruneActions = (
     }
 
     const member = members[userId]
-    if (member && member.actionId >= actionId) {                                // remove if a newer or equal action has been confirmed
+    if (member && (member.actionId || 0) >= actionId) {                         // remove if a newer or equal action has been confirmed
       return false
     }
 
@@ -79,7 +79,7 @@ export const optimisticActions = (
         const userId = action.$userId
         const actionId = action.$actionId
         if (!userId || !actionId) return state
-        return pruneActions(state, {[userId]: {actionId}})
+        return pruneActions(state, {[userId]: {userId, actionId}})
       }
       return [...state, action]
   }

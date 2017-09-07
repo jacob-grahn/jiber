@@ -1,14 +1,14 @@
 import { Action } from '../interfaces/action'
-import { UserState } from '../interfaces/user-state'
+import { User } from '../interfaces/user'
 import { ADD_USER, REMOVE_USER } from '../constants/action-types'
 
 /**
  * Keep track of the users that are connected to the server
  */
 export const user = (
-  state: UserState = {userId: ''},
+  state: User = {userId: ''},
   action: Action
-): UserState => {
+): User => {
   switch (action.type) {
     case ADD_USER:
       return action.user

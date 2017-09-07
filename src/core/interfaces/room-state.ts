@@ -1,8 +1,8 @@
-import { Member } from './member'
+import { UserDict } from './user-dict'
 
 export interface RoomState {
   private?: any,
   confirmed: any,
-  members: {[userId: string]: Member},
+  members: UserDict,
   lastUpdatedAt: number
 }

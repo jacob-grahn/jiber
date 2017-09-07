@@ -1,4 +1,5 @@
 import { Action } from '../interfaces/action'
+import { UserDict } from '../interfaces/user-dict'
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
@@ -8,10 +9,6 @@ import {
 import { SERVER } from '../constants/source-types'
 import { patch } from '../utils/patch'
 import { createDictionary } from './dictionary'
-
-export interface MembersState {
-  [userId: string]: {actionId: number}
-}
 
 /**
  * Keep track of a user who has joined this room
@@ -39,9 +36,9 @@ const member = (
 const memberDict = createDictionary(member, '$userId')
 
 export const members = (
-  state: MembersState = {},
+  state: UserDict = {},
   action: Action
-): MembersState => {
+): UserDict => {
   switch (action.type) {
     case CONFIRMED_STATE:
       return action.members

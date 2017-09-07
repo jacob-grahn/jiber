@@ -1,11 +1,11 @@
 export * from './interfaces/action'
 export * from './interfaces/middleware'
 export * from './interfaces/reducer'
-export * from './interfaces/member'
 export * from './interfaces/diff-list'
 export * from './interfaces/room-state'
-export * from './interfaces/user-state'
 export * from './interfaces/next'
+export * from './interfaces/user-dict'
+export * from './interfaces/user'
 
 export * from './store'
 

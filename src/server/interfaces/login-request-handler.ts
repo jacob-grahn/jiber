@@ -1,6 +1,3 @@
-import { Action } from '../../core/index'
-import { LoginResult } from './login-result'
+import { Action, User } from '../../core/index'
 
-export interface LoginRequestHandler {
-  (action: Action): Promise<LoginResult>|LoginResult
-}
+export type LoginRequestHandler = (action: Action) => Promise<User>

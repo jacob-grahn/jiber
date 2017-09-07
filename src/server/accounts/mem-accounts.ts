@@ -1,4 +1,4 @@
-import { LoginResult } from '../interfaces/login-result'
+import { User } from '../../core/index'
 
 const randChar = () => {
   const chars = '0123456789abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -18,6 +18,10 @@ const randStr = (len: number) => {
  * Dummy account system that gives every login request a new accountId
  * todo: split out these other functions
  */
-export const memAccounts = async (): Promise<LoginResult> => {
-  return {userId: randStr(12)}
+export const memAccounts = async (): Promise<User> => {
+  return {
+    userId: randStr(12),
+    grantRead: [''],
+    grantWrite: ['']
+  }
 }

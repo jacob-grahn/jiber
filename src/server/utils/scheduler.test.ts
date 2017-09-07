@@ -24,7 +24,7 @@ test('should keep running the function until stop is called', async () => {
 
   await sleep(100)
   expect(callCount).toBeGreaterThan(9)
-  expect(callCount).toBeLessThan(11)
+  expect(callCount).toBeLessThan(15)
   const savedCallCount = callCount
   scheduler.stop()
 

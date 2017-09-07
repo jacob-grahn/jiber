@@ -15,8 +15,7 @@ export const createSendToUser: CreateSendToUser = (getState, sendToSocket) => {
   return (userId, action) => {
     const state = getState()
     const user = state.users[userId]
-    if (!user) return
-    const socketId = user.socketId
-    sendToSocket(socketId, action)
+    if (!user || !user.socketId) return
+    sendToSocket(user.socketId, action)
   }
 }

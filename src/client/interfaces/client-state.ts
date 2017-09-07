@@ -1,15 +1,13 @@
-import { UserState } from '../../core/index'
+import { UserDict, User } from '../../core/index'
 import { ClientRoomState } from './client-room-state'
 
 /**
  * Overview of what state the client will store
  */
 export interface ClientState {
-  users: {
-    [userId: string]: UserState
-  },
+  users: UserDict,
   rooms: {
     [roomId: string]: ClientRoomState
   },
-  me: UserState
+  me: User
 }

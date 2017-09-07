@@ -1,7 +1,9 @@
+import { User } from './user'
+
 export interface Action {
   type: string,
   $roomId?: string,
-  $userId?: string,
+  $user?: User,
   $actionId?: number,
   $timeMs?: number,
   $source?: string

@@ -7,14 +7,14 @@ test('set $source to SERVER', () => {
     confirmed: {},
     lastUpdatedAt: 0
   }
-  const action = {type: 'yay'}
+  const action = {type: 'yay', $userId: 'link'}
   const metaAction = addMetadata(roomState, action)
   expect(metaAction.$source).toBe(SERVER)
 })
 
 test('add actionId', () => {
   const roomState = {
-    members: {zelda: {actionId: 4}},
+    members: {zelda: {userId: 'zelda', actionId: 4}},
     confirmed: {},
     lastUpdatedAt: 0
   }

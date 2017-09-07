@@ -1,13 +1,13 @@
-import { Action, UserState, LOGIN_RESULT } from '../../core/index'
+import { Action, User, LOGIN_RESULT } from '../../core/index'
 
 /**
  * Keep track of the currently logged in userId
  * todo: maybe reuse the user reducer
  */
 export const me = (
-  state: UserState = {userId: ''},
+  state: User = {userId: ''},
   action: Action
-): UserState => {
+): User => {
   switch (action.type) {
     case LOGIN_RESULT:
       return action.user

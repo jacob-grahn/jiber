@@ -15,11 +15,17 @@ export const injectMetadata: Middleware = (store: Store) => {
     const roomId = action.$roomId
     const state = store.getState()
     const roomState = state.rooms[roomId]
+    if (!roomState) {
+      return next(action)
+    }
+
     const userId = state.me.userId
+    const user = roomState.members[userId]
+
     const metaAction = {
       ...action,
       $actionId: nextActionId(userId, roomState),
-      $userId: userId,
+      $user: user,
       $timeMs: new Date().getTime()
     }
 

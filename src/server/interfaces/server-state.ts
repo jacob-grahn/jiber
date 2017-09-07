@@ -1,4 +1,4 @@
-import { RoomState } from '../../core/index'
+import { RoomState, UserDict } from '../../core/index'
 import * as ws from 'ws'
 
 export interface ServerState {
@@ -9,13 +9,7 @@ export interface ServerState {
       userId: string
     }
   },
-  users: {
-    [userId: string]: {
-      socketId: string,
-      public: {userId: string, [key: string]: any},
-      private: any
-    }
-  },
+  users: UserDict,
   rooms: {
     [roomId: string]: RoomState
   }

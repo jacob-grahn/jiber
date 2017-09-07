@@ -18,10 +18,10 @@ const store = {
 const final = (action: Action) => lastAction = action
 const inner = injectMetadata(store)(final)
 
-test('$userId is added to the metadata', () => {
+test('$user is added to the metadata', () => {
   const action: Action = {type: 'test', $roomId: 'testRoom'}
   inner(action)
-  expect(lastAction.$userId).toEqual('bob')
+  expect(lastAction.$user).toEqual({actionId: 5})
 })
 
 test('actionId is added to the metadata', () => {

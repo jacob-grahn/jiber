@@ -18,6 +18,12 @@ test('regex tests', () => {
   expect(isAllowedPath(allowed, '')).toBe(false)
 })
 
-test('defaults to true', () => {
-  expect(isAllowedPath(undefined, 'whatever')).toBe(true)
+test('an empty string matches anything', () => {
+  const allowed = ['']
+  expect(isAllowedPath(allowed, 'lala')).toBe(true)
+  expect(isAllowedPath(allowed, '')).toBe(true)
+})
+
+test('defaults to false', () => {
+  expect(isAllowedPath(undefined as any, 'whatever')).toBe(false)
 })
