@@ -5,13 +5,12 @@
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "outDir": "dist/server",
-        "rootDir": "src",
+        "outDir": "dist",
         "strictNullChecks": true,
         "sourceMap": false,
         "target": "es6"
     },
     "files": [
-        "src/server/index.ts"
+        "src/index.ts"
     ]
 }

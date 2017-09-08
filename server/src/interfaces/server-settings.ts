@@ -11,4 +11,5 @@ export interface ServerSettings {
   snapshotInterval: number,
   syncInterval: number,
   maxRoomAge: number,
+  initialState: any
 }

@@ -1,0 +1,37 @@
+{
+  "name": "rejibe-server",
+  "version": "0.0.1",
+  "description": "Synced data store",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "test": "jest src",
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json --type-check"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^19.2.3",
+    "@types/node": "^8.0.27",
+    "@types/ws": "^3.0.2",
+    "jest": "^20.0.0",
+    "ts-jest": "^20.0.0",
+    "tslint": "^5.1.0",
+    "tslint-config-standard": "^5.0.2",
+    "typescript": "^2.2.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  },
+  "dependencies": {
+    "ws": "^3.1.0"
+  }
+}

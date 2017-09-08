@@ -13,5 +13,6 @@ export const defaultServerSettings: ServerSettings = {
   storage: memStorage,
   snapshotInterval: 5000,                                                       // five seconds
   syncInterval: 1000,                                                           // one second
-  maxRoomAge: 1000 * 60 * 60                                                    // one hour
+  maxRoomAge: 1000 * 60 * 60,                                                   // one hour
+  initialState: undefined
 }

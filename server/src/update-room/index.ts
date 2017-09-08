@@ -5,8 +5,8 @@ import { SocketServer } from '../socket-server/index'
 import { createApplyAction } from './apply-action'
 import { createEnsureRoom } from './ensure-room'
 import { createGetRoom } from './get-room'
-import { createSaveRoom} from './save-room'
-import { createUpdateRoom as _createUpdateRoom} from './update-room'
+import { createSaveRoom } from './save-room'
+import { createUpdateRoom as _createUpdateRoom } from './update-room'
 
 /**
  * dependency injection for updateRoom

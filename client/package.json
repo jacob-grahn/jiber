@@ -1,0 +1,37 @@
+{
+  "name": "rejibe-client",
+  "version": "0.0.1",
+  "description": "Synced data store",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "test": "jest src",
+    "build": "npm run compile && npm run bundle && npm run compress",
+    "compile": "tsc",
+    "bundle": "rollup -n '$rejibe' -o dist/rejibe-client.bundle.js -f iife dist/src/index.js",
+    "compress": "uglifyjs -c -m -o dist/rejibe-client.bundle.min.js dist/rejibe-client.bundle.js",
+    "lint": "tslint --type-check"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^19.2.3",
+    "jest": "^20.0.0",
+    "ts-jest": "^20.0.0",
+    "tslint": "^5.1.0",
+    "tslint-config-standard": "^5.0.2",
+    "typescript": "^2.2.2",
+    "uglify-es": "^3.0.15",
+    "rollup": "^0.42.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
+}

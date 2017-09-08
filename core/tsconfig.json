@@ -5,13 +5,12 @@
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "outDir": "dist/client",
-        "rootDir": "src",
+        "outDir": "dist",
         "strictNullChecks": true,
         "sourceMap": false,
         "target": "es6"
     },
     "files": [
-        "src/client/index.ts"
+        "index.ts"
     ]
 }
