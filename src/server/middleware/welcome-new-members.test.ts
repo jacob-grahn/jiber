@@ -12,7 +12,10 @@ const store: any = {
       rooms: {
         room1: {
           confirmed: 'hi',
-          members: ['bob', 'sally']
+          members: {
+            bob: {userId: 'bob'},
+            sally: {userId: 'sally'}
+          }
         }
       }
     }
@@ -69,7 +72,10 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
     {
       type: CONFIRMED_STATE,
       confirmed: 'hi',
-      members: ['bob', 'sally'],
+      members: {
+        bob: {userId: 'bob'},
+        sally: {userId: 'sally'}
+      },
       $roomId: 'room1'
     }
   ])
