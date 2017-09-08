@@ -28,7 +28,7 @@ export const createOnConnect: CreateOnConnect = (
   sendToSocket
 ) => {
   const addListeners = (socketId: string, webSocket: ws) => {
-    webSocket.on('message', (message) => onMessage(socketId, message))
+    webSocket.on('message', (data) => onMessage(socketId, data.toString()))
     webSocket.on('close', () => onClose(socketId))
   }
 
