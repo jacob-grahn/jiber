@@ -1,6 +1,5 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
+import { Action, JOIN_ROOM, CONFIRMED_STATE, SEND_TO_USER } from '../core'
 import { createWelcomeNewMembers } from './welcome-new-members'
-import { SEND_TO_USER } from '../../core/constants/event-types'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

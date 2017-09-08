@@ -1,4 +1,4 @@
-import { User } from '../../core/index'
+import { User } from '../core'
 
 const randChar = () => {
   const chars = '0123456789abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ'

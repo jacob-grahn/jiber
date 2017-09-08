@@ -1,4 +1,4 @@
-import { INIT_SOCKET } from '../../../core/index'
+import { INIT_SOCKET } from '../../core'
 import { connection } from './connection'
 
 const fakeSocket = {send: (str: string) => str, readyState: 0}

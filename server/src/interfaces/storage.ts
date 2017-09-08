@@ -1,4 +1,4 @@
-import { Action, RoomState } from '../../core/index'
+import { Action, RoomState } from '../core'
 
 export interface Storage {
   pushAction: PushAction,

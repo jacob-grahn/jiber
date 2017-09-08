@@ -1,2 +1,2 @@
-import { Action } from '../../core/index'
+import { Action } from './action'
 export type Next = (action: Action) => void

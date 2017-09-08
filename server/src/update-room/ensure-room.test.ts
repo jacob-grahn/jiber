@@ -1,4 +1,4 @@
-import { Action, CONFIRMED_STATE } from '../../core/index'
+import { Action, CONFIRMED_STATE } from '../core'
 import { createEnsureRoom } from './ensure-room'
 
 ////////////////////////////////////////////////////////////////////////////////

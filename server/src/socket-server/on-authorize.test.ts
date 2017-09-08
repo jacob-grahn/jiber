@@ -1,5 +1,4 @@
-
-import { Action } from '../../core/index'
+import { Action } from '../core'
 import { createOnAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {

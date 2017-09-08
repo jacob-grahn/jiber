@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from '../core'
 import { ServerState } from '../interfaces/server-state'
 import { SendToSocket } from './send-to-socket'
 

@@ -1,4 +1,4 @@
-import { Action, RoomState, CONFIRMED_STATE } from '../../core/index'
+import { Action, RoomState, CONFIRMED_STATE } from '../core'
 
 const defaultRoomState: RoomState = {
   members: {},

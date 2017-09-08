@@ -1,4 +1,4 @@
-import { RoomState } from '../../core/index'
+import { RoomState } from '../core'
 import { ServerSettings } from '../interfaces/server-settings'
 
 export const createSyncRoom = (

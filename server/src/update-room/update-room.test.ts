@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from '../core'
 import { createUpdateRoom } from './update-room'
 
 ////////////////////////////////////////////////////////////////////////////////

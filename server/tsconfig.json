@@ -2,6 +2,7 @@
     "compilerOptions": {
         "declaration": true,
         "module": "commonjs",
+        "moduleResolution": "node",
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,

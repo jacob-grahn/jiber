@@ -1,5 +1,5 @@
 import * as EventEmitter from 'events'
-import { Action } from '../../core/index'
+import { Action } from '../core'
 import { createOnAction } from './on-action'
 
 ////////////////////////////////////////////////////////////////////////////////

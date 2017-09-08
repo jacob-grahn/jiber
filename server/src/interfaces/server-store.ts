@@ -1,4 +1,4 @@
-import { Store } from '../../core/index'
+import { Store } from '../core'
 import { ServerState } from './server-state'
 
 export interface ServerStore extends Store {

@@ -1,4 +1,4 @@
-import { INIT_SOCKET } from '../../../core/index'
+import { INIT_SOCKET } from '../../core'
 import { sockets } from './sockets'
 
 test('create a socket dictionary', () => {

@@ -2,7 +2,7 @@
  * Store room data in memory
  */
 
-import { Action, RoomState } from '../../core/index'
+import { Action, RoomState } from '../core'
 
 interface RoomStorage {
   pendingActions: Action[],

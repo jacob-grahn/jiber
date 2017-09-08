@@ -9,7 +9,7 @@ import {
   members,
   lastUpdatedAt,
   createConfirmed
-} from '../../core/index'
+} from '../core'
 
 /**
  * A server room stores confirmedState, who is a member, and when

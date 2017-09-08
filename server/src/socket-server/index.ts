@@ -1,5 +1,5 @@
 import * as EventEmitter from 'events'
-import { Store } from '../../core/index'
+import { Store, SEND_TO_USER } from '../core'
 import { ServerSettings } from '../interfaces/server-settings'
 import { createOnConnect } from './on-connect'
 import { createOnMessage } from './on-message'
@@ -10,7 +10,6 @@ import { createSendToRoom, SendToRoom } from './send-to-room'
 import { createSendToSocket } from './send-to-socket'
 import { createSendToUser, SendToUser } from './send-to-user'
 import { createSocketServer as _createSocketServer } from './socket-server'
-import { SEND_TO_USER } from '../../core/constants/event-types'
 
 export interface SocketServer {
   start: () => void,

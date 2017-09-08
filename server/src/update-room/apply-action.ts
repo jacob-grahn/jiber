@@ -5,7 +5,7 @@ import {
   CLEAN_PRIVATE,
   PATCH,
   diff
-} from '../../core/index'
+} from '../core'
 import { addMetadata } from './add-metadata'
 
 export const createApplyAction = (

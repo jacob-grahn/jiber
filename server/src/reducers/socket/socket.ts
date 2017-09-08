@@ -1,4 +1,4 @@
-import { Reducer, combineReducers } from '../../../core/index'
+import { Reducer, combineReducers } from '../../core'
 import { connection } from './connection'
 import { connectedAt } from './connected-at'
 import { userId } from './user-id'

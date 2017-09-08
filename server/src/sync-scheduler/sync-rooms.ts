@@ -1,4 +1,4 @@
-import { RoomState } from '../../core/index'
+import { RoomState } from '../core'
 import { ServerState } from '../interfaces/server-state'
 import { map } from '../utils/map'
 

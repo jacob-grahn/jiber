@@ -1,4 +1,4 @@
-import { RoomState, UserDict } from '../../core/index'
+import { RoomState, UserDict } from '../core'
 import * as ws from 'ws'
 
 export interface ServerState {

@@ -1,4 +1,4 @@
-import { Action, LEAVE_ROOM, REMOVE_SOCKET } from '../../core/index'
+import { Action, LEAVE_ROOM, REMOVE_SOCKET } from '../core'
 import { createOnClose } from './on-close'
 
 ////////////////////////////////////////////////////////////////////////////////

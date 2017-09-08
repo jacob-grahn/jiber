@@ -1,4 +1,4 @@
-import { Action, LOGIN_RESULT, INIT_SOCKET } from '../../core/index'
+import { Action, LOGIN_RESULT, INIT_SOCKET } from '../core'
 import { createOnConnect } from './on-connect'
 
 ////////////////////////////////////////////////////////////////////////////////

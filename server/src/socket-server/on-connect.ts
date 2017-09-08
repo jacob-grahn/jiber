@@ -1,4 +1,4 @@
-import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../../core/index'
+import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../core'
 import * as ws from 'ws'
 import { ServerState } from '../interfaces/server-state'
 import { OnClose } from './on-close'

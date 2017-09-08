@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from '../core'
 import * as ws from 'ws'
 import { ServerState } from '../interfaces/server-state'
 

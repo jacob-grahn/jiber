@@ -1,9 +1,4 @@
-import {
-  Action,
-  PATCH,
-  INJECT_PRIVATE,
-  CLEAN_PRIVATE
-} from '../../core/index'
+import { Action, PATCH, INJECT_PRIVATE, CLEAN_PRIVATE } from '../core'
 import { createApplyAction } from './apply-action'
 
 ////////////////////////////////////////////////////////////////////////////////

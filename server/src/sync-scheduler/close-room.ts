@@ -1,7 +1,7 @@
 /**
  * todo: is this really needed?
  */
-import { Action, CLOSE_ROOM } from '../../core/index'
+import { Action, CLOSE_ROOM } from '../core'
 
 export const createCloseRoom = (
   dispatch: (action: Action) => void

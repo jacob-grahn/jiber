@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from '../core'
 
 export type CreateOnAction = (
   pushAction: (roomId: string, action: Action) => Promise<void>,

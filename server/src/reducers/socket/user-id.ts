@@ -1,4 +1,4 @@
-import { Action, ADD_USER } from '../../../core/index'
+import { Action, ADD_USER } from '../../core'
 
 /**
  * The userId attached to this socket

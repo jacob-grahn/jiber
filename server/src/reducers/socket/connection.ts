@@ -1,4 +1,4 @@
-import { Action, INIT_SOCKET } from '../../../core/index'
+import { Action, INIT_SOCKET } from '../../core'
 import * as ws from 'ws'
 
 /**

@@ -1,5 +1,5 @@
 import { createSaveRoom } from './save-room'
-import { RoomState } from '../../core/index'
+import { RoomState } from '../core'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

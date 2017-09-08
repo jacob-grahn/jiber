@@ -1,4 +1,4 @@
-import { Action, RoomState } from '../../core/index'
+import { Action, RoomState } from '../core'
 import { noConcurrent } from '../utils/no-concurrent'
 import { logger } from '../utils/logger'
 

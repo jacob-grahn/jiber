@@ -1,4 +1,4 @@
-import { Action, RoomState, SERVER } from '../../core/index'
+import { Action, RoomState, SERVER } from '../core'
 
 export const addMetadata = (roomState: RoomState, action: Action): Action => {
   const userId = action.$userId

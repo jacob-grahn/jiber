@@ -3,7 +3,7 @@
 import { memStorage } from './storage/mem-storage'
 import { memAccounts } from './accounts/mem-accounts'
 import { ServerSettings } from './interfaces/server-settings'
-import { swiss } from '../core/index'
+import { swiss } from './core'
 
 export const defaultServerSettings: ServerSettings = {
   socketPort: 80,

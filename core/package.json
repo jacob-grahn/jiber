@@ -2,7 +2,7 @@
   "name": "rejibe-core",
   "version": "0.0.1",
   "description": "Synced data store",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest",
     "lint": "tslint -p tsconfig.json --type-check"
@@ -10,6 +10,7 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^20.0.8",
     "jest": "^20.0.0",
     "ts-jest": "^20.0.0",
     "tslint": "^5.7.0",

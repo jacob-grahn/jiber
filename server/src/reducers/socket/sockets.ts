@@ -5,7 +5,7 @@ import {
   INIT_SOCKET,
   REMOVE_SOCKET,
   ADD_USER
-} from '../../../core/index'
+} from '../../core'
 import { socket } from './socket'
 
 /**

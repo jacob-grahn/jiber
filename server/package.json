@@ -21,6 +21,11 @@
     "typescript": "^2.2.2"
   },
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },

@@ -1,7 +1,13 @@
 import * as EventEmitter from 'events'
-import { Action, UserDict, Next, JOIN_ROOM, CONFIRMED_STATE } from '../../core/index'
-import { ServerStore } from '../interfaces/server-store'
-import { SEND_TO_USER } from '../../core/constants/event-types'
+import {
+  Action,
+  UserDict,
+  Next,
+  Store,
+  JOIN_ROOM,
+  CONFIRMED_STATE,
+  SEND_TO_USER
+} from '../core'
 
 /**
  * Only expose specific fields of user accounts
@@ -24,7 +30,7 @@ const giveMembersSomePrivacy = (members: UserDict) => {
  * When a user joins a room, send them the current state of that room
  */
 export const createWelcomeNewMembers = (emitter: EventEmitter) => {
-  return (store: ServerStore) => (next: Next) => (action: Action) => {
+  return (store: Store) => (next: Next) => (action: Action) => {
     next(action)
 
     if (action.type !== JOIN_ROOM) return

@@ -1,4 +1,4 @@
-import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from '../../core/index'
+import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from '../core'
 import { ServerState } from '../interfaces/server-state'
 
 export type CreateOnClose = (

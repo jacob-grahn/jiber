@@ -1,4 +1,4 @@
-import { SERVER } from '../../core/index'
+import { SERVER } from '../core'
 import { addMetadata } from './add-metadata'
 
 test('set $source to SERVER', () => {
