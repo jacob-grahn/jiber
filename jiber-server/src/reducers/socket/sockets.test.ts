@@ -1,4 +1,4 @@
-import { INIT_SOCKET } from '../../core'
+import { INIT_SOCKET } from 'jiber-core'
 import { sockets } from './sockets'
 
 test('create a socket dictionary', () => {

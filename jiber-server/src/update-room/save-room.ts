@@ -1,5 +1,5 @@
 import { noConcurrent } from '../utils/no-concurrent'
-import { RoomState } from '../core'
+import { RoomState } from 'jiber-core'
 import { RemoveActions, StoreState } from '../interfaces/storage'
 
 export interface SaveRoomSettings {

@@ -3,7 +3,7 @@
  * This serves as a fake database if one is not provided
  */
 
-import { Action, RoomState, ACTION_PUSHED } from '../core'
+import { Action, RoomState, ACTION_PUSHED } from 'jiber-core'
 import { DB } from '../interfaces/DB'
 import * as EventEmitter from 'events'
 

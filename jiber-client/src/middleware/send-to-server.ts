@@ -1,4 +1,4 @@
-import { Action, Next, CLIENT } from '../../core/index'
+import { Action, Next, CLIENT } from 'jiber-core'
 
 /**
  * Send locally dispatched actions to the server for confirmation

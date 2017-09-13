@@ -1,4 +1,4 @@
-import { INIT_SOCKET } from '../../core'
+import { INIT_SOCKET } from 'jiber-core'
 import { connectedAt } from './connected-at'
 
 test('default to 0', () => {

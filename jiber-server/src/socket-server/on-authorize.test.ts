@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import { createOnAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {

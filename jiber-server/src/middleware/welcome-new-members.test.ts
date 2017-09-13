@@ -1,4 +1,4 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE, SEND_TO_USER } from '../core'
+import { Action, JOIN_ROOM, CONFIRMED_STATE, SEND_TO_USER } from 'jiber-core'
 import { createWelcomeNewMembers } from './welcome-new-members'
 
 ////////////////////////////////////////////////////////////////////////////////

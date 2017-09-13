@@ -1,4 +1,4 @@
-import { RoomState } from '../core'
+import { RoomState } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
 export const createGetRoom = (getState: () => ServerState) => {

@@ -1,4 +1,4 @@
-import { Action, ADD_USER } from '../../core'
+import { Action, ADD_USER } from 'jiber-core'
 
 /**
  * The userId attached to this socket

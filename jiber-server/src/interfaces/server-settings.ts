@@ -1,4 +1,4 @@
-import { Reducer } from '../core'
+import { Reducer } from 'jiber-core'
 import { LoginRequestHandler } from './login-request-handler'
 import { Storage } from './storage'
 

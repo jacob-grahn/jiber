@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import { ServerSettings } from '../interfaces/server-settings'
 import { ServerState } from '../interfaces/server-state'
 import { createScheduler } from '../utils/scheduler'

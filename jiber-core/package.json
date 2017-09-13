@@ -2,7 +2,8 @@
   "name": "jiber-core",
   "version": "0.0.1",
   "description": "Synced data store",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "test": "jest",
     "lint": "tslint -p tsconfig.json --type-check"

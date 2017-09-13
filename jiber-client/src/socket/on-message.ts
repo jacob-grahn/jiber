@@ -1,4 +1,4 @@
-import { Action, SERVER } from '../../core/index'
+import { Action, SERVER } from 'jiber-core'
 
 /**
  * Send incoming actions to the reducer

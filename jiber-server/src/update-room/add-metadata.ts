@@ -1,4 +1,4 @@
-import { Action, RoomState, SERVER } from '../core'
+import { Action, RoomState, SERVER } from 'jiber-core'
 
 export const addMetadata = (roomState: RoomState, action: Action): Action => {
   const userId = action.$userId

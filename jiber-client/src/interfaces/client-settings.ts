@@ -1,4 +1,4 @@
-import { Reducer, Middleware } from '../../core/index'
+import { Reducer, Middleware } from 'jiber-core'
 
 /**
  * The settings passed in will have their gaps filled with defaults

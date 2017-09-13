@@ -1,4 +1,4 @@
-import { Action, CONFIRMED_STATE, LOGIN_RESULT } from '../../core/index'
+import { Action, CONFIRMED_STATE, LOGIN_RESULT } from 'jiber-core'
 
 export type CreateActionHandler = (
   rejoinRooms: (socket: WebSocket) => void,

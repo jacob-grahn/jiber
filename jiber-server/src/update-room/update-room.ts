@@ -1,4 +1,4 @@
-import { Action, RoomState } from '../core'
+import { Action, RoomState } from 'jiber-core'
 import { noConcurrent } from '../utils/no-concurrent'
 import { logger } from '../utils/logger'
 

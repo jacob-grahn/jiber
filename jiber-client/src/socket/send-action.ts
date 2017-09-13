@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from 'jiber-core'
 
 /**
  * Send an action to the server

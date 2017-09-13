@@ -1,4 +1,4 @@
-import { UserDict, User } from '../../core/index'
+import { UserDict, User } from 'jiber-core'
 import { ClientRoomState } from './client-room-state'
 
 /**

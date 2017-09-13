@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import * as ws from 'ws'
 import { ServerState } from '../interfaces/server-state'
 

@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 import { ServerSettings } from '../interfaces/server-settings'
 import { SocketServer } from '../socket-server/index'

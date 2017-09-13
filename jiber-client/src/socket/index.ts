@@ -8,7 +8,7 @@ import { createRejoinRooms } from './rejoin-rooms'
 import { createResendPending } from './resend-pending'
 import { sendAction } from './send-action'
 import { createTryToConnect } from './try-to-connect'
-import { Action } from '../../core/index'
+import { Action } from 'jiber-core'
 
 /**
  * Some odd manual dependency injection

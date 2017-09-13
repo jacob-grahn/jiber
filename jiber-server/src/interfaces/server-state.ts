@@ -1,4 +1,4 @@
-import { RoomState, UserDict } from '../core'
+import { RoomState, UserDict } from 'jiber-core'
 import * as ws from 'ws'
 
 export interface ServerState {

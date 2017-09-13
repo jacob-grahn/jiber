@@ -1,4 +1,4 @@
-import { createDictionary, combineReducers, users, Reducer } from '../core'
+import { createDictionary, combineReducers, users, Reducer } from 'jiber-core'
 import { createServerRoom } from './server-room'
 import { sockets } from './socket/sockets'
 

@@ -1,4 +1,4 @@
-import { Reducer, combineReducers } from '../../core'
+import { Reducer, combineReducers } from 'jiber-core'
 import { connection } from './connection'
 import { connectedAt } from './connected-at'
 import { userId } from './user-id'

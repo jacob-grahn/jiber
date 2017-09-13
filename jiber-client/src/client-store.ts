@@ -1,7 +1,6 @@
-import { Action, Store } from '../core/index'
+import { Action, Store, createStore } from 'jiber-core'
 import { createSendToServer } from './middleware/send-to-server'
 import { injectMetadata } from './middleware/inject-metadata'
-import { createStore } from '../core/index'
 import { ClientSettingsInput } from './interfaces/client-settings-input'
 import { ClientState } from './interfaces/client-state'
 import { createSocket } from './socket/index'

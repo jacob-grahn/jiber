@@ -1,4 +1,4 @@
-import { Action, Store, Middleware, Next } from '../../core/index'
+import { Action, Store, Middleware, Next } from 'jiber-core'
 import { nextActionId } from '../utils/next-action-id'
 
 /**

@@ -5,7 +5,7 @@ import {
   CLEAN_PRIVATE,
   PATCH,
   diff
-} from '../core'
+} from 'jiber-core'
 import { addMetadata } from './add-metadata'
 
 export const createApplyAction = (

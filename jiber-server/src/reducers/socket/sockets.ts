@@ -5,7 +5,7 @@ import {
   INIT_SOCKET,
   REMOVE_SOCKET,
   ADD_USER
-} from '../../core'
+} from 'jiber-core'
 import { socket } from './socket'
 
 /**

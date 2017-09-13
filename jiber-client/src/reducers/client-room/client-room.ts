@@ -5,7 +5,7 @@ import {
   members,
   lastUpdatedAt,
   createConfirmed
-} from '../../../core/index'
+} from 'jiber-core'
 import { optimisticActions } from './optimistic-actions'
 import { createOptimistic } from './optimistic'
 import { ClientRoomState } from '../../interfaces/client-room-state'

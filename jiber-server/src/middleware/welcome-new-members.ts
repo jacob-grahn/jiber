@@ -7,7 +7,7 @@ import {
   JOIN_ROOM,
   CONFIRMED_STATE,
   SEND_TO_USER
-} from '../core'
+} from 'jiber-core'
 
 /**
  * Only expose specific fields of user accounts

@@ -1,4 +1,4 @@
-import { Action, LOGIN_RESULT, INIT_SOCKET } from '../core'
+import { Action, LOGIN_RESULT, INIT_SOCKET } from 'jiber-core'
 import { createOnConnect } from './on-connect'
 
 ////////////////////////////////////////////////////////////////////////////////

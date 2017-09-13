@@ -1,5 +1,5 @@
 import * as EventEmitter from 'events'
-import { Store, SEND_TO_USER } from '../core'
+import { Store, SEND_TO_USER } from 'jiber-core'
 import { ServerSettings } from '../interfaces/server-settings'
 import { createOnConnect } from './on-connect'
 import { createOnMessage } from './on-message'

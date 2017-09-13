@@ -1,5 +1,5 @@
 import { createSaveRoom } from './save-room'
-import { RoomState } from '../core'
+import { RoomState } from 'jiber-core'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

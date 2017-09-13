@@ -1,5 +1,5 @@
 import { ClientSettings } from './interfaces/client-settings'
-import { swiss } from '../core/index'
+import { swiss } from 'jiber-core'
 
 /**
  * Default settings

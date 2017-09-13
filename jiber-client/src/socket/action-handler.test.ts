@@ -1,4 +1,4 @@
-import { LOGIN_RESULT, CONFIRMED_STATE } from '../../core/index'
+import { LOGIN_RESULT, CONFIRMED_STATE } from 'jiber-core'
 import { createActionHandler } from './action-handler'
 
 let rejoinCalls: any[]

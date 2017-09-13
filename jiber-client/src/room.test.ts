@@ -1,4 +1,4 @@
-import { CLIENT, JOIN_ROOM } from '../core/index'
+import { CLIENT, JOIN_ROOM } from 'jiber-core'
 import { createCreateRoom } from './room'
 
 let dispatchCalledWith: any[] = []

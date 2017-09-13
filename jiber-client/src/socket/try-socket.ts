@@ -1,4 +1,4 @@
-import { Action } from '../../core/index'
+import { Action } from 'jiber-core'
 
 /**
  * Create an always retrying socket connection

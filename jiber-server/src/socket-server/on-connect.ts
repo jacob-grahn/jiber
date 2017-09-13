@@ -1,4 +1,4 @@
-import { Action, LOGIN_RESULT, INIT_SOCKET, get } from '../core'
+import { Action, LOGIN_RESULT, INIT_SOCKET, get } from 'jiber-core'
 import * as ws from 'ws'
 import { ServerState } from '../interfaces/server-state'
 import { OnClose } from './on-close'

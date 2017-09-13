@@ -1,4 +1,4 @@
-import { Action } from '../core/index'
+import { Action } from 'jiber-core'
 import { createClientReducer } from './client-reducer'
 
 const adder = (state: any = '', action: Action): any => {

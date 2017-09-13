@@ -1,5 +1,5 @@
 import { createCloseRoom } from './close-room'
-import { Action, CLOSE_ROOM } from '../core'
+import { Action, CLOSE_ROOM } from 'jiber-core'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

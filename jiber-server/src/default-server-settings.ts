@@ -3,7 +3,7 @@
 import { memoryDB } from './memory-db/memory-db'
 import { memAccounts } from './accounts/mem-accounts'
 import { ServerSettings } from './interfaces/server-settings'
-import { swiss } from './core'
+import { swiss } from 'jiber-core'
 
 export const defaultServerSettings: ServerSettings = {
   socketPort: 80,

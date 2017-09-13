@@ -1,5 +1,5 @@
 import * as EventEmitter from 'events'
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import { createOnAction } from './on-action'
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-import { Middleware, CLIENT } from '../../core/index'
+import { Middleware, CLIENT } from 'jiber-core'
 import { createSendToServer } from './send-to-server'
 
 let sendCalledWith: any[]

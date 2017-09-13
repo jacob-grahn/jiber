@@ -1,4 +1,4 @@
-import { Reducer, Middleware } from '../../core/index'
+import { Reducer, Middleware } from 'jiber-core'
 
 /**
  * The potential options that can be passed in when creating

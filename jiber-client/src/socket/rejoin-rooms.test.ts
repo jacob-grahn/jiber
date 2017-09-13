@@ -1,4 +1,4 @@
-import { JOIN_ROOM } from '../../core/index'
+import { JOIN_ROOM } from 'jiber-core'
 import { createRejoinRooms } from './rejoin-rooms'
 
 ////////////////////////////////////////////////////////////////////////////////

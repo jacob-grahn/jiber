@@ -1,5 +1,5 @@
 import { injectMetadata } from './inject-metadata'
-import { Action } from '../../core/index'
+import { Action } from 'jiber-core'
 
 let lastAction: Action
 const state = {

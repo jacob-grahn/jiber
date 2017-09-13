@@ -1,4 +1,4 @@
-import { RoomState, Action } from '../../core/index'
+import { RoomState, Action } from 'jiber-core'
 
 /**
  * Clients have a few additional fields to handle optimistic state

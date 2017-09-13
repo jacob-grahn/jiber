@@ -1,4 +1,4 @@
-import { CLEAN_PRIVATE, INJECT_PRIVATE, CLOSE_ROOM } from '../core'
+import { CLEAN_PRIVATE, INJECT_PRIVATE, CLOSE_ROOM } from 'jiber-core'
 import { createServerRoom } from './server-room'
 
 const identity = (val: any) => val

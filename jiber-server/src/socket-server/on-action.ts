@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 
 export type CreateOnAction = (
   pushAction: (roomId: string, action: Action) => Promise<void>,

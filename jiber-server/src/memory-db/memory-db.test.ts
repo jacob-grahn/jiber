@@ -1,4 +1,4 @@
-import { ACTION_PUSHED } from '../core'
+import { ACTION_PUSHED } from 'jiber-core'
 import { memoryDB } from './memory-db'
 
 const db = memoryDB

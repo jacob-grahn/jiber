@@ -1,4 +1,4 @@
-import { User } from '../core'
+import { User } from 'jiber-core'
 import { randStr } from '../utils/rand-str'
 
 /**

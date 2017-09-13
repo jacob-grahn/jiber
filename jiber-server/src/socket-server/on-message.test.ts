@@ -1,4 +1,4 @@
-import { Action } from '../core'
+import { Action } from 'jiber-core'
 import { createOnMessage } from './on-message'
 
 ////////////////////////////////////////////////////////////////////////////////

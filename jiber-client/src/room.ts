@@ -5,7 +5,7 @@ import {
   CLIENT,
   get,
   createSubscription
-} from '../core/index'
+} from 'jiber-core'
 
 /**
  * Create a room interface to make some code more convinient

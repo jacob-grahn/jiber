@@ -1,4 +1,4 @@
-import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from '../core'
+import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
 export type CreateOnClose = (

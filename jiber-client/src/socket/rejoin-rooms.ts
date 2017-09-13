@@ -1,4 +1,4 @@
-import { JOIN_ROOM, Action } from '../../core/index'
+import { JOIN_ROOM, Action } from 'jiber-core'
 import { ClientState } from '../interfaces/client-state'
 
 /**

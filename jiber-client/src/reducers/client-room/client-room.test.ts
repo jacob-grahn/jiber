@@ -1,4 +1,4 @@
-import { Action, SERVER } from '../../../core/index'
+import { Action, SERVER } from 'jiber-core'
 import { createClientRoom } from './client-room'
 
 const adder = (state: any = '', action: Action): any => {

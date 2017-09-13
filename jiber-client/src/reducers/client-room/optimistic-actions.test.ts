@@ -1,5 +1,5 @@
 import { optimisticActions } from './optimistic-actions'
-import { CONFIRMED_STATE, SERVER } from '../../../core/index'
+import { CONFIRMED_STATE, SERVER } from 'jiber-core'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [

@@ -4,7 +4,7 @@ import {
   CONFIRMED_STATE,
   LEAVE_ROOM,
   SERVER
-} from '../../../core/index'
+} from 'jiber-core'
 
 // Assign a userId to actions that don't have a userId
 const claimActions = (

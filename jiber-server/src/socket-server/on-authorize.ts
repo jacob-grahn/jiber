@@ -1,4 +1,4 @@
-import { Action, ADD_USER } from '../core'
+import { Action, ADD_USER } from 'jiber-core'
 import { LoginRequestHandler } from '../interfaces/login-request-handler'
 
 export type CreateOnAuthorize = (

@@ -1,4 +1,4 @@
-import { Action, RoomState, CONFIRMED_STATE } from '../core'
+import { Action, RoomState, CONFIRMED_STATE } from 'jiber-core'
 
 const defaultRoomState: RoomState = {
   members: {},

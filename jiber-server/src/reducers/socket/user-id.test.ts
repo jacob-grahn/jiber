@@ -1,4 +1,4 @@
-import { ADD_USER } from '../../core'
+import { ADD_USER } from 'jiber-core'
 import { userId } from './user-id'
 
 test('record userId on successful login', () => {

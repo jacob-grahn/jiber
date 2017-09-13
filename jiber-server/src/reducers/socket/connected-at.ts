@@ -1,4 +1,4 @@
-import { Action, INIT_SOCKET } from '../../core'
+import { Action, INIT_SOCKET } from 'jiber-core'
 
 /**
  * The time when a socket connected

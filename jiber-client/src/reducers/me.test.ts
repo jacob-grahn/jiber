@@ -1,4 +1,4 @@
-import { LOGIN_RESULT } from '../../core/index'
+import { LOGIN_RESULT } from 'jiber-core'
 import { me } from './me'
 
 test('update account on login success', () => {

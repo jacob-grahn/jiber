@@ -1,4 +1,4 @@
-import { Action, PATCH, INJECT_PRIVATE, CLEAN_PRIVATE } from '../core'
+import { Action, PATCH, INJECT_PRIVATE, CLEAN_PRIVATE } from 'jiber-core'
 import { createApplyAction } from './apply-action'
 
 ////////////////////////////////////////////////////////////////////////////////

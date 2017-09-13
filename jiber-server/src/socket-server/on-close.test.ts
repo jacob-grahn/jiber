@@ -1,4 +1,4 @@
-import { Action, LEAVE_ROOM, REMOVE_SOCKET } from '../core'
+import { Action, LEAVE_ROOM, REMOVE_SOCKET } from 'jiber-core'
 import { createOnClose } from './on-close'
 
 ////////////////////////////////////////////////////////////////////////////////

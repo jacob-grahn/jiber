@@ -1,4 +1,4 @@
-import { Action, RoomState } from '../core'
+import { Action, RoomState } from 'jiber-core'
 import * as EventEmitter from 'events'
 
 export interface DB {

@@ -2,6 +2,7 @@
     "compilerOptions": {
         "declaration": true,
         "module": "es6",
+        "moduleResolution": "node",
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,

@@ -1,7 +1,7 @@
 import * as EventEmitter from 'events'
 import { ServerSettingsInput } from './interfaces/server-settings-input'
 import { ServerStore } from './interfaces/server-store'
-import { createStore } from './core'
+import { createStore } from 'jiber-core'
 import { createSocketServer } from './socket-server/index'
 import { createServerReducer } from './reducers/server-reducer'
 import { createUpdateRoom } from './update-room/index'

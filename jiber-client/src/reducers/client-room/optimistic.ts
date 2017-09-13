@@ -4,7 +4,7 @@ import {
   CONFIRMED_STATE,
   PATCH,
   SERVER
-} from '../../../core/index'
+} from 'jiber-core'
 
 /**
  * Use the current room state along with the action to calculate

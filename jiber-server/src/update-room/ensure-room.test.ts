@@ -1,4 +1,4 @@
-import { Action, CONFIRMED_STATE } from '../core'
+import { Action, CONFIRMED_STATE } from 'jiber-core'
 import { createEnsureRoom } from './ensure-room'
 
 ////////////////////////////////////////////////////////////////////////////////

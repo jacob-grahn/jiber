@@ -1,4 +1,4 @@
-import { SERVER } from '../core'
+import { SERVER } from 'jiber-core'
 import { addMetadata } from './add-metadata'
 
 test('set $source to SERVER', () => {

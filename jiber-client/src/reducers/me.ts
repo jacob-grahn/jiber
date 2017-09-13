@@ -1,4 +1,4 @@
-import { Action, User, LOGIN_RESULT } from '../../core/index'
+import { Action, User, LOGIN_RESULT } from 'jiber-core'
 
 /**
  * Keep track of the currently logged in userId
