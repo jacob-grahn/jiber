@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Click Counter</title>
-    <script src="../../../dist/client/rejibe-client.bundle.js"></script>
+    <script src="../../../dist/client/jiber-client.bundle.js"></script>
   </head>
   <body style="padding: 48px; font-size: 48px;">
     <script>
@@ -19,8 +19,8 @@
         }
       }
 
-      // Pass our custom app logic to rejibe
-      const store = $rejibe.createStore({url: 'localhost', reducer: clickCounter})
+      // Pass our custom app logic to jiber
+      const store = $jiber.createStore({url: 'localhost', reducer: clickCounter})
 
       // Pick a room to join
       const room = store.createRoom('room1')

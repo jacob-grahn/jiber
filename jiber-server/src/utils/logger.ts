@@ -1,4 +1,4 @@
-const level = process.env.REJIBE_LOG_LEVEL || 0
+const level = process.env.jiber_LOG_LEVEL || 0
 const log = console.log as any
 
 const logAtLevel = (min: number) => {

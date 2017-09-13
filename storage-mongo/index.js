@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const settings = {
-  mongoUrl: 'mongodb://localhost:27017/rejibetest',
+  mongoUrl: 'mongodb://localhost:27017/jibertest',
   mongoActionCollection: 'actions',
   mongoRoomCollection: 'rooms'
 }
@@ -23,8 +23,8 @@ function toPromise () {
 async function pushAction (roomId, action) {
   const db = await getDb()
   const collection = db.collection(settings.mongoActionCollection)
-  action._rejibeRoomId = action.$roomId
-  action._rejibeUserId = action.$userId
+  action._jiberRoomId = action.$roomId
+  action._jiberUserId = action.$userId
   delete action.$roomId
   delete action.$userId
   delete action.$timeMs
@@ -36,7 +36,7 @@ async function pushAction (roomId, action) {
     collection,
     'update',
     {_id: {$lt: 0}},
-    {$set: action, $currentDate: {'_rejibeDate': true}},
+    {$set: action, $currentDate: {'_jiberDate': true}},
     {upsert: true}
   )
 }
@@ -47,16 +47,16 @@ async function fetchActions (roomId, minTimeMs) {
   const actionCursor = await toPromise(
     collection,
     'find',
-    {_rejibeDate: {$gt: new Date(minTimeMs)}}
+    {_jiberDate: {$gt: new Date(minTimeMs)}}
   )
   const actions = await actionCursor.toArray()
   const parsedActions = actions.map(action => {
-    action.$userId = action._rejibeUserId
-    action.$roomId = action._rejibeRoomId
-    action.$timeMs = new Date(action._rejibeDate).getTime()
-    delete action._rejibeUserId
-    delete action._rejibeRoomId
-    delete action._rejibeDate
+    action.$userId = action._jiberUserId
+    action.$roomId = action._jiberRoomId
+    action.$timeMs = new Date(action._jiberDate).getTime()
+    delete action._jiberUserId
+    delete action._jiberRoomId
+    delete action._jiberDate
     delete action._id
     return action
   })
@@ -69,7 +69,7 @@ async function removeActions (roomId, minTimeMs) {
   await toPromise(
     collection,
     'removeMany',
-    {_rejibeDate: {$lte: new Date(minTimeMs)}}
+    {_jiberDate: {$lte: new Date(minTimeMs)}}
   )
 }
 

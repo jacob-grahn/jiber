@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>I am the Winner</title>
-    <script src="../../../dist/client/rejibe-client.bundle.js"></script>
+    <script src="../../../dist/client/jiber-client.bundle.js"></script>
     <script src="https://unpkg.com/vue"></script>
   </head>
   <body style="background-color: white; padding: 24px; margin: 24px;">
@@ -43,8 +43,8 @@
         },
         methods: {
           login (name) {
-            // Pass our custom app logic to rejibe
-            const store = $rejibe.createStore({
+            // Pass our custom app logic to jiber
+            const store = $jiber.createStore({
               url: 'localhost',
               reducer: winner,
               credential: name

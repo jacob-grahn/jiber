@@ -1,4 +1,4 @@
-const rejibe = require('rejibe-server')
+const jiber = require('jiber-server')
 
 // Whenever someone dispatches 'WIN', they become they new winner!
 const winner = (state, action) => {
@@ -15,8 +15,8 @@ const guestLogin = async (credential) => {
   return {userId: credential}
 }
 
-// Pass our custom app logic to rejibe
-const store = rejibe.createStore({
+// Pass our custom app logic to jiber
+const store = jiber.createStore({
   reducer: winner,
   onLogin: guestLogin
 })

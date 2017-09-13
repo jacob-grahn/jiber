@@ -1,5 +1,5 @@
 {
-  "name": "rejibe-core",
+  "name": "jiber-core",
   "version": "0.0.1",
   "description": "Synced data store",
   "main": "src/index.ts",

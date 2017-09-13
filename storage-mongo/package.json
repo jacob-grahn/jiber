@@ -1,7 +1,7 @@
 {
-  "name": "rejibe-storage-mongo",
+  "name": "jiber-storage-mongo",
   "version": "0.0.1",
-  "description": "Mongo backend for Rejibe",
+  "description": "Mongo backend for jiber",
   "main": "index.js",
   "scripts": {},
   "author": "Jacob Grahn",

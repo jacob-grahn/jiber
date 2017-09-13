@@ -1,20 +1,20 @@
-Rejibe is a multi-user state container for JavaScript apps.
+jiber is a multi-user state container for JavaScript apps.
 
 ### Perks
 - Offline First
 - Optimistic
 - Fast (updates are sent via WebSockets)
-- Tiny (rejibe-client is 3kb, and has no dependencies)
+- Tiny (jiber-client is 3kb, and has no dependencies)
 
 ### Installation
 Client
 ```
-npm i rejibe-client
+npm i jiber-client
 ```
 
 Server
 ```
-npm i rejibe-server
+npm i jiber-server
 ```
 
 ### Example
@@ -32,8 +32,8 @@ const clickCounter = (state = 0, action) => {
   }
 }
 
-// Pass our custom app logic to rejibe
-const store = $rejibe.createStore({url: 'localhost', reducer: clickCounter})
+// Pass our custom app logic to jiber
+const store = $jiber.createStore({url: 'localhost', reducer: clickCounter})
 
 // Pick a room to join
 const room = store.createRoom('room1')
@@ -49,7 +49,7 @@ window.onclick = () => room.dispatch({type: 'CLICK'})
 
 Server
 ```
-const rejibe = require('rejibe-server')
+const jiber = require('jiber-server')
 
 // Count how many times the screen is clicked
 // This reducer function should be the same on the client and server
@@ -62,8 +62,8 @@ const clickCounter = (state = 0, action) => {
   }
 }
 
-// Pass our custom app logic to rejibe
-const store = rejibe.createStore({reducer: clickCounter})
+// Pass our custom app logic to jiber
+const store = jiber.createStore({reducer: clickCounter})
 
 // Start listening for incomming connections
 store.start()

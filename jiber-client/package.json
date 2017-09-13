@@ -1,5 +1,5 @@
 {
-  "name": "rejibe-client",
+  "name": "jiber-client",
   "version": "0.0.1",
   "description": "Synced data store",
   "main": "dist/server/index.js",
@@ -7,8 +7,8 @@
     "test": "jest src",
     "build": "npm run compile && npm run bundle && npm run compress",
     "compile": "tsc",
-    "bundle": "rollup -n '$rejibe' -o dist/rejibe-client.bundle.js -f iife dist/src/index.js",
-    "compress": "uglifyjs -c -m -o dist/rejibe-client.bundle.min.js dist/rejibe-client.bundle.js",
+    "bundle": "rollup -n '$jiber' -o dist/jiber-client.bundle.js -f iife dist/src/index.js",
+    "compress": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
     "lint": "tslint --type-check"
   },
   "author": "Jacob Grahn",

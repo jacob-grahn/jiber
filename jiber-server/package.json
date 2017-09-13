@@ -1,5 +1,5 @@
 {
-  "name": "rejibe-server",
+  "name": "jiber-server",
   "version": "0.0.1",
   "description": "Synced data store",
   "main": "dist/src/index.js",
