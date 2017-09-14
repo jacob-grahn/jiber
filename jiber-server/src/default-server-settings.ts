@@ -10,7 +10,7 @@ export const defaultServerSettings: ServerSettings = {
   stunPort: 3478,
   reducer: swiss,
   onLogin: memAccounts,
-  storage: memoryDB,
+  db: memoryDB,
   snapshotInterval: 5000,                                                       // five seconds
   syncInterval: 1000,                                                           // one second
   maxRoomAge: 1000 * 60 * 60,                                                   // one hour

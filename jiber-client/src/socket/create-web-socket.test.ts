@@ -3,7 +3,7 @@ import { createWebSocket } from './create-web-socket'
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
-class MockWebSocket {
+/* class MockWebSocket {
   url: string
   credential: string
   constructor (url: any, credential: any) {
@@ -13,7 +13,7 @@ class MockWebSocket {
   get () {
     return {url: this.url, credential: this.credential}
   }
-}
+} */
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
@@ -26,7 +26,7 @@ test('it should throw an error, because WebSocket is undefined in node', () => {
   }).toThrowError()
 })
 
-test('if WebSocket exists, create it', () => {
+/* test('if WebSocket exists, create it', () => {
   const g = global as any
   g.WebSocket = MockWebSocket
   const url = 'some url'
@@ -34,4 +34,4 @@ test('if WebSocket exists, create it', () => {
   const ws: any = createWebSocket(url, credential)
   expect(ws.get()).toEqual({url, credential})
   g.WebSocket = undefined
-})
+}) */

@@ -6,7 +6,7 @@
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "outDir": "dist",
+        "outDir": "dist/es6",
         "strictNullChecks": true,
         "sourceMap": false,
         "target": "es6"

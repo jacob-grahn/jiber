@@ -2,9 +2,11 @@
   "name": "jiber-core",
   "version": "0.0.1",
   "description": "Synced data store",
-  "main": "dist/index.js",
-  "types": "src/index.ts",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/commonjs/index.d.ts",
   "scripts": {
+    "build": "tsc --module commonjs --outDir dist/commonjs && tsc --outDir dist/es6 --module es6",
     "test": "jest",
     "lint": "tslint -p tsconfig.json --type-check"
   },

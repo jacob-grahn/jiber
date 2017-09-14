@@ -26,12 +26,12 @@ export const createSocketServer = (
   settings: ServerSettings,
   emitter: EventEmitter
 ): SocketServer => {
-  const storage = settings.storage
+  const db = settings.db
   const sendToSocket = createSendToSocket(store.getState)
   const sendToRoom = createSendToRoom(store.getState, sendToSocket)
   const sendToUser = createSendToUser(store.getState, sendToSocket)
-  const onClose = createOnClose(store, storage.pushAction)
-  const onAction = createOnAction(storage.pushAction, emitter)
+  const onClose = createOnClose(store, db.pushAction)
+  const onAction = createOnAction(db.pushAction, emitter)
   const onAuthorize = createOnAuthorize(store.dispatch, settings.onLogin)
   const onMessage = createOnMessage(store.getState, onAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)

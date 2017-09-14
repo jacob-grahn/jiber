@@ -11,7 +11,7 @@ const getRoomState: any = (roomId: string) => {
   return undefined
 }
 const fetchRoomState: any = async (roomId: string) => {
-  if (roomId === 'room2') return {roomId: 'room2', source: 'storage'}
+  if (roomId === 'room2') return {roomId: 'room2', source: 'db'}
   return undefined
 }
 
@@ -29,18 +29,18 @@ test('return state from store if it exists', async () => {
   expect(room).toEqual({roomId: 'room1', source: 'store'})
 })
 
-test('return state from storage if it exists', async () => {
+test('return state from db if it exists', async () => {
   const room = await ensureRoom('room2')
-  expect(room).toEqual({roomId: 'room2', source: 'storage'})
+  expect(room).toEqual({roomId: 'room2', source: 'db'})
   expect(calls).toEqual([{
     type: CONFIRMED_STATE,
     roomId: 'room2',
-    source: 'storage',
+    source: 'db',
     $roomId: 'room2'
   }])
 })
 
-test('return default if not found in the store or storage', async () => {
+test('return default if not found in the store or db', async () => {
   const room = await ensureRoom('room3')
   expect(room).toEqual({confirmed: undefined, lastUpdatedAt: 0, members: {}})
 })

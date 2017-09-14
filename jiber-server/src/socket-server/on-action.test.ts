@@ -16,7 +16,7 @@ test('return a func', () => {
   expect(typeof onAction).toBe('function')
 })
 
-test('add action to storage', () => {
+test('add action to db', () => {
   const calls: any = []
   const pushAction = async (roomId: string, action: Action) => {
     calls.push({roomId, action})

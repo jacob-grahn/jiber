@@ -7,21 +7,22 @@
     "test": "jest src",
     "build": "npm run compile && npm run bundle && npm run compress",
     "compile": "tsc",
-    "bundle": "rollup -n '$jiber' -o dist/jiber-client.bundle.js -f iife dist/src/index.js",
+    "bundle": "rollup -c",
     "compress": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
-    "lint": "tslint --type-check"
+    "lint": "tslint -p tsconfig.json --type-check"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^19.2.3",
     "jest": "^20.0.0",
+    "rollup": "^0.49.3",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "ts-jest": "^20.0.0",
     "tslint": "^5.1.0",
     "tslint-config-standard": "^5.0.2",
     "typescript": "^2.2.2",
-    "uglify-es": "^3.0.15",
-    "rollup": "^0.42.0"
+    "uglify-es": "^3.0.15"
   },
   "jest": {
     "transform": {

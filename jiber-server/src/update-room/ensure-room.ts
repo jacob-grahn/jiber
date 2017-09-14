@@ -12,7 +12,7 @@ export const createEnsureRoom = (
   fetchRoomState: (roomId: string) => Promise<RoomState>
 ) => {
 
-  // if the room does not exist, create a new room using a snapshot from storage
+  // if the room does not exist, create a new room using a snapshot from db
   return async ($roomId: string): Promise<RoomState> => {
     const roomState = getRoomState($roomId)
     if (roomState) return roomState

@@ -21,20 +21,14 @@ export const createUpdateRoom = (
 ) => {
   const dispatch = store.dispatch
   const getState = store.getState
-  const fetchState = settings.storage.fetchState
-  const fetchActions = settings.storage.fetchActions
+  const fetchState = settings.db.fetchState
   const sendToRoom = socketServer.sendToRoom
 
   const getRoom = createGetRoom(getState)
   const ensureRoom = createEnsureRoom(dispatch, getRoom, fetchState)
   const applyAction = createApplyAction(dispatch, getRoom, sendToRoom)
   const saveRoom = createSaveRoom(getRoom, settings)
-  const updateRoom = _createUpdateRoom(
-    ensureRoom,
-    fetchActions,
-    applyAction,
-    saveRoom
-  )
+  const updateRoom = _createUpdateRoom(ensureRoom, applyAction, saveRoom)
 
   return updateRoom
 }

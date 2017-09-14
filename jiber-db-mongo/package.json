@@ -1,5 +1,5 @@
 {
-  "name": "jiber-storage-mongo",
+  "name": "jiber-db-mongo",
   "version": "0.0.1",
   "description": "Mongo backend for jiber",
   "main": "index.js",

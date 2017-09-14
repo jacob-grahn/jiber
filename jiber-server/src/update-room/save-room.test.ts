@@ -16,15 +16,15 @@ const removeActions = (roomId: string, timeMs: number) => {
   return Promise.resolve()
 }
 
-const storeState = (roomId: string, roomState: RoomState) => {
+const stashState = (roomId: string, roomState: RoomState) => {
   calledSetState = {roomId, roomState}
   return Promise.resolve()
 }
 
 const settings = {
-  storage: {
+  db: {
     removeActions,
-    storeState
+    stashState
   },
   snapshotInterval: 1000
 }
@@ -37,7 +37,7 @@ const saveRoom = createSaveRoom(getRoomState, settings)
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('it should get the room state and pass it to storage', async () => {
+test('it should get the room state and pass it to db', async () => {
   await saveRoom('room1')
   expect(calledSetState).toEqual({
     roomId: 'room1',

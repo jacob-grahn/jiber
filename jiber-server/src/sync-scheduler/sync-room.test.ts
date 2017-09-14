@@ -24,7 +24,7 @@ test('do nothing if the room is recent', () => {
   expect(calls).toEqual([])
 })
 
-test('sync from storage if room has not been updated in a while', () => {
+test('sync from db if room has not been updated in a while', () => {
   const timeMs = new Date().getTime()
   const room = {lastUpdatedAt: timeMs - 50} as any
   syncRoom(room, 'room1')
