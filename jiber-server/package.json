@@ -11,14 +11,14 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^19.2.3",
-    "@types/node": "^8.0.27",
+    "@types/jest": "^20.0.8",
+    "@types/node": "^8.0.28",
     "@types/ws": "^3.0.2",
-    "jest": "^20.0.0",
-    "ts-jest": "^20.0.0",
+    "jest": "^21.1.0",
+    "ts-jest": "^21.0.1",
     "tslint": "^5.1.0",
-    "tslint-config-standard": "^5.0.2",
-    "typescript": "^2.2.2"
+    "tslint-config-standard": "^6.0.1",
+    "typescript": "^2.5.2"
   },
   "jest": {
     "globals": {
