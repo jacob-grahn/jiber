@@ -25,9 +25,8 @@ const store = {
     } as any
   }
 }
-const pushAction = (roomId: string, action: Action) => {
-  calls.push(['pushAction', roomId, action])
-  return Promise.resolve()
+const pushAction = (action: Action) => {
+  calls.push(['pushAction', action])
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,12 +54,10 @@ test('remove user from member rooms', () => {
   expect(dispatchCalls).toEqual([
     [
       'pushAction',
-      'room2',
       {type: LEAVE_ROOM, $roomId: 'room2', $userId: 'user1'}
     ],
     [
       'pushAction',
-      'room3',
       {type: LEAVE_ROOM, $roomId: 'room3', $userId: 'user1'}
     ]
   ])

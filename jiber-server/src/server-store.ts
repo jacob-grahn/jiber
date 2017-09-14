@@ -6,7 +6,6 @@ import { createSocketServer } from './socket-server/index'
 import { createServerReducer } from './reducers/server-reducer'
 import { createUpdateRoom } from './update-room/index'
 import { createWelcomeNewMembers } from './middleware/welcome-new-members'
-import { createSyncScheduler } from './sync-scheduler/index'
 import { defaultServerSettings } from './default-server-settings'
 
 export const createServerStore = (
@@ -21,19 +20,12 @@ export const createServerStore = (
   const store = createStore(serverReducer, initialState, middleware)
   const socketServer = createSocketServer(store, settings, emitter)
   const updateRoom = createUpdateRoom(store, settings, socketServer)
-  const syncScheduler = createSyncScheduler(store, updateRoom, settings)
 
   emitter.on('ACTION_ADDED', updateRoom)
 
   return {
     ...store,
-    start () {
-      socketServer.start()
-      syncScheduler.start()
-    },
-    stop () {
-      socketServer.stop()
-      syncScheduler.stop()
-    }
+    start: socketServer.start,
+    stop: socketServer.stop
   }
 }

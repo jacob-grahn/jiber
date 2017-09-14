@@ -7,8 +7,8 @@ import { createOnMessage } from './on-message'
 let state: any
 let calls: any[]
 const getState = () => state
-const onAction = (userId: string, action: Action) => {
-  calls.push(['onAction', userId, action])
+const pushAction = (action: Action) => {
+  calls.push(['pushAction', action])
 }
 const sendToSocket = (socketId: string, action: Action) => {
   calls.push(['sendToSocket', socketId, action])
@@ -17,7 +17,7 @@ const sendToSocket = (socketId: string, action: Action) => {
 ////////////////////////////////////////////////////////////////////////////////
 // init
 ////////////////////////////////////////////////////////////////////////////////
-const onMessage = createOnMessage(getState, onAction, sendToSocket)
+const onMessage = createOnMessage(getState, pushAction, sendToSocket)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ test('send an error if message is not valid json', () => {
   ])
 })
 
-test('pass the action to onAction', () => {
+test('pass the action to pushAction', () => {
   state = {
     sockets: {
       socket1: {userId: 'user1'}
@@ -57,6 +57,6 @@ test('pass the action to onAction', () => {
   const message = JSON.stringify({type: 'hi'})
   onMessage(socketId, message)
   expect(calls).toEqual([
-    ['onAction', 'user1', {type: 'hi'}]
+    ['pushAction', {type: 'hi', $userId: 'user1'}]
   ])
 })

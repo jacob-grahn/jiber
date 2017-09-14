@@ -11,8 +11,9 @@ const emitter = new EventEmitter()
 
 const rooms: {[key: string]: RoomState} = {}
 
-const pushAction = async (roomId: string, action: Action): Promise<void> => {
-  emitter.emit(ACTION_PUSHED, roomId, action)
+const pushAction = (action: Action): void => {
+  if (!action.$roomId) return
+  emitter.emit(ACTION_PUSHED, action)
 }
 
 const fetchState = async (roomId: string): Promise<RoomState> => {

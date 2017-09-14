@@ -4,16 +4,16 @@ import { memoryDB } from './memory-db'
 const db = memoryDB
 
 test('pushAction', async () => {
-  const room = 'memRoom1'
+  const $roomId = 'memRoom1'
   const events: any = []
-  db.emitter.on(ACTION_PUSHED, (roomId, action) => {
-    events.push([roomId, action])
+  db.emitter.on(ACTION_PUSHED, (action) => {
+    events.push(action)
   })
-  await db.pushAction(room, {type: 'one'})
-  await db.pushAction(room, {type: 'two'})
+  db.pushAction({type: 'one', $roomId})
+  db.pushAction({type: 'two', $roomId})
   expect(events).toEqual([
-    ['memRoom1', {type: 'one'}],
-    ['memRoom1', {type: 'two'}]
+    {type: 'one', $roomId},
+    {type: 'two', $roomId}
   ])
 })
 

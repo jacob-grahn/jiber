@@ -1,12 +1,13 @@
 import { Action, REMOVE_SOCKET, LEAVE_ROOM, RoomState } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
+import { PushAction } from '../interfaces/db'
 
 export type CreateOnClose = (
   store: {
     dispatch: (action: Action) => void,
     getState: () => ServerState
   },
-  pushAction: (roomId: string, action: Action) => Promise<void>
+  pushAction: PushAction
 ) => OnClose
 export type OnClose = (socketId: string) => void
 
@@ -16,7 +17,7 @@ export type OnClose = (socketId: string) => void
  * from these rooms on all servers
  */
 const removeUserFromRooms = (
-  pushAction: (roomId: string, action: Action) => Promise<void>,
+  pushAction: PushAction,
   userId: string,
   rooms: {[roomId: string]: RoomState}
 ) => {
@@ -27,7 +28,7 @@ const removeUserFromRooms = (
   })
   memberRoomIds.forEach(roomId => {
     const action = {type: LEAVE_ROOM, $roomId: roomId, $userId: userId}
-    return pushAction(roomId, action)
+    return pushAction(action)
   })
 }
 

@@ -8,6 +8,6 @@ export interface DB {
   stashState: StashState
 }
 
-export type PushAction = (roomId: string, action: Action) => Promise<void>
+export type PushAction = (action: Action) => void
 export type FetchState = (roomId: string) => Promise<RoomState>
 export type StashState = (roomId: string, state: RoomState) => Promise<void>

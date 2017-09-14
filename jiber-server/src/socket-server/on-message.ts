@@ -1,10 +1,10 @@
 import { ServerState } from '../interfaces/server-state'
-import { OnAction } from './on-action'
 import { SendToSocket } from './send-to-socket'
+import { PushAction } from '../interfaces/db'
 
 export type CreateOnMessage = (
   getState: () => ServerState,
-  onAction: OnAction,
+  pushAction: PushAction,
   sendToSocket: SendToSocket
 ) => OnMessage
 export type OnMessage = (socketId: string, message: string) => void
@@ -16,7 +16,7 @@ export type OnMessage = (socketId: string, message: string) => void
  */
 export const createOnMessage: CreateOnMessage = (
   getState,
-  onAction,
+  pushAction,
   sendToSocket
 ) => {
   return (socketId, message) => {
@@ -26,7 +26,8 @@ export const createOnMessage: CreateOnMessage = (
       if (!socket || !socket.userId) return
       const userId = socket.userId
       const action = JSON.parse(message)
-      onAction(userId, action)
+      action.$userId = userId
+      pushAction(action)
     } catch (e) {
       sendToSocket(socketId, e.message)
     }

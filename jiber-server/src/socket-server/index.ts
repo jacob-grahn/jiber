@@ -4,7 +4,6 @@ import { ServerSettings } from '../interfaces/server-settings'
 import { createOnConnect } from './on-connect'
 import { createOnMessage } from './on-message'
 import { createOnClose } from './on-close'
-import { createOnAction } from './on-action'
 import { createOnAuthorize } from './on-authorize'
 import { createSendToRoom, SendToRoom } from './send-to-room'
 import { createSendToSocket } from './send-to-socket'
@@ -31,9 +30,8 @@ export const createSocketServer = (
   const sendToRoom = createSendToRoom(store.getState, sendToSocket)
   const sendToUser = createSendToUser(store.getState, sendToSocket)
   const onClose = createOnClose(store, db.pushAction)
-  const onAction = createOnAction(db.pushAction, emitter)
   const onAuthorize = createOnAuthorize(store.dispatch, settings.onLogin)
-  const onMessage = createOnMessage(store.getState, onAction, sendToSocket)
+  const onMessage = createOnMessage(store.getState, db.pushAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
 
   emitter.on(SEND_TO_USER, sendToUser)
