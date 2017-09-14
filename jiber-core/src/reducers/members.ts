@@ -20,7 +20,7 @@ const member = (
   switch (action.type) {
     case JOIN_ROOM:
       if (state) return state                                                   // no need to be added twice
-      return {actionId: 0}                                                      // add the userId to the collection
+      return {...action.$user, actionId: 0}
 
     case LEAVE_ROOM:
       return undefined

@@ -14,11 +14,18 @@ const sendToRoom = (roomId: string, action: Action) => {
 const getRoom = (_roomId: string): any => {
   return {}
 }
+const getState = () => {
+  return {
+    rooms: {},
+    users: {},
+    sockets: {}
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const applyAction = createApplyAction(dispatch, getRoom, sendToRoom)
+const applyAction = createApplyAction(dispatch, getState, getRoom, sendToRoom)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////

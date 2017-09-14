@@ -7,9 +7,11 @@ import {
   diff
 } from 'jiber-core'
 import { addMetadata } from './add-metadata'
+import { ServerState } from '../interfaces/server-state'
 
 export const createApplyAction = (
   dispatch: (action: Action) => void,
+  getState: () => ServerState,
   getRoom: (roomId: string) => RoomState,
   sendToRoom: (roomId: string, action: Action) => void
 ) => {
@@ -45,8 +47,8 @@ export const createApplyAction = (
 
   return (action: Action): void => {
     if (!action.$roomId) return
-    const roomState = getRoom(action.$roomId)
-    action = addMetadata(roomState, action)
+    const state = getState()
+    action = addMetadata(state, action)
 
     if (action.type.indexOf('$serverOnly/') === 0) {
       privateApply(action)

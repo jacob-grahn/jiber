@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Draw With Friends</title>
-    <script src="../../../dist/client/jiber-client.bundle.js"></script>
+    <script src="../../../jiber-client/dist/jiber-client.bundle.js"></script>
   </head>
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
@@ -13,8 +13,8 @@
       //////////////////////////////////////////////////////////////////////////
       // INIT: create a room to sync our masterful drawing
       //////////////////////////////////////////////////////////////////////////
-      const scale = 5                                                           // each 'pixel' is actually a 5px by 5px square
-      const store = $jiber.createStore({url: 'localhost'})                     // $jiber is a global variable when jiber-client.bundle.js is loaded
+      const scale = 10                                                          // each 'pixel' is actually a 10px by 10px square
+      const store = $jiber.createStore({url: 'localhost'})                      // $jiber is a global variable when jiber-client.bundle.js is loaded
       const room = store.createRoom('room1')
       const canvas = document.getElementById('line-canvas')
       const ctx = canvas.getContext('2d')
@@ -27,7 +27,6 @@
         const state = room.getState()
         clearCanvas()
         drawPixels(state)
-        requestAnimationFrame(render)
       }
 
       function clearCanvas () {
@@ -45,7 +44,7 @@
       }
 
       render()
-
+      store.subscribe(render)
 
       //////////////////////////////////////////////////////////////////////////
       // I/O: color in pixels when a user clicks (or taps) and drags
@@ -53,10 +52,10 @@
       function setPixel (e, color) {
         const x = Math.floor(e.clientX / scale)
         const y = Math.floor(e.clientY / scale)
-        const point = `${x},${y}`
+        const path = `${x},${y}`
         const state = room.getState()
-        if (state[point] === color) return                                      // avoid dispatching redundant actions
-        room.dispatch({type: 'SET', key: point, value: color})
+        if (state[path] === color) return                                       // avoid dispatching redundant actions
+        room.dispatch({type: 'SET', path, value: color})
       }
 
       function randomColor () {

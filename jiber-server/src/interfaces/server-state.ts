@@ -1,13 +1,9 @@
 import { RoomState, UserDict } from 'jiber-core'
-import * as ws from 'ws'
+import { Socket } from '../reducers/socket/socket'
 
 export interface ServerState {
   sockets: {
-    [socketId: string]: {
-      connection: ws,
-      connectedAt: number,
-      userId: string
-    }
+    [socketId: string]: Socket
   },
   users: UserDict,
   rooms: {

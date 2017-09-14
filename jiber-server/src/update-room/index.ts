@@ -22,12 +22,14 @@ export const createUpdateRoom = (
   const dispatch = store.dispatch
   const getState = store.getState
   const fetchState = settings.db.fetchState
+  const stashState = settings.db.stashState
+  const snapshotInterval = settings.snapshotInterval
   const sendToRoom = socketServer.sendToRoom
 
   const getRoom = createGetRoom(getState)
   const ensureRoom = createEnsureRoom(dispatch, getRoom, fetchState)
-  const applyAction = createApplyAction(dispatch, getRoom, sendToRoom)
-  const saveRoom = createSaveRoom(getRoom, settings)
+  const applyAction = createApplyAction(dispatch, getState, getRoom, sendToRoom)
+  const saveRoom = createSaveRoom(snapshotInterval, getRoom, stashState)
   const updateRoom = _createUpdateRoom(ensureRoom, applyAction, saveRoom)
 
   return updateRoom

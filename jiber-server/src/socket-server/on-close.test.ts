@@ -11,7 +11,7 @@ const store = {
     return {
       sockets: {
         socket1: {
-          connection: {
+          ws: {
             removeAllListeners: () => calls.push(['removeAllListeners'])
           },
           userId: 'user1'

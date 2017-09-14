@@ -1,3 +1,4 @@
 const jiber = require('jiber-server')
-jiber.createStore()
+const store = jiber.createStore()
+store.start()
 console.log('Draw with friends is running!')

@@ -7,7 +7,7 @@ export const createUpdateRoom = (
 ) => {
   return async (action: Action) => {
     const roomId = action.$roomId
-    if (!roomId) return undefined
+    if (!roomId) return
     await ensureRoom(roomId)
     applyAction(action)
     process.nextTick(() => saveRoom(roomId))

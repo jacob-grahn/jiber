@@ -11,10 +11,10 @@ export type SendToSocket = (socketId: string, action: Action) => void
 export const createSendToSocket: CreateSendToSocket = (getState) => {
   return (socketId, action) => {
     const socket = getState().sockets[socketId]
-    if (!socket || !socket.connection) return
-    const connection: ws = socket.connection
-    if (connection.readyState === connection.OPEN) {
-      connection.send(JSON.stringify(action))
+    if (!socket || !socket.ws) return
+    const ws: ws = socket.ws
+    if (ws.readyState === ws.OPEN) {
+      ws.send(JSON.stringify(action))
     }
   }
 }

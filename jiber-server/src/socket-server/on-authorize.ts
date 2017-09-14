@@ -22,6 +22,7 @@ export const createOnAuthorize: CreateOnAuthorize = (dispatch, loginRequest) => 
       const socketId = info.req.headers['sec-websocket-key']
       const credential = info.req.headers['sec-websocket-protocol']
       const user = await loginRequest(credential)
+      user.socketId = socketId
       const action = {type: ADD_USER, user, socketId, userId: user.userId}
       dispatch(action)
       cb(true)

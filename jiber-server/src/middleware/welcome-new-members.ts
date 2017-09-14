@@ -16,10 +16,14 @@ const giveMembersSomePrivacy = (members: UserDict) => {
   const userIds = Object.keys(members)
   const publicMembers = userIds.reduce((collector, userId) => {
     const user = members[userId]
-    collector[userId] = {
-      userId: user.userId,
-      public: user.public,
-      actionId: user.actionId
+    if (user) {
+      collector[userId] = {
+        userId: user.userId,
+        public: user.public,
+        actionId: user.actionId,
+        grantRead: user.grantRead,
+        grantWrite: user.grantWrite
+      }
     }
     return collector
   }, {} as UserDict)

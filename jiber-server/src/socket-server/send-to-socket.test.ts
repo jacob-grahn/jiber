@@ -8,7 +8,7 @@ const getState: any = () => {
   return {
     sockets: {
       socket1: {
-        connection: {
+        ws: {
           readyState: 1,
           OPEN: 1,
           send: (message: string) => calls.push(message)

@@ -32,9 +32,8 @@ export const createOnConnect: CreateOnConnect = (
     webSocket.on('close', () => onClose(socketId))
   }
 
-  const initSocket = (socketId: string, connection: ws) => {
-    const timeMs = new Date().getTime()
-    const socketAction = {type: INIT_SOCKET, socketId, connection, timeMs}
+  const initSocket = (socketId: string, ws: ws) => {
+    const socketAction = {type: INIT_SOCKET, socketId, ws}
     store.dispatch(socketAction)
   }
 
@@ -52,11 +51,15 @@ export const createOnConnect: CreateOnConnect = (
     const userId = get(state, `sockets.${socketId}.userId`)
     if (!userId) return
 
-    const publicUserState = get(state, `users.${userId}.public`)
-    if (!publicUserState) return
+    const user = state.users[userId]
+    const publicUser = {
+      public: user.public,
+      grantRead: user.grantRead,
+      grantWrite: user.grantWrite
+    }
 
     addListeners(socketId, webSocket)
     initSocket(socketId, webSocket)
-    sendLoginResult(socketId, publicUserState)
+    sendLoginResult(socketId, publicUser)
   }
 }

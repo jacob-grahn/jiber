@@ -44,7 +44,11 @@ beforeEach(() => calls = [])
 test('should send login result back to user', () => {
   onConnect(webSocket, request)
   expect(calls.filter(call => call[0] === 'sendToSocket')).toEqual([
-    ['sendToSocket', 'socket1', {type: LOGIN_RESULT, user: {name: 'sally'}}]
+    [
+      'sendToSocket',
+      'socket1',
+      {type: LOGIN_RESULT, user: {public: {name: 'sally'}}}
+    ]
   ])
 })
 
@@ -53,5 +57,5 @@ test('should dispatch an INIT_SOCKET action', () => {
   const releventCalls = calls.filter(call => call[0] === 'dispatch')
   const action = releventCalls[0][1]
   expect(action.type).toEqual(INIT_SOCKET)
-  expect(action.connection).toBeTruthy()
+  expect(action.ws).toBeTruthy()
 })

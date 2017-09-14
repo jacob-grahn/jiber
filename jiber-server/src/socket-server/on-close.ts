@@ -41,14 +41,14 @@ const removeUserFromRooms = (
 export const createOnClose: CreateOnClose = (store, pushAction) => {
   return (socketId) => {
     const state = store.getState()
-    const socketData: any = state.sockets[socketId] || {}
-    const connection: {removeAllListeners: () => void} = socketData.connection
+    const socket: any = state.sockets[socketId] || {}
+    const ws: {removeAllListeners: () => void} = socket.ws
 
-    if (!connection) return
-    connection.removeAllListeners()
+    if (!ws) return
+    ws.removeAllListeners()
 
-    if (socketData.userId) {
-      removeUserFromRooms(pushAction, socketData.userId, state.rooms)
+    if (socket.userId) {
+      removeUserFromRooms(pushAction, socket.userId, state.rooms)
     }
 
     store.dispatch({type: REMOVE_SOCKET, socketId})

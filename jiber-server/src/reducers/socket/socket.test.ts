@@ -1,10 +1,10 @@
+import { INIT_SOCKET } from 'jiber-core'
 import { socket } from './socket'
 
-test('should combine some reducers', () => {
-  const state = socket(undefined, {type: 'wee'})
+test('should store ws and userId', () => {
+  const state = socket(undefined, {type: INIT_SOCKET, ws: 'hi'})
   expect(state).toEqual({
-    connectedAt: 0,
-    connection: undefined,
-    userId: ''
+    ws: 'hi',
+    userId: undefined
   })
 })
