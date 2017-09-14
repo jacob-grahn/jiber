@@ -37,6 +37,7 @@
     ]
   },
   "dependencies": {
+    "jiber-core": "file:../jiber-core",
     "ws": "^3.1.0"
   }
 }
