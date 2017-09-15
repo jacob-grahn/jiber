@@ -3,6 +3,7 @@
 		"lerna": "^2.1.2"
 	},
 	"scripts": {
-		"postinstall": "lerna bootstrap"
+		"postinstall": "lerna bootstrap --hoist",
+		"test": "lerna run test"
 	}
 }
