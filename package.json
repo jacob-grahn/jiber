@@ -10,7 +10,8 @@
   "scripts": {
     "postinstall": "lerna bootstrap --hoist",
     "test": "jest packages",
-    "lint": "tslint -p tsconfig.json --type-check"
+    "lint": "tslint -p tsconfig.json --type-check",
+    "build": "lerna run build"
   },
   "jest": {
     "globals": {

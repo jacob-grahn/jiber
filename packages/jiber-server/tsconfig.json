@@ -1,17 +1,10 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declaration": true,
         "module": "commonjs",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
         "outDir": "dist",
-        "strictNullChecks": true,
-        "sourceMap": false,
-        "target": "es6"
     },
     "include": [
-        "src/**/*.ts"
+        "src/index.ts"
     ]
 }

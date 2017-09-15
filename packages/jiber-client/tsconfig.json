@@ -1,17 +1,10 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declaration": true,
         "module": "es6",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
-        "outDir": "dist/es6",
-        "strictNullChecks": true,
-        "sourceMap": false,
-        "target": "es6"
+        "outDir": "dist/es6"
     },
     "include": [
-        "src/**/*.ts"
+        "src/index.ts"
     ]
 }
