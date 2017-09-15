@@ -6,7 +6,6 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "tsc",
-    "test": "jest src",
     "build": "tsc"
   },
   "author": "Jacob Grahn",
