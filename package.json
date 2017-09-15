@@ -1,9 +1,31 @@
 {
-	"devDependencies": {
-		"lerna": "^2.1.2"
-	},
-	"scripts": {
-		"postinstall": "lerna bootstrap --hoist",
-		"test": "lerna run test"
-	}
+  "devDependencies": {
+    "lerna": "^2.1.2",
+    "@types/jest": "^20.0.8",
+    "jest": "^21.1.0",
+    "ts-jest": "^21.0.1",
+    "tslint": "^5.7.0",
+    "tslint-config-standard": "^6.0.1"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "test": "jest packages",
+    "lint": "tslint -p tsconfig.json --type-check"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
 }

@@ -7,29 +7,11 @@
   "types": "dist/commonjs/index.d.ts",
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc --module commonjs --outDir dist/commonjs && tsc --outDir dist/es6 --module es6",
-    "test": "jest",
-    "lint": "tslint -p tsconfig.json --type-check"
+    "build": "tsc -p tsconfig.commonjs.json && tsc -p tsconfig.es6.json"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^20.0.8",
-    "jest": "^21.1.0",
-    "ts-jest": "^21.0.1",
-    "tslint": "^5.7.0",
-    "tslint-config-standard": "^6.0.1",
     "typescript": "^2.5.2"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "../../node_modules/ts-jest/preprocessor.js"
-    },
-    "mapCoverage": true,
-    "testRegex": "\\.test\\.ts$",
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ]
   }
 }

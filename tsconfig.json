@@ -6,12 +6,11 @@
         "noImplicitAny": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "outDir": "dist",
         "strictNullChecks": true,
         "sourceMap": false,
         "target": "es6"
     },
     "include": [
-        "src/**/*.ts"
+        "packages/**/*.ts"
     ]
 }
