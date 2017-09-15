@@ -1,5 +1,5 @@
 export const isAllowedPath = (allowedPaths: any[], path: string): boolean => {
-  if (!path) return false
+  if (typeof path !== 'string') return false
   if (Array.isArray(allowedPaths)) {
     const matches = allowedPaths.filter(allowedPath => {
       if (typeof allowedPath === 'string') {

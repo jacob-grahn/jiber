@@ -4,7 +4,7 @@
  */
 
 import { Action, RoomState, ACTION_PUSHED } from 'jiber-core'
-import { DB } from '../interfaces/DB'
+import { DB } from '../interfaces/db'
 import * as EventEmitter from 'events'
 
 const emitter = new EventEmitter()

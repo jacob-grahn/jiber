@@ -1,0 +1,75 @@
+0 silly input [ 'test' ]
+1 silly flags { _: [ 'run' ], script: 'test', args: [] }
+2 verbose rootPath /home/jacob/Projects/jiber
+3 info version 2.1.2
+4 silly existsSync /home/jacob/Projects/jiber/VERSION
+5 silly initialize attempt
+6 silly initialize success
+7 silly execute attempt
+8 silly runScriptInDir test [] jiber-core
+9 silly getExecOpts { cwd: '/home/jacob/Projects/jiber/packages/jiber-core' }
+10 silly runScriptInDir test [] jiber-db-mongo
+11 silly getExecOpts { cwd: '/home/jacob/Projects/jiber/packages/jiber-db-mongo' }
+12 error test Errored while running script in 'jiber-core'
+13 error execute Error: Command failed: npm run test
+13 error execute ● Validation Error:
+13 error execute
+13 error execute   Module <rootDir>/node_modules/ts-jest/preprocessor.js in the transform option was not found.
+13 error execute
+13 error execute   Configuration Documentation:
+13 error execute   https://facebook.github.io/jest/docs/configuration.html
+13 error execute
+13 error execute npm ERR! code ELIFECYCLE
+13 error execute npm ERR! errno 1
+13 error execute npm ERR! jiber-core@0.0.1 test: `jest`
+13 error execute npm ERR! Exit status 1
+13 error execute npm ERR!
+13 error execute npm ERR! Failed at the jiber-core@0.0.1 test script.
+13 error execute npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+13 error execute
+13 error execute npm ERR! A complete log of this run can be found in:
+13 error execute npm ERR!     /home/jacob/.npm/_logs/2017-09-15T00_39_51_634Z-debug.log
+13 error execute
+13 error execute > jiber-core@0.0.1 test /home/jacob/Projects/jiber/packages/jiber-core
+13 error execute > jest
+13 error execute
+13 error execute
+13 error execute     at Promise.all.then.arr (/home/jacob/npm/lib/node_modules/lerna/node_modules/execa/index.js:236:11)
+13 error execute     at <anonymous>
+13 error execute     at process._tickCallback (internal/process/next_tick.js:188:7)
+13 error execute  callback with error
+13 error execute  { Error: Command failed: npm run test
+13 error execute ● Validation Error:
+13 error execute
+13 error execute   Module <rootDir>/node_modules/ts-jest/preprocessor.js in the transform option was not found.
+13 error execute
+13 error execute   Configuration Documentation:
+13 error execute   https://facebook.github.io/jest/docs/configuration.html
+13 error execute
+13 error execute npm ERR! code ELIFECYCLE
+13 error execute npm ERR! errno 1
+13 error execute npm ERR! jiber-core@0.0.1 test: `jest`
+13 error execute npm ERR! Exit status 1
+13 error execute npm ERR!
+13 error execute npm ERR! Failed at the jiber-core@0.0.1 test script.
+13 error execute npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+13 error execute
+13 error execute npm ERR! A complete log of this run can be found in:
+13 error execute npm ERR!     /home/jacob/.npm/_logs/2017-09-15T00_39_51_634Z-debug.log
+13 error execute
+13 error execute > jiber-core@0.0.1 test /home/jacob/Projects/jiber/packages/jiber-core
+13 error execute > jest
+13 error execute
+13 error execute
+13 error execute     at Promise.all.then.arr (/home/jacob/npm/lib/node_modules/lerna/node_modules/execa/index.js:236:11)
+13 error execute     at <anonymous>
+13 error execute     at process._tickCallback (internal/process/next_tick.js:188:7)
+13 error execute   stack: 'Error: Command failed: npm run test\n● Validation Error:\n\n  Module <rootDir>/node_modules/ts-jest/preprocessor.js in the transform option was not found.\n\n  Configuration Documentation:\n  https://facebook.github.io/jest/docs/configuration.html\n\nnpm ERR! code ELIFECYCLE\nnpm ERR! errno 1\nnpm ERR! jiber-core@0.0.1 test: `jest`\nnpm ERR! Exit status 1\nnpm ERR! \nnpm ERR! Failed at the jiber-core@0.0.1 test script.\nnpm ERR! This is probably not a problem with npm. There is likely additional logging output above.\n\nnpm ERR! A complete log of this run can be found in:\nnpm ERR!     /home/jacob/.npm/_logs/2017-09-15T00_39_51_634Z-debug.log\n\n> jiber-core@0.0.1 test /home/jacob/Projects/jiber/packages/jiber-core\n> jest\n\n\n    at Promise.all.then.arr (/home/jacob/npm/lib/node_modules/lerna/node_modules/execa/index.js:236:11)\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)',
+13 error execute   code: 1,
+13 error execute   killed: false,
+13 error execute   stdout: '\n> jiber-core@0.0.1 test /home/jacob/Projects/jiber/packages/jiber-core\n> jest\n\n',
+13 error execute   stderr: '● Validation Error:\n\n  Module <rootDir>/node_modules/ts-jest/preprocessor.js in the transform option was not found.\n\n  Configuration Documentation:\n  https://facebook.github.io/jest/docs/configuration.html\n\nnpm ERR! code ELIFECYCLE\nnpm ERR! errno 1\nnpm ERR! jiber-core@0.0.1 test: `jest`\nnpm ERR! Exit status 1\nnpm ERR! \nnpm ERR! Failed at the jiber-core@0.0.1 test script.\nnpm ERR! This is probably not a problem with npm. There is likely additional logging output above.\n\nnpm ERR! A complete log of this run can be found in:\nnpm ERR!     /home/jacob/.npm/_logs/2017-09-15T00_39_51_634Z-debug.log\n',
+13 error execute   failed: true,
+13 error execute   signal: null,
+13 error execute   cmd: 'npm run test',
+13 error execute   timedOut: false }
