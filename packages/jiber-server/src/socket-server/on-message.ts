@@ -1,6 +1,6 @@
 import { ServerState } from '../interfaces/server-state'
 import { SendToSocket } from './send-to-socket'
-import { PushAction } from '../interfaces/db'
+import { PushAction } from 'jiber-core'
 
 export type CreateOnMessage = (
   getState: () => ServerState,

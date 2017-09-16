@@ -1,4 +1,5 @@
 export * from './interfaces/action'
+export * from './interfaces/db'
 export * from './interfaces/middleware'
 export * from './interfaces/reducer'
 export * from './interfaces/diff-list'

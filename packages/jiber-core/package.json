@@ -4,7 +4,7 @@
   "description": "Synced data store",
   "main": "dist/commonjs/index.js",
   "module": "dist/es6/index.js",
-  "types": "dist/commonjs/index.d.ts",
+  "types": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -p tsconfig.commonjs.json && tsc -p tsconfig.es6.json"

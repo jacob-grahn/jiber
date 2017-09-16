@@ -1,6 +1,5 @@
 import { noConcurrent } from '../utils/no-concurrent'
-import { RoomState } from 'jiber-core'
-import { StashState } from '../interfaces/db'
+import { RoomState, StashState } from 'jiber-core'
 
 export const createSaveRoom = (
   snapshotInterval: number,

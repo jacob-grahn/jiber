@@ -1,4 +1,5 @@
-import { Action, RoomState } from 'jiber-core'
+import { Action } from './action'
+import { RoomState } from './room-state'
 import * as EventEmitter from 'events'
 
 export interface DB {
@@ -10,4 +11,4 @@ export interface DB {
 
 export type PushAction = (action: Action) => void
 export type FetchState = (roomId: string) => Promise<RoomState>
-export type StashState = (roomId: string, state: RoomState) => Promise<void>
+export type StashState = (roomId: string, state: RoomState) => void
