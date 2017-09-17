@@ -9,6 +9,7 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "dependencies": {
-    "jiber-server": "file:..\\..\\..\\jiber-server"
+    "jiber-db-redis": "file:../../../packages/jiber-db-redis",
+    "jiber-server": "file:../../../packages/jiber-server"
   }
 }

@@ -2,7 +2,9 @@
   "name": "jiber-client",
   "version": "0.0.1",
   "description": "Synced data store",
-  "main": "dist/server/index.js",
+  "main": "dist/jiber-client.bundle.js",
+  "module": "dist/es6/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run compile && npm run bundle && npm run compress",
