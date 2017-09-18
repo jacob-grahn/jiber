@@ -1,16 +1,9 @@
-import {
-  Reducer,
-  Action,
-  CONFIRMED_STATE,
-  PATCH,
-  SERVER
-} from 'jiber-core'
+import { Reducer, Action, CONFIRMED_STATE, SERVER } from 'jiber-core'
 
 /**
  * Use the current room state along with the action to calculate
  * a state that will be correct, assuming the server ends up confirming
  * all of the optimistic actions
- * todo: I don't know why PATCH is in here
  */
 export const createOptimistic = (subReducer: Reducer) => {
   return (
@@ -18,7 +11,7 @@ export const createOptimistic = (subReducer: Reducer) => {
     action: Action,
     roomState: {optimisticActions: Action[], confirmed: any}
   ) => {
-    if (action.type === CONFIRMED_STATE || action.type === PATCH) {
+    if (action.type === CONFIRMED_STATE) {
       const { optimisticActions } = roomState
       return optimisticActions.reduce(subReducer, roomState.confirmed)
     }

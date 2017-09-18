@@ -1,7 +1,6 @@
 import { Action } from '../interfaces/action'
 import { Reducer } from '../interfaces/reducer'
-import { patch } from '../utils/patch'
-import { PATCH, CONFIRMED_STATE } from '../constants/action-types'
+import { CONFIRMED_STATE } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
 
 /**
@@ -13,9 +12,6 @@ export const createConfirmed = (subReducer: Reducer): Reducer => {
 
       case CONFIRMED_STATE:
         return action.confirmed
-
-      case PATCH:
-        return patch(state, action.confirmed)
 
       default:
         if (action.$source === SERVER) {

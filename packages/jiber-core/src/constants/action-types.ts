@@ -1,7 +1,3 @@
-export const INJECT_PRIVATE = 'jiber/INJECT_PRIVATE'
-export const CLEAN_PRIVATE = 'jiber/CLEAN_PRIVATE'
-
-export const PATCH = 'jiber/PATCH'
 export const JOIN_ROOM = 'jiber/JOIN_ROOM'
 export const LEAVE_ROOM = 'jiber/LEAVE_ROOM'
 export const CONFIRMED_STATE = 'jiber/CONFIRMED_STATE'

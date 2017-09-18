@@ -2,8 +2,7 @@ import { members } from './members'
 import {
   LEAVE_ROOM,
   JOIN_ROOM,
-  CONFIRMED_STATE,
-  PATCH
+  CONFIRMED_STATE
 } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
 
@@ -40,12 +39,6 @@ test('removeing a non-member is ignored', () => {
   const $userId = 'pluto'
   const action = {type: LEAVE_ROOM, $userId}
   expect(members(state, action)).toEqual({fil: {userId: 'fil', actionId: 1}})
-})
-
-test('members can be PATCHed', () => {
-  const state = {fil: {userId: 'fil', actionId: 1}}
-  const action = {type: PATCH, members: [['SET', 'fil.actionId', 7]]}
-  expect(members(state, action)).toEqual({fil: {userId: 'fil', actionId: 7}})
 })
 
 test('actions from the server can update actionId', () => {

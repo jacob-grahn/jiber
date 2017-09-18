@@ -3,11 +3,9 @@ import { UserDict } from '../interfaces/user-dict'
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
-  CONFIRMED_STATE,
-  PATCH
+  CONFIRMED_STATE
 } from '../constants/action-types'
 import { SERVER } from '../constants/source-types'
-import { patch } from '../utils/patch'
 import { createDictionary } from './dictionary'
 
 /**
@@ -42,9 +40,6 @@ export const members = (
   switch (action.type) {
     case CONFIRMED_STATE:
       return action.members
-
-    case PATCH:
-      return patch(state, action.members)
 
     default:
       return memberDict(state, action)

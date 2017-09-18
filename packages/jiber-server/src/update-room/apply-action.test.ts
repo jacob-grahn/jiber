@@ -1,4 +1,4 @@
-import { Action, PATCH, INJECT_PRIVATE, CLEAN_PRIVATE } from 'jiber-core'
+import { Action } from 'jiber-core'
 import { createApplyAction } from './apply-action'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -11,9 +11,6 @@ const dispatch = (action: Action) => {
 const sendToRoom = (roomId: string, action: Action) => {
   calls.push(['sendToRoom', roomId, action])
 }
-const getRoom = (_roomId: string): any => {
-  return {}
-}
 const getState = () => {
   return {
     rooms: {},
@@ -25,7 +22,7 @@ const getState = () => {
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const applyAction = createApplyAction(dispatch, getState, getRoom, sendToRoom)
+const applyAction = createApplyAction(dispatch, getState, sendToRoom)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,28 +43,5 @@ test('raw apply an action and send it out to room members', () => {
   expect(calls).toEqual([
     ['dispatch', action],
     ['sendToRoom', 'room1', action]
-  ])
-})
-
-test('private apply an action and send out a diff', () => {
-  const action = {type: '$serverOnly/hi', $roomId: 'room1', $timeMs: 123}
-  applyAction(action)
-  expect(calls).toEqual([
-    ['dispatch', {
-      type: INJECT_PRIVATE,
-      $roomId: 'room1'
-    }],
-    ['dispatch', action],
-    ['dispatch', {
-      type: CLEAN_PRIVATE,
-      $roomId: 'room1'
-    }],
-    ['sendToRoom', 'room1', {
-      type: PATCH,
-      confirmed: [],
-      members: [],
-      $timeMs: 123,
-      $roomId: 'room1'
-    }]
   ])
 })

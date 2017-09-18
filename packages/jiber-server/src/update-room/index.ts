@@ -28,7 +28,7 @@ export const createUpdateRoom = (
 
   const getRoom = createGetRoom(getState)
   const ensureRoom = createEnsureRoom(dispatch, getRoom, fetchState)
-  const applyAction = createApplyAction(dispatch, getState, getRoom, sendToRoom)
+  const applyAction = createApplyAction(dispatch, getState, sendToRoom)
   const saveRoom = createSaveRoom(snapshotInterval, getRoom, stashState)
   const updateRoom = _createUpdateRoom(ensureRoom, applyAction, saveRoom)
 

@@ -1,5 +1,5 @@
 import { createOptimistic } from './optimistic'
-import { Action, PATCH, SERVER } from 'jiber-core'
+import { Action, SERVER } from 'jiber-core'
 import { ClientRoomState } from '../../interfaces/client-room-state'
 
 const adder = (state: any = '', action: Action): any => {
@@ -22,19 +22,6 @@ test('user generated actions are used on the optimistic state', () => {
     lastUpdatedAt: 0
   }
   expect(optimistic(state, action, roomState)).toEqual('123')
-})
-
-test('optimistic state is rebased when confirmed state is PATCHed', () => {
-  const state: any = {}
-  const action = {type: PATCH}
-  const roomState: ClientRoomState = {
-    optimisticActions: [],
-    confirmed: {someValue: 'yay'},
-    optimistic: state,
-    members: {},
-    lastUpdatedAt: 0
-  }
-  expect(optimistic(state, action, roomState)).toEqual({someValue: 'yay'})
 })
 
 test('optimistic state is rebased when confirmed state is updated', () => {

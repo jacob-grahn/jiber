@@ -6,6 +6,7 @@ export const createDb = (options: Redis.ClientOpts) => {
   const client = Redis.createClient(options)
   const pub = Redis.createClient(options)
   const sub = Redis.createClient(options)
+  const emitter = new EventEmitter()
   let lastActionTime = 0
 
   sub.subscribe('channel1')
@@ -18,8 +19,6 @@ export const createDb = (options: Redis.ClientOpts) => {
     lastActionTime = action.$timeMs
     emitter.emit(ACTION_PUSHED, action)
   })
-
-  const emitter = new EventEmitter()
 
   const pushAction = (action: Action) => {
     action.$timeMs = new Date().getTime()
