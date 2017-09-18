@@ -1,6 +1,5 @@
-import { Reducer } from 'jiber-core'
+import { Reducer, DB } from 'jiber-core'
 import { LoginRequestHandler } from './login-request-handler'
-import { DB } from 'jiber-core'
 
 export interface ServerSettingsInput {
   socketPort?: number,
