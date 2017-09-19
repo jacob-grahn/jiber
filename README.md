@@ -1,73 +1,44 @@
-jiber is a multi-user state container for JavaScript apps.
+# [Jiber](https://jiber.io)
 
-### Perks
-- Offline First
-- Optimistic
-- Fast (updates are sent via WebSockets)
-- Tiny (jiber-client is 3kb, and has no dependencies)
+Jiber is a synchronized data store. It is well suited for real-time apps with
+data that changes often.
+
+- **Fast**: Updates are transmitted nearly instantly via WebSockets.
+- **Tiny**: jiber-client is 3kb, and has no dependencies.
+- **Offline-First**: User actions are applied optimistically until an internet
+connection becomes available.
 
 ### Installation
-Client
 ```
 npm i jiber-client
 ```
 
-Server
+### Hello World Example
 ```
-npm i jiber-server
-```
+// This example uses a free test server from jiber.io
+// You could also set up your own, see /jiber-server in this repo
 
-### Example
-Here is an app that counts the number of times any user has clicked the page.
-Client
-```
-// Count how many times the screen is clicked
-// This reducer function should be the same on the client and server
-const clickCounter = (state = 0, action) => {
-  switch (action.type) {
-    case 'CLICK':
-      return state + 1
-    default:
-      return state
-  }
-}
+// Create our data store, which will connect and sync up our data
+const store = jiber.createStore({url: 'localhost'})
 
-// Pass our custom app logic to jiber
-const store = $jiber.createStore({url: 'localhost', reducer: clickCounter})
-
-// Pick a room to join
+// Pick a room to join. I have creatively chosen 'room1'
 const room = store.createRoom('room1')
 
-// Display the click count on the screen
-room.subscribe(() => {
-  document.body.innerHTML = `There have been ${room.getState()} clicks!`
-})
-
-// click handler
-window.onclick = () => room.dispatch({type: 'CLICK'})
-```
-
-Server
-```
-const jiber = require('jiber-server')
-
-// Count how many times the screen is clicked
-// This reducer function should be the same on the client and server
-const clickCounter = (state = 0, action) => {
-  switch (action.type) {
-    case 'CLICK':
-      return state + 1
-    default:
-      return state
-  }
+// Display how many glorious clicks we have collectively achieved
+const render = (state) => {
+    document.body.innerHTML = `
+        Hello world, curious people have clicked
+        on this page <b>${state.clickCount}</b> times!
+    `
 }
 
-// Pass our custom app logic to jiber
-const store = jiber.createStore({reducer: clickCounter})
+// Render the page whenever the room changes
+room.subscribe(render)
 
-// Start listening for incomming connections
-store.start()
-console.log("Click Counter's Server is runnning!")
+// +1 every time we click
+window.onclick = () => {
+  room.dispatch({type: 'INCREMENT', path: 'clickCount', value: 1})
+}
 ```
 
-More examples can be found in the examples directory of this repo.
+More examples can be found in /examples.
