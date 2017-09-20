@@ -1,4 +1,5 @@
 const jiber = require('jiber-server')
+const map = jiber.map
 
 const middleware = [
   store => action => next => {
@@ -20,8 +21,22 @@ const middleware = [
   }
 ]
 
-const nextTurn = (state) => {
+const isTurnComplete = (room) => {
+  return Object.keys(room.players).reduce((collector, playerId) => {
+    const player = room.players[playerId]
+    if (!player.turnComplete) return false
+    return collector
+  }, true)
+}
 
+const nextTurn = (room) => {
+  if (!isTurnComplete(room)) return room
+  Object.keys(room.players).forEach(playerId => {
+    const player = room.players[playerId]
+    player.turnComplete = false
+    player.cardOnTable = undefined
+    player.wonCards.push(player.cardOnTable)
+  })
 }
 
 const reducer = (state, action) => {
