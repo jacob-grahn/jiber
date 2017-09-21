@@ -2,7 +2,6 @@ import { Action } from './interfaces/action'
 import { Reducer } from './interfaces/reducer'
 import { Middleware } from './interfaces/middleware'
 import { initMiddleware } from './init-middleware'
-import { INIT_SOCKET } from './constants/action-types'
 import { createSubscription } from './utils/subscription'
 
 export interface Store {
@@ -49,7 +48,6 @@ export const createStore = (
   }
 
   setMiddleware(middlewares)
-  dispatch({type: INIT_SOCKET})                                                 // initialize reducer with it's default state
 
   return store
 }

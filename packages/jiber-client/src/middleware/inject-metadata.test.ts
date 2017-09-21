@@ -6,7 +6,7 @@ const state = {
   me: {userId: 'bob'},
   rooms: {
     testRoom: {
-      members: {bob: {actionId: 5}}
+      members: {bob: {actionId: 0, fun: true}}
     }
   }
 }
@@ -21,13 +21,7 @@ const inner = injectMetadata(store)(final)
 test('$user is added to the metadata', () => {
   const action: Action = {type: 'test', $roomId: 'testRoom'}
   inner(action)
-  expect(lastAction.$user).toEqual({actionId: 5})
-})
-
-test('actionId is added to the metadata', () => {
-  const action: Action = {type: 'test', $roomId: 'testRoom'}
-  inner(action)
-  expect(lastAction.$actionId).toEqual(6)
+  expect(lastAction.$user).toEqual({actionId: 0, fun: true})
 })
 
 test('timeMs is added to the metadata', () => {

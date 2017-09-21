@@ -1,5 +1,5 @@
 import { Action } from '../interfaces/action'
-import { UserDict } from '../interfaces/user-dict'
+import { User } from '../interfaces/user'
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
@@ -12,31 +12,32 @@ import { createDictionary } from './dictionary'
  * Keep track of a user who has joined this room
  */
 const member = (
-  state: {actionId: number}|undefined = undefined,
+  state: User|undefined = undefined,
   action: Action
 ) => {
   switch (action.type) {
     case JOIN_ROOM:
-      if (state) return state                                                   // no need to be added twice
-      return {...action.$user, actionId: 0}
+      return {...action.$user}
 
     case LEAVE_ROOM:
       return undefined
 
     default:
-      if (action.$source === SERVER && action.$actionId) {
-        return {...state, actionId: action.$actionId}
-      }
-      return state
+      if (!state) return state
+      if (action.$source !== SERVER) return state
+      const newActionId = action.$actionId || 0
+      const oldActionId = state.actionId || 0
+      if (newActionId <= oldActionId) return state
+      return {...state, actionId: newActionId}
   }
 }
 
 const memberDict = createDictionary(member, '$userId')
 
 export const members = (
-  state: UserDict = {},
+  state: {[userId: string]: User} = {},
   action: Action
-): UserDict => {
+): {[userId: string]: User} => {
   switch (action.type) {
     case CONFIRMED_STATE:
       return action.members

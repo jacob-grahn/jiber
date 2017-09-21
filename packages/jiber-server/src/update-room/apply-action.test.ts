@@ -13,10 +13,18 @@ const sendToRoom = (roomId: string, action: Action) => {
 }
 const getState = () => {
   return {
-    rooms: {},
+    rooms: {
+      room1: {
+        members: {
+          jay: {
+            actionId: 54
+          }
+        }
+      }
+    },
     users: {},
     sockets: {}
-  }
+  } as any
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,8 +36,8 @@ beforeEach(() => calls = [])
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('quick apply an action and send it out to room members', () => {
-  const action = {type: 'hi', $roomId: 'room1', $timeMs: 5465}
+test('apply an action and send it out to room members', () => {
+  const action = {type: 'hi', $roomId: 'room1', $actionId: 55, $userId: 'jay'}
   applyAction(action)
   expect(calls).toEqual([
     ['dispatch', action],
@@ -37,11 +45,8 @@ test('quick apply an action and send it out to room members', () => {
   ])
 })
 
-test('raw apply an action and send it out to room members', () => {
-  const action = {type: 'hi', $roomId: 'room1'}
+test('do not apply an action if actionId is less than the last one', () => {
+  const action = {type: 'hi', $roomId: 'room1', $actionId: 53, $userId: 'jay'}
   applyAction(action)
-  expect(calls).toEqual([
-    ['dispatch', action],
-    ['sendToRoom', 'room1', action]
-  ])
+  expect(calls).toEqual([])
 })

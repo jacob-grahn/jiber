@@ -5,6 +5,6 @@
         "outDir": "dist/es6"
     },
     "include": [
-        "src/index.ts"
+        "src/**/*.ts"
     ]
 }

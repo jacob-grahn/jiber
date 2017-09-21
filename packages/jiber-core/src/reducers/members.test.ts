@@ -13,18 +13,11 @@ test('members are set on join success', () => {
   expect(members(state, action)).toEqual({ike: {actionId: 3}})
 })
 
-test('add actionId', () => {
+test('add user', () => {
   const state = {}
   const $userId = 'fil'
-  const action = {type: JOIN_ROOM, $userId}
-  expect(members(state, action)).toEqual({fil: {actionId: 0}})
-})
-
-test('adding existing user is ignored', () => {
-  const state = {sue: {userId: 'sue', actionId: 5}}
-  const $userId = 'sue'
-  const action = {type: JOIN_ROOM, $userId}
-  expect(members(state, action)).toEqual({sue: {userId: 'sue', actionId: 5}})
+  const action = {type: JOIN_ROOM, $user: {userId: 'fil', actionId: 7}, $userId}
+  expect(members(state, action)).toEqual({fil: {userId: 'fil', actionId: 7}})
 })
 
 test('remove actionId', () => {

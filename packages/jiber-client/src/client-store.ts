@@ -1,5 +1,6 @@
 import { Action, Store, createStore } from 'jiber-core'
 import { createSendToServer } from './middleware/send-to-server'
+import { addActionId } from './middleware/add-action-id'
 import { injectMetadata } from './middleware/inject-metadata'
 import { ClientSettingsInput } from './interfaces/client-settings-input'
 import { ClientState } from './interfaces/client-state'
@@ -22,7 +23,12 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const clientReducer = createClientReducer(options.reducer)
   const send = (action: Action) => socket.send(action)                          // tslint:disable-line
   const sendToServer = createSendToServer(send)
-  const middleware = [...options.middleware, sendToServer, injectMetadata]
+  const middleware = [
+    ...options.middleware,
+    addActionId,
+    sendToServer,
+    injectMetadata
+  ]
   const store = createStore(clientReducer, options.initialState, middleware)
   const createRoom = createCreateRoom(store)
   const clientStore: ClientStore = {...store, createRoom}

@@ -5,6 +5,6 @@
         "outDir": "dist/commonjs"
     },
     "include": [
-        "src/index.ts"
+        "src/**/*.ts"
     ]
 }

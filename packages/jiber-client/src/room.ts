@@ -2,7 +2,6 @@ import {
   Action,
   Store,
   JOIN_ROOM,
-  CLIENT,
   get,
   createSubscription
 } from 'jiber-core'
@@ -11,24 +10,23 @@ import {
  * Create a room interface to make some code more convinient
  */
 export const createCreateRoom = (store: Store) => {
-  return ($roomId: string) => {
+  return (roomId: string) => {
 
     // subscribe to events that target this room
     const subscription = createSubscription()
     store.subscribe((action: Action) => {
-      if (action.$roomId === $roomId) {
+      if (action.$roomId === roomId) {
         subscription.publish(action)
       }
     })
 
     const getRoom = () => {
       const state = store.getState()
-      const roomState = state.rooms[$roomId]
-      return roomState
+      return state.rooms[roomId]
     }
 
     const dispatch = (action: Action) => {
-      store.dispatch({...action, $roomId, $source: CLIENT})
+      store.dispatch({...action, $roomId: roomId})
     }
 
     const getState = () => get(getRoom(), 'optimistic')

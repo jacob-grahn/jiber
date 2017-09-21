@@ -1,5 +1,4 @@
-import { Action } from 'jiber-core'
-import { addMetadata } from './add-metadata'
+import { Action, SERVER } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
 export const createApplyAction = (
@@ -8,12 +7,20 @@ export const createApplyAction = (
   sendToRoom: (roomId: string, action: Action) => void
 ) => {
   return (action: Action): void => {
-    if (!action.$roomId) return
-    const state = getState()
-    action = addMetadata(state, action)
+    if (!action.$roomId || !action.$userId) return
 
-    if (!action.$roomId) return
-    dispatch(action)
+    const state = getState()
+    const room = state.rooms[action.$roomId]
+    const user = room.members[action.$userId] || {}
+    const lastActionId = user.actionId || 0
+    const nextActionId = action.$actionId || 1
+
+    if (nextActionId <= lastActionId) return
+
     sendToRoom(action.$roomId, action)
+
+    action.$source = SERVER
+    action.$user = user
+    dispatch(action)
   }
 }

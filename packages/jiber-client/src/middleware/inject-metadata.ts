@@ -1,12 +1,12 @@
 import { Action, Store, Middleware, Next } from 'jiber-core'
-import { nextActionId } from '../utils/next-action-id'
 
 /**
- * Mostly this middleware exists to create an incrementing actionId
- * for local actions.
- * userId and timeMs are also added to create some consistency between
+ * userId and timeMs are added to create consistency between
  * optimistic and confirmed actions
  */
+
+let nextActionId = 1
+
 export const injectMetadata: Middleware = (store: Store) => {
   return (next: Next) => (action: Action) => {
     if (!action.$roomId) return next(action)
@@ -24,7 +24,7 @@ export const injectMetadata: Middleware = (store: Store) => {
 
     const metaAction = {
       ...action,
-      $actionId: nextActionId(userId, roomState),
+      $actionId: nextActionId++,
       $user: user,
       $timeMs: new Date().getTime()
     }

@@ -7,10 +7,10 @@
   "types": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm run compile && npm run bundle && npm run compress",
+    "build": "tsc && rollup -c && uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
     "compile": "tsc",
     "bundle": "rollup -c",
-    "compress": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js"
+    "minify": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
