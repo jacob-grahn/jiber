@@ -34,6 +34,7 @@ export const createSocketServer: CreateSocketServer = (
       port: socketPort,
       verifyClient: onAuthorize as any
     })
+    wss.on('error', (err) => console.log('wss error', err.message))
     wss.on('connection', onConnect as any)
   }
 
