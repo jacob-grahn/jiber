@@ -1,8 +1,10 @@
 {
   "devDependencies": {
-    "lerna": "^2.1.2",
     "@types/jest": "^20.0.8",
+    "chokidar": "^1.7.0",
+    "execa": "^0.8.0",
     "jest": "^21.1.0",
+    "lerna": "^2.1.2",
     "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
     "tslint-config-standard": "^6.0.1"
