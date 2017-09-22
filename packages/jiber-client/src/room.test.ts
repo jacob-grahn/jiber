@@ -1,4 +1,4 @@
-import { CLIENT, JOIN_ROOM } from 'jiber-core'
+import { JOIN_ROOM } from 'jiber-core'
 import { createCreateRoom } from './room'
 
 let dispatchCalledWith: any[] = []
@@ -26,7 +26,7 @@ test('auto join room', () => {
   const createRoom = createCreateRoom(store)
   createRoom('room1')
   expect(dispatchCalledWith).toEqual([
-    {type: JOIN_ROOM, $roomId: 'room1', $source: CLIENT}
+    {type: JOIN_ROOM, $roomId: 'room1'}
   ])
 })
 
@@ -35,8 +35,8 @@ test('dispatch actions to roomId', () => {
   const room = createRoom('room1')
   room.dispatch({type: 'hi'})
   expect(dispatchCalledWith).toEqual([
-    {type: JOIN_ROOM, $roomId: 'room1', $source: CLIENT},
-    {type: 'hi', $roomId: 'room1', $source: CLIENT}
+    {type: JOIN_ROOM, $roomId: 'room1'},
+    {type: 'hi', $roomId: 'room1'}
   ])
 })
 

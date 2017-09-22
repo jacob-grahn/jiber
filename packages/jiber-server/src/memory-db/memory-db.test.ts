@@ -11,10 +11,7 @@ test('pushAction', async () => {
   })
   db.pushAction({type: 'one', $roomId})
   db.pushAction({type: 'two', $roomId})
-  expect(events).toEqual([
-    {type: 'one', $roomId},
-    {type: 'two', $roomId}
-  ])
+  expect(events.length).toEqual(2)
 })
 
 test ('stashState + fetchState should return the last saved state', async () => {

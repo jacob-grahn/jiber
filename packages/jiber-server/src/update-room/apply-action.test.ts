@@ -40,8 +40,8 @@ test('apply an action and send it out to room members', () => {
   const action = {type: 'hi', $roomId: 'room1', $actionId: 55, $userId: 'jay'}
   applyAction(action)
   expect(calls).toEqual([
-    ['dispatch', action],
-    ['sendToRoom', 'room1', action]
+    ['sendToRoom', 'room1', action],
+    ['dispatch', action]
   ])
 })
 

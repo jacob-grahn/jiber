@@ -50,15 +50,15 @@ test('start should try to listen on socketPort with onAuthorize', () => {
   expect(constructorCalls).toEqual([
     ['constructor', {port: socketPort, verifyClient: onAuthorize}]
   ])
+  socketServer.stop()
 })
 
 test('start should listen for new connections', () => {
   const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
   socketServer.start()
   const onCalls = calls.filter(call => call[0] === 'on')
-  expect(onCalls).toEqual([
-    ['on', 'connection', onConnect]
-  ])
+  expect(onCalls[1]).toEqual(['on', 'connection', onConnect])
+  socketServer.stop()
 })
 
 test('stop should do nothing if the server is not running', () => {

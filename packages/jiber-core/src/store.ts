@@ -19,7 +19,7 @@ export const createStore = (
   initialState: any = undefined,
   middlewares: Middleware[] = []
 ): Store => {
-  let state: any = initialState
+  let state: any = reducer(initialState, {} as Action)
   let applyMiddleware: (action: Action) => void
 
   const subscription = createSubscription()

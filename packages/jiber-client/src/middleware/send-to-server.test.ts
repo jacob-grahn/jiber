@@ -1,4 +1,4 @@
-import { Middleware, CLIENT } from 'jiber-core'
+import { Middleware, SERVER } from 'jiber-core'
 import { createSendToServer } from './send-to-server'
 
 let sendCalledWith: any[]
@@ -18,15 +18,16 @@ beforeEach(() => {
   nextCalledWith = []
 })
 
-test('ignore actions where $source !== CLIENT', () => {
-  sendToServer(store)(next)({type: 'hi'})
-  expect(sendCalledWith).toEqual([])
+test('send actions where $source !== SERVER', () => {
+  const action = {type: 'hi'}
+  sendToServer(store)(next)(action)
+  expect(sendCalledWith).toEqual([action])
   expect(nextCalledWith).toEqual(['next'])
 })
 
-test('send actions where $source === CLIENT', () => {
-  const action = {type: 'hi', $source: CLIENT}
+test('ignore actions where $source === SERVER', () => {
+  const action = {type: 'hi', $source: SERVER}
   sendToServer(store)(next)(action)
-  expect(sendCalledWith).toEqual([action])
+  expect(sendCalledWith).toEqual([])
   expect(nextCalledWith).toEqual(['next'])
 })
