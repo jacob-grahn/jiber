@@ -5,15 +5,18 @@
     "execa": "^0.8.0",
     "jest": "^21.1.0",
     "lerna": "^2.1.2",
+    "lodash": "^4.17.4",
     "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
     "tslint-config-standard": "^6.0.1"
   },
   "scripts": {
     "postinstall": "lerna bootstrap --hoist",
+    "prepare": "node build",
     "test": "jest packages",
     "lint": "tslint -p tsconfig.json --type-check",
-    "build": "cd packages/jiber-core && npm run build && cd ../jiber-client && npm run build && cd ../jiber-server && npm run build"
+    "build": "node build",
+    "watch": "node watch"
   },
   "jest": {
     "globals": {

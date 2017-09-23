@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Mongo backend for jiber",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "echo \"todo\""
+  },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {},
