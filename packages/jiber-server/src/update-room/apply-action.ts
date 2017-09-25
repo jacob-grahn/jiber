@@ -10,8 +10,9 @@ export const createApplyAction = (
     if (!action.$roomId || !action.$userId) return
 
     const state = getState()
+    const userId = action.$userId
     const room = state.rooms[action.$roomId]
-    const user = room.members[action.$userId] || {}
+    const user = room.members[userId] || state.users[userId] || {}
     const lastActionId = user.actionId || 0
     const nextActionId = action.$actionId || 1
 

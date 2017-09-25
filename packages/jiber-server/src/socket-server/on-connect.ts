@@ -52,14 +52,9 @@ export const createOnConnect: CreateOnConnect = (
     if (!userId) return
 
     const user = state.users[userId]
-    const publicUser = {
-      public: user.public,
-      grantRead: user.grantRead,
-      grantWrite: user.grantWrite
-    }
 
     addListeners(socketId, webSocket)
     initSocket(socketId, webSocket)
-    sendLoginResult(socketId, publicUser)
+    sendLoginResult(socketId, user)
   }
 }
