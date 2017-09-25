@@ -7,10 +7,11 @@ import { Reducer, Action, CONFIRMED_STATE, SERVER } from 'jiber-core'
  */
 export const createOptimistic = (subReducer: Reducer) => {
   return (
-    state: any = undefined,
-    action: Action,
-    roomState: {optimisticActions: Action[], confirmed: any}
+    roomState: {optimisticActions: Action[], confirmed: any, optimistic: any},
+    action: Action
   ) => {
+    const state = roomState.optimistic
+
     if (action.type === CONFIRMED_STATE) {
       const { optimisticActions } = roomState
       return optimisticActions.reduce(subReducer, roomState.confirmed)

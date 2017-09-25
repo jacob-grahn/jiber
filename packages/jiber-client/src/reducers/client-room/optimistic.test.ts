@@ -1,6 +1,6 @@
-import { createOptimistic } from './optimistic'
 import { Action, SERVER } from 'jiber-core'
-import { ClientRoomState } from '../../interfaces/client-room-state'
+import { createOptimistic } from './optimistic'
+import { ClientRoomState } from './client-room'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
@@ -21,7 +21,7 @@ test('user generated actions are used on the optimistic state', () => {
     members: {},
     lastUpdatedAt: 0
   }
-  expect(optimistic(state, action, roomState)).toEqual('123')
+  expect(optimistic(roomState, action)).toEqual('123')
 })
 
 test('optimistic state is rebased when confirmed state is updated', () => {
@@ -56,6 +56,6 @@ test('optimistic state is rebased when confirmed state is updated', () => {
     $source: SERVER
   }
 
-  const newState = optimistic(roomState.optimistic, action, roomState)
+  const newState = optimistic(roomState, action)
   expect(newState).toEqual('abc123456')
 })

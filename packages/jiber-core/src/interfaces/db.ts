@@ -1,5 +1,5 @@
 import { Action } from './action'
-import { RoomState } from './room-state'
+import { RoomState } from '../reducers/room'
 import * as EventEmitter from 'events'
 
 export interface DB {

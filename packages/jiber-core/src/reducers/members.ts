@@ -1,3 +1,5 @@
+// todo: shouldn't reducers/users and reducers/members be pretty much the same?
+
 import { Action } from '../interfaces/action'
 import { User } from '../interfaces/user'
 import {
