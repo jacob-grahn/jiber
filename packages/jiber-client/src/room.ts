@@ -5,11 +5,15 @@ import {
   get,
   createSubscription
 } from 'jiber-core'
+import { createDispatchers } from './create-dispatchers'
 
 /**
  * Create a room interface to make some code more convinient
  */
-export const createCreateRoom = (store: Store) => {
+export const createCreateRoom = (
+  store: Store,
+  actionCreators: {[key: string]: Function} = {}
+) => {
   return (roomId: string) => {
 
     // subscribe to events that target this room
@@ -31,10 +35,12 @@ export const createCreateRoom = (store: Store) => {
 
     const getState = () => get(getRoom(), 'optimistic')
     const getConfirmedState = () => get(getRoom(), 'confirmed')
+    const actionDispatchers = createDispatchers(dispatch, actionCreators)
 
     dispatch({type: JOIN_ROOM})
 
     return {
+      ...actionDispatchers,
       dispatch,
       getState,
       getConfirmedState,

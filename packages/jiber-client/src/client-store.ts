@@ -30,7 +30,7 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
     injectMetadata
   ]
   const store = createStore(clientReducer, options.initialState, middleware)
-  const createRoom = createCreateRoom(store)
+  const createRoom = createCreateRoom(store, options.actionCreators)
   const clientStore: ClientStore = {...store, createRoom}
   const serverOptions = {...options, store: clientStore}
   const socket = createSocket(clientStore, serverOptions)

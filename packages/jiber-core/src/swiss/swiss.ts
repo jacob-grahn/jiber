@@ -26,6 +26,20 @@ export const SHIFT = 'SHIFT'
 export const UNSHIFT = 'UNSHIFT'
 export const SPLICE = 'SPLICE'
 
+export const swissActionCreators = {
+  set: (path: string, value: any) => ({type: SET, path, value}),
+  delete: (path: string) => ({type: DELETE, path}),
+  add: (path: string, value: any) => ({type: ADD, path, value}),
+  subtract: (path: string, value: any) => ({type: SUBTRACT, path, value}),
+  push: (path: string, value: any) => ({type: PUSH, path, value}),
+  pop: (path: string, value: any) => ({type: POP, path, value}),
+  shift: (path: string, value: any) => ({type: SHIFT, path, value}),
+  unshift: (path: string, value: any) => ({type: UNSHIFT, path, value}),
+  splice: (path: string, start: number, count: number, ...items: any[]) => {
+    return {type: SPLICE, path, start, count, items}
+  }
+}
+
 export const swiss = (state: SwissState = {}, action: Action): SwissState => {
   const path = action.path
   const value = action.value

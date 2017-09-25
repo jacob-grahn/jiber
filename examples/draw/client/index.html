@@ -26,6 +26,8 @@
       //////////////////////////////////////////////////////////////////////////
       function render () {
         const state = room.getState()
+        const confirmedState = room.getConfirmedState()
+        console.log({state, confirmedState})
         clearCanvas()
         drawPixels(state)
       }
@@ -56,7 +58,7 @@
         const path = `${x},${y}`
         const state = room.getState()
         if (state[path] === color) return                                       // avoid dispatching redundant actions
-        room.dispatch({type: 'SET', path, value: color})
+        room.set(path, color)
       }
 
       function randomColor () {

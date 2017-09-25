@@ -12,5 +12,6 @@ export interface ClientSettings {
   socketPort: number,
   stunPort: number,
   initialState: any,
-  backoffMs: number
+  backoffMs: number,
+  actionCreators: {[key: string]: Function}
 }

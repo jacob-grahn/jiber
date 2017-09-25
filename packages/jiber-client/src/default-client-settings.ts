@@ -1,5 +1,5 @@
 import { ClientSettings } from './interfaces/client-settings'
-import { swiss } from 'jiber-core'
+import { swiss, swissActionCreators } from 'jiber-core'
 
 /**
  * Default settings
@@ -12,5 +12,6 @@ export const defaultClientSettings: ClientSettings = {
   socketPort: 80,
   credential: undefined,
   initialState: undefined,
-  backoffMs: 5000
+  backoffMs: 5000,
+  actionCreators: swissActionCreators
 }
