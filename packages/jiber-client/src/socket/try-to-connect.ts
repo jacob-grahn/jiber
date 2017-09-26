@@ -24,7 +24,6 @@ export const createTryToConnect = (
           const fullUrl = `ws://${url}:${socketPort}`
           const socket = createWebSocket(fullUrl, credential)
           socket.onclose = () => connect(retryCount + 1)
-          socket.onerror = (err) => reject(err)
           socket.onopen = () => onopen(socket)
         }, delay)
       }

@@ -19,7 +19,7 @@ export const createTrySocket = (
       socket.onmessage = onMessage
       socket.onclose = connect                                                  // try to reconnect if the connection is lost
     })
-    .catch(_e => { /* do nothing */ })
+    .catch(tryToConnect)
   }
 
   connect()

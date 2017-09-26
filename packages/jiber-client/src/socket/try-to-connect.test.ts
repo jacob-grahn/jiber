@@ -25,24 +25,6 @@ beforeEach(() => {
   tryCount = 0
 })
 
-test('throw an error if the socket throws an error', async () => {
-  const settings: any = {
-    url: 'BAD_URL',
-    socketPort: 123,
-    credential: '',
-    backoffMs: 25
-  }
-  const tryToConnect = createTryToConnect(createWebSocket, settings)
-
-  let threw = false
-  try {
-    await tryToConnect()
-  } catch (e) {
-    threw = true
-  }
-  expect(threw).toBe(true)
-})
-
 test('if the connection fails, try again with an incremental backoff', async () => {
   const settings: any = {
     url: 'WORK_AFTER_3_TRIES',
