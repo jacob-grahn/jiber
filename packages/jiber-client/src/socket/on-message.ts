@@ -12,8 +12,8 @@ export const createOnMessage = (
       const action = JSON.parse(event.data)
       const socket = event.target as WebSocket
       action.$source = SERVER
-      dispatch(action)
       actionHandler(socket, action)
+      dispatch(action)
     } catch (e) {
       /* do nothing */
     }

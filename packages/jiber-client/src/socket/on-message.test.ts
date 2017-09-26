@@ -22,13 +22,14 @@ beforeEach(() => calls = [])
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('call dispatchAction and then actionHandler', () => {
+test('call dispatchAction and actionHandler', () => {
   const message = JSON.stringify({type: 'hi'})
   const event: any = {data: message, target: socket}
+  const action = {type: 'hi', $source: SERVER}
   onMessage(event)
   expect(calls).toEqual([
-    {func: 'dispatchAction', action: {type: 'hi', $source: SERVER}},
-    {func: 'actionHandler', action: {type: 'hi', $source: SERVER}, socket: 'fakesocket'}
+    {func: 'actionHandler', action, socket: 'fakesocket'},
+    {func: 'dispatchAction', action}
   ])
 })
 
