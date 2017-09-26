@@ -21,7 +21,7 @@ export interface ClientStore extends Store {
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const options = {...defaultClientSettings, ...optionInput}
   const clientReducer = createClientReducer(options.reducer)
-  const send = (action: Action) => socket.send(action)                          // tslint:disable-line
+  const send = (action: Action) => socket.sendAction(action) // tslint:disable-line
   const sendToServer = createSendToServer(send)
   const middleware = [
     ...options.middleware,

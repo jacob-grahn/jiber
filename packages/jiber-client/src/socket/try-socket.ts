@@ -1,14 +1,10 @@
-import { Action } from 'jiber-core'
-
 /**
  * Create an always retrying socket connection
  * Handle incoming messages with onMessage
- * todo: passing in sendAction is a little odd
  */
 export const createTrySocket = (
   tryToConnect: () => Promise<WebSocket>,
   onMessage: (event: MessageEvent) => void,
-  sendAction: (socket: WebSocket, action: Action) => void
 ) => {
   let socket: WebSocket
 
@@ -17,7 +13,7 @@ export const createTrySocket = (
     .then(_socket => {
       socket = _socket
       socket.onmessage = onMessage
-      socket.onclose = connect                                                  // try to reconnect if the connection is lost
+      socket.onclose = connect
     })
     .catch(tryToConnect)
   }
@@ -25,6 +21,9 @@ export const createTrySocket = (
   connect()
 
   return {
-    send: (action: Action) => sendAction(socket, action)
+    send: (str: string) => {
+      if (!socket || socket.readyState !== socket.OPEN) return
+      socket.send(str)
+    }
   }
 }

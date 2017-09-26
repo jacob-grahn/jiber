@@ -6,7 +6,6 @@ import { createActionHandler } from './action-handler'
 import { createWebSocket } from './create-web-socket'
 import { createRejoinRooms } from './rejoin-rooms'
 import { createResendPending } from './resend-pending'
-import { sendAction } from './send-action'
 import { createTryToConnect } from './try-to-connect'
 import { Action } from 'jiber-core'
 
@@ -19,8 +18,10 @@ export const createSocket = (store: ClientStore, settings: ClientSettings) => {
   const actionHandler = createActionHandler(rejoinRooms, resendPending)
   const tryToConnect = createTryToConnect(createWebSocket, settings)
   const onMessage = createOnMessage(store.dispatch, actionHandler)
-  const socket = createTrySocket(tryToConnect, onMessage, sendAction)
-  return socket
+  const socket = createTrySocket(tryToConnect, onMessage)
+  return {
+    sendAction: (action: Action) => socket.send(JSON.stringify(action))
+  }
 }
 
 export { Action }                                                               // TS4058: make the compiler happy
