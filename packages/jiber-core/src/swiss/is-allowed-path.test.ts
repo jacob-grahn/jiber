@@ -27,3 +27,7 @@ test('an empty string matches anything', () => {
 test('defaults to false', () => {
   expect(isAllowedPath(undefined as any, 'whatever')).toBe(false)
 })
+
+test('non-arrays work', () => {
+  expect(isAllowedPath(/.*/, 'bleep')).toBe(true)
+})

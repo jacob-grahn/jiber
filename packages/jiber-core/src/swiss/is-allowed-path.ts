@@ -1,17 +1,20 @@
 export const isAllowedPath = (
-  allowedPaths: any[],
+  allowedPaths: any,
   path: string = ''
 ): boolean => {
-  if (Array.isArray(allowedPaths)) {
-    const matches = allowedPaths.filter(allowedPath => {
-      if (typeof allowedPath === 'string') {
-        return path.indexOf(allowedPath) === 0
-      }
-      if (allowedPath.test) {
-        return allowedPath.test(path)
-      }
-    })
-    if (matches.length > 0) return true
+  if (!Array.isArray(allowedPaths)) {
+    allowedPaths = [allowedPaths]
   }
-  return false
+  const matches = allowedPaths.filter((allowedPath: any) => {
+    if (typeof allowedPath === 'string') {
+      return path.indexOf(allowedPath) === 0
+    }
+    if (!allowedPath) {
+      return false
+    }
+    if (allowedPath.test) {
+      return allowedPath.test(path)
+    }
+  })
+  return (matches.length > 0)
 }

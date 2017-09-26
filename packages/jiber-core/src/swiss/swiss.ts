@@ -44,7 +44,7 @@ export const swiss = (state: SwissState = {}, action: Action): SwissState => {
   const path = action.path
   const value = action.value
   const oldValue = get(state, path)
-  const grantWrite = get(action, '$user.grantWrite')
+  const grantWrite = get(action, '$user.grantWrite') || ''
 
   if (!isAllowedPath(grantWrite, path)) return state
 
