@@ -1,5 +1,5 @@
 import { pendingActions } from './pending-actions'
-import { CONFIRMED_STATE, SERVER } from 'jiber-core'
+import { CONFIRMED_STATE } from 'jiber-core'
 
 test('prune actions that do not have a userId and actionId', () => {
   const actions: any = [
@@ -12,7 +12,7 @@ test('prune actions that do not have a userId and actionId', () => {
   const action = {
     type: 'lala',
     $user: {actionId: 1, userId: '1'},
-    $source: SERVER
+    $confirmed: true
   }
   expect(pendingActions(actions, action)).toEqual([])
 })
@@ -27,7 +27,7 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   const action = {
     type: 'wee',
     $user: {userId: 'bob', actionId: 2},
-    $source: SERVER
+    $confirmed: true
   }
   expect(pendingActions(actions, action)).toEqual([
     {$actionId: 3, $userId: 'bob'},

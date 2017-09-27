@@ -6,6 +6,6 @@ export interface Action {
   $user?: User,
   $actionId?: number,
   $timeMs?: number,
-  $source?: string
+  $confirmed?: boolean
   [key: string]: any
 }

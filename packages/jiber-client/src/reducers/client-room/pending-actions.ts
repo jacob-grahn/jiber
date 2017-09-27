@@ -1,10 +1,4 @@
-import {
-  Action,
-  User,
-  CONFIRMED_STATE,
-  LEAVE_ROOM,
-  SERVER
-} from 'jiber-core'
+import { Action, User, CONFIRMED_STATE, LEAVE_ROOM } from 'jiber-core'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
@@ -41,7 +35,7 @@ export const pendingActions = (
       return pruneByUser(state, action.userId)
 
     default:
-      if (action.$source === SERVER) {
+      if (action.$confirmed) {
         if (!action.$user) return state
         return pruneByActionId(state, action.$user)
       }

@@ -1,4 +1,4 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
 export const createApplyAction = (
@@ -20,7 +20,7 @@ export const createApplyAction = (
 
     sendToRoom(action.$roomId, action)
 
-    action.$source = SERVER
+    action.$confirmed = true
     action.$user = user
     dispatch(action)
   }

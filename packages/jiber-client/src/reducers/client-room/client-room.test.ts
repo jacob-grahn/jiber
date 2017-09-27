@@ -1,4 +1,4 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from 'jiber-core'
 import { createClientRoom } from './client-room'
 
 const adder = (state: any = '', action: Action): any => {
@@ -20,7 +20,7 @@ test('actions from the server update confirmed state', () => {
     type: 'test',
     value: 'ok',
     $actionId: 1,
-    $source: SERVER
+    $confirmed: true
   }
   expect(roomReducer(state, action).confirmed).toBe('yayok')
 })

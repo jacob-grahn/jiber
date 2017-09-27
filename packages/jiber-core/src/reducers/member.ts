@@ -1,6 +1,5 @@
 import { Action } from '../interfaces/action'
 import { JOIN_ROOM, LEAVE_ROOM } from '../constants/action-types'
-import { SERVER } from '../constants/source-types'
 import { User } from '../interfaces/user'
 
 /**
@@ -16,7 +15,7 @@ export const member = (state: User|undefined, action: Action) => {
 
     default:
       if (!state) return state
-      if (action.$source !== SERVER) return state
+      if (!action.$confirmed) return state
       const newActionId = action.$actionId || 0
       const oldActionId = state.actionId || 0
       if (newActionId <= oldActionId) return state

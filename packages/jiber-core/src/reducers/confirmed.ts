@@ -1,7 +1,6 @@
 import { Action } from '../interfaces/action'
 import { Reducer } from '../interfaces/reducer'
 import { CONFIRMED_STATE } from '../constants/action-types'
-import { SERVER } from '../constants/source-types'
 
 /**
  * State that has been confirmed
@@ -14,7 +13,7 @@ export const createConfirmed = (subReducer: Reducer): Reducer => {
         return action.confirmed
 
       default:
-        if (action.$source === SERVER) {
+        if (action.$confirmed) {
           return subReducer(state, action)
         }
         return state

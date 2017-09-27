@@ -21,5 +21,4 @@ export * from './utils/set'
 export * from './utils/subscription'
 
 export * from './constants/action-types'
-export * from './constants/source-types'
 export * from './constants/event-types'

@@ -1,4 +1,4 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from 'jiber-core'
 import { createOnMessage } from './on-message'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ beforeEach(() => calls = [])
 test('call dispatchAction and actionHandler', () => {
   const message = JSON.stringify({type: 'hi'})
   const event: any = {data: message}
-  const action = {type: 'hi', $source: SERVER}
+  const action = {type: 'hi', $confirmed: true}
   onMessage(event)
   expect(calls).toEqual([
     {func: 'actionHandler', action},

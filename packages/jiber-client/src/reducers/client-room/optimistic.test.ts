@@ -1,4 +1,4 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from 'jiber-core'
 import { createOptimistic } from './optimistic'
 import { ClientRoomState } from './client-room'
 
@@ -53,7 +53,7 @@ test('optimistic state is rebased when confirmed state is updated', () => {
     $roomId: 'testRoom',
     $userId: 'sally',
     $actionId: 3,
-    $source: SERVER
+    $confirmed: true
   }
 
   const newState = optimistic(roomState, action)

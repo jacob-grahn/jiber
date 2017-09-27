@@ -1,4 +1,4 @@
-import { Reducer, Action, CONFIRMED_STATE, SERVER } from 'jiber-core'
+import { Reducer, Action, CONFIRMED_STATE } from 'jiber-core'
 
 /**
  * Use the current room state along with the action to calculate
@@ -17,10 +17,10 @@ export const createOptimistic = (subReducer: Reducer) => {
       return pendingActions.reduce(subReducer, roomState.confirmed)
     }
 
-    if (action.$source === SERVER) {                                            // confirmed action
+    if (action.$confirmed) {
       const { pendingActions, confirmed } = roomState
       return pendingActions.reduce(subReducer, confirmed)
-    } else {                                                                    // optimistic action
+    } else {
       return subReducer(state, action)
     }
   }

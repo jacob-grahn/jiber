@@ -1,4 +1,4 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from 'jiber-core'
 
 /**
  * Send incoming actions to the reducer
@@ -10,7 +10,7 @@ export const createOnMessage = (
   return (event: MessageEvent): void => {
     try {
       const action = JSON.parse(event.data)
-      action.$source = SERVER
+      action.$confirmed = true
       actionHandler(action)
       dispatch(action)
     } catch (e) {
