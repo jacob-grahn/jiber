@@ -1,4 +1,4 @@
-import { ADD_USER } from '../constants/action-types'
+import { ADD_USER } from 'jiber-core'
 import { users } from './users'
 
 test('set up a user dictionary', () => {

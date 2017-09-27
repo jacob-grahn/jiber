@@ -13,7 +13,6 @@ export * from './reducers/combine-reducers'
 export * from './reducers/dictionary'
 export * from './swiss/swiss'
 export * from './reducers/user'
-export * from './reducers/users'
 export * from './reducers/room'
 
 export * from './utils/del'

@@ -1,6 +1,6 @@
-// todo: users should maybe be a server only reducer
-import { createRoom, createDictionary, combineReducers, users, Reducer } from 'jiber-core'
+import { createRoom, createDictionary, combineReducers, Reducer } from 'jiber-core'
 import { sockets } from './socket/sockets'
+import { users } from './users'
 
 /**
  * Top level reducer for the server
