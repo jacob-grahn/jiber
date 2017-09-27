@@ -1,23 +1,25 @@
-import { Action } from 'jiber-core'
 import { createTrySocket } from './try-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
 let calls: any[]
-const tryToConnect = (): any => Promise.resolve('fakesocket')
-const onMessage = () => { /* do nothing */ }
-const sendAction = (socket: WebSocket, action: Action) => {
-  return calls.push([socket, action])
+const socketMock = {
+  readyState: 1,
+  OPEN: 1,
+  send: (str: string) => calls.push(str)
 }
+const tryToConnect = (): any => Promise.resolve(socketMock)
+const onMessage = () => { /* do nothing */ }
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const socket = createTrySocket(tryToConnect, onMessage, sendAction)
+const socket = createTrySocket(tryToConnect, onMessage)
 beforeEach(() => calls = [])
 
 it('socket.send should call sendAction', () => {
-  socket.send({type: 'hi'})
-  expect(calls).toEqual([['fakesocket', {type: 'hi'}]])
+  socket.send('hello')
+  socket.send('wifey')
+  expect(calls).toEqual(['hello', 'wifey'])
 })

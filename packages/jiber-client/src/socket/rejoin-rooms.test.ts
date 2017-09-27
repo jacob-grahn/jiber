@@ -6,11 +6,10 @@ import { createRejoinRooms } from './rejoin-rooms'
 ////////////////////////////////////////////////////////////////////////////////
 let sentActions: any[]
 let state: any
-const sendAction = (socket: any, action: any) => {
-  sentActions.push([socket, action])
+const sendAction = (action: any) => {
+  sentActions.push(action)
 }
 const getState = () => state
-const socket: any = 'fakesocket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
@@ -26,10 +25,10 @@ test('send a join action for each room in the state', () => {
     }
   }
 
-  rejoinRooms(socket)
+  rejoinRooms()
 
   expect(sentActions).toEqual([
-    ['fakesocket', {type: JOIN_ROOM, $roomId: 'room1'}],
-    ['fakesocket', {type: JOIN_ROOM, $roomId: 'room2'}]
+    {type: JOIN_ROOM, $roomId: 'room1'},
+    {type: JOIN_ROOM, $roomId: 'room2'}
   ])
 })

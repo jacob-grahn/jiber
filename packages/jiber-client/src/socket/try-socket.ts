@@ -4,7 +4,7 @@
  */
 export const createTrySocket = (
   tryToConnect: () => Promise<WebSocket>,
-  onMessage: (event: MessageEvent) => void,
+  onMessage: (event: MessageEvent) => void
 ) => {
   let socket: WebSocket
 

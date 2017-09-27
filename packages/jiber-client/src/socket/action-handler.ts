@@ -1,25 +1,19 @@
 import { Action, CONFIRMED_STATE, LOGIN_RESULT } from 'jiber-core'
 
-export type CreateActionHandler = (
-  rejoinRooms: (socket: WebSocket) => void,
-  resendPending: (socket: WebSocket, roomId: string) => void
-) => ActionHandler
-export type ActionHandler = (socket: WebSocket, action: Action) => void
-
 /**
  * Trigger special behaviors for certain actions from the server
  */
-export const createActionHandler: CreateActionHandler = (
-  rejoinRooms,
-  resendPending
+export const createActionHandler = (
+  rejoinRooms: () => void,
+  resendPending: (roomId: string) => void
 ) => {
-  return (socket, action): void => {
+  return (action: Action): void => {
     if (action.type === LOGIN_RESULT) {
-      rejoinRooms(socket)
+      rejoinRooms()
     }
     if (action.type === CONFIRMED_STATE) {
       if (!action.$roomId) return
-      resendPending(socket, action.$roomId)
+      resendPending(action.$roomId)
     }
   }
 }

@@ -13,6 +13,7 @@ import { Action } from 'jiber-core'
  * Some odd manual dependency injection
  */
 export const createSocket = (store: ClientStore, settings: ClientSettings) => {
+  const sendAction = (action: Action) => socket.send(JSON.stringify(action))    // tslint:disable-line
   const resendPending = createResendPending(sendAction, store.getState)
   const rejoinRooms = createRejoinRooms(sendAction, store.getState)
   const actionHandler = createActionHandler(rejoinRooms, resendPending)
@@ -20,8 +21,6 @@ export const createSocket = (store: ClientStore, settings: ClientSettings) => {
   const onMessage = createOnMessage(store.dispatch, actionHandler)
   const socket = createTrySocket(tryToConnect, onMessage)
   return {
-    sendAction: (action: Action) => socket.send(JSON.stringify(action))
+    sendAction
   }
 }
-
-export { Action }                                                               // TS4058: make the compiler happy

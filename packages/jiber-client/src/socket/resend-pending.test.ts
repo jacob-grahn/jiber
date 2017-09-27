@@ -5,11 +5,10 @@ import { createResendPending } from './resend-pending'
 ////////////////////////////////////////////////////////////////////////////////
 let sentActions: any[]
 let state: any
-const sendAction = (socket: any, action: any) => {
-  sentActions.push([socket, action])
+const sendAction = (action: any) => {
+  sentActions.push(action)
 }
 const getState = () => state
-const socket: any = 'fakesocket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
@@ -27,7 +26,7 @@ test('do nothing if the room does not exist', () => {
     }
   }
   const roomId = 'room2'
-  resendPending(socket, roomId)
+  resendPending(roomId)
   expect(sentActions.length).toBe(0)
 })
 
@@ -40,7 +39,7 @@ test('do nothing if there are no optimistic actions', () => {
     }
   }
   const roomId = 'room1'
-  resendPending(socket, roomId)
+  resendPending(roomId)
   expect(sentActions.length).toBe(0)
 })
 
@@ -53,9 +52,9 @@ test('send optimistic actions from the roomId', () => {
     }
   }
   const roomId = 'room1'
-  resendPending(socket, roomId)
+  resendPending(roomId)
   expect(sentActions).toEqual([
-    ['fakesocket', {type: 'one'}],
-    ['fakesocket', {type: 'two'}]
+    {type: 'one'},
+    {type: 'two'}
   ])
 })
