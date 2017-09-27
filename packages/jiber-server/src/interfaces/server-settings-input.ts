@@ -5,7 +5,7 @@ export interface ServerSettingsInput {
   socketPort?: number,
   stunPort?: number,
   reducer?: Reducer,
-  onLogin?: LoginRequestHandler,
+  login?: LoginRequestHandler,
   db?: DB,
   snapshotInterval?: number,
   syncInterval?: number,

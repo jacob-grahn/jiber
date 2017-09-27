@@ -18,7 +18,7 @@ const guestLogin = async (credential) => {
 // Pass our custom app logic to jiber
 const store = jiber.createStore({
   reducer: winner,
-  onLogin: guestLogin
+  login: guestLogin
 })
 
 // Start listening for incomming connections

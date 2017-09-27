@@ -30,7 +30,7 @@ export const createSocketServer = (
   const sendToRoom = createSendToRoom(store.getState, sendToSocket)
   const sendToUser = createSendToUser(store.getState, sendToSocket)
   const onClose = createOnClose(store, db.pushAction)
-  const onAuthorize = createOnAuthorize(store.dispatch, settings.onLogin)
+  const onAuthorize = createOnAuthorize(store.dispatch, settings.login)
   const onMessage = createOnMessage(store.getState, db.pushAction, sendToSocket)
   const onConnect = createOnConnect(store, onMessage, onClose, sendToSocket)
 
