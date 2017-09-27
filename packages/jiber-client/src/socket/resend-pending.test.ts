@@ -34,7 +34,7 @@ test('do nothing if there are no optimistic actions', () => {
   state = {
     rooms: {
       room1: {
-        optimisticActions: []
+        pendingActions: []
       }
     }
   }
@@ -47,7 +47,7 @@ test('send optimistic actions from the roomId', () => {
   state = {
     rooms: {
       room1: {
-        optimisticActions: [{type: 'one'}, {type: 'two'}]
+        pendingActions: [{type: 'one'}, {type: 'two'}]
       }
     }
   }

@@ -12,6 +12,6 @@ export const createResendPending = (
     const state = getState()
     const room = state.rooms[roomId]
     if (!room) return
-    room.optimisticActions.forEach(action => sendAction(action))
+    room.pendingActions.forEach(action => sendAction(action))
   }
 }

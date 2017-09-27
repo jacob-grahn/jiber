@@ -15,7 +15,7 @@ test('user generated actions are used on the optimistic state', () => {
     $actionId: 1
   }
   const roomState: ClientRoomState = {
-    optimisticActions: [],
+    pendingActions: [],
     confirmed: undefined,
     optimistic: state,
     members: {},
@@ -26,7 +26,7 @@ test('user generated actions are used on the optimistic state', () => {
 
 test('optimistic state is rebased when confirmed state is updated', () => {
   const roomState: ClientRoomState = {
-    optimisticActions: [
+    pendingActions: [
       {
         type: 'test',
         value: '123',

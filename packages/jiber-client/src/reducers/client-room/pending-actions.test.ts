@@ -1,4 +1,4 @@
-import { optimisticActions } from './optimistic-actions'
+import { pendingActions } from './pending-actions'
 import { CONFIRMED_STATE, SERVER } from 'jiber-core'
 
 test('prune actions that do not have a userId and actionId', () => {
@@ -14,7 +14,7 @@ test('prune actions that do not have a userId and actionId', () => {
     $user: {actionId: 1, userId: '1'},
     $source: SERVER
   }
-  expect(optimisticActions(actions, action)).toEqual([])
+  expect(pendingActions(actions, action)).toEqual([])
 })
 
 test('remove optimistic actions if newer confirmed action is received', () => {
@@ -29,7 +29,7 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     $user: {userId: 'bob', actionId: 2},
     $source: SERVER
   }
-  expect(optimisticActions(actions, action)).toEqual([
+  expect(pendingActions(actions, action)).toEqual([
     {$actionId: 3, $userId: 'bob'},
     {$actionId: 1, $userId: 'sue'}
   ])
@@ -46,7 +46,7 @@ test('remove all optimistic actions when CONFIRMED_STATE is received', () => {
     confirmed: {},
     members: {sue: {actionId: 5}}
   }
-  expect(optimisticActions(list, action)).toEqual([])
+  expect(pendingActions(list, action)).toEqual([])
 })
 
 test('user generated actions are added to the optimistic list', () => {
@@ -56,6 +56,6 @@ test('user generated actions are added to the optimistic list', () => {
     value: '123',
     $actionId: 1
   }
-  const newState = optimisticActions(state, action)
+  const newState = pendingActions(state, action)
   expect(newState[0].value).toEqual('123')
 })

@@ -29,7 +29,7 @@ const pruneByUser = (actions: Action[], userId: string): Action[] => {
 /**
  * Keep optimistic actions that have not been confirmed by the server yet
  */
-export const optimisticActions = (
+export const pendingActions = (
   state: Action[] = [],
   action: Action
 ): Action[] => {

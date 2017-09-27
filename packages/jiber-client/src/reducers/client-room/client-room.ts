@@ -1,5 +1,5 @@
 import { Action, Reducer, RoomState, createRoom } from 'jiber-core'
-import { optimisticActions } from './optimistic-actions'
+import { pendingActions } from './pending-actions'
 import { createOptimistic } from './optimistic'
 
 /**
@@ -7,7 +7,7 @@ import { createOptimistic } from './optimistic'
  */
 export interface ClientRoomState extends RoomState {
   optimistic: any,
-  optimisticActions: Action[]
+  pendingActions: Action[]
 }
 
 const defaultState: ClientRoomState = {
@@ -15,13 +15,12 @@ const defaultState: ClientRoomState = {
   members: {},
   confirmed: undefined,
   optimistic: undefined,
-  optimisticActions: []
+  pendingActions: []
 }
 
 /**
  * An overcomplicated reducer that calculates a confirmed state,
  * then uses the confirmed state to calculate an optimistic state
- * todo: find a simpler way to do this?
  */
 export const createClientRoom = (subReducer: Reducer): Reducer => {
   const roomReducer = createRoom(subReducer)
@@ -32,7 +31,7 @@ export const createClientRoom = (subReducer: Reducer): Reducer => {
     action: Action
   ): ClientRoomState => {
     const newState = roomReducer(state, action)
-    newState.optimisticActions = optimisticActions(state.optimisticActions, action)
+    newState.pendingActions = pendingActions(state.pendingActions, action)
     newState.optimistic = optimistic(newState, action)
     return newState
   }
