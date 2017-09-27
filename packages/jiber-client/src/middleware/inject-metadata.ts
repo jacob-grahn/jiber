@@ -22,7 +22,7 @@ export const injectMetadata: Middleware = (store: Store) => {
     if (action.$userId) {
       const room = state.rooms[roomId]
       action.$user = room.members[action.$userId]
-    } else {
+    } else if (state.me) {
       action.$userId = state.me.userId
       action.$user = state.me
     }

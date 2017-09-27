@@ -1,13 +1,9 @@
 import { Action, User, LOGIN_RESULT } from 'jiber-core'
 
 /**
- * Keep track of the currently logged in userId
- * todo: maybe reuse the user reducer
+ * Keep track of the currently logged in user
  */
-export const me = (
-  state: User = {userId: ''},
-  action: Action
-): User => {
+export const me = (state: User|undefined, action: Action): User|undefined => {
   switch (action.type) {
     case LOGIN_RESULT:
       return action.user
