@@ -4,7 +4,6 @@ import { ClientSettings } from '../interfaces/client-settings'
  * Try to create a connection to the server
  */
 export const createTryToConnect = (
-  createWebSocket: (url: string, credential: string|undefined) => WebSocket,
   {url, socketPort, credential, backoffMs}: ClientSettings
 ) => {
   return (): Promise<any> => {
@@ -22,7 +21,7 @@ export const createTryToConnect = (
         const delay = retryCount * backoffMs
         setTimeout(() => {
           const fullUrl = `ws://${url}:${socketPort}`
-          const socket = createWebSocket(fullUrl, credential)
+          const socket = new WebSocket(fullUrl, credential)
           socket.onclose = () => connect(retryCount + 1)
           socket.onopen = () => onopen(socket)
         }, delay)
