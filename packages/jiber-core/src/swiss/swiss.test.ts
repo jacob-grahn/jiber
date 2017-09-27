@@ -55,9 +55,9 @@ test(SHIFT, () => {
 })
 
 test(UNSHIFT, () => {
-  const state = {todo: ['Study']}
-  const action = {type: UNSHIFT, path: 'todo', value: ['TV', 'Games'], $user}
-  expect(swiss(state, action)).toEqual({todo: ['TV', 'Games', 'Study']})
+  const state = {list: ['Study']}
+  const action = {type: UNSHIFT, path: 'list', value: ['TV', 'Games'], $user}
+  expect(swiss(state, action)).toEqual({list: ['TV', 'Games', 'Study']})
 })
 
 test(SPLICE, () => {
