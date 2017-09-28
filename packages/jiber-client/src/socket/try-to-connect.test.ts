@@ -1,8 +1,9 @@
 import { createTryToConnect } from './try-to-connect'
 
-// let socket: WebSocket
+////////////////////////////////////////////////////////////////////////////////
+// mocks
+////////////////////////////////////////////////////////////////////////////////
 let tryCount = 0
-
 class MockWebSocket {
   onclose: any
   onopen: any
@@ -26,6 +27,9 @@ class MockWebSocket {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
 beforeEach(() => {
   (global as any).WebSocket = MockWebSocket
   tryCount = 0
@@ -35,22 +39,24 @@ afterEach(() => {
   (global as any).WebSocket = undefined
 })
 
-// todo: use mock timers to make this test more reliable and faster
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
 test('retry connection with an incremental backoff', async () => {
   const settings: any = {
     url: 'WORK_AFTER_3_TRIES',
     socketPort: 123,
     credential: '',
-    backoffMs: 25
+    backoffMs: 1
   }
   const tryToConnect = createTryToConnect(settings)
-
   const startMs = new Date().getTime()
-  const resultSocket = await tryToConnect()                                     // should fail 3 times before connecting
+
+  const socket = await tryToConnect() // will fail 3 times, then connect
   const endMs = new Date().getTime()
   const elapsedMs = endMs - startMs
-  expect(elapsedMs).toBeGreaterThan(150)                                        // 25 + 50 + 75 = 150 ms
-  expect(elapsedMs).toBeLessThan(300)                                           // give it some headroom
+  expect(elapsedMs).toBeGreaterThan(5) // 1 + 2 + 3 = 6 ms
+  expect(elapsedMs).toBeLessThan(100) // give it some headroom
   expect(tryCount).toBe(3)
-  expect(resultSocket).toBeTruthy()
+  expect(socket).toBeTruthy()
 })
