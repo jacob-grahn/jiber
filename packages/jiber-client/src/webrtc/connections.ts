@@ -1,33 +1,28 @@
 import { Action } from 'jiber-core'
+import { Connection, createConnection } from './connection'
+import { prefixFix } from './prefix-fix'
 
-type Connection = {
-  userId: string
-}
+prefixFix()
 
-const connections = {}
-
-const add = (connection: Connection): void => {
-  connections[connection.userId] = connection
-}
+const connections: {[userId: string]: Connection} = {}
 
 const remove = (userId: string): void => {
   delete connections[userId]
 }
 
-const onOffer = (action: Action): void => {
+const add (connection: Connection): void => {
+  connection.onRemove = () => remove(connection.userId)
+  connections[connection.userId] = connection
+}
+
+export const onOffer = (action: Action): void => {
   const userId = action.$userId
   if (connections[userId]) return
-  connections[userId] = createConnection(userId, action.offer)
+  add(createConnection(userId, action.offer))
 }
 
-const onJoinRoom = (action: Action): void => {
-  const userIds = Object.keys(action.members)
-  userIds.forEach(userId => {
-    if (connections[userId]) return
-    connections[userId] = createConnection(userId)
-  })
-}
-
-const onConnectionClose = (connection: Connection): void => {
-  remove(connection.userId)
+export const onJoinRoom = (action: Action): void => {
+  const userId = action.$userId
+  if (connections[userId]) return
+  add(createConnection(userId))
 }
