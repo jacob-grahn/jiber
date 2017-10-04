@@ -18,12 +18,13 @@ test('start should call the function immediately', () => {
   expect(callCount).toBe(1)
 })
 
+// todo: use fake timers
 test('should keep running the function until stop is called', async () => {
   const scheduler = createScheduler(aFunc, 10)
   scheduler.start()
 
   await sleep(100)
-  expect(callCount).toBeGreaterThan(3)
+  expect(callCount).toBeGreaterThan(2)
   expect(callCount).toBeLessThan(15)
   const savedCallCount = callCount
   scheduler.stop()

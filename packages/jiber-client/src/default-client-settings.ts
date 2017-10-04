@@ -8,7 +8,7 @@ export const defaultClientSettings: ClientSettings = {
   reducer: swiss,
   middleware: [],
   url: '',
-  stunPort: 3478,                                                               // 5349 for TLS
+  stunServers: [],
   socketPort: 80,
   credential: undefined,
   initialState: undefined,

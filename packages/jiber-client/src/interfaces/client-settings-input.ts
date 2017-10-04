@@ -10,7 +10,7 @@ export interface ClientSettingsInput {
   reducer?: Reducer,
   url?: string,
   socketPort?: number,
-  stunPort?: number,
+  stunServers?: string[],
   initialState?: any,
   backoffMs?: number,
   actionCreators?: {[key: string]: Function}

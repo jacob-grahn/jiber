@@ -8,6 +8,7 @@ import { createSocket } from './socket/index'
 import { createCreateRoom } from './room'
 import { defaultClientSettings } from './default-client-settings'
 import { createClientReducer } from './client-reducer'
+import { createPeerManager } from './webrtc'
 
 export interface ClientStore extends Store {
   getState: () => ClientState,
@@ -34,6 +35,8 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const clientStore: ClientStore = {...store, createRoom}
   const serverOptions = {...options, store: clientStore}
   const socket = createSocket(clientStore, serverOptions)
+
+  createPeerManager(store, options)
 
   return clientStore
 }
