@@ -55,7 +55,6 @@ export const createPeerManager = (store: Store, settings: ClientSettings): void 
 
   // trigger events when actions are dispatched
   store.subscribe((action: Action) => {
-    console.log('peer-manager', action)
     // no need to mess with optimistic ations here
     if (!action.$confirmed) return
 

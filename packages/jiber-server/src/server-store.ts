@@ -7,6 +7,7 @@ import { createServerReducer } from './reducers/server-reducer'
 import { createUpdateRoom } from './update-room/index'
 import { createWelcomeNewMembers } from './middleware/welcome-new-members'
 import { defaultServerSettings } from './default-server-settings'
+import { createOnAction } from './on-action'
 
 export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
@@ -20,8 +21,9 @@ export const createServerStore = (
   const store = createStore(serverReducer, initialState, middleware)
   const socketServer = createSocketServer(store, settings, emitter)
   const updateRoom = createUpdateRoom(store, settings, socketServer)
+  const onAction = createOnAction(updateRoom, socketServer.sendToUser)
 
-  settings.db.emitter.on(ACTION_PUSHED, updateRoom)
+  settings.db.emitter.on(ACTION_PUSHED, onAction)
 
   return {
     ...store,

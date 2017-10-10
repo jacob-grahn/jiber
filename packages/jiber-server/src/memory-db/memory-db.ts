@@ -11,7 +11,6 @@ const emitter = new EventEmitter()
 const rooms: {[key: string]: RoomState} = {}
 
 const pushAction = (action: Action): void => {
-  if (!action.$roomId) return
   action.$timeMs = new Date().getTime()
   emitter.emit(ACTION_PUSHED, action)
 }
