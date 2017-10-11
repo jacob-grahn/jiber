@@ -4,6 +4,7 @@ export type PeerChannel = {
   send: (action: Action) => void,
   onmessage: undefined | ((event: MessageEvent) => void)
 }
+
 /**
  * Typescript doesn't seem to include RTCDataChannel by default
  * so I'm using 'any' types in a few places
