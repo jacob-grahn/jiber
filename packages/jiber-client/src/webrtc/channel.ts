@@ -1,39 +1,48 @@
 import { Action } from 'jiber-core'
 
-export const createChannel = (initChannel: any) => {
-  const channel = initChannel || createChannel()
-  return {
-    send: (action: Action) => void
-  }
+export type PeerChannel = {
+  send: (action: Action) => void,
+  onmessage: undefined | ((event: MessageEvent) => void)
 }
+/**
+ * Typescript doesn't seem to include RTCDataChannel by default
+ * so I'm using 'any' types in a few places
+ * 'pc' is short for peerConnection
+ */
+export const createChannel = (pc: RTCPeerConnection, isInitiator: boolean) => {
+  let channel: any
 
-const send = (action: Action): void => {
-  if (channel && channel.readyState === 'OPEN') {
-    channel.send(JSON.stringify(action))
-  }
-}
-
-// typescript doesn't know RTCDataChannel
-const setupChannel = (channel: any) => {
-  channel.onerror = (error: any) => {
-    console.log('channel.onerror', error)
-  }
-
-  channel.onmessage = (event: MessageEvent) => {
-    console.log('channel.onmessage', event.data)
+  const send = (action: Action): void => {
+    if (channel && channel.readyState === 'open') {
+      channel.send(JSON.stringify(action))
+    }
   }
 
-  channel.onopen = () => {
-    channel.send('Hello World!')
+  const peerChannel: PeerChannel = {
+    send,
+    onmessage: undefined
   }
 
-  channel.onclose = () => {
-    console.log('channel.onclonse')
+  const setupChannel = (channel: any) => {
+    channel.onmessage = (e: MessageEvent) => {
+      if (peerChannel.onmessage) peerChannel.onmessage(e)
+    }
   }
-}
 
-const createChannel = (pc: RTCPeerConnection) => {
-  const channelConfig = {ordered: false, maxRetransmits: 0}
-  const channel = (pc as any).createDataChannel('data', channelConfig)
-  setupChannel(channel)
+  const createOrWait = () => {
+    if (isInitiator) {
+      const channelConfig = {ordered: false, maxRetransmits: 0}
+      channel = (pc as any).createDataChannel('data', channelConfig)
+      setupChannel(channel)
+    } else {
+      (pc as any).ondatachannel = (event: any) => {
+        channel = event.channel
+        setupChannel(channel)
+      }
+    }
+  }
+
+  createOrWait()
+
+  return peerChannel
 }

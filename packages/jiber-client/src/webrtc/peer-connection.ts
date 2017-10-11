@@ -12,6 +12,8 @@ import {
   WEBRTC_CANDIDATE
 } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
+import { createChannel } from './channel'
+import { errorHandler } from '../utils/error-handler'
 
 export type PeerConnection = {
   userId: string,
@@ -34,6 +36,23 @@ export const createPeerConnection = (
 ): PeerConnection => {
   // pc is short for peerConnection
   const pc = createPC(settings.stunServers)
+  const channel = createChannel(pc, isInitiator)
+
+  channel.onmessage = (event: MessageEvent) => {
+    console.log('channel.onmessage', event.data)
+    const action: Action = JSON.parse(event.data)
+    const roomId = action.$roomId
+    if (!roomId) return
+    const room = store.getState().rooms[roomId]
+    const members = room.members
+    const user = members[userId]
+    if (!user) return
+
+    action.$timeMs = new Date().getTime()
+    action.$userId = userId
+    action.$user = user
+    store.dispatch(action)
+  }
 
   const sendOffer = async (): Promise<void> => {
     const offer = await pc.createOffer()
@@ -49,14 +68,6 @@ export const createPeerConnection = (
 
   const sendCandidate = (candidate: RTCIceCandidate): void => {
     store.dispatch({type: WEBRTC_CANDIDATE, candidate, toUserId: userId})
-  }
-
-  const onAction = async (action: Action): Promise<void> => {
-    if (action.$confirmed) {
-      await onConfirmedAction(action)
-    } else {
-      onOptimisticAction(action)
-    }
   }
 
   const onConfirmedAction = async (action: Action): Promise<void> => {
@@ -77,11 +88,21 @@ export const createPeerConnection = (
 
   const onOptimisticAction = (action: Action): void => {
     if (!action.$roomId) return
-    const room = store.getState().rooms[action.$roomId]
+    const state = store.getState()
+    if (action.$userId !== state.me.userId) return
+    const room = state.rooms[action.$roomId]
     const members = room.members
     const memberIds = Object.keys(members)
     if (memberIds.indexOf(userId) !== -1) {
-      send(action)
+      channel.send(action)
+    }
+  }
+
+  const onAction = async (action: Action): Promise<void> => {
+    if (action.$confirmed) {
+      await onConfirmedAction(action)
+    } else {
+      onOptimisticAction(action)
     }
   }
 
@@ -90,19 +111,14 @@ export const createPeerConnection = (
     sendCandidate(event.candidate)
   }
 
-  if (isInitiator) {
-    channel = createChannel()
-    sendOffer()
-  } else {
-    ;(pc as any).ondatachannel = (event: any) => {
-      channel = createChannel(event.channel)
-    }
-  }
-
   const connection: PeerConnection = {
     onAction,
     userId,
     close: pc.close
+  }
+
+  if (isInitiator) {
+    sendOffer().catch(errorHandler)
   }
 
   return connection

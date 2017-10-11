@@ -45,31 +45,37 @@ export const createPeerManager = (store: Store, settings: ClientSettings): void 
   }
 
   // add a new connection
-  const addConnection = (action: Action, sendOffer: Boolean = false): void => {
+  const addConnection = (
+    action: Action,
+    isInitiator: boolean = false
+  ): void => {
     const userId = action.$userId
     if (connections[userId]) return
-    const connection = createPeerConnection(userId, store, settings)
+    const connection = createPeerConnection(
+      userId,
+      store,
+      settings,
+      isInitiator
+    )
     connections[connection.userId] = connection
-    if (sendOffer) connection.sendOffer()
   }
 
   // trigger events when actions are dispatched
   store.subscribe((action: Action) => {
-    // no need to mess with optimistic ations here
-    if (!action.$confirmed) return
-
     // add and remove connections as needed
-    switch (action.type) {
-      case LEAVE_ROOM:
-        removeUnusedConnections()
-        break
-      case JOIN_ROOM:
+    if (action.$confirmed) {
+      switch (action.type) {
+        case LEAVE_ROOM:
+          removeUnusedConnections()
+          break
+        case JOIN_ROOM:
         if (action.$userId === store.getState().me.userId) return
-        addConnection(action, true)
-        break
-      case WEBRTC_OFFER:
-        addConnection(action)
-        break
+          addConnection(action, true)
+          break
+        case WEBRTC_OFFER:
+          addConnection(action)
+          break
+      }
     }
 
     // each connection responds to actions as well
