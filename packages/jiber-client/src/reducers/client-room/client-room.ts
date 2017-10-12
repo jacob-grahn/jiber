@@ -19,7 +19,7 @@ const defaultState: ClientRoomState = {
 }
 
 /**
- * An overcomplicated reducer that calculates a confirmed state,
+ * Calculates a confirmed state,
  * then uses the confirmed state to calculate an optimistic state
  */
 export const createClientRoom = (subReducer: Reducer): Reducer => {
@@ -31,7 +31,7 @@ export const createClientRoom = (subReducer: Reducer): Reducer => {
     action: Action
   ): ClientRoomState => {
     const newState = roomReducer(state, action)
-    newState.pendingActions = pendingActions(state.pendingActions, action)
+    newState.pendingActions = pendingActions(newState.pendingActions, action)
     newState.optimistic = optimistic(newState, action)
     return newState
   }

@@ -1,13 +1,12 @@
 import { pendingActions } from './pending-actions'
 import { CONFIRMED_STATE } from 'jiber-core'
 
-test('prune actions that do not have a userId and actionId', () => {
+test('prune actions that do not have a userId', () => {
   const actions: any = [
     null,
     false,
     {},
-    {$id: 0},
-    {$u: '1'}
+    {$id: 0}
   ]
   const action = {
     type: 'lala',
@@ -26,7 +25,8 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   ]
   const action = {
     type: 'wee',
-    $user: {userId: 'bob', actionId: 2},
+    $u: 'bob',
+    $id: 2,
     $confirmed: true
   }
   expect(pendingActions(actions, action)).toEqual([

@@ -1,23 +1,32 @@
-import { Action, User, CONFIRMED_STATE, LEAVE_ROOM } from 'jiber-core'
+import { Action, CONFIRMED_STATE, LEAVE_ROOM } from 'jiber-core'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
  * Actions with no $user are assumed to belong to the currently logged in user
  */
-const pruneByActionId = (actions: Action[], user: User): Action[] => {
-  return actions.filter(action => {
-    if (!action) return false
-    if (!action.$u) return false
-    if (action.$u !== user.userId) return true
-    return (action.$id || 0) > (user.actionId || 0)
+const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
+  return pendingActions.filter(pendingAction => {
+    if (!pendingAction) return false
+    if (!pendingAction.$u) return false
+    if (pendingAction.$u !== action.$u) return true
+    return (pendingAction.$id || 0) > (action.$id || 0)
   })
 }
 
 /**
- * Remove actions belonging to userId
+ * add a new pending action if it is newer than the last confirmed action
+ * received for this user
  */
-const pruneByUser = (actions: Action[], userId: string): Action[] => {
-  return actions.filter(action => action.$u !== userId)
+const addNew = (pendingActions: Action[], action: Action): Action[] => {
+  // if the user is not set, then we made this action but are not logged in yet
+  if (!action.$user) return [...pendingActions, action]
+
+  // only accept optimistic actions that are newer than the confirmed actions
+  if ((action.$id || 0) > (action.$user.actionId || 0)) {
+    return [...pendingActions, action]
+  } else {
+    return pendingActions
+  }
 }
 
 /**
@@ -28,17 +37,16 @@ export const pendingActions = (
   action: Action
 ): Action[] => {
   switch (action.type) {
+    // Remove all pending actions
     case CONFIRMED_STATE:
       return []
 
+    // Remove pending actions belonging to userId if they leave the room
     case LEAVE_ROOM:
-      return pruneByUser(state, action.userId)
+      return state.filter(pendingAction => pendingAction.$u !== action.$u)
 
+    // Add or remove specific pending actions
     default:
-      if (action.$confirmed) {
-        if (!action.$user) return state
-        return pruneByActionId(state, action.$user)
-      }
-      return [...state, action]
+      return action.$confirmed ? pruneOld(state, action) : addNew(state, action)
   }
 }
