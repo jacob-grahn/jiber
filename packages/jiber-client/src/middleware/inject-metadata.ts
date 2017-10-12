@@ -10,20 +10,20 @@ let nextActionId = 1
 export const injectMetadata: Middleware = (store: Store) => {
   return (next: Next) => (action: Action) => {
     // sanity checks
-    const roomId = action.$roomId
+    const roomId = action.$r
     const state = store.getState()
     if (!roomId || !state.rooms[roomId]) return next(action)
 
     // fillin missing data
-    if (!action.$actionId) action.$actionId = nextActionId++
-    if (!action.$timeMs) action.$timeMs = new Date().getTime()
+    if (!action.$id) action.$id = nextActionId++
+    if (!action.$t) action.$t = new Date().getTime()
 
-    // if there is no $userId, then this action was created by the current user
-    if (action.$userId) {
+    // if there is no $u, then this action was created by the current user
+    if (action.$u) {
       const room = state.rooms[roomId]
-      action.$user = room.members[action.$userId]
+      action.$user = room.members[action.$u]
     } else if (state.me) {
-      action.$userId = state.me.userId
+      action.$u = state.me.userId
       action.$user = state.me
     }
 

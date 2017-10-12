@@ -28,7 +28,7 @@ test('send a join action for each room in the state', () => {
   rejoinRooms()
 
   expect(sentActions).toEqual([
-    {type: JOIN_ROOM, $roomId: 'room1'},
-    {type: JOIN_ROOM, $roomId: 'room2'}
+    {type: JOIN_ROOM, $r: 'room1'},
+    {type: JOIN_ROOM, $r: 'room2'}
   ])
 })

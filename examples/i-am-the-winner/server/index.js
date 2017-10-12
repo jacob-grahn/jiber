@@ -4,7 +4,7 @@ const jiber = require('jiber-server')
 const winner = (state, action) => {
   switch (action.type) {
     case 'WIN':
-      return action.$userId
+      return action.$u
     default:
       return state
   }

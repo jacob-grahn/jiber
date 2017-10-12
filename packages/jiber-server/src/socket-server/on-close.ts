@@ -32,7 +32,7 @@ const removeUserFromRooms = (
     return room.members[userId]
   })
   memberRoomIds.forEach(roomId => {
-    const action = {type: LEAVE_ROOM, $roomId: roomId, $userId: userId}
+    const action = {type: LEAVE_ROOM, $r: roomId, $u: userId}
     return pushAction(action)
   })
 }

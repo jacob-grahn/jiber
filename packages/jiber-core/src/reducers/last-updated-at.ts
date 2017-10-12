@@ -7,5 +7,5 @@ export const lastUpdatedAt = (
   state: number = 0,
   action: Action
 ): number => {
-  return action.$timeMs || state
+  return action.$t || state
 }

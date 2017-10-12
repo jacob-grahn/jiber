@@ -16,7 +16,7 @@ export const member = (state: User|undefined, action: Action) => {
     default:
       if (!state) return state
       if (!action.$confirmed) return state
-      const newActionId = action.$actionId || 0
+      const newActionId = action.$id || 0
       const oldActionId = state.actionId || 0
       if (newActionId <= oldActionId) return state
       return {...state, actionId: newActionId}

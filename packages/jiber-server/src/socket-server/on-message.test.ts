@@ -57,6 +57,6 @@ test('pass the action to pushAction', () => {
   const message = JSON.stringify({type: 'hi'})
   onMessage(socketId, message)
   expect(calls).toEqual([
-    ['pushAction', {type: 'hi', $userId: 'user1'}]
+    ['pushAction', {type: 'hi', $u: 'user1'}]
   ])
 })

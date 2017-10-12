@@ -7,18 +7,18 @@ export const createApplyAction = (
   sendToRoom: (roomId: string, action: Action) => void
 ) => {
   return (action: Action): void => {
-    if (!action.$roomId || !action.$userId) return
+    if (!action.$r || !action.$u) return
 
     const state = getState()
-    const userId = action.$userId
-    const room = state.rooms[action.$roomId]
+    const userId = action.$u
+    const room = state.rooms[action.$r]
     const user = room.members[userId] || state.users[userId] || {}
     const lastActionId = user.actionId || 0
-    const nextActionId = action.$actionId || 1
+    const nextActionId = action.$id || 1
 
     if (nextActionId <= lastActionId) return
 
-    sendToRoom(action.$roomId, action)
+    sendToRoom(action.$r, action)
 
     action.$confirmed = true
     action.$user = user

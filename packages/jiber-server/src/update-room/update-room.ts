@@ -6,7 +6,7 @@ export const createUpdateRoom = (
   saveRoom: (roomId: string) => void
 ) => {
   return async (action: Action) => {
-    const roomId = action.$roomId
+    const roomId = action.$r
     if (!roomId) return
     await ensureRoom(roomId)
     applyAction(action)

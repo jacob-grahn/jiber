@@ -37,8 +37,8 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('ignore actions without a roomId and userid', () => {
-  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $userId: '1234'})
-  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $roomId: 'room1'})
+  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $u: '1234'})
+  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $r: 'room1'})
   welcomeNewMembers(store)(next)({type: JOIN_ROOM})
   expect(calls).toEqual([
     ['next'],
@@ -50,8 +50,8 @@ test('ignore actions without a roomId and userid', () => {
 test('ignore actions other than JOIN_ROOM', () => {
   welcomeNewMembers(store)(next)({
     type: 'ee',
-    $userId: 'user1',
-    $roomId: 'room1'
+    $u: 'user1',
+    $r: 'room1'
   })
   expect(calls).toEqual([
     ['next']
@@ -61,8 +61,8 @@ test('ignore actions other than JOIN_ROOM', () => {
 test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
   welcomeNewMembers(store)(next)({
     type: JOIN_ROOM,
-    $userId: 'user1',
-    $roomId: 'room1'
+    $u: 'user1',
+    $r: 'room1'
   })
   expect(calls[1]).toEqual([
     'emitter',
@@ -75,7 +75,7 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
         bob: {userId: 'bob'},
         sally: {userId: 'sally'}
       },
-      $roomId: 'room1'
+      $r: 'room1'
     }
   ])
 })
@@ -83,8 +83,8 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
 test('non-existant rooms are ignored', () => {
   welcomeNewMembers(store)(next)({
     type: JOIN_ROOM,
-    $userId: 'user1',
-    $roomId: 'room500'
+    $u: 'user1',
+    $r: 'room500'
   })
   expect(calls).toEqual([
     ['next']

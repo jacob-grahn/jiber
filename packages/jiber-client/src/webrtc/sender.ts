@@ -10,13 +10,13 @@ export const createSender = (
   send: (action: Action) => void
 ) => {
   const onAction = (action: Action): void => {
-    if (!action.$roomId) return
+    if (!action.$r) return
 
     const state = getState()
     if (action.$confirmed) return
-    if (action.$userId !== state.me.userId) return
+    if (action.$u !== state.me.userId) return
 
-    const room = state.rooms[action.$roomId]
+    const room = state.rooms[action.$r]
     const memberIds = Object.keys(room.members)
     if (memberIds.indexOf(peerUserId) === -1) return
 

@@ -13,15 +13,15 @@ export const createDb = (options: Redis.ClientOpts) => {
 
   sub.on('message', (_channel, message) => {
     const action = JSON.parse(message)
-    if (action.$timeMs <= lastActionTime) {
-      action.$timeMs = lastActionTime + 1
+    if (action.$t <= lastActionTime) {
+      action.$t = lastActionTime + 1
     }
-    lastActionTime = action.$timeMs
+    lastActionTime = action.$t
     emitter.emit(ACTION_PUSHED, action)
   })
 
   const pushAction = (action: Action) => {
-    action.$timeMs = new Date().getTime()
+    action.$t = new Date().getTime()
     pub.publish('channel1', JSON.stringify(action))
   }
 

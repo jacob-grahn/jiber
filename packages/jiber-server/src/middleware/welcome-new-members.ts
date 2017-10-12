@@ -38,19 +38,19 @@ export const createWelcomeNewMembers = (emitter: EventEmitter) => {
     next(action)
 
     if (action.type !== JOIN_ROOM) return
-    if (!action.$roomId || !action.$userId) return
+    if (!action.$r || !action.$u) return
 
     const state = store.getState()
-    const room = state.rooms[action.$roomId]
+    const room = state.rooms[action.$r]
     if (!room) return
 
     const message: Action = {
       type: CONFIRMED_STATE,
       confirmed: room.confirmed,
       members: giveMembersSomePrivacy(room.members),
-      $roomId: action.$roomId
+      $r: action.$r
     }
 
-    emitter.emit(SEND_TO_USER, action.$userId, message)
+    emitter.emit(SEND_TO_USER, action.$u, message)
   }
 }

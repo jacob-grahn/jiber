@@ -52,15 +52,15 @@ export const createPeerManager = (
     action: Action,
     isInitiator: boolean = false
   ): void => {
-    const userId = action.$userId
+    const userId = action.$u
+    if (!userId) return
     if (connections[userId]) return
-    const connection = createPeerConnection(
+    connections[userId] = createPeerConnection(
       userId,
       store,
       settings,
       isInitiator
     )
-    connections[connection.peerUserId] = connection
   }
 
   // trigger events when actions are dispatched
@@ -72,7 +72,7 @@ export const createPeerManager = (
           removeUnusedConnections()
           break
         case JOIN_ROOM:
-          if (action.$userId === store.getState().me.userId) return
+          if (action.$u === store.getState().me.userId) return
           addConnection(action, true)
           break
         case WEBRTC_OFFER:

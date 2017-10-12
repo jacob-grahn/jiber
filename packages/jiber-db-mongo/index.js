@@ -23,12 +23,12 @@ function toPromise () {
 async function pushAction (roomId, action) {
   const db = await getDb()
   const collection = db.collection(settings.mongoActionCollection)
-  action._jiberRoomId = action.$roomId
-  action._jiberUserId = action.$userId
-  delete action.$roomId
-  delete action.$userId
-  delete action.$timeMs
-  delete action.$actionId
+  action._jiberRoomId = action.$r
+  action._jiberUserId = action.$u
+  delete action.$r
+  delete action.$u
+  delete action.$t
+  delete action.$id
 
   // strange update to get around the fact that $currentDate doesn't work with inserts
   // https://stackoverflow.com/questions/20620368/is-there-any-equivalent-of-now-in-mongodb/37061284#37061284
@@ -51,9 +51,9 @@ async function fetchActions (roomId, minTimeMs) {
   )
   const actions = await actionCursor.toArray()
   const parsedActions = actions.map(action => {
-    action.$userId = action._jiberUserId
-    action.$roomId = action._jiberRoomId
-    action.$timeMs = new Date(action._jiberDate).getTime()
+    action.$u = action._jiberUserId
+    action.$r = action._jiberRoomId
+    action.$t = new Date(action._jiberDate).getTime()
     delete action._jiberUserId
     delete action._jiberRoomId
     delete action._jiberDate

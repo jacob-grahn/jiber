@@ -12,7 +12,7 @@ test('user generated actions are used on the optimistic state', () => {
   const action = {
     type: 'bet',
     value: '123',
-    $actionId: 1
+    $id: 1
   }
   const roomState: ClientRoomState = {
     pendingActions: [],
@@ -30,16 +30,16 @@ test('optimistic state is rebased when confirmed state is updated', () => {
       {
         type: 'test',
         value: '123',
-        $actionId: 4,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $id: 4,
+        $u: 'sally',
+        $r: 'testRoom'
       },
       {
         type: 'test',
         value: '456',
-        $actionId: 5,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $id: 5,
+        $u: 'sally',
+        $r: 'testRoom'
       }
     ],
     confirmed: 'abc',
@@ -50,9 +50,9 @@ test('optimistic state is rebased when confirmed state is updated', () => {
   const action: Action = {
     type: 'test',
     value: 'abc',
-    $roomId: 'testRoom',
-    $userId: 'sally',
-    $actionId: 3,
+    $r: 'testRoom',
+    $u: 'sally',
+    $id: 3,
     $confirmed: true
   }
 

@@ -36,7 +36,7 @@ test('return state from db if it exists', async () => {
     type: CONFIRMED_STATE,
     roomId: 'room2',
     source: 'db',
-    $roomId: 'room2'
+    $r: 'room2'
   }])
 })
 

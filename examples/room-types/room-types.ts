@@ -8,8 +8,8 @@ import { ReducerObj } from './combine-reducers'
  */
 export const roomTypes = (reducerObj: ReducerObj): Reducer => {
   return (state: any = undefined, action: Action): Dictionary => {
-    if (!action.$roomId) return state
-    const [roomType] = action.$roomId.split('.')
+    if (!action.$r) return state
+    const [roomType] = action.$r.split('.')
     const reducer = reducerObj[roomType]
     return reducer(state, action)
   }

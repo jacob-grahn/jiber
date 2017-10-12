@@ -13,17 +13,17 @@ export const createEnsureRoom = (
 ) => {
 
   // if the room does not exist, create a new room using a snapshot from db
-  return async ($roomId: string): Promise<RoomState> => {
-    const roomState = getRoomState($roomId)
+  return async ($r: string): Promise<RoomState> => {
+    const roomState = getRoomState($r)
     if (roomState) return roomState
 
-    const savedRoomState = await fetchRoomState($roomId)
+    const savedRoomState = await fetchRoomState($r)
     if (savedRoomState) {
-      dispatch({...savedRoomState, type: CONFIRMED_STATE, $roomId})
+      dispatch({...savedRoomState, type: CONFIRMED_STATE, $r})
       return savedRoomState
     }
 
-    dispatch({...defaultRoomState, type: CONFIRMED_STATE, $roomId})
+    dispatch({...defaultRoomState, type: CONFIRMED_STATE, $r})
     return defaultRoomState
   }
 }

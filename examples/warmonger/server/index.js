@@ -5,8 +5,8 @@ const middleware = [
   store => action => next => {
     switch (action.type) {
       case 'DRAW_FROM_DECK':
-        const roomId = action.$roomId
-        const userId = action.$userId
+        const roomId = action.$r
+        const userId = action.$u
         const state = store.getState()
         const room = state.rooms[roomId]
         const deck = room.deck
@@ -47,7 +47,7 @@ const reducer = (state, action) => {
     }
   }
 
-  const player = state.players[action.$userId] || {}
+  const player = state.players[action.$u] || {}
 
   // stops users from playing twice in a row
   if (player.turnComplete) return

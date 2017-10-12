@@ -14,21 +14,21 @@ test('members are set on join success', () => {
 
 test('add user', () => {
   const state = {}
-  const $userId = 'fil'
-  const action = {type: JOIN_ROOM, $user: {userId: 'fil', actionId: 7}, $userId}
+  const $u = 'fil'
+  const action = {type: JOIN_ROOM, $user: {userId: 'fil', actionId: 7}, $u}
   expect(members(state, action)).toEqual({fil: {userId: 'fil', actionId: 7}})
 })
 
 test('remove user', () => {
   const state = {fil: {userId: 'fil', actionId: 1}}
-  const $userId = 'fil'
-  const action = {type: LEAVE_ROOM, $userId}
+  const $u = 'fil'
+  const action = {type: LEAVE_ROOM, $u}
   expect(members(state, action)).toEqual({})
 })
 
 test('removeing a non-member is ignored', () => {
   const state = {fil: {userId: 'fil', actionId: 1}}
-  const $userId = 'pluto'
-  const action = {type: LEAVE_ROOM, $userId}
+  const $u = 'pluto'
+  const action = {type: LEAVE_ROOM, $u}
   expect(members(state, action)).toEqual({fil: {userId: 'fil', actionId: 1}})
 })

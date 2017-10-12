@@ -19,7 +19,7 @@ export const createCreateRoom = (
     // subscribe to events that target this room
     const subscription = createSubscription()
     store.subscribe((action: Action) => {
-      if (action.$roomId === roomId) {
+      if (action.$r === roomId) {
         subscription.publish(action)
       }
     })
@@ -30,7 +30,7 @@ export const createCreateRoom = (
     }
 
     const dispatch = (action: Action) => {
-      store.dispatch({...action, $roomId: roomId})
+      store.dispatch({...action, $r: roomId})
     }
 
     const getState = () => get(getRoom(), 'optimistic')

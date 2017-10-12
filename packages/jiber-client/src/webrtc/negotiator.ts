@@ -34,7 +34,7 @@ export const createNegotiator = (
 
   const onAction = async (action: Action): Promise<void> => {
     if (!action.$confirmed) return
-    if (action.$userId !== peerUserId) return
+    if (action.$u !== peerUserId) return
     switch (action.type) {
       case WEBRTC_OFFER:
         await pc.setRemoteDescription(action.offer)

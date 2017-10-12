@@ -19,7 +19,7 @@ test('call rejoinRooms after LOGIN_RESULT', () => {
 })
 
 test('call resendPending after CONFIRMED_STATE', () => {
-  actionHandler({type: CONFIRMED_STATE, $roomId: 'abc'})
+  actionHandler({type: CONFIRMED_STATE, $r: 'abc'})
   expect(resendCalls).toEqual([{roomId: 'abc'}])
 })
 

@@ -4,7 +4,7 @@ import { CONFIRMED_STATE } from '../constants/action-types'
 import { createDictionary } from './dictionary'
 import { member } from './member'
 
-const memberDict = createDictionary(member, '$userId')
+const memberDict = createDictionary(member, '$u')
 
 export const members = (
   state: {[userId: string]: User} = {},

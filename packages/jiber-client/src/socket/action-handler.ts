@@ -12,8 +12,8 @@ export const createActionHandler = (
       rejoinRooms()
     }
     if (action.type === CONFIRMED_STATE) {
-      if (!action.$roomId) return
-      resendPending(action.$roomId)
+      if (!action.$r) return
+      resendPending(action.$r)
     }
   }
 }

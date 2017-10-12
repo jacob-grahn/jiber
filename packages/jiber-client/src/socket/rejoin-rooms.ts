@@ -10,8 +10,8 @@ export const createRejoinRooms = (
 ) => {
   return () => {
     const state = getState()
-    Object.keys(state.rooms).forEach($roomId => {
-      const action = {type: JOIN_ROOM, $roomId}
+    Object.keys(state.rooms).forEach($r => {
+      const action = {type: JOIN_ROOM, $r}
       sendAction(action)
     })
   }
