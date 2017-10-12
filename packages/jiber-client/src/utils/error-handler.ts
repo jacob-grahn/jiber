@@ -1,1 +1,1 @@
-export const errorHandler = (e: ErrorEvent|string) => console.log(e)
+export const errorHandler = (e: any) => console.log(e)

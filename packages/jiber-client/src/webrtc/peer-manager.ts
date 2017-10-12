@@ -11,7 +11,10 @@ const connections: {[userId: string]: PeerConnection} = {}
  * When we join a room, existing members send us offers (WEBRTC_OFFER)
  * When another user joins, we send an offer (we are now an existing member)
  */
-export const createPeerManager = (store: Store, settings: ClientSettings): void => {
+export const createPeerManager = (
+  store: Store,
+  settings: ClientSettings
+): void => {
   // standardize browser prefixes
   prefixFix()
 
@@ -57,7 +60,7 @@ export const createPeerManager = (store: Store, settings: ClientSettings): void 
       settings,
       isInitiator
     )
-    connections[connection.userId] = connection
+    connections[connection.peerUserId] = connection
   }
 
   // trigger events when actions are dispatched
@@ -69,7 +72,7 @@ export const createPeerManager = (store: Store, settings: ClientSettings): void 
           removeUnusedConnections()
           break
         case JOIN_ROOM:
-        if (action.$userId === store.getState().me.userId) return
+          if (action.$userId === store.getState().me.userId) return
           addConnection(action, true)
           break
         case WEBRTC_OFFER:

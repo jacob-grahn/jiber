@@ -1,6 +1,6 @@
 import { Action, Store } from 'jiber-core'
 
-export const createOnActionFromPeer = (store: Store, peerUserId: string) => {
+export const createReceiver = (store: Store, peerUserId: string) => {
   return (event: MessageEvent) => {
     const action: Action = JSON.parse(event.data)
     const roomId = action.$roomId

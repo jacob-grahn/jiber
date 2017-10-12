@@ -14,7 +14,7 @@ export const createOnAction = (
 ) => {
   return (action: Action) => {
     if (webRtcActions.indexOf(action.type) !== -1) {
-      sendToUser(action.toUserId, action)
+      sendToUser(action.peerUserId, action)
     } else {
       updateRoom(action)
     }

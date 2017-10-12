@@ -1,8 +1,7 @@
 import { Action } from 'jiber-core'
 
 export type PeerChannel = {
-  send: (action: Action) => void,
-  onmessage: undefined | ((event: MessageEvent) => void)
+  send: (action: Action) => void
 }
 
 /**
@@ -10,24 +9,25 @@ export type PeerChannel = {
  * so I'm using 'any' types in a few places
  * 'pc' is short for peerConnection
  */
-export const createChannel = (pc: RTCPeerConnection, isInitiator: boolean) => {
+export const createChannel = (
+  pc: RTCPeerConnection,
+  isInitiator: boolean,
+  receiver: (event: MessageEvent) => void
+): PeerChannel => {
   let channel: any
 
   const send = (action: Action): void => {
     if (channel && channel.readyState === 'open') {
-      channel.send(JSON.stringify(action))
+      const smallerAction = {
+        ...action,
+        ...{$user: undefined, $userId: undefined, $timeMs: undefined}
+      }
+      channel.send(JSON.stringify(smallerAction))
     }
-  }
-
-  const peerChannel: PeerChannel = {
-    send,
-    onmessage: undefined
   }
 
   const setupChannel = (channel: any) => {
-    channel.onmessage = (e: MessageEvent) => {
-      if (peerChannel.onmessage) peerChannel.onmessage(e)
-    }
+    channel.onmessage = receiver
   }
 
   const createOrWait = () => {
@@ -45,5 +45,7 @@ export const createChannel = (pc: RTCPeerConnection, isInitiator: boolean) => {
 
   createOrWait()
 
-  return peerChannel
+  return {
+    send
+  }
 }
