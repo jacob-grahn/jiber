@@ -21,7 +21,7 @@ export const injectMetadata: Middleware = (store: Store) => {
     // if there is no $u, then this action was created by the current user
     if (action.$u) {
       const room = state.rooms[roomId]
-      action.$user = room.members[action.$u]
+      action.$user = room.members[action.$u] || action.$user
     } else if (state.me) {
       action.$u = state.me.userId
       action.$user = state.me

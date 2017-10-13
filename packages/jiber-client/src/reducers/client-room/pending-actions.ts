@@ -1,4 +1,4 @@
-import { Action, CONFIRMED_STATE, LEAVE_ROOM } from 'jiber-core'
+import { Action, CONFIRMED_STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
@@ -18,6 +18,11 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
  * received for this user
  */
 const addNew = (pendingActions: Action[], action: Action): Action[] => {
+  // ignore JOIN_ROOM and LEAVE_ROOM actions, rejoin-rooms.ts handles that
+  if (action.type === JOIN_ROOM || action.type === LEAVE_ROOM) {
+    return pendingActions
+  }
+
   // if the user is not set, then we made this action but are not logged in yet
   if (!action.$user) return [...pendingActions, action]
 

@@ -1,4 +1,4 @@
-import { Action } from 'jiber-core'
+import { Action, JOIN_ROOM } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
 export const createApplyAction = (
@@ -17,6 +17,9 @@ export const createApplyAction = (
     const nextActionId = action.$id || 1
 
     if (nextActionId <= lastActionId) return
+
+    // a hack to send user info when joining a room
+    if (action.type === JOIN_ROOM) action.$user = user
 
     sendToRoom(action.$r, action)
 
