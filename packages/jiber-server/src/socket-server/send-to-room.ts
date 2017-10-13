@@ -1,4 +1,4 @@
-import { Action } from 'jiber-core'
+import { Action, forEach } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 import { SendToSocket } from './send-to-socket'
 
@@ -16,9 +16,9 @@ export const createSendToRoom: CreateSendToRoom = (getState, sendToSocket) => {
     const state = getState()
     const room = state.rooms[roomId]
     if (!room || !room.members) return
-    const memberIds: string[] = Object.keys(room.members)
-    memberIds.forEach(memberId => {
-      const user = state.users[memberId]
+
+    forEach(room.members, member => {
+      const user = state.users[member.userId]
       if (!user || !user.socketId) return
       sendToSocket(user.socketId, action)
     })

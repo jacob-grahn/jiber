@@ -1,5 +1,11 @@
-// todo: add a forEach and map util function to jiber-core
-import { Action, Store, LEAVE_ROOM, JOIN_ROOM, WEBRTC_OFFER } from 'jiber-core'
+import {
+  Action,
+  Store,
+  LEAVE_ROOM,
+  JOIN_ROOM,
+  WEBRTC_OFFER,
+  forEach
+} from 'jiber-core'
 import { PeerConnection, createPeerConnection } from './peer-connection'
 import { ClientSettings } from '../interfaces/client-settings'
 import { ClientState } from '../interfaces/client-state'
@@ -20,12 +26,11 @@ export const createPeerManager = (
 
   // create a list of all userIds that you should be connected to
   const toAllMemberIds = (state: ClientState): string[] => {
-    const roomIds = Object.keys(state.rooms)
-    const allMemberDict = roomIds.reduce((collector, roomId) => {
-      const room = state.rooms[roomId]
-      return Object.assign(collector, room.members)
-    }, {})
-    return Object.keys(allMemberDict)
+    const allMembers = {}
+    forEach(state.rooms, room => {
+      Object.assign(allMembers, room.members)
+    })
+    return Object.keys(allMembers)
   }
 
   // remove a connection that we no longer want
@@ -39,10 +44,9 @@ export const createPeerManager = (
   // remove connections we no longer want
   const removeUnusedConnections = () => {
     const allMemberIds = toAllMemberIds(store.getState())
-    const connectedMemberIds = Object.keys(connections)
-    connectedMemberIds.forEach(connectedMemberId => {
-      if (allMemberIds.indexOf(connectedMemberId) === -1) {
-        remove(connectedMemberId)
+    forEach(connections, connection => {
+      if (allMemberIds.indexOf(connection.peerUserId) === -1) {
+        remove(connection.peerUserId)
       }
     })
   }
@@ -65,6 +69,7 @@ export const createPeerManager = (
 
   // trigger events when actions are dispatched
   store.subscribe((action: Action) => {
+
     // add and remove connections as needed
     if (action.$confirmed) {
       switch (action.type) {
@@ -82,8 +87,6 @@ export const createPeerManager = (
     }
 
     // each connection responds to actions as well
-    Object.keys(connections).forEach(userId => {
-      connections[userId].onAction(action)
-    })
+    forEach(connections, connection => connection.onAction(action))
   })
 }

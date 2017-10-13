@@ -16,6 +16,7 @@ export * from './reducers/user'
 export * from './reducers/room'
 
 export * from './utils/del'
+export * from './utils/for-each'
 export * from './utils/get'
 export * from './utils/set'
 export * from './utils/subscription'
