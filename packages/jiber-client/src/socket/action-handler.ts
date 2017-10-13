@@ -8,12 +8,11 @@ export const createActionHandler = (
   resendPending: (roomId: string) => void
 ) => {
   return (action: Action): void => {
-    if (action.type === LOGIN_RESULT) {
-      rejoinRooms()
-    }
-    if (action.type === CONFIRMED_STATE) {
-      if (!action.$r) return
-      resendPending(action.$r)
+    switch (action.type) {
+      case LOGIN_RESULT:
+        return rejoinRooms()
+      case CONFIRMED_STATE:
+        return resendPending(action.$r || '')
     }
   }
 }

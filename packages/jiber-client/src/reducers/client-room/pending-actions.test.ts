@@ -2,12 +2,7 @@ import { pendingActions } from './pending-actions'
 import { CONFIRMED_STATE } from 'jiber-core'
 
 test('prune actions that do not have a userId', () => {
-  const actions: any = [
-    null,
-    false,
-    {},
-    {$id: 0}
-  ]
+  const actions: any = [{}, {$id: 0}]
   const action = {
     type: 'lala',
     $user: {actionId: 1, userId: '1'},

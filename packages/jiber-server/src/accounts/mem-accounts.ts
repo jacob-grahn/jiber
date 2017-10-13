@@ -6,8 +6,6 @@ import { randStr } from '../utils/rand-str'
  */
 export const memAccounts = async (): Promise<User> => {
   return {
-    userId: randStr(12),
-    grantRead: [''],
-    grantWrite: ['']
+    userId: randStr(12)
   }
 }

@@ -23,9 +23,9 @@ test('call resendPending after CONFIRMED_STATE', () => {
   expect(resendCalls).toEqual([{roomId: 'abc'}])
 })
 
-test('ignore CONFIRMED_STATE if there is no roomId', () => {
+test('default roomId to empty string', () => {
   actionHandler({type: CONFIRMED_STATE})
-  expect(resendCalls.length).toBe(0)
+  expect(resendCalls).toEqual([{roomId: ''}])
 })
 
 test('ignore other actions', () => {

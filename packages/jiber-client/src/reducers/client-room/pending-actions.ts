@@ -6,7 +6,6 @@ import { Action, CONFIRMED_STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
  */
 const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
   return pendingActions.filter(pendingAction => {
-    if (!pendingAction) return false
     if (!pendingAction.$u) return false
     if (pendingAction.$u !== action.$u) return true
     return (pendingAction.$id || 0) > (action.$id || 0)

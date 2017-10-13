@@ -10,7 +10,6 @@ import { Action } from '../interfaces/action'
 import { set } from '../utils/set'
 import { get } from '../utils/get'
 import { splice } from './splice'
-import { isAllowedPath } from './is-allowed-path'
 
 export interface SwissState {
   [key: string]: any
@@ -44,9 +43,6 @@ export const swiss = (state: SwissState = {}, action: Action): SwissState => {
   const path = action.path
   const value = action.value
   const oldValue = get(state, path)
-  const grantWrite = get(action, '$user.grantWrite') || ''
-
-  if (!isAllowedPath(grantWrite, path)) return state
 
   switch (action.type) {
     case SET:

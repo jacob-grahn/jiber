@@ -1,10 +1,7 @@
 import { Action, Next } from 'jiber-core'
 
 /**
- * Mostly this middleware exists to create an incrementing actionId
- * for local actions.
- * userId and timeMs are also added to create some consistency between
- * optimistic and confirmed actions
+ * Create an incrementing actionId
  */
 
 let nextActionId = 1
