@@ -1,8 +1,4 @@
-// todo: when to close connections?
 // todo: set a maximum number of connections
-// todo: I have no idea what I am doing
-// https://shanetully.com/2014/09/a-dead-simple-webrtc-example/
-// https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling
 import { Store, Action } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
 import { createChannel } from './channel'

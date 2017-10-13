@@ -13,5 +13,6 @@ export const defaultClientSettings: ClientSettings = {
   credential: undefined,
   initialState: undefined,
   backoffMs: 5000,
-  actionCreators: swissActionCreators
+  actionCreators: swissActionCreators,
+  maxPeers: 10
 }

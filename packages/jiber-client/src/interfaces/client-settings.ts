@@ -13,5 +13,6 @@ export interface ClientSettings {
   stunServers: string[],
   initialState: any,
   backoffMs: number,
-  actionCreators: {[key: string]: Function}
+  actionCreators: {[key: string]: Function},
+  maxPeers: number
 }

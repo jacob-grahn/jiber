@@ -56,6 +56,7 @@ export const createPeerManager = (
     const userId = action.$u
     if (!userId) return
     if (connections[userId]) return
+    if (Object.keys(connections).length >= settings.maxPeers) return
     connections[userId] = createPeerConnection(
       userId,
       store,
