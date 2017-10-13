@@ -4,7 +4,8 @@ import {
   LEAVE_ROOM,
   JOIN_ROOM,
   WEBRTC_OFFER,
-  forEach
+  forEach,
+  reduce
 } from 'jiber-core'
 import { PeerConnection, createPeerConnection } from './peer-connection'
 import { ClientSettings } from '../interfaces/client-settings'
@@ -25,12 +26,10 @@ export const createPeerManager = (
   prefixFix()
 
   // create a list of all userIds that you should be connected to
-  const toAllMemberIds = (state: ClientState): string[] => {
-    const allMembers = {}
-    forEach(state.rooms, room => {
-      Object.assign(allMembers, room.members)
-    })
-    return Object.keys(allMembers)
+  const toAllMembers = (state: ClientState): string[] => {
+    return reduce(state.rooms, (members, room) => {
+      return Object.assign(members, room.members)
+    }, {})
   }
 
   // remove a connection that we no longer want
@@ -43,11 +42,9 @@ export const createPeerManager = (
 
   // remove connections we no longer want
   const removeUnusedConnections = () => {
-    const allMemberIds = toAllMemberIds(store.getState())
+    const allMembers = toAllMembers(store.getState())
     forEach(connections, connection => {
-      if (allMemberIds.indexOf(connection.peerUserId) === -1) {
-        remove(connection.peerUserId)
-      }
+      if (!allMembers[connection.peerUserId]) remove(connection.peerUserId)
     })
   }
 

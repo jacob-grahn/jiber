@@ -6,28 +6,24 @@ import {
   Store,
   JOIN_ROOM,
   CONFIRMED_STATE,
-  SEND_TO_USER
+  SEND_TO_USER,
+  map
 } from 'jiber-core'
 
 /**
  * Only expose specific fields of user accounts
  */
 const giveMembersSomePrivacy = (members: UserDict) => {
-  const userIds = Object.keys(members)
-  const publicMembers = userIds.reduce((collector, userId) => {
-    const user = members[userId]
-    if (user) {
-      collector[userId] = {
-        userId: user.userId,
-        public: user.public,
-        actionId: user.actionId,
-        grantRead: user.grantRead,
-        grantWrite: user.grantWrite
-      }
+  return map(members, member => {
+    if (!member) return undefined
+    return {
+      userId: member.userId,
+      public: member.public,
+      actionId: member.actionId,
+      grantRead: member.grantRead,
+      grantWrite: member.grantWrite
     }
-    return collector
-  }, {} as UserDict)
-  return publicMembers
+  })
 }
 
 /**

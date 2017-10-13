@@ -17,8 +17,7 @@ export const createSender = (
     if (action.$u !== state.me.userId) return
 
     const room = state.rooms[action.$r]
-    const memberIds = Object.keys(room.members)
-    if (memberIds.indexOf(peerUserId) === -1) return
+    if (!room.members[peerUserId]) return
 
     send(action)
   }

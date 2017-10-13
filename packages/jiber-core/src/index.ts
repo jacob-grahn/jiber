@@ -18,6 +18,8 @@ export * from './reducers/room'
 export * from './utils/del'
 export * from './utils/for-each'
 export * from './utils/get'
+export * from './utils/map'
+export * from './utils/reduce'
 export * from './utils/set'
 export * from './utils/subscription'
 

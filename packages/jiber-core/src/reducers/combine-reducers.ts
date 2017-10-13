@@ -1,6 +1,7 @@
+import { reduce } from '../utils/reduce'
 import { Reducer } from '../interfaces/reducer'
 
-export interface ReducerObj {
+export interface ReducerDict {
   [key: string]: Reducer
 }
 export interface State {
@@ -10,16 +11,10 @@ export interface State {
 /**
  * Take a collection of reducers to produce a single reducer
  */
-export const combineReducers = (reducerObj: ReducerObj): Reducer => {
-  const keys = Object.keys(reducerObj)
-
+export const combineReducers = (reducerDict: ReducerDict): Reducer => {
   return (state: State = {}, action) => {
-    return keys.reduce((state, key: string) => {
-      const reducer = reducerObj[key]
-      return {
-        ...state,
-        [key]: reducer(state[key], action)
-      }
+    return reduce(reducerDict, (state, reducer, key) => {
+      return {...state, [key]: reducer(state[key], action)}
     }, state)
   }
 }

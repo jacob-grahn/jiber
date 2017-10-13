@@ -3,7 +3,8 @@ import {
   RoomState,
   PushAction,
   REMOVE_SOCKET,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  forEach
 } from 'jiber-core'
 import { ServerState } from '../interfaces/server-state'
 
@@ -26,14 +27,10 @@ const removeUserFromRooms = (
   userId: string,
   rooms: {[roomId: string]: RoomState}
 ) => {
-  const roomIds: string[] = Object.keys(rooms)
-  const memberRoomIds = roomIds.filter(roomId => {
-    const room = rooms[roomId]
-    return room.members[userId]
-  })
-  memberRoomIds.forEach(roomId => {
+  forEach(rooms, (room, roomId) => {
+    if (!room.members[userId]) return
     const action = {type: LEAVE_ROOM, $r: roomId, $u: userId}
-    return pushAction(action)
+    pushAction(action)
   })
 }
 

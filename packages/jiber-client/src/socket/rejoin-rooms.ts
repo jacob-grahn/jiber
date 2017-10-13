@@ -1,4 +1,4 @@
-import { JOIN_ROOM, Action } from 'jiber-core'
+import { JOIN_ROOM, Action, forEach } from 'jiber-core'
 import { ClientState } from '../interfaces/client-state'
 
 /**
@@ -10,8 +10,8 @@ export const createRejoinRooms = (
 ) => {
   return () => {
     const state = getState()
-    Object.keys(state.rooms).forEach($r => {
-      sendAction({type: JOIN_ROOM, $r})
+    forEach(state.rooms, (_room, roomId) => {
+      sendAction({type: JOIN_ROOM, $r: roomId})
     })
   }
 }
