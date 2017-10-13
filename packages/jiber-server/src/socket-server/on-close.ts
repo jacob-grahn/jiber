@@ -29,7 +29,7 @@ const removeUserFromRooms = (
 ) => {
   forEach(rooms, (room, roomId) => {
     if (!room.members[userId]) return
-    const action = {type: LEAVE_ROOM, $r: roomId, $u: userId}
+    const action = {type: LEAVE_ROOM, $r: roomId, $u: userId, $id: 999999999}
     pushAction(action)
   })
 }

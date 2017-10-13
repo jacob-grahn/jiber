@@ -65,26 +65,18 @@ export const createPeerManager = (
     )
   }
 
-  // trigger events when actions are dispatched
+  // add and remove connections as needed
   store.subscribe((action: Action) => {
+    if (!action.$confirmed) return
 
-    // add and remove connections as needed
-    if (action.$confirmed) {
-      switch (action.type) {
-        case LEAVE_ROOM:
-          removeUnusedConnections()
-          break
-        case JOIN_ROOM:
-          if (action.$u === store.getState().me.userId) return
-          addConnection(action, true)
-          break
-        case WEBRTC_OFFER:
-          addConnection(action)
-          break
-      }
+    switch (action.type) {
+      case LEAVE_ROOM:
+        return removeUnusedConnections()
+      case JOIN_ROOM:
+        if (action.$u === store.getState().me.userId) return
+        return addConnection(action, true)
+      case WEBRTC_OFFER:
+        return addConnection(action)
     }
-
-    // each connection responds to actions as well
-    forEach(connections, connection => connection.onAction(action))
   })
 }

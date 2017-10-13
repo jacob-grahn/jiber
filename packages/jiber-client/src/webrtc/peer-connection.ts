@@ -1,4 +1,3 @@
-// todo: set a maximum number of connections
 import { Store, Action } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
 import { createChannel } from './channel'
@@ -9,7 +8,6 @@ import { errorHandler } from '../utils/error-handler'
 
 export type PeerConnection = {
   peerUserId: string,
-  onAction: (action: Action) => void,
   close: Function
 }
 
@@ -39,16 +37,18 @@ export const createPeerConnection = (
     isInitiator
   )
 
-  const onAction = (action: Action): void => {
+  const unsubscribe = store.subscribe((action: Action): void => {
     negotiator.onAction(action).catch(errorHandler)
     sender.onAction(action)
+  })
+
+  const close = () => {
+    unsubscribe()
+    pc.close()
   }
 
-  const connection: PeerConnection = {
-    onAction,
+  return {
     peerUserId,
-    close: pc.close
+    close
   }
-
-  return connection
 }
