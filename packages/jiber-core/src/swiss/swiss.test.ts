@@ -2,11 +2,7 @@ import {
   SET,
   DELETE,
   ADD,
-  SUBTRACT,
   PUSH,
-  POP,
-  SHIFT,
-  UNSHIFT,
   SPLICE,
   swiss
 } from './swiss'
@@ -30,11 +26,11 @@ test(ADD, () => {
   expect(swiss(state, action)).toEqual({loginAttempts: 56})
 })
 
-test(SUBTRACT, () => {
+/* test(SUBTRACT, () => {
   const state = {lives: 9}
   const action = {type: SUBTRACT, path: 'lives', value: 1, $user}
   expect(swiss(state, action)).toEqual({lives: 8})
-})
+}) */
 
 test(PUSH, () => {
   const state = {peeps: ['Antman', 'Batman']}
@@ -42,7 +38,7 @@ test(PUSH, () => {
   expect(swiss(state, action)).toEqual({peeps: ['Antman', 'Batman', 'Catman', 'Datman']})
 })
 
-test(POP, () => {
+/* test(POP, () => {
   const state = {datingCandidates: ['Samantha', 'Barbara']}
   const action = {type: POP, path: 'datingCandidates', $user}
   expect(swiss(state, action)).toEqual({datingCandidates: ['Samantha']})
@@ -58,7 +54,7 @@ test(UNSHIFT, () => {
   const state = {list: ['Study']}
   const action = {type: UNSHIFT, path: 'list', value: ['TV', 'Games'], $user}
   expect(swiss(state, action)).toEqual({list: ['TV', 'Games', 'Study']})
-})
+}) */
 
 test(SPLICE, () => {
   const state = {aria: ['Littlefinger', 'The Mountain']}
