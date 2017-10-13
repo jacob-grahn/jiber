@@ -6,7 +6,7 @@
 
 export const forEach = (
   obj: any,
-  func: (value: any, key?: string) => any
+  func: (value: any, key: string) => any
 ) => {
   Object.keys(obj).forEach(key => func(obj[key], key))
 }
