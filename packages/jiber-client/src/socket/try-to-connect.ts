@@ -12,7 +12,6 @@ export const createTryToConnect = (
 
       const onopen = (socket: WebSocket) => {
         delete socket.onclose
-        delete socket.onerror
         delete socket.onopen
         resolve(socket)
       }
