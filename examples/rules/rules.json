@@ -1,0 +1,23 @@
+{
+  "/^game.*/": {
+    "maxMembers": 2,
+    "actions": {
+      "DRAW_CARD": "
+        if(get('lastTurn') !== uid) {
+          push(`hands.${uid}`, pop('deck'))
+          set('turn', uid)
+        }
+      "
+    },
+    "rules": {
+      "lastTurn": { ".read": true },
+      "deck": { ".read": false },
+      "hands": {
+        "$uid": { ".read": "uid === auth.uid" }
+      },
+      "table": {
+        "/.*/": { ".read": true }
+      }
+    }
+  }
+}
