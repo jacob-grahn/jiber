@@ -5,13 +5,13 @@
       "DRAW_CARD": "
         if(get('lastTurn') !== uid) {
           push(`hands.${uid}`, pop('deck'))
-          set('turn', uid)
+          set('lastTurn', uid)
         }
       "
     },
     "rules": {
-      "lastTurn": { ".read": true },
-      "deck": { ".read": false },
+      "lastTurn": { ".read": true, ".type": "string" },
+      "deck": [{ ".type": "string" }],
       "hands": {
         "$uid": { ".read": "uid === auth.uid" }
       },
