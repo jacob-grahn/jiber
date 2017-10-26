@@ -40,3 +40,8 @@ test('variable path', () => {
 test('function', () => {
   expect(runStr(funcs, ctx, 'add(3, 4)')).toBe(7)
 })
+
+test('tie it all together', () => {
+  expect(runStr(funcs, ctx, 'add( cities.0.population, add(1, 2) )'))
+    .toBe(937275)
+})

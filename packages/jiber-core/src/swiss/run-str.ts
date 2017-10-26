@@ -8,7 +8,7 @@ const boolRegex = /^true|false$/
 const funcRegex = /^\s*(\w+)\s*\((.*)\)$/ // --need s flag ?
 const pathRegex = /^[\w.]+$/
 const paramGrabber =
-  /\s*(true|false|".*"|'.*'|\`.*\`|\d+|\w+ ?(\(.*\))|[\w.]+)\s*,?\s*/
+  /\s*(\w+ ?(\(.*\))|true|false|".*"|'.*'|\`.*\`|\d+|[\w.]+)\s*,?\s*/g
 const interpolateGrabber = /\${(.+?)}/
 
 export const runStr = (
@@ -50,14 +50,6 @@ const runInterpolateStr = (
   })
 }
 
-/**
- todo: do {
-    m = re.exec(s);
-    if (m) {
-        console.log(m[1], m[2]);
-    }
-} while (m);
-**/
 const runFuncStr = (
   funcs: {[key: string]: Function},
   ctx: any,
@@ -73,15 +65,13 @@ const runFuncStr = (
   if (!func)
     return false
 
-  const paramResults = paramGrabber.exec(paramStr)
-  const params = paramResults ? paramResults.slice(1) : []
-  console.log({
-    str,
-    funcStr,
-    paramStr,
-    paramResults,
-    params
-  })
+  // the regex needs to run in a loop to find all of the params
+  const params = []
+  let m: any
+  while ((m = paramGrabber.exec(paramStr)) !== null) {
+    params.push(m[1])
+  }
+
   const ranParams = params.map(param => runStr(funcs, ctx, param))
   return func(...ranParams)
 }
