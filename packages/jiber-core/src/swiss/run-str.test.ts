@@ -11,7 +11,7 @@ const ctx = {
   group: 'places'
 }
 const funcs = {
-  add: (one: any, two: any) => console.log({one, two}) || one + two
+  add: (one: any, two: any) => one + two
 }
 
 ////////////////////////////////////////////////////////////////////////////////
