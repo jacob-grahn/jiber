@@ -16,16 +16,16 @@ import { getRule } from './get-rule'
   }]
 } */
 
-export const validate = (rules: any, path: string, value: any): boolean => {
-  const { type, custom } = getRule(rules, path)
-  return validateType(value, type)
-}
-
-export const validateType = (value: any, type: string = ''): boolean => {
+export const validateType = (value: any, type: string|undefined): boolean => {
   if (type === 'any') return true
   if (Array.isArray(value)) return type === 'array'
-  if (typeof value === type) return true
+  if (typeof value === type) return true // tslint:disable-line
   return false
+}
+
+export const validate = (rules: any, path: string, value: any): boolean => {
+  const rule = getRule(rules, path)
+  return validateType(value, rule['.type'])
 }
 
 /* export const validateCustom = (value: any, custom: string[]): boolean => {

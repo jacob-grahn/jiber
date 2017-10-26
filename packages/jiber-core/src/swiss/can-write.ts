@@ -7,7 +7,7 @@ import { toZeroes } from './to-zeroes'
 export const canWrite = (rules: any, path: string): boolean => {
   const keys = toZeroes(path.split('.'))
   let len = keys.length
-  while(len >= 0) {
+  while (len >= 0) {
     const write = get(rules, [...keys, '.write'])
     if (write === true) return true
     if (write === false) return false

@@ -1,7 +1,17 @@
 import { get } from '../utils/get'
 import { toZeroes } from './to-zeroes'
 
-type Rule = {type?: string, custom?: any}
+type Rule = {
+  '.type'?: string,
+  '.min'?: number,
+  '.max'?: number,
+  '.equal'?: string|number,
+  '.notEqual'?: string|number,
+  '.in'?: string[],
+  '.notIn'?: string[],
+  '.regex'?: string,
+  '.validate'?: string
+}
 
 /**
  * Return the validation rules for a given path
@@ -13,12 +23,14 @@ export const getRule = (rules: any, path: string): Rule => {
   const rule = get(rules, rulePath) || get(rules, wildcardPath)
   if (!rule) return {}
 
-  let type = 'any'
-  if (rule['.type'])
+  let type: string|undefined = undefined
+  if (rule['.type']) {
     type = rule['.type']
-  else if (Array.isArray(rule))
+  } else if (Array.isArray(rule)) {
     type = 'array'
-  else if (Object.keys(rule).filter(k => k.charAt(0) !== '.').length > 0)
+  } else if (Object.keys(rule).filter(k => k.charAt(0) !== '.').length > 0) {
     type = 'object'
-  return { type, custom: rule['.validate'] }
+  }
+
+  return { ...rule, '.type': type }
 }

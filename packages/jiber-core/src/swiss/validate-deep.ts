@@ -7,8 +7,7 @@ export const validateDeep = (rules: any, path: string, value: any): boolean => {
     const flat = flatten(value, `${path}.`)
     const badPaths: string[] = []
     forEach(flat, (subValue: string|number, subPath: string) => {
-      if (!validate(rules, subPath, subValue))
-        badPaths.push(subPath)
+      if (!validate(rules, subPath, subValue)) badPaths.push(subPath)
     })
     return badPaths.length === 0
   } else {
