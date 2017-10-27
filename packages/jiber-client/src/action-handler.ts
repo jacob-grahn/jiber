@@ -5,7 +5,7 @@ import {
   JOIN_ROOM,
   forEach
 } from 'jiber-core'
-import { ClientState } from '../interfaces/client-state'
+import { ClientState } from './interfaces/client-state'
 
 /**
  * Trigger special behaviors for certain actions from the server

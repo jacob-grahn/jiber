@@ -1,7 +1,7 @@
 import { tryToConnect } from './try-to-connect'
 import { ClientSettings } from '../interfaces/client-settings'
 
-type TrySocket = {
+type ToughSocket = {
   send: (str: string) => void,
   onmessage?: (event: any) => void
 }
@@ -10,10 +10,10 @@ type TrySocket = {
  * Create an always retrying socket connection
  * Handle incoming messages with onMessage
  */
-export const createTrySocket = (settings: ClientSettings): TrySocket => {
+export const createToughSocket = (settings: ClientSettings): ToughSocket => {
   let socket: WebSocket
 
-  const self: TrySocket = {
+  const self: ToughSocket = {
     send: (str: string) => {
       if (!socket || socket.readyState !== socket.OPEN) return
       socket.send(str)

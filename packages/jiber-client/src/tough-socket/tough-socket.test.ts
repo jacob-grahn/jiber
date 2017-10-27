@@ -1,4 +1,4 @@
-import { createTrySocket } from './try-socket'
+import { createToughSocket } from './tough-socket'
 
 const settings: any = {
   url: 'testurl',
@@ -8,6 +8,6 @@ const settings: any = {
 }
 
 it('socket should be a thing', () => {
-  const socket = createTrySocket(settings)
+  const socket = createToughSocket(settings)
   expect(socket).toBeTruthy()
 })
