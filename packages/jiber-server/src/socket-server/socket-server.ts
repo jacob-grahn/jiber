@@ -1,25 +1,24 @@
+import { Action } from 'jiber-core'
 import * as WebSocket from 'ws'
-import { OnAuthorize } from './on-authorize'
-import { OnConnect } from './on-connect'
+import { onAuthorize } from './on-authorize'
+import { onConnect } from './on-connect'
+import { ServerStore } from '../server-store'
+import { sendToRoom } from './send-to-room'
+import { sendToSocket } from './send-to-socket'
+import { sendToUser } from './send-to-user'
 
-export type CreateSocketServer = (
-  onAuthorize: OnAuthorize,
-  onConnect: OnConnect,
-  socketPort: number
-) => SocketServerToggle
-export interface SocketServerToggle {
+export interface SocketServer {
   start: () => void,
-  stop: () => void
+  stop: () => void,
+  sendToUser: (userId: string, action: Action) => void,
+  sendToRoom: (roomId: string, action: Action) => void,
+  sendToSocket: (socketId: string, action: Action) => void
 }
 
 /**
  * Listen for incoming user actions
  */
-export const createSocketServer: CreateSocketServer = (
-  onAuthorize,
-  onConnect,
-  socketPort
-): SocketServerToggle => {
+export const createSocketServer = (store: ServerStore) => {
   let wss: WebSocket.Server | undefined
 
   const stop = () => {
@@ -31,12 +30,25 @@ export const createSocketServer: CreateSocketServer = (
   const start = () => {
     stop()
     wss = new WebSocket.Server({
-      port: socketPort,
-      verifyClient: onAuthorize as any
+      port: store.settings.socketPort,
+      verifyClient: (info, cb) => onAuthorize(store, info, cb)
     })
     wss.on('error', (err) => console.log('wss error', err.message))
-    wss.on('connection', onConnect as any)
+    wss.on('connection', (ws, request) => onConnect(store, ws, request))
   }
 
-  return {start, stop}
+  // some currying here sure would be nice
+  return {
+    start,
+    stop,
+    sendToRoom: (roomId: string, action: Action) => {
+      return sendToRoom(store.getState, roomId, action)
+    },
+    sendToSocket: (socketId: string, action: Action) => {
+      return sendToSocket(store.getState, socketId, action)
+    },
+    sendToUser: (userId: string, action: Action) => {
+      return sendToUser(store.getState, userId, action)
+    }
+  }
 }

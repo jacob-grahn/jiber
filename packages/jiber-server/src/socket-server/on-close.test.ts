@@ -1,11 +1,11 @@
 import { Action, LEAVE_ROOM, REMOVE_SOCKET } from 'jiber-core'
-import { createOnClose } from './on-close'
+import { onClose } from './on-close'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
 let calls: any[] = []
-const store = {
+const store: any = {
   dispatch: (action: Action) => calls.push(['dispatch', action]),
   getState: () => {
     return {
@@ -23,33 +23,34 @@ const store = {
         room3: {members: {'user1': {}}}
       }
     } as any
+  },
+  db: {
+    pushAction: (action: Action) => {
+      calls.push(['pushAction', action])
+    }
   }
-}
-const pushAction = (action: Action) => {
-  calls.push(['pushAction', action])
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const onClose = createOnClose(store, pushAction)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('do nothing if socket does not exist', () => {
-  onClose('socket99')
+  onClose(store, 'socket99')
   expect(calls).toEqual([])
 })
 
 test('remove event handlers', () => {
-  onClose('socket1')
+  onClose(store, 'socket1')
   expect(calls[0]).toEqual(['removeAllListeners'])
 })
 
 test('remove user from member rooms', () => {
-  onClose('socket1')
+  onClose(store, 'socket1')
   const dispatchCalls = calls.filter(call => call[0] === 'pushAction')
   expect(dispatchCalls).toEqual([
     [
@@ -64,7 +65,7 @@ test('remove user from member rooms', () => {
 })
 
 test('remove the socket from the store', () => {
-  onClose('socket1')
+  onClose(store, 'socket1')
   const dispatchCalls = calls.filter(call => call[0] === 'dispatch')
   expect(dispatchCalls).toEqual([
     ['dispatch', {type: REMOVE_SOCKET, socketId: 'socket1'}]

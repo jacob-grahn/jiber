@@ -1,4 +1,4 @@
-import { createTryToConnect } from './try-to-connect'
+import { tryToConnect } from './try-to-connect'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
@@ -49,10 +49,9 @@ test('retry connection with an incremental backoff', async () => {
     credential: '',
     backoffMs: 1
   }
-  const tryToConnect = createTryToConnect(settings)
   const startMs = new Date().getTime()
 
-  const socket = await tryToConnect() // will fail 3 times, then connect
+  const socket = await tryToConnect(settings) // will fail 3 times, then connect
   const endMs = new Date().getTime()
   const elapsedMs = endMs - startMs
   expect(elapsedMs).toBeGreaterThan(5) // 1 + 2 + 3 = 6 ms
