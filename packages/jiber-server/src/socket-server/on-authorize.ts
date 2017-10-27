@@ -1,14 +1,5 @@
-import { Action, ADD_USER } from 'jiber-core'
-import { LoginRequestHandler } from '../interfaces/login-request-handler'
-
-export type CreateOnAuthorize = (
-  dispatch: (action: Action) => void,
-  loginRequestHandler: LoginRequestHandler
-) => OnAuthorize
-export type OnAuthorize = (
-  info: {origin: string, req: any, secure: boolean},
-  cb: (result: boolean, code?: number, name?: string) => void
-) => Promise<void>
+import { ADD_USER } from 'jiber-core'
+import { ServerStore } from '../server-store'
 
 /**
  * called when a http request tries to upgrade to a socket connection
@@ -16,18 +7,20 @@ export type OnAuthorize = (
  * the credential is passed to loginRequestHandler, which may be user supplied
  * if no error is thrown, then the user is considered logged in
  */
-export const createOnAuthorize: CreateOnAuthorize = (dispatch, loginRequest) => {
-  return async (info, cb) => {
-    try {
-      const socketId = info.req.headers['sec-websocket-key']
-      const credential = info.req.headers['sec-websocket-protocol']
-      const user = await loginRequest(credential)
-      user.socketId = socketId
-      const action = {type: ADD_USER, user, socketId, userId: user.userId}
-      dispatch(action)
-      cb(true)
-    } catch (e) {
-      cb(false)
-    }
+export const onAuthorize = async (
+  store: ServerStore,
+  info: {origin: string, req: any, secure: boolean},
+  cb: (result: boolean, code?: number, name?: string) => void
+) => {
+  try {
+    const socketId = info.req.headers['sec-websocket-key']
+    const credential = info.req.headers['sec-websocket-protocol']
+    const user = await store.settings.login(credential)
+    user.socketId = socketId
+    const action = {type: ADD_USER, user, socketId, userId: user.userId}
+    store.dispatch(action)
+    cb(true)
+  } catch (e) {
+    cb(false)
   }
 }

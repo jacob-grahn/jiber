@@ -2,21 +2,28 @@ import {
   Action,
   WEBRTC_OFFER,
   WEBRTC_ANSWER,
-  WEBRTC_CANDIDATE
+  WEBRTC_CANDIDATE,
+  JOIN_ROOM
 } from 'jiber-core'
-import { SendToUser } from './socket-server/send-to-user'
+import { welcomeNewMember } from './welcome-new-member'
+import { ServerStore } from './server-store'
 
 const webRtcActions = [WEBRTC_OFFER, WEBRTC_ANSWER, WEBRTC_CANDIDATE]
 
-export const createOnAction = (
+/**
+ * Some actions should trigger different behaviours. This function decides!
+ */
+export const onAction = (
+  store: ServerStore,
   updateRoom: (action: Action) => void,
-  sendToUser: SendToUser
+  action: Action
 ) => {
-  return (action: Action) => {
-    if (webRtcActions.indexOf(action.type) !== -1) {
-      sendToUser(action.peerUserId, action)
-    } else {
-      updateRoom(action)
+  if (webRtcActions.indexOf(action.type) !== -1) {
+    store.socketServer.sendToUser(action.peerUserId, action)
+  } else {
+    updateRoom(action)
+    if (action.type === JOIN_ROOM) {
+      welcomeNewMember(store, action)
     }
   }
 }

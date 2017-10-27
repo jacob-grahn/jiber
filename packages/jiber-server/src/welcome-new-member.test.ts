@@ -1,4 +1,4 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE, SEND_TO_USER } from 'jiber-core'
+import { Action, JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
 import { createWelcomeNewMembers } from './welcome-new-members'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,16 +30,16 @@ const next = () => calls.push(['next'])
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const welcomeNewMembers = createWelcomeNewMembers(emitter)
+const welcomeNewMember = createWelcomeNewMembers(emitter)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('ignore actions without a roomId and userid', () => {
-  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $u: '1234'})
-  welcomeNewMembers(store)(next)({type: JOIN_ROOM, $r: 'room1'})
-  welcomeNewMembers(store)(next)({type: JOIN_ROOM})
+  welcomeNewMember(store)(next)({type: JOIN_ROOM, $u: '1234'})
+  welcomeNewMember(store)(next)({type: JOIN_ROOM, $r: 'room1'})
+  welcomeNewMember(store)(next)({type: JOIN_ROOM})
   expect(calls).toEqual([
     ['next'],
     ['next'],
@@ -48,7 +48,7 @@ test('ignore actions without a roomId and userid', () => {
 })
 
 test('ignore actions other than JOIN_ROOM', () => {
-  welcomeNewMembers(store)(next)({
+  welcomeNewMember(store)(next)({
     type: 'ee',
     $u: 'user1',
     $r: 'room1'
@@ -59,7 +59,7 @@ test('ignore actions other than JOIN_ROOM', () => {
 })
 
 test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
-  welcomeNewMembers(store)(next)({
+  welcomeNewMember(store)(next)({
     type: JOIN_ROOM,
     $u: 'user1',
     $r: 'room1'
@@ -81,7 +81,7 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
 })
 
 test('non-existant rooms are ignored', () => {
-  welcomeNewMembers(store)(next)({
+  welcomeNewMember(store)(next)({
     type: JOIN_ROOM,
     $u: 'user1',
     $r: 'room500'

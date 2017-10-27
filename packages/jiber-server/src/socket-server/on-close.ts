@@ -1,21 +1,5 @@
-import {
-  Action,
-  RoomState,
-  PushAction,
-  REMOVE_SOCKET,
-  LEAVE_ROOM,
-  forEach
-} from 'jiber-core'
-import { ServerState } from '../interfaces/server-state'
-
-export type CreateOnClose = (
-  store: {
-    dispatch: (action: Action) => void,
-    getState: () => ServerState
-  },
-  pushAction: PushAction
-) => OnClose
-export type OnClose = (socketId: string) => void
+import { RoomState, REMOVE_SOCKET, LEAVE_ROOM, forEach } from 'jiber-core'
+import { ServerStore } from '../server-store'
 
 /**
  * remove the user from all of the rooms they are in
@@ -23,14 +7,14 @@ export type OnClose = (socketId: string) => void
  * from these rooms on all servers
  */
 const removeUserFromRooms = (
-  pushAction: PushAction,
+  store: ServerStore,
   userId: string,
   rooms: {[roomId: string]: RoomState}
 ) => {
   forEach(rooms, (room, roomId) => {
     if (!room.members[userId]) return
     const action = {type: LEAVE_ROOM, $r: roomId, $u: userId, $id: 999999999}
-    pushAction(action)
+    store.db.pushAction(action)
   })
 }
 
@@ -40,19 +24,17 @@ const removeUserFromRooms = (
  * remove event handlers from the socket, just in case
  * remove the socket from the store
  */
-export const createOnClose: CreateOnClose = (store, pushAction) => {
-  return (socketId) => {
-    const state = store.getState()
-    const socket: any = state.sockets[socketId] || {}
-    const ws: {removeAllListeners: () => void} = socket.ws
+export const onClose = (store: ServerStore, socketId: string) => {
+  const state = store.getState()
+  const socket: any = state.sockets[socketId] || {}
+  const ws: {removeAllListeners: () => void} = socket.ws
 
-    if (!ws) return
-    ws.removeAllListeners()
+  if (!ws) return
+  ws.removeAllListeners()
 
-    if (socket.userId) {
-      removeUserFromRooms(pushAction, socket.userId, state.rooms)
-    }
-
-    store.dispatch({type: REMOVE_SOCKET, socketId})
+  if (socket.userId) {
+    removeUserFromRooms(store, socket.userId, state.rooms)
   }
+
+  store.dispatch({type: REMOVE_SOCKET, socketId})
 }
