@@ -1,5 +1,5 @@
 import { paramMatch } from './run-str'
-import { forEach } from '../utils/for-each'
+import { forEach } from '../../utils/for-each'
 
 const swaps = {
   eq: '===?',

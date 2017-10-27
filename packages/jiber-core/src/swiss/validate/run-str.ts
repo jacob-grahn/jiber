@@ -1,4 +1,4 @@
-import { get } from '../utils/get'
+import { get } from '../../utils/get'
 import { functionify } from './functionify'
 import { runInterpolateStr } from './run-interpolate-str'
 import { runFuncStr } from './run-func-str'

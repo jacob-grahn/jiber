@@ -1,4 +1,4 @@
-import { get } from '../utils/get'
+import { get } from '../../utils/get'
 import { toZeroes } from './to-zeroes'
 
 /**
