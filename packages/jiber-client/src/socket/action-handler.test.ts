@@ -1,35 +1,76 @@
-import { LOGIN_RESULT, CONFIRMED_STATE } from 'jiber-core'
-import { createActionHandler } from './action-handler'
+import { LOGIN_RESULT, CONFIRMED_STATE, JOIN_ROOM } from 'jiber-core'
+import { actionHandler } from './action-handler'
 
-let rejoinCalls: any[]
-let resendCalls: any[]
+////////////////////////////////////////////////////////////////////////////////
+// mocks
+////////////////////////////////////////////////////////////////////////////////
+let sentActions: any[]
+let state: any
+const sendAction = (action: any) => {
+  sentActions.push(action)
+}
+const getState = () => state
 
-const rejoinRooms = () => rejoinCalls.push({})
-const resendPending = (roomId: string) => resendCalls.push({roomId})
-const actionHandler = createActionHandler(rejoinRooms, resendPending)
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+beforeEach(() => sentActions = [])
 
-beforeEach(() => {
-  rejoinCalls = []
-  resendCalls = []
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
+test('send a join action for each room in the state', () => {
+  state = {
+    rooms: {
+      room1: {},
+      room2: {}
+    }
+  }
+
+  actionHandler(sendAction, getState, {type: LOGIN_RESULT})
+
+  expect(sentActions).toEqual([
+    {type: JOIN_ROOM, $r: 'room1'},
+    {type: JOIN_ROOM, $r: 'room2'}
+  ])
 })
 
-test('call rejoinRooms after LOGIN_RESULT', () => {
-  actionHandler({type: LOGIN_RESULT})
-  expect(rejoinCalls).toEqual([{}])
+test('do nothing if the room does not exist', () => {
+  state = {
+    rooms: {
+      room1: {}
+    }
+  }
+  const roomId = 'room2'
+  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  expect(sentActions.length).toBe(0)
 })
 
-test('call resendPending after CONFIRMED_STATE', () => {
-  actionHandler({type: CONFIRMED_STATE, $r: 'abc'})
-  expect(resendCalls).toEqual([{roomId: 'abc'}])
+test('do nothing if there are no optimistic actions', () => {
+  state = {
+    rooms: {
+      room1: {
+        pendingActions: []
+      }
+    }
+  }
+  const roomId = 'room1'
+  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  expect(sentActions.length).toBe(0)
 })
 
-test('default roomId to empty string', () => {
-  actionHandler({type: CONFIRMED_STATE})
-  expect(resendCalls).toEqual([{roomId: ''}])
-})
-
-test('ignore other actions', () => {
-  actionHandler({type: 'yayy'})
-  expect(rejoinCalls.length).toBe(0)
-  expect(resendCalls.length).toBe(0)
+test('send optimistic actions from the roomId', () => {
+  state = {
+    rooms: {
+      room1: {
+        pendingActions: [{type: 'one'}, {type: 'two'}]
+      }
+    }
+  }
+  const roomId = 'room1'
+  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  expect(sentActions).toEqual([
+    {type: 'one'},
+    {type: 'two'}
+  ])
 })

@@ -1,29 +1,31 @@
+import { tryToConnect } from './try-to-connect'
+import { ClientSettings } from '../interfaces/client-settings'
+
+type TrySocket = {
+  send: (str: string) => void,
+  onmessage?: (event: any) => void
+}
+
 /**
  * Create an always retrying socket connection
  * Handle incoming messages with onMessage
  */
-export const createTrySocket = (
-  tryToConnect: () => Promise<WebSocket>,
-  onMessage: (event: MessageEvent) => void
-) => {
+export const createTrySocket = (settings: ClientSettings): TrySocket => {
   let socket: WebSocket
 
-  const connect = () => {
-    tryToConnect()
-    .then(_socket => {
-      socket = _socket
-      socket.onmessage = onMessage
-      socket.onclose = connect
-    })
-    .catch(tryToConnect)
-  }
-
-  connect()
-
-  return {
+  const self: TrySocket = {
     send: (str: string) => {
       if (!socket || socket.readyState !== socket.OPEN) return
       socket.send(str)
     }
   }
+
+  const connect = async () => {
+    socket = await tryToConnect(settings)
+    if (self.onmessage) socket.onmessage = self.onmessage
+    socket.onclose = connect
+  }
+  connect() // tslint:disable-line
+
+  return self
 }

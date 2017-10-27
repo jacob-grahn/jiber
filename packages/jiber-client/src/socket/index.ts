@@ -1,24 +1,23 @@
 import { ClientStore } from '../client-store'
 import { ClientSettings } from '../interfaces/client-settings'
 import { createTrySocket } from './try-socket'
-import { createOnMessage } from './on-message'
-import { createActionHandler } from './action-handler'
-import { createRejoinRooms } from './rejoin-rooms'
-import { createResendPending } from './resend-pending'
-import { createTryToConnect } from './try-to-connect'
+import { actionHandler } from './action-handler'
 import { Action } from 'jiber-core'
 
 /**
  * Some odd manual dependency injection
  */
 export const createSocket = (store: ClientStore, settings: ClientSettings) => {
-  const sendAction = (action: Action) => socket.send(JSON.stringify(action))    // tslint:disable-line
-  const resendPending = createResendPending(sendAction, store.getState)
-  const rejoinRooms = createRejoinRooms(sendAction, store.getState)
-  const actionHandler = createActionHandler(rejoinRooms, resendPending)
-  const tryToConnect = createTryToConnect(settings)
-  const onMessage = createOnMessage(store.dispatch, actionHandler)
-  const socket = createTrySocket(tryToConnect, onMessage)
+  const socket = createTrySocket(settings)
+  const sendAction = (action: Action) => socket.send(JSON.stringify(action))
+
+  socket.onmessage = (event: MessageEvent) => {
+    const action = JSON.parse(event.data)
+    action.$confirmed = true
+    actionHandler(sendAction, store.getState, action)
+    store.dispatch(action)
+  }
+
   return {
     sendAction
   }
