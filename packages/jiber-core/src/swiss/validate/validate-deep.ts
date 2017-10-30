@@ -4,7 +4,6 @@ import { forEach } from '../../utils/for-each'
 import { get } from '../../utils/get'
 import { ValidateOptions } from './validate'
 
-
 export const validateDeep = (options: ValidateOptions): boolean => {
   if (typeof options.newValue === 'object') {
     const flat = flatten(options.newValue, `${options.path}.`)

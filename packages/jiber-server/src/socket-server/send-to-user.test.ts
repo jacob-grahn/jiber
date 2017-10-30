@@ -1,9 +1,19 @@
+import * as sts from './send-to-socket'
 import { sendToUser } from './send-to-user'
 
-let calledWith: any[] = []
+const stsa = sts as any
+let calls: any[] = []
 
 beforeEach(() => {
-  calledWith = []
+  calls = []
+  stsa._sendToSocket = sts.sendToSocket
+  stsa.sendToSocket = (getState: any, socketId: any, action: any) => {
+    calls.push([getState, socketId, action])
+  }
+})
+
+afterEach(() => {
+ stsa._sendToSocket = sts.sendToSocket
 })
 
 test('do nothing if user does not exist on server', () => {
@@ -15,7 +25,7 @@ test('do nothing if user does not exist on server', () => {
     }
   }
   sendToUser(getState, 'user1', {type: 'hi'})
-  expect(calledWith).toEqual([])
+  expect(calls).toEqual([])
 })
 
 test('call sendToSocket for user', () => {
@@ -29,7 +39,9 @@ test('call sendToSocket for user', () => {
     }
   }
   sendToUser(getState, 'user1', {type: 'hi'})
-  expect(calledWith).toEqual([
-    {socketId: 's1', action: {type: 'hi'}}
-  ])
+  expect(calls).toEqual([[
+    getState,
+    's1',
+    {type: 'hi'}
+  ]])
 })

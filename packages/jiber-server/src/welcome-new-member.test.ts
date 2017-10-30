@@ -1,4 +1,4 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
+import { JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,26 +20,19 @@ const store: any = {
     }
   }
 }
-const emitter: any = {
-  emit: (type: string, userId: string, action: Action) => {
-    calls.push(['emitter', type, userId, action])
-  }
-}
-const next = () => calls.push(['next'])
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const welcomeNewMember = createWelcomeNewMembers(emitter)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('ignore actions without a roomId and userid', () => {
-  welcomeNewMember(store)(next)({type: JOIN_ROOM, $u: '1234'})
-  welcomeNewMember(store)(next)({type: JOIN_ROOM, $r: 'room1'})
-  welcomeNewMember(store)(next)({type: JOIN_ROOM})
+  welcomeNewMember(store, {type: JOIN_ROOM, $u: '1234'})
+  welcomeNewMember(store, {type: JOIN_ROOM, $r: 'room1'})
+  welcomeNewMember(store, {type: JOIN_ROOM})
   expect(calls).toEqual([
     ['next'],
     ['next'],
@@ -48,25 +41,20 @@ test('ignore actions without a roomId and userid', () => {
 })
 
 test('ignore actions other than JOIN_ROOM', () => {
-  welcomeNewMember(store)(next)({
-    type: 'ee',
-    $u: 'user1',
-    $r: 'room1'
-  })
+  welcomeNewMember(store, {type: 'ee', $u: 'user1', $r: 'room1'})
   expect(calls).toEqual([
     ['next']
   ])
 })
 
 test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
-  welcomeNewMember(store)(next)({
+  welcomeNewMember(store, {
     type: JOIN_ROOM,
     $u: 'user1',
     $r: 'room1'
   })
   expect(calls[1]).toEqual([
     'emitter',
-    SEND_TO_USER,
     'user1',
     {
       type: CONFIRMED_STATE,
@@ -81,7 +69,7 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
 })
 
 test('non-existant rooms are ignored', () => {
-  welcomeNewMember(store)(next)({
+  welcomeNewMember(store, {
     type: JOIN_ROOM,
     $u: 'user1',
     $r: 'room500'

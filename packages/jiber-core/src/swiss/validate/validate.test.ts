@@ -48,7 +48,7 @@ test('do not set undefined properties on objects', () => {
     .toBe(false)
 })
 
-test('set undefined properties on any', () => {
+test('wildcard rules', () => {
   const rules = {
     bag: {
       '*': {'.type': 'string'}
