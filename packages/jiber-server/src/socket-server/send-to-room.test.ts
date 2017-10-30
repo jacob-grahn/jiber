@@ -1,9 +1,19 @@
 import { sendToRoom } from './send-to-room'
+import * as sts from './send-to-socket'
 
-let calledWith: any[] = []
+const stsa = sts as any
+let calls: any[] = []
 
 beforeEach(() => {
-  calledWith = []
+  calls = []
+  stsa._sendToSocket = sts.sendToSocket
+  stsa.sendToSocket = (getState: any, socketId: any, action: any) => {
+    calls.push([getState, socketId, action])
+  }
+})
+
+afterEach(() => {
+ stsa._sendToSocket = sts.sendToSocket
 })
 
 test('call sendToSocket for every member of a room', () => {
@@ -27,9 +37,9 @@ test('call sendToSocket for every member of a room', () => {
     }
   }
   sendToRoom(getState, 'room1', {type: 'hi'})
-  expect(calledWith).toEqual([
-    {socketId: 's1', action: {type: 'hi'}},
-    {socketId: 's2', action: {type: 'hi'}}
+  expect(calls).toEqual([
+    [getState, 's1', {type: 'hi'}],
+    [getState, 's2', {type: 'hi'}]
   ])
 })
 
@@ -42,7 +52,7 @@ test('do nothing if room does not exist', () => {
     }
   }
   sendToRoom(getState, 'room1', {type: 'hi'})
-  expect(calledWith).toEqual([])
+  expect(calls).toEqual([])
 })
 
 test('only send to users that exist', () => {
@@ -65,7 +75,7 @@ test('only send to users that exist', () => {
     }
   }
   sendToRoom(getState, 'room1', {type: 'hi'})
-  expect(calledWith).toEqual([
-    {socketId: 's2', action: {type: 'hi'}}
+  expect(calls).toEqual([
+    [getState, 's2', {type: 'hi'}]
   ])
 })

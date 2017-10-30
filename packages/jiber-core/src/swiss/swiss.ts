@@ -10,7 +10,7 @@ import { Action } from '../interfaces/action'
 import { set } from '../utils/set'
 import { get } from '../utils/get'
 import { splice } from './splice'
-import { validateDeep } from './validate'
+// import { validateDeep } from './validate'
 
 export interface SwissState {
   [key: string]: any
@@ -42,16 +42,16 @@ export const swiss = (state: SwissState = {}, action: Action): SwissState => {
   const path = action.path
   const newValue = action.value
   const oldValue = get(state, path)
-  const me = action.$user
+  // const me = action.$user
 
-  if (!validateDeep({
+  /* if (!validateDeep({
     state,
     me,
     newValue,
     oldValue,
     rules: {}, // todo: get rules from settings somehow,
     path
-  })) return state
+  })) return state */
 
   switch (action.type) {
     case SET:

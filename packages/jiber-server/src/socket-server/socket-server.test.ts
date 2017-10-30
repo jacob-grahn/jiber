@@ -4,9 +4,6 @@ import { createSocketServer } from './socket-server'
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
-const onAuthorize = 'onAuthorize' as any
-const onConnect = 'onConnect' as any
-const socketPort = 123
 const ws = WebSocket as any
 let calls: any[]
 class MockServer {
@@ -22,7 +19,7 @@ class MockServer {
 }
 const store = {
   settings: {
-    socketPort: 5555
+    socketPort: 123
   },
   getState: () => 'state'
 } as any
@@ -53,9 +50,7 @@ test('start should try to listen on socketPort with onAuthorize', () => {
   const socketServer = createSocketServer(store)
   socketServer.start()
   const constructorCalls = calls.filter(call => call[0] === 'constructor')
-  expect(constructorCalls).toEqual([
-    ['constructor', {port: socketPort, verifyClient: onAuthorize}]
-  ])
+  expect(constructorCalls[0][1].port).toEqual(123)
   socketServer.stop()
 })
 
@@ -63,7 +58,7 @@ test('start should listen for new connections', () => {
   const socketServer = createSocketServer(store)
   socketServer.start()
   const onCalls = calls.filter(call => call[0] === 'on')
-  expect(onCalls[1]).toEqual(['on', 'connection', onConnect])
+  expect(onCalls[1][1]).toEqual('connection')
   socketServer.stop()
 })
 
