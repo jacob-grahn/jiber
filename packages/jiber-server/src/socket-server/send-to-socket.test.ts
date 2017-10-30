@@ -1,4 +1,4 @@
-import { createSendToSocket } from './send-to-socket'
+import { sendToSocket } from './send-to-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
@@ -21,18 +21,17 @@ const getState: any = () => {
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const sendToSocket = createSendToSocket(getState)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('send stringified action to a socket', () => {
-  sendToSocket('socket1', {type: 'test'})
+  sendToSocket(getState, 'socket1', {type: 'test'})
   expect(calls).toEqual(['{"type":"test"}'])
 })
 
 test('ignore non-existant sockets', () => {
-  sendToSocket('socket2', {type: 'test'})
+  sendToSocket(getState, 'socket2', {type: 'test'})
   expect(calls).toEqual([])
 })

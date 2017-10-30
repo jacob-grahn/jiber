@@ -1,23 +1,28 @@
 import { Action } from 'jiber-core'
-import { createOnMessage } from './on-message'
+import { onMessage } from './on-message'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
 let state: any
 let calls: any[]
-const getState = () => state
-const pushAction = (action: Action) => {
-  calls.push(['pushAction', action])
-}
-const sendToSocket = (socketId: string, action: Action) => {
-  calls.push(['sendToSocket', socketId, action])
-}
+const store = {
+  getState: () => state,
+  socketServer: {
+    sendToSocket: (socketId: string, action: Action) => {
+      calls.push(['sendToSocket', socketId, action])
+    }
+  },
+  db: {
+    pushAction: (action: Action) => {
+      calls.push(['pushAction', action])
+    }
+  }
+} as any
 
 ////////////////////////////////////////////////////////////////////////////////
 // init
 ////////////////////////////////////////////////////////////////////////////////
-const onMessage = createOnMessage(getState, pushAction, sendToSocket)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +34,7 @@ test('do nothing if userId does not exist', () => {
   }
   const socketId = 'socket1'
   const message = JSON.stringify({type: 'hi'})
-  onMessage(socketId, message)
+  onMessage(store, socketId, message)
   expect(calls).toEqual([])
 })
 
@@ -41,7 +46,7 @@ test('send an error if message is not valid json', () => {
   }
   const socketId = 'socket1'
   const message = 'lolIamnotJSON'
-  onMessage(socketId, message)
+  onMessage(store, socketId, message)
   expect(calls).toEqual([
     ['sendToSocket', 'socket1', 'Unexpected token l in JSON at position 0']
   ])
@@ -55,7 +60,7 @@ test('pass the action to pushAction', () => {
   }
   const socketId = 'socket1'
   const message = JSON.stringify({type: 'hi'})
-  onMessage(socketId, message)
+  onMessage(store, socketId, message)
   expect(calls).toEqual([
     ['pushAction', {type: 'hi', $u: 'user1'}]
   ])

@@ -3,7 +3,7 @@ import { paramMatch, runStr, funcRegex } from './run-str'
 export const runFuncStr = (
   funcs: {[key: string]: Function},
   ctx: any,
-  str: string
+  str: string = ''
 ): any => {
   const result = funcRegex.exec(str)
   if (!result || result.length < 2) return false

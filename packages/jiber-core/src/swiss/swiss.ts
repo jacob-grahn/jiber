@@ -42,14 +42,16 @@ export const swiss = (state: SwissState = {}, action: Action): SwissState => {
   const path = action.path
   const newValue = action.value
   const oldValue = get(state, path)
+  const me = action.$user
 
   if (!validateDeep({
     state,
+    me,
     newValue,
     oldValue,
     rules: {}, // todo: get rules from settings somehow,
     path
-  }))
+  })) return state
 
   switch (action.type) {
     case SET:

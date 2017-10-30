@@ -1,11 +1,9 @@
 import { validate } from './validate'
 
 test('base element', () => {
-  const rules = {
-    '.type': 'string'
-  }
-  expect(validate(rules, '', 'hello')).toBe(true)
-  expect(validate(rules, '', 55)).toBe(false)
+  const rules = {'.type': 'string'}
+  expect(validate({rules, path: '', newValue: 'hello'} as any)).toBe(true)
+  expect(validate({rules, path: '', newValue: 55} as any)).toBe(false)
 })
 
 test('deep tests', () => {
@@ -15,17 +13,20 @@ test('deep tests', () => {
       height: {'.type': 'any'}
     }]
   }
-  expect(validate(rules, 'bags.7.width', 100)).toBe(true)
-  expect(validate(rules, 'bags.7.height', 100)).toBe(true)
-  expect(validate(rules, 'bags.7.width', 'abc')).toBe(false)
+  expect(validate({rules, path: 'bags.7.width', newValue: 100} as any))
+    .toBe(true)
+  expect(validate({rules, path: 'bags.7.height', newValue: 100} as any))
+    .toBe(true)
+  expect(validate({rules, path: 'bags.7.width', newValue: 'abc'} as any))
+    .toBe(false)
 })
 
 test('check arrays', () => {
   const rules = {
     bags: []
   }
-  expect(validate(rules, 'bags', [])).toBe(true)
-  expect(validate(rules, 'bags', {})).toBe(false)
+  expect(validate({rules, path: 'bags', newValue: []} as any)).toBe(true)
+  expect(validate({rules, path: 'bags', newValue: {}} as any)).toBe(false)
 })
 
 test('check ojects', () => {
@@ -34,16 +35,17 @@ test('check ojects', () => {
       label: {'.type': 'string'}
     }
   }
-  expect(validate(rules, 'bag', {})).toBe(true)
-  expect(validate(rules, 'bag', 'not an object')).toBe(false)
-  expect(validate(rules, 'bag', [])).toBe(false)
+  expect(validate({rules, path: 'bag', newValue: {}} as any)).toBe(true)
+  expect(validate({rules, path: 'bag', newValue: 'la'} as any)).toBe(false)
+  expect(validate({rules, path: 'bag', newValue: []} as any)).toBe(false)
 })
 
 test('do not set undefined properties on objects', () => {
   const rules = {
     bag: {}
   }
-  expect(validate(rules, 'bag.name', 'baggy')).toBe(false)
+  expect(validate({rules, path: 'bag.name', newValue: 'baggy'} as any))
+    .toBe(false)
 })
 
 test('set undefined properties on any', () => {
@@ -52,5 +54,6 @@ test('set undefined properties on any', () => {
       '*': {'.type': 'string'}
     }
   }
-  expect(validate(rules, 'bag.name', 'baggy')).toBe(true)
+  expect(validate({rules, path: 'bag.name', newValue: 'baggy'} as any))
+    .toBe(true)
 })

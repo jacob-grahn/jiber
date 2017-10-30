@@ -1,5 +1,5 @@
 import { Action, JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
-import { createWelcomeNewMembers } from './welcome-new-members'
+import { welcomeNewMember } from './welcome-new-member'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

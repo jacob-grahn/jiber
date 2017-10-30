@@ -20,6 +20,12 @@ class MockServer {
     calls.push(['close'])
   }
 }
+const store = {
+  settings: {
+    socketPort: 5555
+  },
+  getState: () => 'state'
+} as any
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
@@ -38,13 +44,13 @@ afterEach(() => {
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('should set up a start and stop interface', () => {
-  const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
+  const socketServer = createSocketServer(store)
   expect(typeof socketServer.start).toBe('function')
   expect(typeof socketServer.stop).toBe('function')
 })
 
 test('start should try to listen on socketPort with onAuthorize', () => {
-  const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
+  const socketServer = createSocketServer(store)
   socketServer.start()
   const constructorCalls = calls.filter(call => call[0] === 'constructor')
   expect(constructorCalls).toEqual([
@@ -54,7 +60,7 @@ test('start should try to listen on socketPort with onAuthorize', () => {
 })
 
 test('start should listen for new connections', () => {
-  const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
+  const socketServer = createSocketServer(store)
   socketServer.start()
   const onCalls = calls.filter(call => call[0] === 'on')
   expect(onCalls[1]).toEqual(['on', 'connection', onConnect])
@@ -62,14 +68,14 @@ test('start should listen for new connections', () => {
 })
 
 test('stop should do nothing if the server is not running', () => {
-  const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
+  const socketServer = createSocketServer(store)
   socketServer.stop()
   socketServer.stop()
   expect(calls.length).toBe(0)
 })
 
 test('stop should close the server if it is running', () => {
-  const socketServer = createSocketServer(onAuthorize, onConnect, socketPort)
+  const socketServer = createSocketServer(store)
   socketServer.start()
   socketServer.stop()
   const closeCalls = calls.filter(call => call[0] === 'close')

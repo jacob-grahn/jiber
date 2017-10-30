@@ -1,9 +1,6 @@
-import { createSendToRoom } from './send-to-room'
+import { sendToRoom } from './send-to-room'
 
 let calledWith: any[] = []
-const sendToSocket = (socketId: string, action: Object) => {
-  calledWith.push({socketId, action})
-}
 
 beforeEach(() => {
   calledWith = []
@@ -29,8 +26,7 @@ test('call sendToSocket for every member of a room', () => {
       }
     }
   }
-  const sendToRoom = createSendToRoom(getState, sendToSocket)
-  sendToRoom('room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', {type: 'hi'})
   expect(calledWith).toEqual([
     {socketId: 's1', action: {type: 'hi'}},
     {socketId: 's2', action: {type: 'hi'}}
@@ -45,8 +41,7 @@ test('do nothing if room does not exist', () => {
       users: {}
     }
   }
-  const sendToRoom = createSendToRoom(getState, sendToSocket)
-  sendToRoom('room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', {type: 'hi'})
   expect(calledWith).toEqual([])
 })
 
@@ -69,8 +64,7 @@ test('only send to users that exist', () => {
       }
     }
   }
-  const sendToRoom = createSendToRoom(getState, sendToSocket)
-  sendToRoom('room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', {type: 'hi'})
   expect(calledWith).toEqual([
     {socketId: 's2', action: {type: 'hi'}}
   ])

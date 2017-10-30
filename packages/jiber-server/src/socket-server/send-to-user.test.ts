@@ -1,9 +1,6 @@
-import { createSendToUser } from './send-to-user'
+import { sendToUser } from './send-to-user'
 
 let calledWith: any[] = []
-const sendToSocket = (socketId: string, action: Object) => {
-  calledWith.push({socketId, action})
-}
 
 beforeEach(() => {
   calledWith = []
@@ -17,8 +14,7 @@ test('do nothing if user does not exist on server', () => {
       users: {}
     }
   }
-  const sendToUser = createSendToUser(getState, sendToSocket)
-  sendToUser('user1', {type: 'hi'})
+  sendToUser(getState, 'user1', {type: 'hi'})
   expect(calledWith).toEqual([])
 })
 
@@ -32,8 +28,7 @@ test('call sendToSocket for user', () => {
       }
     }
   }
-  const sendToUser = createSendToUser(getState, sendToSocket)
-  sendToUser('user1', {type: 'hi'})
+  sendToUser(getState, 'user1', {type: 'hi'})
   expect(calledWith).toEqual([
     {socketId: 's1', action: {type: 'hi'}}
   ])

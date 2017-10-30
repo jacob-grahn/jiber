@@ -1,8 +1,10 @@
 import { getRule } from './get-rule'
-import { validateCmd } from './validate-cmd'
+import { ruleFuncs } from './rule-funcs'
+import { runFuncStr } from './run-func-str'
 
 export type ValidateOptions = {
   state: any,
+  me: any,
   newValue: any,
   oldValue: any,
   rules: any,
@@ -18,8 +20,9 @@ const validateType = (value: any, type: string|undefined): boolean => {
 
 export const validate = (options: ValidateOptions): boolean => {
   const rule = getRule(options.rules, options.path)
+  const ctx = {state: options.state, me: options.me, newValue: options.newValue}
   return (
     validateType(options.newValue, rule['.type']) &&
-    validateCmd(options.newValue, rule['.validate'])
+    runFuncStr(ruleFuncs, ctx, rule['.validate'])
   )
 }
