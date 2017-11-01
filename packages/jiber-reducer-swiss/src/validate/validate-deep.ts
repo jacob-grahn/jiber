@@ -1,7 +1,6 @@
+import { get, forEach } from 'jiber-core'
 import { validate } from './validate'
 import { flatten } from './flatten'
-import { forEach } from '../../utils/for-each'
-import { get } from '../../utils/get'
 import { ValidateOptions } from './validate'
 
 export const validateDeep = (options: ValidateOptions): boolean => {

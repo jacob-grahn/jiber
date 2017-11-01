@@ -17,7 +17,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
- stsa._sendToSocket = sts.sendToSocket
+  stsa._sendToSocket = sts.sendToSocket
 })
 
 const sendToUser = (userId: string, action: any) => {

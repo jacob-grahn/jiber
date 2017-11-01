@@ -13,7 +13,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
- stsa._sendToSocket = sts.sendToSocket
+  stsa._sendToSocket = sts.sendToSocket
 })
 
 test('do nothing if user does not exist on server', () => {

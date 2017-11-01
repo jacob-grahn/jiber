@@ -1,11 +1,11 @@
 import { ClientSettings } from './interfaces/client-settings'
-import { swiss, swissActionCreators } from 'jiber-core'
+import { patcher, patcherActionCreators } from 'jiber-core'
 
 /**
  * Default settings
  */
 export const defaultClientSettings: ClientSettings = {
-  reducer: swiss,
+  reducer: patcher,
   middleware: [],
   url: '',
   stunServers: [],
@@ -13,6 +13,6 @@ export const defaultClientSettings: ClientSettings = {
   credential: undefined,
   initialState: undefined,
   backoffMs: 5000,
-  actionCreators: swissActionCreators,
+  actionCreators: patcherActionCreators,
   maxPeers: 10
 }

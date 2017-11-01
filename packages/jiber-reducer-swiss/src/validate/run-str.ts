@@ -1,4 +1,4 @@
-import { get } from '../../utils/get'
+import { get } from 'jiber-core'
 import { functionify } from './functionify'
 import { runInterpolateStr } from './run-interpolate-str'
 import { runFuncStr } from './run-func-str'

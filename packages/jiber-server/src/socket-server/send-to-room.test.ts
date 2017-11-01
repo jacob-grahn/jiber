@@ -13,7 +13,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
- stsa._sendToSocket = sts.sendToSocket
+  stsa._sendToSocket = sts.sendToSocket
 })
 
 test('call sendToSocket for every member of a room', () => {

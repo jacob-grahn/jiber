@@ -6,7 +6,7 @@ export const runFuncStr = (
   str: string = ''
 ): any => {
   if (!str) return true
-  
+
   const result = funcRegex.exec(str)
   if (!result || result.length < 2) return false
 

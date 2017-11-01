@@ -11,7 +11,7 @@ export * from './store'
 export * from './reducers/allow-actions'
 export * from './reducers/combine-reducers'
 export * from './reducers/dictionary'
-export * from './swiss/swiss'
+export * from './reducers/patcher'
 export * from './reducers/user'
 export * from './reducers/room'
 

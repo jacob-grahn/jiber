@@ -1,3 +1,7 @@
+import { Action, set, get } from 'jiber-core'
+import { splice } from './splice'
+// import { validateDeep } from './validate'
+
 /**
  * This reducer offers some generic functionality which could work well for
  * a variety of applications.
@@ -5,12 +9,6 @@
  * will be included in the client bundle. If you are using a custom reducer,
  * then you can safely exclude this file
  */
-
-import { Action } from '../interfaces/action'
-import { set } from '../utils/set'
-import { get } from '../utils/get'
-import { splice } from './splice'
-// import { validateDeep } from './validate'
 
 export interface SwissState {
   [key: string]: any

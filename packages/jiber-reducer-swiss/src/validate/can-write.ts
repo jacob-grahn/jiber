@@ -1,4 +1,4 @@
-import { get } from '../../utils/get'
+import { get } from 'jiber-core'
 import { toZeroes } from './to-zeroes'
 
 /**
