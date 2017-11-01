@@ -1,23 +1,18 @@
 import { Action } from 'jiber-core'
-import { ServerState } from '../interfaces/server-state'
-import { ServerSettings } from '../interfaces/server-settings'
-import { SocketServer } from '../socket-server/index'
-import { createApplyAction } from './apply-action'
-import { createEnsureRoom } from './ensure-room'
-import { createGetRoom } from './get-room'
+import { applyAction } from './apply-action'
+import { ensureRoom } from './ensure-room'
 import { createSaveRoom } from './save-room'
 import { createUpdateRoom as _createUpdateRoom } from './update-room'
+import { ServerStore } from '../server-store'
 
 /**
- * dependency injection for updateRoom
+ *
  */
-export const createUpdateRoom = (
-  store: {
-    dispatch: (action: Action) => void,
-    getState: () => ServerState
-  },
-  settings: ServerSettings,
-  socketServer: SocketServer
+export const updateRoom = async (store: ServerStore, roomId: string, action: Action) => {
+  await ensureRoom(store, roomId)
+  applyAction(store, action)
+}
+
 ) => {
   const dispatch = store.dispatch
   const getState = store.getState
@@ -26,7 +21,6 @@ export const createUpdateRoom = (
   const snapshotInterval = settings.snapshotInterval
   const sendToRoom = socketServer.sendToRoom
 
-  const getRoom = createGetRoom(getState)
   const ensureRoom = createEnsureRoom(dispatch, getRoom, fetchState)
   const applyAction = createApplyAction(dispatch, getState, sendToRoom)
   const saveRoom = createSaveRoom(snapshotInterval, getRoom, stashState)

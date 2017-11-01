@@ -1,4 +1,5 @@
-import { Action, RoomState, CONFIRMED_STATE } from 'jiber-core'
+import { RoomState, CONFIRMED_STATE } from 'jiber-core'
+import { ServerStore } from '../server-store'
 
 const defaultRoomState: RoomState = {
   members: {},
@@ -6,24 +7,23 @@ const defaultRoomState: RoomState = {
   lastUpdatedAt: 0
 }
 
-export const createEnsureRoom = (
-  dispatch: (action: Action) => any,
-  getRoomState: (roomId: string) => RoomState,
-  fetchRoomState: (roomId: string) => Promise<RoomState>
-) => {
+/**
+ * if the room does not exist, create a new room using a snapshot from db
+ */
+export const ensureRoom = async (
+  store: ServerStore,
+  roomId: string
+): Promise<RoomState> => {
+  const state = store.getState()
+  const roomState = state.rooms[roomId]
+  if (roomState) return roomState
 
-  // if the room does not exist, create a new room using a snapshot from db
-  return async ($r: string): Promise<RoomState> => {
-    const roomState = getRoomState($r)
-    if (roomState) return roomState
-
-    const savedRoomState = await fetchRoomState($r)
-    if (savedRoomState) {
-      dispatch({ ...savedRoomState, type: CONFIRMED_STATE, $r })
-      return savedRoomState
-    }
-
-    dispatch({ ...defaultRoomState, type: CONFIRMED_STATE, $r })
-    return defaultRoomState
+  const savedRoomState = await store.db.fetchState(roomId)
+  if (savedRoomState) {
+    store.dispatch({ ...savedRoomState, type: CONFIRMED_STATE, $r: roomId })
+    return savedRoomState
   }
+
+  store.dispatch({ ...defaultRoomState, type: CONFIRMED_STATE, $r: roomId })
+  return defaultRoomState
 }
