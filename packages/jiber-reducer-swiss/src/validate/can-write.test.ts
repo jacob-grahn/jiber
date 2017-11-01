@@ -8,15 +8,15 @@ test('default to false', () => {
 })
 
 test('root level .write', () => {
-  expect(canWrite({'.write': true}, 'some.path')).toBe(true)
-  expect(canWrite({'.write': false}, 'some.path')).toBe(false)
+  expect(canWrite({ '.write': true }, 'some.path')).toBe(true)
+  expect(canWrite({ '.write': false }, 'some.path')).toBe(false)
 })
 
 test('path with an array', () => {
   const rules = {
     bags: [{
-      width: {'.type': 'number', '.write': false},
-      height: {'.type': 'number', '.write': true}
+      width: { '.type': 'number', '.write': false },
+      height: { '.type': 'number', '.write': true }
     }]
   }
   expect(canWrite(rules, 'bags.0.height')).toBe(true)

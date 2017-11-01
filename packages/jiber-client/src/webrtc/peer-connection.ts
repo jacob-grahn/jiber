@@ -13,7 +13,7 @@ export type PeerConnection = {
 
 const createPC = (stunServers: string[]) => {
   const config: RTCConfiguration = {
-    iceServers: stunServers.map(url => ({urls: url}))
+    iceServers: stunServers.map(url => ({ urls: url }))
   }
   return new RTCPeerConnection(config)
 }

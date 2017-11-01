@@ -9,15 +9,15 @@ test('pushAction', async () => {
   db.emitter.on(ACTION_PUSHED, (action) => {
     events.push(action)
   })
-  db.pushAction({type: 'one', $r})
-  db.pushAction({type: 'two', $r})
+  db.pushAction({ type: 'one', $r })
+  db.pushAction({ type: 'two', $r })
   expect(events.length).toEqual(2)
 })
 
-test ('stashState + fetchState should return the last saved state', async () => {
+test('stashState + fetchState should return the last saved state', async () => {
   const room = 'room46'
-  const roomState = {confirmed: 'hi', members: {}, lastUpdatedAt: 0}
-  await db.stashState(room, roomState)
+  const roomState = { confirmed: 'hi', members: {}, lastUpdatedAt: 0 }
+  db.stashState(room, roomState)
   const state = await db.fetchState(room)
   expect(state).toEqual(roomState)
 })

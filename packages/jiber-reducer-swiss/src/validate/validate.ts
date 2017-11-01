@@ -11,7 +11,7 @@ export type ValidateOptions = {
   path: string
 }
 
-const validateType = (value: any, type: string|undefined): boolean => {
+const validateType = (value: any, type: string | undefined): boolean => {
   if (type === 'any') return true
   if (Array.isArray(value)) return type === 'array'
   if (typeof value === type) return true // tslint:disable-line
@@ -20,7 +20,7 @@ const validateType = (value: any, type: string|undefined): boolean => {
 
 export const validate = (options: ValidateOptions): boolean => {
   const rule = getRule(options.rules, options.path)
-  const ctx = {state: options.state, me: options.me, newValue: options.newValue}
+  const ctx = { state: options.state, me: options.me, newValue: options.newValue }
   return (
     validateType(options.newValue, rule['.type']) &&
     runFuncStr(ruleFuncs, ctx, rule['.validate'])

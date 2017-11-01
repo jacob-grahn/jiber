@@ -21,7 +21,7 @@ export const actionHandler = (
     case LOGIN_RESULT: {
       const state = getState()
       forEach(state.rooms, (_room, roomId) => {
-        sendAction({type: JOIN_ROOM, $r: roomId})
+        sendAction({ type: JOIN_ROOM, $r: roomId })
       })
       return
     }

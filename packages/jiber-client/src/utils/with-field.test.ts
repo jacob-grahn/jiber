@@ -6,9 +6,9 @@ test('return values with a matching userId property', () => {
     undefined,
     false,
     {},
-    {userId: 'abc'},
-    {userId: 'def'}
+    { userId: 'abc' },
+    { userId: 'def' }
   ]
 
-  expect(withField(actions, 'userId', 'abc')).toEqual([{userId: 'abc'}])
+  expect(withField(actions, 'userId', 'abc')).toEqual([{ userId: 'abc' }])
 })

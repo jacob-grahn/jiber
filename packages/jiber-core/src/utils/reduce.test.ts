@@ -1,7 +1,7 @@
 import { reduce } from './reduce'
 
 test('reduce with an object', () => {
-  const obj = {a: 1, b: 2, c: 3}
+  const obj = { a: 1, b: 2, c: 3 }
   const result = reduce(obj, (total, value) => total += value, 10)
   expect(result).toBe(16)
 })

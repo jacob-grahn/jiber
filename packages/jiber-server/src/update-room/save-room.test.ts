@@ -7,11 +7,11 @@ import { RoomState } from 'jiber-core'
 let calledSetState: any
 
 const getRoomState = () => {
-  return {confirmed: 'sue', lastUpdatedAt: 33, members: {}}
+  return { confirmed: 'sue', lastUpdatedAt: 33, members: {} }
 }
 
 const stashState = (roomId: string, roomState: RoomState) => {
-  calledSetState = {roomId, roomState}
+  calledSetState = { roomId, roomState }
   return Promise.resolve()
 }
 
@@ -29,6 +29,6 @@ test('it should get the room state and pass it to db', async () => {
   await saveRoom('room1')
   expect(calledSetState).toEqual({
     roomId: 'room1',
-    roomState: {confirmed: 'sue', lastUpdatedAt: 33, members: {}}
+    roomState: { confirmed: 'sue', lastUpdatedAt: 33, members: {} }
   })
 })

@@ -37,7 +37,7 @@ export const createStore = (
     return state
   }
 
-  const store = {dispatch, getState, subscribe: subscription.subscribe}
+  const store = { dispatch, getState, subscribe: subscription.subscribe }
 
   const setMiddleware = (middlewares: Middleware[]): void => {
     applyMiddleware = initMiddleware(

@@ -19,11 +19,11 @@ export const createEnsureRoom = (
 
     const savedRoomState = await fetchRoomState($r)
     if (savedRoomState) {
-      dispatch({...savedRoomState, type: CONFIRMED_STATE, $r})
+      dispatch({ ...savedRoomState, type: CONFIRMED_STATE, $r })
       return savedRoomState
     }
 
-    dispatch({...defaultRoomState, type: CONFIRMED_STATE, $r})
+    dispatch({ ...defaultRoomState, type: CONFIRMED_STATE, $r })
     return defaultRoomState
   }
 }

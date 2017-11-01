@@ -2,10 +2,10 @@ import { pendingActions } from './pending-actions'
 import { CONFIRMED_STATE } from 'jiber-core'
 
 test('prune actions that do not have a userId', () => {
-  const actions: any = [{}, {$id: 0}]
+  const actions: any = [{}, { $id: 0 }]
   const action = {
     type: 'lala',
-    $user: {actionId: 1, userId: '1'},
+    $user: { actionId: 1, userId: '1' },
     $confirmed: true
   }
   expect(pendingActions(actions, action)).toEqual([])
@@ -13,10 +13,10 @@ test('prune actions that do not have a userId', () => {
 
 test('remove optimistic actions if newer confirmed action is received', () => {
   const actions: any = [
-    {$id: 1, $u: 'bob'},
-    {$id: 2, $u: 'bob'},
-    {$id: 3, $u: 'bob'},
-    {$id: 1, $u: 'sue'}
+    { $id: 1, $u: 'bob' },
+    { $id: 2, $u: 'bob' },
+    { $id: 3, $u: 'bob' },
+    { $id: 1, $u: 'sue' }
   ]
   const action = {
     type: 'wee',
@@ -25,21 +25,21 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     $confirmed: true
   }
   expect(pendingActions(actions, action)).toEqual([
-    {$id: 3, $u: 'bob'},
-    {$id: 1, $u: 'sue'}
+    { $id: 3, $u: 'bob' },
+    { $id: 1, $u: 'sue' }
   ])
 })
 
 test('remove all optimistic actions when CONFIRMED_STATE is received', () => {
   const list: any = [
-    {type: 'WEE', $u: 'sue', $id: 5},
-    {type: 'WEE', $u: 'sue', $id: 6},
-    {type: 'WEE', $u: 'bob', $id: 2}
+    { type: 'WEE', $u: 'sue', $id: 5 },
+    { type: 'WEE', $u: 'sue', $id: 6 },
+    { type: 'WEE', $u: 'bob', $id: 2 }
   ]
   const action = {
     type: CONFIRMED_STATE,
     confirmed: {},
-    members: {sue: {actionId: 5}}
+    members: { sue: { actionId: 5 } }
   }
   expect(pendingActions(list, action)).toEqual([])
 })

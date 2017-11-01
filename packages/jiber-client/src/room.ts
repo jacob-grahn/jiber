@@ -30,14 +30,14 @@ export const createCreateRoom = (
     }
 
     const dispatch = (action: Action) => {
-      store.dispatch({...action, $r: roomId})
+      store.dispatch({ ...action, $r: roomId })
     }
 
     const getState = () => get(getRoom(), 'optimistic')
     const getConfirmedState = () => get(getRoom(), 'confirmed')
     const actionDispatchers = createDispatchers(dispatch, actionCreators)
 
-    dispatch({type: JOIN_ROOM})
+    dispatch({ type: JOIN_ROOM })
 
     return {
       ...actionDispatchers,

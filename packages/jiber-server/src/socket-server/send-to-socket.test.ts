@@ -27,11 +27,11 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('send stringified action to a socket', () => {
-  sendToSocket(getState, 'socket1', {type: 'test'})
+  sendToSocket(getState, 'socket1', { type: 'test' })
   expect(calls).toEqual(['{"type":"test"}'])
 })
 
 test('ignore non-existant sockets', () => {
-  sendToSocket(getState, 'socket2', {type: 'test'})
+  sendToSocket(getState, 'socket2', { type: 'test' })
   expect(calls).toEqual([])
 })

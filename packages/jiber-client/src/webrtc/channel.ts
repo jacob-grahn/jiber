@@ -20,7 +20,7 @@ export const createChannel = (
     if (channel && channel.readyState === 'open') {
       const smallerAction = {
         ...action,
-        ...{$user: undefined, $u: undefined, $t: undefined}
+        ...{ $user: undefined, $u: undefined, $t: undefined }
       }
       channel.send(JSON.stringify(smallerAction))
     }
@@ -32,7 +32,7 @@ export const createChannel = (
 
   const createOrWait = () => {
     if (isInitiator) {
-      const channelConfig = {ordered: false, maxRetransmits: 0}
+      const channelConfig = { ordered: false, maxRetransmits: 0 }
       channel = (pc as any).createDataChannel('data', channelConfig)
       setupChannel(channel)
     } else {

@@ -17,5 +17,5 @@ export const createSubscription = () => {
   }
 
   // public interface
-  return {subscribe, publish}
+  return { subscribe, publish }
 }

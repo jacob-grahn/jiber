@@ -9,7 +9,7 @@ test('non object or array input values result in undefined', () => {
 })
 
 test('deep paths work', () => {
-  const user = {name: {first: 'sue', last: 'per', age: null}}
+  const user = { name: { first: 'sue', last: 'per', age: null } }
   expect(get(user, 'name.first')).toBe('sue')
   expect(get(user, 'name.age')).toBe(null)
 })
@@ -19,7 +19,7 @@ test('bad paths don\'t throw an error, they just return undefined', () => {
 })
 
 test('arrays should work', () => {
-  const users = [{name: 'bob'}, {name: 'sue'}]
+  const users = [{ name: 'bob' }, { name: 'sue' }]
   expect(get(users, '0.name')).toBe('bob')
 })
 

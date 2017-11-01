@@ -1,13 +1,12 @@
 import { get, forEach } from 'jiber-core'
-import { validate } from './validate'
+import { validate, ValidateOptions } from './validate'
 import { flatten } from './flatten'
-import { ValidateOptions } from './validate'
 
 export const validateDeep = (options: ValidateOptions): boolean => {
   if (typeof options.newValue === 'object') {
     const flat = flatten(options.newValue, `${options.path}.`)
     const badPaths: string[] = []
-    forEach(flat, (subValue: string|number, subPath: string) => {
+    forEach(flat, (subValue: string | number, subPath: string) => {
       if (!validate({
         ...options,
         path: subPath,

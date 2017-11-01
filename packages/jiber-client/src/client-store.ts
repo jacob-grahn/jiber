@@ -21,7 +21,7 @@ export interface ClientStore extends Store {
  * and peers
  */
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
-  const options = {...defaultClientSettings, ...optionInput}
+  const options = { ...defaultClientSettings, ...optionInput }
   const clientReducer = createClientReducer(options.reducer)
   const toughSocket = createToughSocket(options)
   const sendAction = (action: Action) => toughSocket.send(JSON.stringify(action))
@@ -34,7 +34,7 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   ]
   const store = createStore(clientReducer, options.initialState, middleware)
   const createRoom = createCreateRoom(store, options.actionCreators)
-  const clientStore: ClientStore = {...store, createRoom}
+  const clientStore: ClientStore = { ...store, createRoom }
 
   toughSocket.onmessage = (event: MessageEvent) => {
     const action = JSON.parse(event.data)

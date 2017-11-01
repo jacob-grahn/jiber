@@ -5,7 +5,7 @@ import { Reducer, Middleware } from 'jiber-core'
  * to create an object that always confirms to this interface
  */
 export interface ClientSettings {
-  credential: string|undefined
+  credential: string | undefined
   middleware: Array<Middleware>,
   reducer: Reducer,
   url: string,

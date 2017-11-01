@@ -33,7 +33,7 @@ test('do nothing if userId does not exist', () => {
     sockets: {}
   }
   const socketId = 'socket1'
-  const message = JSON.stringify({type: 'hi'})
+  const message = JSON.stringify({ type: 'hi' })
   onMessage(store, socketId, message)
   expect(calls).toEqual([])
 })
@@ -41,7 +41,7 @@ test('do nothing if userId does not exist', () => {
 test('send an error if message is not valid json', () => {
   state = {
     sockets: {
-      socket1: {userId: 'user1'}
+      socket1: { userId: 'user1' }
     }
   }
   const socketId = 'socket1'
@@ -55,13 +55,13 @@ test('send an error if message is not valid json', () => {
 test('pass the action to pushAction', () => {
   state = {
     sockets: {
-      socket1: {userId: 'user1'}
+      socket1: { userId: 'user1' }
     }
   }
   const socketId = 'socket1'
-  const message = JSON.stringify({type: 'hi'})
+  const message = JSON.stringify({ type: 'hi' })
   onMessage(store, socketId, message)
   expect(calls).toEqual([
-    ['pushAction', {type: 'hi', $u: 'user1'}]
+    ['pushAction', { type: 'hi', $u: 'user1' }]
   ])
 })

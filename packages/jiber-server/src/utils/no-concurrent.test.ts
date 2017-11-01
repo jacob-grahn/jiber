@@ -9,7 +9,7 @@ test('pass params on to inner function', async () => {
   }
   const ncFunc = noConcurrent(func)
   await ncFunc('sue', 100)
-  expect(params).toEqual({name: 'sue', age: 100})
+  expect(params).toEqual({ name: 'sue', age: 100 })
 })
 
 test('calls while the function is working should run later', async () => {

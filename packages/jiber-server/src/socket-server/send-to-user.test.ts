@@ -24,7 +24,7 @@ test('do nothing if user does not exist on server', () => {
       users: {}
     }
   }
-  sendToUser(getState, 'user1', {type: 'hi'})
+  sendToUser(getState, 'user1', { type: 'hi' })
   expect(calls).toEqual([])
 })
 
@@ -34,14 +34,14 @@ test('call sendToSocket for user', () => {
       rooms: {},
       sockets: {},
       users: {
-        user1: {userId: 'user1', socketId: 's1'}
+        user1: { userId: 'user1', socketId: 's1' }
       }
     }
   }
-  sendToUser(getState, 'user1', {type: 'hi'})
+  sendToUser(getState, 'user1', { type: 'hi' })
   expect(calls).toEqual([[
     getState,
     's1',
-    {type: 'hi'}
+    { type: 'hi' }
   ]])
 })

@@ -19,14 +19,14 @@ beforeEach(() => {
 })
 
 test('send actions where $confirmed is falsy', () => {
-  const action = {type: 'hi'}
+  const action = { type: 'hi' }
   sendToServer(store)(next)(action)
   expect(sendCalledWith).toEqual([action])
   expect(nextCalledWith).toEqual(['next'])
 })
 
 test('ignore actions where $confirmed is truthy', () => {
-  const action = {type: 'hi', $confirmed: true}
+  const action = { type: 'hi', $confirmed: true }
   sendToServer(store)(next)(action)
   expect(sendCalledWith).toEqual([])
   expect(nextCalledWith).toEqual(['next'])

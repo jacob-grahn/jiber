@@ -18,9 +18,9 @@ const store: any = {
         }
       },
       rooms: {
-        room1: {members: {}},
-        room2: {members: {'user1': {}, 'user2': {}}},
-        room3: {members: {'user1': {}}}
+        room1: { members: {} },
+        room2: { members: { 'user1': {}, 'user2': {} } },
+        room3: { members: { 'user1': {} } }
       }
     } as any
   },
@@ -55,11 +55,11 @@ test('remove user from member rooms', () => {
   expect(dispatchCalls).toEqual([
     [
       'pushAction',
-      {type: LEAVE_ROOM, $r: 'room2', $u: 'user1', $id: 999999999}
+      { type: LEAVE_ROOM, $r: 'room2', $u: 'user1', $id: 999999999 }
     ],
     [
       'pushAction',
-      {type: LEAVE_ROOM, $r: 'room3', $u: 'user1', $id: 999999999}
+      { type: LEAVE_ROOM, $r: 'room3', $u: 'user1', $id: 999999999 }
     ]
   ])
 })
@@ -68,6 +68,6 @@ test('remove the socket from the store', () => {
   onClose(store, 'socket1')
   const dispatchCalls = calls.filter(call => call[0] === 'dispatch')
   expect(dispatchCalls).toEqual([
-    ['dispatch', {type: REMOVE_SOCKET, socketId: 'socket1'}]
+    ['dispatch', { type: REMOVE_SOCKET, socketId: 'socket1' }]
   ])
 })

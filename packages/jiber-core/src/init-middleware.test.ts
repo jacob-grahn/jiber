@@ -9,7 +9,7 @@ const store: Store = {
   subscribe: () => () => 'do nothing'
 }
 
-test ('middleware is given the store', () => {
+test('middleware is given the store', () => {
   let givenStore
   const middleware: Middleware = (store) => {
     givenStore = store
@@ -20,7 +20,7 @@ test ('middleware is given the store', () => {
   expect(givenStore).toBe(store)
 })
 
-test ('next is either the next middleware, or the final func', () => {
+test('next is either the next middleware, or the final func', () => {
   let next1
   let next2
   let middleware2Internal
@@ -39,16 +39,16 @@ test ('next is either the next middleware, or the final func', () => {
   expect(next2).toBe(final)
 })
 
-test ('calling the first middleware chains all the way to final', () => {
+test('calling the first middleware chains all the way to final', () => {
   let finalAction
   const addName: Middleware = () => (next) => (action) => {
-    next({...action, name: 'sue'})
+    next({ ...action, name: 'sue' })
   }
   const addAge: Middleware = () => (next) => (action) => {
-    next({...action, age: 55})
+    next({ ...action, age: 55 })
   }
   const final = (action: Action) => finalAction = action
   const chain = initMiddleware([addName, addAge], store, final)
-  chain({type: 'test'})
-  expect(finalAction).toEqual({type: 'test', name: 'sue', age: 55})
+  chain({ type: 'test' })
+  expect(finalAction).toEqual({ type: 'test', name: 'sue', age: 55 })
 })

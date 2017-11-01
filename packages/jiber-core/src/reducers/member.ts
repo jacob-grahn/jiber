@@ -5,10 +5,10 @@ import { User } from '../interfaces/user'
 /**
  * Keep track of a user who has joined this room
  */
-export const member = (state: User|undefined, action: Action) => {
+export const member = (state: User | undefined, action: Action) => {
   switch (action.type) {
     case JOIN_ROOM:
-      return {...action.$user}
+      return { ...action.$user }
 
     case LEAVE_ROOM:
       return undefined
@@ -19,6 +19,6 @@ export const member = (state: User|undefined, action: Action) => {
       const newActionId = action.$id || 0
       const oldActionId = state.actionId || 0
       if (newActionId <= oldActionId) return state
-      return {...state, actionId: newActionId}
+      return { ...state, actionId: newActionId }
   }
 }

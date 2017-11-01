@@ -3,10 +3,10 @@ import { Action } from 'jiber-core'
 
 let lastAction: Action
 const state = {
-  me: {userId: 'bob'},
+  me: { userId: 'bob' },
   rooms: {
     testRoom: {
-      members: {bob: {actionId: 0, fun: true}}
+      members: { bob: { actionId: 0, fun: true } }
     }
   }
 }
@@ -19,19 +19,19 @@ const final = (action: Action) => lastAction = action
 const inner = injectMetadata(store)(final)
 
 test('$user is added to the metadata', () => {
-  const action: Action = {type: 'test', $r: 'testRoom', $u: 'bob'}
+  const action: Action = { type: 'test', $r: 'testRoom', $u: 'bob' }
   inner(action)
-  expect(lastAction.$user).toEqual({actionId: 0, fun: true})
+  expect(lastAction.$user).toEqual({ actionId: 0, fun: true })
 })
 
 test('timeMs is added to the metadata', () => {
-  const action: Action = {type: 'test', $r: 'testRoom'}
+  const action: Action = { type: 'test', $r: 'testRoom' }
   inner(action)
   expect(lastAction.$t).toBeTruthy()
 })
 
 test('actions with existing metadata are not altered', () => {
-  const action = {type: 'test', $r: 'testRoom', $id: 5}
+  const action = { type: 'test', $r: 'testRoom', $id: 5 }
   inner(action)
   expect(lastAction).toEqual(action)
 })

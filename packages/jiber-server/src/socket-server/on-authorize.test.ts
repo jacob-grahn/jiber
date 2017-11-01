@@ -7,7 +7,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
     settings: {
       login: async (credential: any) => {
         receivedCredential = credential
-        const result = {userId: ''}
+        const result = { userId: '' }
         return result
       }
     },
@@ -18,7 +18,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
   const cb = (_result: boolean) => { /* do nothing */ }
   const info = {
     origin: '',
-    req: {headers: {'sec-websocket-key': '', 'sec-websocket-protocol': 'abc'}},
+    req: { headers: { 'sec-websocket-key': '', 'sec-websocket-protocol': 'abc' } },
     secure: true
   }
   await onAuthorize(store, info, cb)

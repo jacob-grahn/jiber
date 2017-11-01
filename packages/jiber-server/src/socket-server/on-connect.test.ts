@@ -24,13 +24,13 @@ const webSocket: any = {
 ////////////////////////////////////////////////////////////////////////////////
 state = {
   users: {
-    user1: {socketId: 'socket1', public: {name: 'sally'}}
+    user1: { socketId: 'socket1', public: { name: 'sally' } }
   },
   sockets: {
-    socket1: {userId: 'user1'}
+    socket1: { userId: 'user1' }
   }
 }
-const request: any = {headers: {'sec-websocket-key': 'socket1'}}
+const request: any = { headers: { 'sec-websocket-key': 'socket1' } }
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ test('should send login result back to user', () => {
     [
       'sendToSocket',
       'socket1',
-      {type: LOGIN_RESULT, user: {socketId: 'socket1', public: {name: 'sally'}}}
+      { type: LOGIN_RESULT, user: { socketId: 'socket1', public: { name: 'sally' } } }
     ]
   ])
 })

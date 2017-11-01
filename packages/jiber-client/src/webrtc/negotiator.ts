@@ -18,18 +18,18 @@ export const createNegotiator = (
 
   const sendOffer = async (): Promise<void> => {
     const offer = await pc.createOffer()
-    dispatch({type: WEBRTC_OFFER, offer, peerUserId})
+    dispatch({ type: WEBRTC_OFFER, offer, peerUserId })
     return pc.setLocalDescription(offer)
   }
 
   const sendAnswer = async (pc: RTCPeerConnection): Promise<void> => {
     const answer = await pc.createAnswer()
-    dispatch({type: WEBRTC_ANSWER, answer, peerUserId})
+    dispatch({ type: WEBRTC_ANSWER, answer, peerUserId })
     await pc.setLocalDescription(answer)
   }
 
   const sendCandidate = (candidate: RTCIceCandidate): void => {
-    dispatch({type: WEBRTC_CANDIDATE, candidate, peerUserId})
+    dispatch({ type: WEBRTC_CANDIDATE, candidate, peerUserId })
   }
 
   const onAction = async (action: Action): Promise<void> => {

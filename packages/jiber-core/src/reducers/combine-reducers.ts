@@ -14,7 +14,7 @@ export interface State {
 export const combineReducers = (reducerDict: ReducerDict): Reducer => {
   return (state: State = {}, action) => {
     return reduce(reducerDict, (state, reducer, key) => {
-      return {...state, [key]: reducer(state[key], action)}
+      return { ...state, [key]: reducer(state[key], action) }
     }, state)
   }
 }

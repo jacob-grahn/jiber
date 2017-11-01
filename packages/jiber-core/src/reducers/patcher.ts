@@ -10,12 +10,12 @@ export const patcher = (state: any = {}, action: Action): any => {
   switch (action.type) {
     case SET:
       if (typeof action.set !== 'object') return state
-      return {...state, ...action.set}
+      return { ...state, ...action.set }
     default:
       return state
   }
 }
 
 export const patcherActionCreators = {
-  set: (obj: any) => ({type: SET, set: obj})
+  set: (obj: any) => ({ type: SET, set: obj })
 }

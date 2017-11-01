@@ -1,7 +1,7 @@
 /**
  * Set a value at path
  */
-export const set = (obj: any, path: string|string[], value: any): any => {
+export const set = (obj: any, path: string | string[], value: any): any => {
   if (!path) return value
   if (!Array.isArray(path)) path = path.split('.')
   if (path.length === 0) return value
@@ -14,6 +14,6 @@ export const set = (obj: any, path: string|string[], value: any): any => {
     newArr[Number(key)] = newValue
     return newArr
   } else {
-    return {...obj, [key]: newValue}
+    return { ...obj, [key]: newValue }
   }
 }

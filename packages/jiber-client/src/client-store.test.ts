@@ -5,5 +5,5 @@ test('it should make a working client store', () => {
   expect(clientStore).toBeTruthy()
   expect(clientStore.getState()).toBeTruthy()
   expect(clientStore.createRoom('room1')).toBeTruthy()
-  expect(clientStore.dispatch({type: 'test'})).toBeUndefined()
+  expect(clientStore.dispatch({ type: 'test' })).toBeUndefined()
 })

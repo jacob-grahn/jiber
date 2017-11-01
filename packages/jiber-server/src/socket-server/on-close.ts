@@ -13,7 +13,7 @@ const removeUserFromRooms = (
 ) => {
   forEach(rooms, (room, roomId) => {
     if (!room.members[userId]) return
-    const action = {type: LEAVE_ROOM, $r: roomId, $u: userId, $id: 999999999}
+    const action = { type: LEAVE_ROOM, $r: roomId, $u: userId, $id: 999999999 }
     store.db.pushAction(action)
   })
 }
@@ -36,5 +36,5 @@ export const onClose = (store: ServerStore, socketId: string) => {
     removeUserFromRooms(store, socket.userId, state.rooms)
   }
 
-  store.dispatch({type: REMOVE_SOCKET, socketId})
+  store.dispatch({ type: REMOVE_SOCKET, socketId })
 }

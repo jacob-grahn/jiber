@@ -25,7 +25,7 @@ export const createRoom = (subReducer: Reducer): Reducer => {
     confirmed: createConfirmed(subReducer)
   })
 
-  return (state: RoomState, action: Action): RoomState|undefined => {
+  return (state: RoomState, action: Action): RoomState | undefined => {
     switch (action.type) {
       case CLOSE_ROOM:
         return undefined

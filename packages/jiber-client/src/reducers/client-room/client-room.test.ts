@@ -8,7 +8,7 @@ const roomReducer = createClientRoom(adder)
 
 test('defaults to something', () => {
   const state = undefined
-  const action = {type: 'test'}
+  const action = { type: 'test' }
   expect(roomReducer(state, action)).toBeTruthy()
 })
 

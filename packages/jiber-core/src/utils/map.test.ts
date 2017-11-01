@@ -11,7 +11,7 @@ test('map an array, for what it\'s worth', () => {
 })
 
 test('map an object', () => {
-  const obj = {title: 'Journey', length: 55}
-  const results = map(obj, (val: string|number) => val + ' yay')
-  expect(results).toEqual({title: 'Journey yay', length: '55 yay'})
+  const obj = { title: 'Journey', length: 55 }
+  const results = map(obj, (val: string | number) => val + ' yay')
+  expect(results).toEqual({ title: 'Journey yay', length: '55 yay' })
 })

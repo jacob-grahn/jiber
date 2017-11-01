@@ -1,8 +1,8 @@
 import { del } from './del'
 
 test('deep paths work', () => {
-  const user = {name: {first: 'sue'}}
-  expect(del(user, 'name.first')).toEqual({name: {}})
+  const user = { name: { first: 'sue' } }
+  expect(del(user, 'name.first')).toEqual({ name: {} })
 })
 
 // Is it alright to live without this one?
@@ -11,8 +11,8 @@ test('deep paths work', () => {
 }) */
 
 test('arrays should work', () => {
-  const users = [{name: 'bob'}, {name: 'sue'}]
-  expect(del(users, '0.name')).toEqual([{}, {name: 'sue'}])
+  const users = [{ name: 'bob' }, { name: 'sue' }]
+  expect(del(users, '0.name')).toEqual([{}, { name: 'sue' }])
 })
 
 test('del index from middle of array', () => {

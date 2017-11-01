@@ -22,8 +22,8 @@ test('call sendToSocket for every member of a room', () => {
       rooms: {
         room1: {
           members: {
-            user1: {userId: 'user1', actionId: 0},
-            user2: {userId: 'user2', actionId: 0}
+            user1: { userId: 'user1', actionId: 0 },
+            user2: { userId: 'user2', actionId: 0 }
           },
           confirmed: undefined,
           lastUpdatedAt: 0
@@ -31,15 +31,15 @@ test('call sendToSocket for every member of a room', () => {
       },
       sockets: {},
       users: {
-        user1: {userId: 'user1', socketId: 's1'},
-        user2: {userId: 'user1', socketId: 's2'}
+        user1: { userId: 'user1', socketId: 's1' },
+        user2: { userId: 'user1', socketId: 's2' }
       }
     }
   }
-  sendToRoom(getState, 'room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', { type: 'hi' })
   expect(calls).toEqual([
-    [getState, 's1', {type: 'hi'}],
-    [getState, 's2', {type: 'hi'}]
+    [getState, 's1', { type: 'hi' }],
+    [getState, 's2', { type: 'hi' }]
   ])
 })
 
@@ -51,7 +51,7 @@ test('do nothing if room does not exist', () => {
       users: {}
     }
   }
-  sendToRoom(getState, 'room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', { type: 'hi' })
   expect(calls).toEqual([])
 })
 
@@ -61,8 +61,8 @@ test('only send to users that exist', () => {
       rooms: {
         room1: {
           members: {
-            user1: {userId: 'user1', actionId: 0},
-            user2: {userId: 'user2', actionId: 0}
+            user1: { userId: 'user1', actionId: 0 },
+            user2: { userId: 'user2', actionId: 0 }
           },
           confirmed: undefined,
           lastUpdatedAt: 0
@@ -70,12 +70,12 @@ test('only send to users that exist', () => {
       },
       sockets: {},
       users: {
-        user2: {userId: 'user2', socketId: 's2'}
+        user2: { userId: 'user2', socketId: 's2' }
       }
     }
   }
-  sendToRoom(getState, 'room1', {type: 'hi'})
+  sendToRoom(getState, 'room1', { type: 'hi' })
   expect(calls).toEqual([
-    [getState, 's2', {type: 'hi'}]
+    [getState, 's2', { type: 'hi' }]
   ])
 })

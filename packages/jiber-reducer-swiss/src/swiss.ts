@@ -21,15 +21,15 @@ export const PUSH = 'PUSH'
 export const SPLICE = 'SPLICE'
 
 const toSplice = (path: string, start: number, count: number, ...items: any[]) => {
-  return {type: SPLICE, path, start, count, items}
+  return { type: SPLICE, path, start, count, items }
 }
 
 export const swissActionCreators = {
-  set: (path: string, value: any) => ({type: SET, path, value}),
-  delete: (path: string) => ({type: DELETE, path}),
-  add: (path: string, value: any) => ({type: ADD, path, value}),
-  subtract: (path: string, value: number) => ({type: ADD, path, value: -value}),
-  push: (path: string, value: any) => ({type: PUSH, path, value}),
+  set: (path: string, value: any) => ({ type: SET, path, value }),
+  delete: (path: string) => ({ type: DELETE, path }),
+  add: (path: string, value: any) => ({ type: ADD, path, value }),
+  subtract: (path: string, value: number) => ({ type: ADD, path, value: -value }),
+  push: (path: string, value: any) => ({ type: PUSH, path, value }),
   pop: (path: string, value: any) => splice(path, -1, 1, value),
   shift: (path: string) => splice(path, 0, 1),
   unshift: (path: string, value: any) => splice(path, 0, 0, value),
@@ -61,7 +61,7 @@ export const swiss = (state: SwissState = {}, action: Action): SwissState => {
     case PUSH:
       return set(state, path, splice(oldValue, Infinity, 0, ...newValue))
     case SPLICE:
-      const {start, count, items} = action
+      const { start, count, items } = action
       return set(state, path, splice(oldValue, start, count, ...items))
     default:
       return state

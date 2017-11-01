@@ -5,8 +5,8 @@ type Rule = {
   '.type'?: string,
   '.min'?: number,
   '.max'?: number,
-  '.equal'?: string|number,
-  '.notEqual'?: string|number,
+  '.equal'?: string | number,
+  '.notEqual'?: string | number,
   '.in'?: string[],
   '.notIn'?: string[],
   '.regex'?: string,
@@ -23,7 +23,7 @@ export const getRule = (rules: any, path: string): Rule => {
   const rule = get(rules, rulePath) || get(rules, wildcardPath)
   if (!rule) return {}
 
-  let type: string|undefined = undefined
+  let type: string | undefined = undefined
   if (rule['.type']) {
     type = rule['.type']
   } else if (Array.isArray(rule)) {

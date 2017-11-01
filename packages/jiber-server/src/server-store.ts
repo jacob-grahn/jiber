@@ -21,13 +21,13 @@ export const createServerStore = (
   inputSettings: ServerSettingsInput = {}
 ): ServerStore => {
   const initialState = inputSettings.initialState
-  const settings = {...defaultServerSettings, ...inputSettings}
+  const settings = { ...defaultServerSettings, ...inputSettings }
   const serverReducer = createServerReducer(settings.reducer)
   const store = createStore(serverReducer, initialState)
-  const tempServerStore = {...store, db: settings.db, settings}
+  const tempServerStore = { ...store, db: settings.db, settings }
 
-  const socketServer = createSocketServer(tempServerStore as any)
-  const serverStore: ServerStore = {...tempServerStore, socketServer}
+  const socketServer = createSocketServer(tempServerStore)
+  const serverStore: ServerStore = { ...tempServerStore, socketServer }
 
   const updateRoom = createUpdateRoom(store, settings, socketServer)
 

@@ -4,7 +4,7 @@ import { ClientSettings } from '../interfaces/client-settings'
  * Try to create a connection to the server
  */
 export const tryToConnect = (settings: ClientSettings): Promise<any> => {
-  const {url, socketPort, credential, backoffMs} = settings
+  const { url, socketPort, credential, backoffMs } = settings
 
   return new Promise((resolve, reject) => {
     if (!url) reject('NO_SOCKET_URL')

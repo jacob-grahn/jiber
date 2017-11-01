@@ -27,11 +27,11 @@ test('send a join action for each room in the state', () => {
     }
   }
 
-  actionHandler(sendAction, getState, {type: LOGIN_RESULT})
+  actionHandler(sendAction, getState, { type: LOGIN_RESULT })
 
   expect(sentActions).toEqual([
-    {type: JOIN_ROOM, $r: 'room1'},
-    {type: JOIN_ROOM, $r: 'room2'}
+    { type: JOIN_ROOM, $r: 'room1' },
+    { type: JOIN_ROOM, $r: 'room2' }
   ])
 })
 
@@ -42,7 +42,7 @@ test('do nothing if the room does not exist', () => {
     }
   }
   const roomId = 'room2'
-  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  actionHandler(sendAction, getState, { type: CONFIRMED_STATE, $r: roomId })
   expect(sentActions.length).toBe(0)
 })
 
@@ -55,7 +55,7 @@ test('do nothing if there are no optimistic actions', () => {
     }
   }
   const roomId = 'room1'
-  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  actionHandler(sendAction, getState, { type: CONFIRMED_STATE, $r: roomId })
   expect(sentActions.length).toBe(0)
 })
 
@@ -63,14 +63,14 @@ test('send optimistic actions from the roomId', () => {
   state = {
     rooms: {
       room1: {
-        pendingActions: [{type: 'one'}, {type: 'two'}]
+        pendingActions: [{ type: 'one' }, { type: 'two' }]
       }
     }
   }
   const roomId = 'room1'
-  actionHandler(sendAction, getState, {type: CONFIRMED_STATE, $r: roomId})
+  actionHandler(sendAction, getState, { type: CONFIRMED_STATE, $r: roomId })
   expect(sentActions).toEqual([
-    {type: 'one'},
-    {type: 'two'}
+    { type: 'one' },
+    { type: 'two' }
   ])
 })
