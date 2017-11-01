@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/node": "^8.0.28",
     "@types/redis": "^2.6.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.6.1"
   },
   "dependencies": {
     "jiber-core": "^0.0.1",

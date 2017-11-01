@@ -12,6 +12,6 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.5.2"
+    "typescript": "^2.6.1"
   }
 }
