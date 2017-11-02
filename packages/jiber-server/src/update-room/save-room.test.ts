@@ -1,4 +1,4 @@
-import { createSaveRoom } from './save-room'
+import { saveRoom } from './save-room'
 import { RoomState } from 'jiber-core'
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6,27 +6,26 @@ import { RoomState } from 'jiber-core'
 ////////////////////////////////////////////////////////////////////////////////
 let calledSetState: any
 
-const getRoomState = () => {
-  return { confirmed: 'sue', lastUpdatedAt: 33, members: {} }
+const store: any = {
+  getState: () => {
+    return {
+      rooms: {
+        room1: { confirmed: 'sue', lastUpdatedAt: 33, members: {} }
+      }
+    }
+  },
+  db: {
+    stashState: async (roomId: string, roomState: RoomState) => {
+      calledSetState = { roomId, roomState }
+    }
+  }
 }
-
-const stashState = (roomId: string, roomState: RoomState) => {
-  calledSetState = { roomId, roomState }
-  return Promise.resolve()
-}
-
-const snapshotInterval = 1000
-
-////////////////////////////////////////////////////////////////////////////////
-// setup
-////////////////////////////////////////////////////////////////////////////////
-const saveRoom = createSaveRoom(snapshotInterval, getRoomState, stashState)
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('it should get the room state and pass it to db', async () => {
-  await saveRoom('room1')
+  await saveRoom(store, 'room1')
   expect(calledSetState).toEqual({
     roomId: 'room1',
     roomState: { confirmed: 'sue', lastUpdatedAt: 33, members: {} }

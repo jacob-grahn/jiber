@@ -1,18 +1,9 @@
-import { noConcurrent } from '../utils/no-concurrent'
-import { RoomState, StashState } from 'jiber-core'
+import { ServerStore } from '../server-store'
 
-export const createSaveRoom = (
-  snapshotInterval: number,
-  getRoomState: (roomId: string) => RoomState,
-  stashState: StashState
-) => {
-  const saveRoom = async (roomId: string) => {
-    if (!roomId) return
-    const roomState = getRoomState(roomId)
-    if (!roomState) return
-    await stashState(roomId, roomState)
-    await new Promise(resolve => setTimeout(resolve, snapshotInterval))
-  }
+export const saveRoom = async (store: ServerStore, roomId: string) => {
+  const state = store.getState()
+  const roomState = state.rooms[roomId]
+  if (!roomState) return
 
-  return noConcurrent(saveRoom)
+  await store.db.stashState(roomId, roomState)
 }

@@ -1,36 +1,39 @@
 import { Action } from 'jiber-core'
-import { createApplyAction } from './apply-action'
+import { applyAction } from './apply-action'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks
 ////////////////////////////////////////////////////////////////////////////////
 let calls: any[]
-const dispatch = (action: Action) => {
-  calls.push(['dispatch', action])
-}
-const sendToRoom = (roomId: string, action: Action) => {
-  calls.push(['sendToRoom', roomId, action])
-}
-const getState = () => {
-  return {
-    rooms: {
-      room1: {
-        members: {
-          jay: {
-            actionId: 54
+const store: any = {
+  getState: () => {
+    return {
+      rooms: {
+        room1: {
+          members: {
+            jay: {
+              actionId: 54
+            }
           }
         }
-      }
-    },
-    users: {},
-    sockets: {}
-  } as any
+      },
+      users: {},
+      sockets: {}
+    }
+  },
+  socketServer: {
+    sendToRoom: (roomId: string, action: Action) => {
+      calls.push(['sendToRoom', roomId, action])
+    }
+  },
+  dispatch: (action: Action) => {
+    calls.push(['dispatch', action])
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const applyAction = createApplyAction(dispatch, getState, sendToRoom)
 beforeEach(() => calls = [])
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +41,7 @@ beforeEach(() => calls = [])
 ////////////////////////////////////////////////////////////////////////////////
 test('apply an action and send it out to room members', () => {
   const action = { type: 'hi', $r: 'room1', $id: 55, $u: 'jay' }
-  applyAction(action)
+  applyAction(store, action)
   expect(calls).toEqual([
     ['sendToRoom', 'room1', action],
     ['dispatch', action]
@@ -47,6 +50,6 @@ test('apply an action and send it out to room members', () => {
 
 test('do not apply an action if actionId is less than the last one', () => {
   const action = { type: 'hi', $r: 'room1', $id: 53, $u: 'jay' }
-  applyAction(action)
+  applyAction(store, action)
   expect(calls).toEqual([])
 })

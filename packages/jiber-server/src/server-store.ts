@@ -6,7 +6,6 @@ import { ServerSettings } from './interfaces/server-settings'
 import { ServerState } from './interfaces/server-state'
 import { createSocketServer, SocketServer } from './socket-server/index'
 import { createServerReducer } from './reducers/server-reducer'
-import { createUpdateRoom } from './update-room/index'
 import { defaultServerSettings } from './default-server-settings'
 import { onAction } from './on-action'
 
@@ -24,17 +23,12 @@ export const createServerStore = (
   const settings = { ...defaultServerSettings, ...inputSettings }
   const serverReducer = createServerReducer(settings.reducer)
   const store = createStore(serverReducer, initialState)
-  const tempServerStore = { ...store, db: settings.db, settings }
+  const tempServerStore = { ...store, db: settings.db, settings } as ServerStore
 
   const socketServer = createSocketServer(tempServerStore)
   const serverStore: ServerStore = { ...tempServerStore, socketServer }
 
-  const updateRoom = createUpdateRoom(store, settings, socketServer)
-
-  settings.db.emitter.on(
-    ACTION_PUSHED,
-    (action) => onAction(serverStore, updateRoom, action)
-  )
+  settings.db.emitter.on(ACTION_PUSHED, action => onAction(serverStore, action))
 
   return serverStore
 }

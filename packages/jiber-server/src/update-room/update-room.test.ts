@@ -1,37 +1,48 @@
-import { Action } from 'jiber-core'
-import { createUpdateRoom } from './update-room'
-
-////////////////////////////////////////////////////////////////////////////////
-// mocks
-////////////////////////////////////////////////////////////////////////////////
-let roomState: any
-let calls: any[]
-const ensureRoom = async (_roomId: string) => roomState
-const applyAction = (action: Action) => calls.push(['applyAction', action])
-const saveRoom = (roomId: string) => calls.push(['saveRoom', roomId])
+import { updateRoom } from './update-room'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-roomState = { lastUpdatedAt: 0 }
-const updateRoom = createUpdateRoom(
-  ensureRoom,
-  applyAction,
-  saveRoom
-)
+let calls: any[]
 beforeEach(() => calls = [])
+
+const store: any = {
+  getState: () => {
+    return {
+      rooms: {
+        room1: {
+          lastUpdatedAt: 0,
+          members: {
+            bob: { userId: 'bob' }
+          }
+        }
+      }
+    }
+  },
+  dispatch: (action: any) => {
+    calls.push(['dispatch', action])
+  },
+  db: {
+    stashState: (roomId: string) => {
+      calls.push(['stashState', roomId])
+    }
+  },
+  socketServer: {
+    sendToRoom: (roomId: string, action: any) => {
+      calls.push(['sendToRoom', roomId, action])
+    }
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('apply actions', async () => {
-  await updateRoom({ type: 'action1', $r: 'room1' })
-  await updateRoom({ type: 'action2', $r: 'room1' })
-  await new Promise(resolve => process.nextTick(resolve))
+  const action = { type: 'action1', $r: 'room1', $u: 'bob' }
+  await updateRoom(store, action)
   expect(calls).toEqual([
-    ['applyAction', { type: 'action1', $r: 'room1' }],
-    ['applyAction', { type: 'action2', $r: 'room1' }],
-    ['saveRoom', 'room1'],
-    ['saveRoom', 'room1']
+    ['sendToRoom', 'room1', action],
+    ['dispatch', action],
+    ['stashState', 'room1']
   ])
 })
