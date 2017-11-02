@@ -49,19 +49,14 @@ export const createPeerManager = (
   }
 
   // add a new connection
-  const addConnection = (
-    action: Action,
-    isInitiator: boolean = false
-  ): void => {
-    const userId = action.$u
-    if (!userId) return
+  const addConnection = (userId: string, offer?: any): void => {
     if (connections[userId]) return
     if (Object.keys(connections).length >= settings.maxPeers) return
     connections[userId] = createPeerConnection(
       userId,
       store,
       settings,
-      isInitiator
+      offer
     )
   }
 
@@ -73,10 +68,12 @@ export const createPeerManager = (
       case LEAVE_ROOM:
         return removeUnusedConnections()
       case JOIN_ROOM:
+        if (!action.$u) return
         if (action.$u === store.getState().me.userId) return
-        return addConnection(action, true)
+        return addConnection(action.$u)
       case WEBRTC_OFFER:
-        return addConnection(action)
+        if (!action.$u) return
+        return addConnection(action.$u, action.offer)
     }
   })
 }

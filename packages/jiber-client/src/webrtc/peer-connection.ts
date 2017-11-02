@@ -1,3 +1,5 @@
+// TODO: this webrtc folder is a bit spaghetti
+
 import { Store, Action } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
 import { createChannel } from './channel'
@@ -22,19 +24,19 @@ export const createPeerConnection = (
   peerUserId: string,
   store: Store,
   settings: ClientSettings,
-  isInitiator: boolean = false
+  offer: any
 ): PeerConnection => {
 
   // pc is short for peerConnection
   const pc = createPC(settings.stunServers)
   const receiver = createReceiver(store, peerUserId)
-  const channel = createChannel(pc, isInitiator, receiver)
+  const channel = createChannel(pc, !offer, receiver)
   const sender = createSender(store.getState, peerUserId, channel.send)
   const negotiator = createNegotiator(
     store.dispatch,
     pc,
     peerUserId,
-    isInitiator
+    offer
   )
 
   const unsubscribe = store.subscribe((action: Action): void => {
