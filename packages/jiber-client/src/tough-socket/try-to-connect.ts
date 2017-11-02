@@ -6,9 +6,7 @@ import { ClientSettings } from '../interfaces/client-settings'
 export const tryToConnect = (settings: ClientSettings): Promise<any> => {
   const { url, socketPort, credential, backoffMs } = settings
 
-  return new Promise((resolve, reject) => {
-    if (!url) reject('NO_SOCKET_URL')
-
+  return new Promise((resolve) => {
     const onopen = (socket: WebSocket) => {
       delete socket.onclose
       delete socket.onopen

@@ -42,7 +42,10 @@ test('should send login result back to user', () => {
     [
       'sendToSocket',
       'socket1',
-      { type: LOGIN_RESULT, user: { socketId: 'socket1', public: { name: 'sally' } } }
+      {
+        type: LOGIN_RESULT,
+        user: { socketId: 'socket1', public: { name: 'sally' } }
+      }
     ]
   ])
 })

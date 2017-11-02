@@ -26,11 +26,8 @@ const removeUserFromRooms = (
  */
 export const onClose = (store: ServerStore, socketId: string) => {
   const state = store.getState()
-  const socket: any = state.sockets[socketId] || {}
-  const ws: {removeAllListeners: () => void} = socket.ws
-
-  if (!ws) return
-  ws.removeAllListeners()
+  const socket: any = state.sockets[socketId]
+  if (!socket) return
 
   if (socket.userId) {
     removeUserFromRooms(store, socket.userId, state.rooms)

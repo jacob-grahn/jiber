@@ -5,6 +5,7 @@ import { onClose } from './on-close'
 import { onMessage } from './on-message'
 
 /**
+ * TODO: errors thrown in this function are somehow silently swallowed
  * handles 'connect' socket event
  * adds some event listeners to the newly created socket
  * dispatches an event to add the socket to the store

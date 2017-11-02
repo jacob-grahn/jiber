@@ -57,7 +57,7 @@
         const path = `${x},${y}`
         const state = room.getState()
         if (state[path] === color) return                                       // avoid dispatching redundant actions
-        room.set(path, color)
+        room.set({[path]: color})
       }
 
       function randomColor () {

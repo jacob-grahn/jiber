@@ -11,9 +11,6 @@ const store: any = {
     return {
       sockets: {
         socket1: {
-          ws: {
-            removeAllListeners: () => calls.push(['removeAllListeners'])
-          },
           userId: 'user1'
         }
       },
@@ -42,11 +39,6 @@ beforeEach(() => calls = [])
 test('do nothing if socket does not exist', () => {
   onClose(store, 'socket99')
   expect(calls).toEqual([])
-})
-
-test('remove event handlers', () => {
-  onClose(store, 'socket1')
-  expect(calls[0]).toEqual(['removeAllListeners'])
 })
 
 test('remove user from member rooms', () => {

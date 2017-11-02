@@ -45,6 +45,7 @@ export const createSocketServer = (store: ServerStore) => {
       return sendToRoom(store.getState, roomId, action)
     },
     sendToSocket: (socketId: string, action: Action) => {
+      console.log('socketServer.sendToSocket', socketId, action)
       return sendToSocket(store.getState, socketId, action)
     },
     sendToUser: (userId: string, action: Action) => {

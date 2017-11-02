@@ -23,7 +23,7 @@ export const createToughSocket = (settings: ClientSettings): ToughSocket => {
   const connect = async () => {
     socket = await tryToConnect(settings)
     if (self.onmessage) socket.onmessage = self.onmessage
-    socket.onclose = connect
+    socket.onclose = () => setTimeout(connect, 3000)
   }
   connect() // tslint:disable-line
 

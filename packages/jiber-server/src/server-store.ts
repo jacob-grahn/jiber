@@ -23,10 +23,10 @@ export const createServerStore = (
   const settings = { ...defaultServerSettings, ...inputSettings }
   const serverReducer = createServerReducer(settings.reducer)
   const store = createStore(serverReducer, initialState)
-  const tempServerStore = { ...store, db: settings.db, settings } as ServerStore
+  const serverStore = { ...store, db: settings.db, settings } as ServerStore
 
-  const socketServer = createSocketServer(tempServerStore)
-  const serverStore: ServerStore = { ...tempServerStore, socketServer }
+  const socketServer = createSocketServer(serverStore)
+  serverStore.socketServer = socketServer
 
   settings.db.emitter.on(ACTION_PUSHED, action => onAction(serverStore, action))
 
