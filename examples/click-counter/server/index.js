@@ -15,5 +15,5 @@ const clickCounter = (state = 0, action) => {
 const store = jiber.createStore({reducer: clickCounter})
 
 // Start listening for incomming connections
-store.start()
+store.socketServer.start()
 console.log("Click Counter's Server is runnning!")

@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Click Counter</title>
-    <script src="../../../dist/client/jiber-client.bundle.js"></script>
+    <script src="../../../packages/jiber-client/dist/jiber-client.bundle.js">
+    </script>
   </head>
   <body style="padding: 48px; font-size: 48px;">
     <script>
@@ -20,13 +21,17 @@
       }
 
       // Pass our custom app logic to jiber
-      const store = $jiber.createStore({url: 'localhost', reducer: clickCounter})
+      const store = $jiber.createStore({
+        url: 'localhost',
+        reducer: clickCounter
+      })
 
       // Pick a room to join
       const room = store.createRoom('room1')
 
       // Display the click count on the screen
-      room.subscribe(() => {
+      room.subscribe((action) => {
+        console.log(action, store.getState())
         document.body.innerHTML = `There have been ${room.getState()} clicks!`
       })
 
