@@ -5,6 +5,7 @@ import { onClose } from './on-close'
 import { onMessage } from './on-message'
 
 /**
+ * TODO: come up with a naming convention for sockets, websockets, and ws
  * TODO: errors thrown in this function are somehow silently swallowed
  * handles 'connect' socket event
  * adds some event listeners to the newly created socket
@@ -26,7 +27,7 @@ export const onConnect = (store: ServerStore, webSocket: ws, request: any) => {
   webSocket.on('close', () => onClose(store, socketId))
 
   // init socket
-  const socketAction = { type: INIT_SOCKET, socketId, ws }
+  const socketAction = { type: INIT_SOCKET, socketId, ws: webSocket }
   store.dispatch(socketAction)
 
   // send login result

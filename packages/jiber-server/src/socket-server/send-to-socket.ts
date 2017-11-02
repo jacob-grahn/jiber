@@ -1,5 +1,4 @@
 import { Action } from 'jiber-core'
-import * as ws from 'ws'
 import { ServerState } from '../interfaces/server-state'
 
 /**
@@ -12,8 +11,7 @@ export const sendToSocket = (
 ): void => {
   const socket = getState().sockets[socketId]
   if (!socket || !socket.ws) return
-  const ws: ws = socket.ws
-  if (ws.readyState === ws.OPEN) {
-    ws.send(JSON.stringify(action))
+  if (socket.ws.readyState === socket.ws.OPEN) {
+    socket.ws.send(JSON.stringify(action))
   }
 }
