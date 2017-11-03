@@ -13,7 +13,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap --hoist",
     "prepare": "node build",
-    "test": "jest packages",
+    "test": "jest packages --coverage",
     "lint": "tslint --fix -p tsconfig.json",
     "build": "node build",
     "watch": "node watch"
