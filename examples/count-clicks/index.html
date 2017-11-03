@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Count Clicks</title>
+    <script src="../../packages/jiber-client/dist/jiber-client.bundle.js">
+    </script>
+  </head>
+  <body>
+    <script>
+
+      // Our app logic
+      // Count how many clicks we get
+      const reducer = (state = 0, action) => {
+        switch (action.type) {
+          case 'CLICK':
+            return state + 1
+          default:
+            return state
+        }
+      }
+
+      // Create a data store, which will sync up our data with other users
+      const room = $jiber
+        .createStore({url: 'localhost', reducer})
+        .createRoom('count-clicks')
+
+      // Render the page whenever our data changes
+      room.subscribe(state => document.body.innerHTML = `${state} clicks!`)
+
+      // +1 every time we click
+      window.onclick = () => room.dispatch({type: 'CLICK'})
+
+    </script>
+  </body>
+</html>

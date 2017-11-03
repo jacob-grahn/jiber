@@ -3,26 +3,58 @@
   <head>
     <meta charset="utf-8">
     <title>Draw With Friends</title>
-    <script src="../../../packages/jiber-client/dist/jiber-client.bundle.js">
+    <script src="../../packages/jiber-client/dist/jiber-client.bundle.js">
     </script>
   </head>
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
+    <br>
+    <button id="clear-btn" onclick="room.clear()">Clear</button>
 
     <script>
 
       //////////////////////////////////////////////////////////////////////////
-      // INIT: create a room to sync our masterful drawing
+      // INIT
       //////////////////////////////////////////////////////////////////////////
-      const scale = 10                                                          // each 'pixel' is actually a 10px by 10px square
-      const store = $jiber.createStore({url: 'localhost'})                      // $jiber is a global variable when jiber-client.bundle.js is loaded
-      const room = store.createRoom('room1')
+
+      // Our app logic
+      // Track pixel colors
+      const reducer = (state = {}, action) => {
+        switch (action.type) {
+          case 'SET_PIXEL':
+            return {...state, [action.path]: action.color}
+          case 'CLEAR':
+            return {}
+          default:
+            return state
+        }
+      }
+
+      // optional convenience functions that will be attached to 'room'
+      // now we can write room.clear()
+      // instead of room.dispatch({type: 'CLEAR'})
+      const actionCreators = {
+        setPixel: (path, color) => ({type: 'SET_PIXEL', path, color}),
+        clear: () => ({type: 'CLEAR'})
+      }
+
+      // TODO: host a demo server
+      const url = 'localhost'
+
+      // create a room to sync our masterful drawing
+      const store = $jiber.createStore({url, reducer, actionCreators})
+      const room = store.createRoom('draw')
+
+      // each 'pixel' is a 10px by 10px square
+      const scale = 10
+
+      // set up our canvas to draw on
       const canvas = document.getElementById('line-canvas')
       const ctx = canvas.getContext('2d')
 
 
       //////////////////////////////////////////////////////////////////////////
-      // RENDER LOOP: draw the state onto the canvas when something changes
+      // RENDER: draw the state onto the canvas when our data changes
       //////////////////////////////////////////////////////////////////////////
       function render () {
         const state = room.getState()
@@ -45,8 +77,8 @@
         })
       }
 
-      render()
-      store.subscribe(render)
+      room.subscribe(render)
+
 
       //////////////////////////////////////////////////////////////////////////
       // I/O: draw pixels when a user taps and drags
@@ -55,9 +87,12 @@
         const x = Math.floor(e.clientX / scale)
         const y = Math.floor(e.clientY / scale)
         const path = `${x},${y}`
+
+        // avoid dispatching redundant actions
         const state = room.getState()
-        if (state[path] === color) return                                       // avoid dispatching redundant actions
-        room.set({[path]: color})
+        if (state[path] === color) return
+
+        room.setPixel(path, color)
       }
 
       function randomColor () {

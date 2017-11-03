@@ -1,5 +1,5 @@
 {
-  "name": "click-counter-server",
+  "name": "counting",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,6 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "dependencies": {
-    "jiber-server": "file:../../../packages/jiber-server"
+    "jiber-server": "file:../../packages/jiber-server"
   }
 }

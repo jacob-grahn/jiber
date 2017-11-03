@@ -16,14 +16,6 @@ export const createCreateRoom = (
 ) => {
   return (roomId: string) => {
 
-    // subscribe to events that target this room
-    const subscription = createSubscription()
-    store.subscribe((action: Action) => {
-      if (action.$r === roomId) {
-        subscription.publish(action)
-      }
-    })
-
     const getRoom = () => {
       const state = store.getState()
       return state.rooms[roomId]
@@ -38,6 +30,14 @@ export const createCreateRoom = (
     const actionDispatchers = createDispatchers(dispatch, actionCreators)
 
     dispatch({ type: JOIN_ROOM })
+
+    // subscribe to events that target this room
+    const subscription = createSubscription()
+    store.subscribe((action: Action) => {
+      if (action.$r === roomId) {
+        subscription.publish(getRoom().optimistic, action)
+      }
+    })
 
     return {
       ...actionDispatchers,
