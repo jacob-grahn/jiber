@@ -29,7 +29,7 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     type: 'add',
     value: '2',
     $id: 5,
-    $user: {userId: 'bob', actionId: 5}
+    $user: { userId: 'bob', actionId: 5 }
   }
   const roomState: ClientRoomState = {
     pendingActions: [],

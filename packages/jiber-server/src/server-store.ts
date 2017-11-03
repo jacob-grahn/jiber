@@ -13,7 +13,9 @@ export interface ServerStore extends Store {
   getState: () => ServerState,
   socketServer: SocketServer,
   db: DB,
-  settings: ServerSettings
+  settings: ServerSettings,
+  start: () => void,
+  stop: () => void
 }
 
 export const createServerStore = (
@@ -27,6 +29,8 @@ export const createServerStore = (
 
   const socketServer = createSocketServer(serverStore)
   serverStore.socketServer = socketServer
+  serverStore.start = socketServer.start
+  serverStore.stop = socketServer.stop
 
   settings.db.emitter.on(ACTION_PUSHED, action => onAction(serverStore, action))
 

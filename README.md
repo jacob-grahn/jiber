@@ -3,8 +3,8 @@
 Jiber is a synchronized data store. It is well suited for real-time apps with
 data that changes often.
 
-- **Fast**: Updates are transmitted nearly instantly via WebSockets.
-- **Tiny**: jiber-client is 3kb, and has no dependencies.
+- **Fast**: Updates are sent peer to peer to minimize latency.
+- **Light**: jiber-client is 3kb, and has no dependencies.
 - **Offline-First**: User actions are applied optimistically until an internet
 connection becomes available.
 
@@ -13,32 +13,29 @@ connection becomes available.
 npm i jiber-client
 ```
 
-### Hello World Example
+### Quick Example
 ```
-// This example uses a free test server from jiber.io
-// You could also set up your own, see /jiber-server in this repo
-
-// Create our data store, which will connect and sync up our data
-const store = jiber.createStore({url: 'localhost'})
-
-// Pick a room to join. I have creatively chosen 'room1'
-const room = store.createRoom('room1')
-
-// Display how many glorious clicks we have collectively achieved
-const render = (state) => {
-    document.body.innerHTML = `
-        Hello world, curious people have clicked
-        on this page <b>${state.clickCount}</b> times!
-    `
+// Our app logic
+// Count how many clicks we get
+const reducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'CLICK':
+      return state + 1
+    default:
+      return state
+  }
 }
 
-// Render the page whenever the room changes
-room.subscribe(render)
+// Create a data store, which will sync up our data with other users
+const room = $jiber
+  .createStore({url: 'localhost', reducer})
+  .createRoom('count-clicks')
+
+// Render the page whenever our data changes
+room.subscribe(state => document.body.innerHTML = `${state} clicks!`)
 
 // +1 every time we click
-window.onclick = () => {
-  room.dispatch({type: 'INCREMENT', path: 'clickCount', value: 1})
-}
+window.onclick = () => room.dispatch({type: 'CLICK'})
 ```
 
 More examples can be found in /examples.
