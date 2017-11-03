@@ -24,6 +24,23 @@ test('user generated actions are used on the optimistic state', () => {
   expect(optimistic(roomState, action)).toEqual('123')
 })
 
+test('an optimistic action coming in after a confirmed action is ignored', () => {
+  const action = {
+    type: 'add',
+    value: '2',
+    $id: 5,
+    $user: {userId: 'bob', actionId: 5}
+  }
+  const roomState: ClientRoomState = {
+    pendingActions: [],
+    confirmed: '2',
+    optimistic: '2',
+    members: {},
+    lastUpdatedAt: 0
+  }
+  expect(optimistic(roomState, action)).toEqual('2')
+})
+
 test('optimistic state is rebased when confirmed state is updated', () => {
   const roomState: ClientRoomState = {
     pendingActions: [
