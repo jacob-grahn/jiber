@@ -1,3 +1,5 @@
+## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes. 
+
 # [Jiber](https://jiber.io)
 
 [![Coverage Status](https://coveralls.io/repos/github/Jiggmin/Jiber/badge.svg?branch=master)](https://coveralls.io/github/Jiggmin/Jiber?branch=master)
