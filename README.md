@@ -1,3 +1,5 @@
+## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes. 
+
 # [Jiber](https://jiber.io)
 
 Jiber is a synchronized data store. It is well suited for real-time apps with
