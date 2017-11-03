@@ -19,10 +19,13 @@ export const createOptimistic = (subReducer: Reducer) => {
       return pendingActions.reduce(subReducer, roomState.confirmed)
     }
 
+    const curActionId = get(action, '$user.actionId') || 0
+    const actionId = action.$id || 0
+
     if (action.$confirmed) {
       const { pendingActions, confirmed } = roomState
       return pendingActions.reduce(subReducer, confirmed)
-    } else if (get(action, '$id') > get(action, '$user.actionId')) {
+    } else if (actionId > curActionId) {
       return subReducer(state, action)
     } else {
       return state
