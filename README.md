@@ -1,5 +1,7 @@
 # [Jiber](https://jiber.io)
 
+[![Coverage Status](https://coveralls.io/repos/github/Jiggmin/Jiber/badge.svg?branch=master)](https://coveralls.io/github/Jiggmin/Jiber?branch=master)
+
 Jiber is a synchronized data store. It is well suited for real-time apps with
 data that changes often.
 
