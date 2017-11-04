@@ -2,6 +2,7 @@
   "devDependencies": {
     "@types/jest": "^21.1.5",
     "chokidar": "^1.7.0",
+    "coveralls": "^3.0.0",
     "execa": "^0.8.0",
     "jest": "^21.2.1",
     "lerna": "^2.5.0",
@@ -14,9 +15,14 @@
     "postinstall": "lerna bootstrap --hoist",
     "prepare": "node build",
     "test": "jest packages --coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "tslint --fix -p tsconfig.json",
     "build": "node build",
     "watch": "node watch"
+  },
+  "repository": {
+     "type" : "git",
+     "url" : "https://github.com/Jiggmin/Jiber"
   },
   "jest": {
     "globals": {
@@ -33,5 +39,6 @@
       "ts",
       "js"
     ]
-  }
+  },
+  "dependencies": {}
 }
