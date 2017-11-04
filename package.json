@@ -14,11 +14,11 @@
   "scripts": {
     "postinstall": "lerna bootstrap --hoist",
     "prepare": "node build",
-    "test": "jest packages --coverage",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "test": "jest packages",
     "lint": "tslint --fix -p tsconfig.json",
     "build": "node build",
-    "watch": "node watch"
+    "watch": "node watch",
+    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
      "type" : "git",
