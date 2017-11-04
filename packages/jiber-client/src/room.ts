@@ -5,7 +5,7 @@ import {
   get,
   createSubscription
 } from 'jiber-core'
-import { createDispatchers } from './create-dispatchers'
+import { toDispatchers } from './to-dispatchers'
 
 /**
  * Create a room interface to make some code more convinient
@@ -27,7 +27,7 @@ export const createCreateRoom = (
 
     const getState = () => get(getRoom(), 'optimistic')
     const getConfirmedState = () => get(getRoom(), 'confirmed')
-    const actionDispatchers = createDispatchers(dispatch, actionCreators)
+    const actionDispatchers = toDispatchers(dispatch, actionCreators)
 
     dispatch({ type: JOIN_ROOM })
 
