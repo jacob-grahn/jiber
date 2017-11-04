@@ -1,7 +1,8 @@
-## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes. 
+## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes.
 
 # [Jiber](https://jiber.io)
 
+[![Build Status](https://travis-ci.org/Jiggmin/Jiber.svg?branch=master)](https://travis-ci.org/Jiggmin/Jiber)
 [![Coverage Status](https://coveralls.io/repos/github/Jiggmin/Jiber/badge.svg?branch=master)](https://coveralls.io/github/Jiggmin/Jiber?branch=master)
 
 Jiber is a synchronized data store. It is well suited for real-time apps with
