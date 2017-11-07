@@ -1,4 +1,4 @@
-import { Action, Store, createStore } from 'jiber-core'
+import { Action, Store, createStore, SERVER } from 'jiber-core'
 import { createSendToServer } from './middleware/send-to-server'
 import { addActionId } from './middleware/add-action-id'
 import { injectMetadata } from './middleware/inject-metadata'
@@ -39,6 +39,7 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   toughSocket.onmessage = (event: MessageEvent) => {
     const action = JSON.parse(event.data)
     action.$confirmed = true
+    action.$source = SERVER
     actionHandler(sendAction, store.getState, action)
     store.dispatch(action)
   }

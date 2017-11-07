@@ -1,4 +1,4 @@
-import { Action, Store, Middleware, Next } from 'jiber-core'
+import { Action, Store, Middleware, Next, SELF } from 'jiber-core'
 
 /**
  * userId and timeMs are added to create consistency between
@@ -18,6 +18,7 @@ export const injectMetadata: Middleware = (store: Store) => {
     // fill in missing data
     if (!action.$id) action.$id = nextActionId++
     if (!action.$t) action.$t = new Date().getTime()
+    if (!action.$source) action.$source = SELF
 
     // if there is no $u, then this action was created by the current user
     if (action.$u) {

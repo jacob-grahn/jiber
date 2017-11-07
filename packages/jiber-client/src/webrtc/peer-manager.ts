@@ -7,23 +7,21 @@ import {
   forEach,
   reduce
 } from 'jiber-core'
-import { PeerConnection, createPeerConnection } from './peer-connection'
+import { Peer, createPeer } from './peer'
 import { ClientSettings } from '../interfaces/client-settings'
 import { ClientState } from '../interfaces/client-state'
 import { prefixFix } from './prefix-fix'
-
-const connections: {[userId: string]: PeerConnection} = {}
 
 /**
  * When we join a room, existing members send us offers (WEBRTC_OFFER)
  * When another user joins, we send an offer (we are now an existing member)
  */
-export const createPeerManager = (
-  store: Store,
-  settings: ClientSettings
-): void => {
+export const createPeerManager = (store: Store, settings: ClientSettings): void => {
   // standardize browser prefixes
   prefixFix()
+
+  //
+  const connections: {[userId: string]: Peer} = {}
 
   // create a list of all userIds that you should be connected to
   const toAllMembers = (state: ClientState): string[] => {
@@ -52,7 +50,7 @@ export const createPeerManager = (
   const addConnection = (userId: string, offer?: any): void => {
     if (connections[userId]) return
     if (Object.keys(connections).length >= settings.maxPeers) return
-    connections[userId] = createPeerConnection(
+    connections[userId] = createPeer(
       userId,
       store,
       settings,

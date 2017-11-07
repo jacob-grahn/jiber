@@ -1,7 +1,8 @@
 import { Action } from 'jiber-core'
 
-export type PeerChannel = {
-  send: (action: Action) => void
+export type Channel = {
+  send: (action: Action) => void,
+  onmessage?: Function
 }
 
 /**
@@ -11,9 +12,8 @@ export type PeerChannel = {
  */
 export const createChannel = (
   pc: RTCPeerConnection,
-  isInitiator: boolean,
-  receiver: (event: MessageEvent) => void
-): PeerChannel => {
+  isInitiator: boolean
+): Channel => {
   let channel: any
 
   const send = (action: Action): void => {
@@ -26,26 +26,26 @@ export const createChannel = (
     }
   }
 
-  const setupChannel = (channel: any) => {
-    channel.onmessage = receiver
+  const self: Channel = {
+    send
   }
 
-  const createOrWait = () => {
-    if (isInitiator) {
-      const channelConfig = { ordered: false, maxRetransmits: 0 }
-      channel = (pc as any).createDataChannel('data', channelConfig)
-      setupChannel(channel)
-    } else {
-      (pc as any).ondatachannel = (event: any) => {
-        channel = event.channel
-        setupChannel(channel)
-      }
+  const setupChannel = (channel: any) => {
+    channel.onmessage = (message: MessageEvent) => {
+      if (self.onmessage) self.onmessage(message)
     }
   }
 
-  createOrWait()
-
-  return {
-    send
+  if (isInitiator) {
+    const channelConfig = { ordered: false, maxRetransmits: 0 }
+    channel = (pc as any).createDataChannel('data', channelConfig)
+    setupChannel(channel)
+  } else {
+    (pc as any).ondatachannel = (event: any) => {
+      channel = event.channel
+      setupChannel(channel)
+    }
   }
+
+  return self
 }

@@ -99,8 +99,7 @@ as you need.
 const store = jiber.createStore(clientSettings)
 
 // get your global state, which contains all rooms
-store.getState()  // optimistic, lower latency
-store.getConfirmedState() // confirmed, higher latency
+store.getState()
 store.subscribe((state, action) => /* do something */)
 
 // join 'room1' to do some serious buisiness

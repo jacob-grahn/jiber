@@ -1,14 +1,12 @@
-// TODO: this webrtc folder is a bit spaghetti
-
 import { Store, Action } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
 import { createChannel } from './channel'
-import { createReceiver } from './receiver'
-import { createSender } from './sender'
+import { shouldPeer } from './should-peer'
 import { createNegotiator } from './negotiator'
+import { onPeerMessage } from './on-peer-message'
 import { errorHandler } from '../utils/error-handler'
 
-export type PeerConnection = {
+export type Peer = {
   peerUserId: string,
   close: Function
 }
@@ -20,18 +18,16 @@ const createPC = (stunServers: string[]) => {
   return new RTCPeerConnection(config)
 }
 
-export const createPeerConnection = (
+export const createPeer = (
   peerUserId: string,
   store: Store,
   settings: ClientSettings,
   offer: any
-): PeerConnection => {
+): Peer => {
 
   // pc is short for peerConnection
   const pc = createPC(settings.stunServers)
-  const receiver = createReceiver(store, peerUserId)
-  const channel = createChannel(pc, !offer, receiver)
-  const sender = createSender(store.getState, peerUserId, channel.send)
+  const channel = createChannel(pc, !offer)
   const negotiator = createNegotiator(
     store.dispatch,
     pc,
@@ -39,9 +35,14 @@ export const createPeerConnection = (
     offer
   )
 
+  channel.onmessage = (message: MessageEvent) => {
+    onPeerMessage(store, peerUserId, message)
+  }
+
   const unsubscribe = store.subscribe((action: Action): void => {
     negotiator.onAction(action).catch(errorHandler)
-    sender.onAction(action)
+    const state = store.getState()
+    if (shouldPeer(state, peerUserId, action)) channel.send(action)
   })
 
   const close = () => {
