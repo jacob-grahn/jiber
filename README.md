@@ -99,15 +99,17 @@ as you need.
 const store = jiber.createStore(clientSettings)
 
 // get your global state, which contains all rooms
-store.getState()  // optimistic, faster
-store.getConfirmedState() // confirmed, slower
+store.getState()  // optimistic, lower latency
+store.getConfirmedState() // confirmed, higher latency
+store.subscribe((state, action) => /* do something */)
 
 // join 'room1' to do some serious buisiness
 const room = store.createRoom('room1') // join a room that other players can also join
 
 // get the room's state
-room.getState() // optimistic, faster
-room.getConfirmedState() // confirmed, slower
+room.getState() // optimistic, lower latency
+room.getConfirmedState() // confirmed, higher latency
+room.subscribe((roomState, action)) => /* do something */)
 
 // change the room's state
 room.dispatch({type: 'HELLO'}) // this is sent to your reducer in clientSettings.reducer
