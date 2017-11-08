@@ -18,7 +18,8 @@
     "lint": "tslint --fix -p tsconfig.json",
     "build": "node build",
     "watch": "node watch",
-    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
+    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls",
+    "publish": "lerna publish"
   },
   "repository": {
      "type" : "git",

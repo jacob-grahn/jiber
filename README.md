@@ -1,13 +1,12 @@
 ## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes.
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
-
 # [Jiber](https://jiber.io)
 
 [![Build Status](https://travis-ci.org/jacob-grahn/jiber.svg?branch=master)](https://travis-ci.org/jacob-grahn/jiber)
 [![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
+[![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
 
-Jiber is a synchronized data store for browser based multiplayer games.
+Jiber is a synchronized data store for multiplayer js games.
 
 - **Fast**: Updates are sent peer to peer to minimize latency.
 - **Light**: jiber-client is 3kb, and has no dependencies.
