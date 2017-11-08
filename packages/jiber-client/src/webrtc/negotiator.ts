@@ -13,19 +13,19 @@ export const createNegotiator = (
   dispatch: (action: Action) => void,
   pc: RTCPeerConnection,
   peerUserId: string,
-  offer: any
+  offer?: any
 ) => {
 
   const sendOffer = async (): Promise<void> => {
     const offer = await pc.createOffer()
+    await pc.setLocalDescription(offer)
     dispatch({ type: WEBRTC_OFFER, offer, peerUserId })
-    return pc.setLocalDescription(offer)
   }
 
   const sendAnswer = async (pc: RTCPeerConnection): Promise<void> => {
     const answer = await pc.createAnswer()
-    dispatch({ type: WEBRTC_ANSWER, answer, peerUserId })
     await pc.setLocalDescription(answer)
+    dispatch({ type: WEBRTC_ANSWER, answer, peerUserId })
   }
 
   const sendCandidate = (candidate: RTCIceCandidate): void => {
@@ -41,8 +41,6 @@ export const createNegotiator = (
     if (!action.$confirmed) return
     if (action.$u !== peerUserId) return
     switch (action.type) {
-      case WEBRTC_OFFER:
-        return acceptOffer(action.offer)
       case WEBRTC_ANSWER:
         return pc.setRemoteDescription(action.answer)
       case WEBRTC_CANDIDATE:
