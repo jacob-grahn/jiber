@@ -1,5 +1,7 @@
 ## Note: Jiber is currently in alpha status. It will likely undergo frequent and un-announced changes.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
+
 # [Jiber](https://jiber.io)
 
 [![Build Status](https://travis-ci.org/jacob-grahn/jiber.svg?branch=master)](https://travis-ci.org/jacob-grahn/jiber)
