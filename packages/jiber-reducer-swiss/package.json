@@ -1,6 +1,6 @@
 {
   "name": "jiber-reducer-swiss",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Synced data store",
   "main": "dist/index.js",
   "types": "src/index.ts",
@@ -16,6 +16,6 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "jiber-core": "^0.0.1"
+    "jiber-core": "^0.1.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "jiber-client",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Synced data store",
   "main": "dist/jiber-client.bundle.js",
   "module": "dist/es6/index.js",
@@ -21,6 +21,6 @@
     "uglify-es": "^3.0.15"
   },
   "dependencies": {
-    "jiber-core": "^0.0.1"
+    "jiber-core": "^0.1.1"
   }
 }
