@@ -3,8 +3,8 @@ __Arguments__
 - None!
 
 __Returns__  
-- (ClientState): Returns the client's global state.
-This includes the optimistic and confirmed state for all rooms.
+- (ServerState): Returns the servers's global state.
+This includes state and members of all rooms.
 
 __Example__
 ``` javascript
@@ -33,14 +33,39 @@ setTimeout(cancel, 30000)
 --------------------------------------------------------------------------------
 
 
-# createRoom('room-name')
+# start()
+Start listening for incoming connections.
+
 __Arguments__  
-- (string): The Name of the room you would like to join.
+- None
 
 __Returns__  
-- ([Room](room.md)): A Room instance.
+- (void)
 
 __Example__
 ``` javascript
-const room = store.createRoom('smelly-beans')
+const jiber = require('jiber-server')
+const store = jiber.createStore()
+store.start()
+// jiber-server is now active and listening for connections!
+```
+--------------------------------------------------------------------------------
+
+
+# stop()
+Stop listening for incoming connections.
+
+__Arguments__  
+- None
+
+__Returns__  
+- (void)
+
+__Example__
+``` javascript
+const jiber = require('jiber-server')
+const store = jiber.createStore()
+store.start()
+store.stop()
+// no one can connect!
 ```

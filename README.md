@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
 
-Jiber is a synchronized data store for multiplayer js games.
+Jiber is a shared data store for multiplayer js games.
 
 - **Fast**: Updates are sent peer to peer to minimize latency.
 - **Light**: jiber-client is 3kb, and has no dependencies.
