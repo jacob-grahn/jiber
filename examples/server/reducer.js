@@ -1,34 +1,18 @@
+const countClicksReducer = require('./reducers/count-clicks-reducer')
+const drawReducer = require('./reducers/draw-reducer')
+const walkingReducer = require('./reducers/walking-reducer')
+
 // a reducer that routes to other reducers depending on the roomId
 const reducer = (state, action) => {
   const roomId = action.$r
 
   switch (roomId) {
-    case 'count-clicks':
-      return countClicksReducer(state, action)
     case 'draw':
       return drawReducer(state, action)
-    default:
-      return state
-  }
-}
-
-// reducer for examples/count-clicks
-const countClicksReducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'CLICK':
-      return state + 1
-    default:
-      return state
-  }
-}
-
-// reducer for examples/draw
-const drawReducer = (state = {}, action) => {
-  switch (action.type) {
-    case 'SET_PIXEL':
-      return {...state, [action.path]: action.color}
-    case 'CLEAR':
-      return {}
+    case 'count-clicks':
+      return countClicksReducer(state, action)
+    case 'walking':
+      return walkingReducer(state, action)
     default:
       return state
   }

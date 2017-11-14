@@ -12,6 +12,6 @@ test('return same state for unrelated actions', () => {
   expect(me(state, action)).toBe(state)
 })
 
-test('default to undefined', () => {
-  expect(me(undefined, { type: 'whatev' })).toEqual(undefined)
+test('default to temp userId', () => {
+  expect(me(undefined, { type: 'whatev' })).toEqual({ userId: '$temp' })
 })

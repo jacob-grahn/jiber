@@ -12,73 +12,109 @@
     <script>
 
       //////////////////////////////////////////////////////////////////////////
-      // INIT
+      // REDUCER
       //////////////////////////////////////////////////////////////////////////
+      const speed = 0.3 // pixels per millisecond
 
       // Our app logic
-      const players = (state = {}, action) => {
+      const player = (state, action) => {
+        if (!state) {
+          state = {
+            posX: 250,
+            posY: 250,
+            color: randomColor()
+          }
+        }
         switch (action.type) {
-          case 'jiber/JOIN_ROOM':
-            return {...state, [action.$u]: {pos: {x: 0, y: 0}}}
           case 'jiber/LEAVE_ROOM':
-            return {...state, [action.$u]: undefined}
+            return undefined
+          case 'COLOR':
+            return {...state, color: action.color}
           case 'WALK_TO':
-            const player = {...state[action.$u]}
-            if (player.targetPos) player.pos = player.targetPos
-            player.targetPos = {x: action.x, y: action.y}
-            return {...state, [action.$u]: player}
+            return {...state, targetX: action.x, targetY: action.y}
           default:
             return state
         }
       }
 
-      const timeMs = (state = 0, action) => {
-        return action.$t || state
-      }
-
-      const reducer = $jiber.combineReducers({
-        players,
-        timeMs
-      })
-
-      const speed = 1
-      const interval = 1000 / 60  // 60 fps
-      const physics = (state, timeMs) => {
-        while (timeMs - state.timeMs > interval) {
-          console.log('loop', state.timeMs)
-          state.timeMs += interval
-          Object.keys(state.players).forEach(playerId => {
-            const player = state.players[playerId]
-            if (!player.targetPos) return
-
-            const distX = player.pos.x - player.targetPos.x
-            const distY = player.pos.y - player.targetPos.y
-            const dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))
-            if (dist < speed) {
-              player.pos = player.targetPos
-              player.targetPos = undefined
-              return
-            }
-
-            const angle = Math.atan2(distX, distY)
-            const moveX = Math.cos(angle) * speed
-            const moveY = Math.sin(angle) * speed
-            player.pos.x += moveX
-            player.pos.y += moveY
-          })
+      const players = (state, action) => {
+        if (!action.$u) return state
+        const playerState = state[action.$u]
+        const newPlayerState = player(playerState, action)
+        if (newPlayerState) {
+          return {...state, [action.$u]: newPlayerState}
+        } else {
+          state = {...state}
+          delete state[action.$u]
+          return state
         }
       }
 
+      const reducer = (pastState, action) => {
+        if (!pastState) {
+          pastState = {
+            timeMs: new Date().getTime(),
+            players: {}
+          }
+        }
+
+        const currentState = physics(pastState, action.$t)
+
+        return {
+          ...currentState,
+          players: players(currentState.players, action)
+        }
+      }
+
+      const physics = (state, timeMs) => {
+        const elapsed = timeMs - state.timeMs
+        state.timeMs = timeMs
+
+        Object.keys(state.players).forEach(playerId => {
+          const player = state.players[playerId]
+
+          if (player.targetX === undefined) return
+
+          const distX = player.targetX - player.posX
+          const distY = player.targetY - player.posY
+          const dist = Math.sqrt((distX * distX) + (distY * distY))
+          const angle = Math.atan2(distY, distX)
+          const moveX = Math.cos(angle) * speed * elapsed
+          const moveY = Math.sin(angle) * speed * elapsed
+          const move = speed * elapsed
+
+          if (move > dist) {
+            player.posX = player.targetX
+            player.posY = player.targetY
+            player.targetX = undefined
+            player.targetY = undefined
+          } else {
+            player.posX += moveX
+            player.posY += moveY
+          }
+        })
+
+        return state
+      }
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // INIT
+      //////////////////////////////////////////////////////////////////////////
       const actionCreators = {
-        walkTo: (x, y) => ({type: 'WALK_TO', x, y})
+        walkTo: (x, y) => ({type: 'WALK_TO', x, y}),
+        setMyColor: (color) => ({type: 'COLOR', color})
       }
 
       // TODO: host a demo server
       const url = 'localhost'
 
       // create a room to sync our masterful drawing
-      const store = $jiber.createStore({url, reducer, actionCreators})
-      const room = store.createRoom('walking')
+      const room = $jiber
+        .createStore({url, reducer, actionCreators})
+        .createRoom('walking')
+      let gameState = room.getState()
+      room.subscribe(state => gameState = state)
 
       // set up our canvas to draw on
       const canvas = document.getElementById('walking-canvas')
@@ -88,27 +124,26 @@
       //////////////////////////////////////////////////////////////////////////
       // RENDER: draw the state onto the canvas when our data changes
       //////////////////////////////////////////////////////////////////////////
-      function render () {
-        const state = room.getState()
-        const nowState = physics(state, new Date().getTime())
+      const render = () => {
         clearCanvas()
-        draw(nowState)
+        gameState = physics(gameState, new Date().getTime())
+        draw(gameState)
         window.requestAnimationFrame(render)
       }
 
-      function clearCanvas () {
+      const clearCanvas = () => {
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
       }
 
-      function draw (state) {
-        ctx.fillStyle = 'green'
+      const draw = (state) => {
         ctx.lineWidth = 1
         ctx.strokeStyle = 'black'
         Object.keys(state.players).forEach(playerId => {
           const player = state.players[playerId]
+          ctx.fillStyle = player.color
           ctx.beginPath()
-          ctx.arc(player.pos.x, player.pos.y, 5, 0, 2 * Math.PI, false)
+          ctx.arc(player.posX, player.posY, 5, 0, 2 * Math.PI, false)
           ctx.fill()
           ctx.stroke()
         })
@@ -117,13 +152,24 @@
       render()
 
 
-
       //////////////////////////////////////////////////////////////////////////
       // I/O
       //////////////////////////////////////////////////////////////////////////
       canvas.onmousedown = (e) => {
         room.walkTo(e.clientX, e.clientY)
       }
+
+      const randomColor = () => {
+        const hexChars = '0123456789ABCDEF'
+        let color = '#'
+        for (let i = 0; i < 6; i++) {
+          const index = Math.floor(Math.random() * hexChars.length)
+          color += hexChars.charAt(index)
+        }
+        return color
+      }
+
+      room.setMyColor(randomColor())
 
     </script>
   </body>
