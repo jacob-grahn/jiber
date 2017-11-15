@@ -1,4 +1,5 @@
 import { noConcurrent } from './no-concurrent'
+import { sleep } from './sleep'
 
 test('pass params on to inner function', async () => {
   let params: any = {}
@@ -32,7 +33,7 @@ test('calls while the function is working should run later', async () => {
   expect(callCount).toBe(1)
 
   resolve()
-  await new Promise(resolve => setTimeout(resolve, 1))                          // need to wait a tiny bit for the promise to resolve
+  await sleep(0) // need to wait a tiny bit for the promise to resolve
   expect(callCount).toBe(2)
 })
 
@@ -40,7 +41,7 @@ test('different params can run concurrently', () => {
   let names: string[] = []
   const func = (name: string) => {
     names.push(name)
-    return new Promise(resolve => setTimeout(resolve, 1000))
+    return sleep(1000)
   }
   const ncFunc = noConcurrent(func)
   /* tslint:disable */
@@ -67,6 +68,6 @@ test('deferred calls should be called with the same params', async () => {
   expect(calledWith).toBe('someparams')
 
   resolve()
-  await new Promise(resolve => setTimeout(resolve, 1))                          // need to wait a tiny bit for the promise to resolve
+  await sleep(0)
   expect(calledWith).toBe('someparamssomeparams')
 })

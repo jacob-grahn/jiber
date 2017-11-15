@@ -11,7 +11,7 @@ class MockWebSocket {
 
   constructor (url: any, _credential: any) {
     const socket = this
-    setTimeout(() => {
+    process.nextTick(() => {
       if (url.indexOf('BAD_URL') !== -1) {
         socket.onerror({} as any)
       }
@@ -23,13 +23,15 @@ class MockWebSocket {
           socket.onopen({} as any)
         }
       }
-    }, 1)
+    })
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
+jest.useFakeTimers()
+
 beforeEach(() => {
   (global as any).WebSocket = MockWebSocket
   tryCount = 0
@@ -42,21 +44,26 @@ afterEach(() => {
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-// todo: redo this test with fake timers
-test('retry connection with an incremental backoff', async () => {
+test('retry connection with an incremental backoff', () => {
   const settings: any = {
     url: 'WORK_AFTER_3_TRIES',
     socketPort: 123,
     credential: '',
-    backoffMs: 1
+    backoffMs: 10
   }
-  // const startMs = new Date().getTime()
 
-  const socket = await tryToConnect(settings) // will fail 3 times, then connect
-  // const endMs = new Date().getTime()
-  // const elapsedMs = endMs - startMs
-  // expect(elapsedMs).toBeGreaterThan(5) // 1 + 2 + 3 = 6 ms
-  // expect(elapsedMs).toBeLessThan(100) // give it some headroom
-  expect(tryCount).toBe(3)
-  expect(socket).toBeTruthy()
+  const promise = tryToConnect(settings) // will fail 3 times, then connect
+  .then(socket => {
+    expect((setTimeout as any).mock.calls.length).toBe(4)
+    // the first connection attempt should have no delay
+    expect((setTimeout as any).mock.calls[0][1]).toBe(0)
+    // the fourth connection attempt should have 30ms delay (3 * backoffMs)
+    expect((setTimeout as any).mock.calls[3][1]).toBe(30)
+    expect(tryCount).toBe(3)
+    expect(socket).toBeTruthy()
+  })
+
+  jest.runAllTimers()
+
+  return promise
 })

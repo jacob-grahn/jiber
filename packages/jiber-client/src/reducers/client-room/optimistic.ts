@@ -1,5 +1,3 @@
-// TODO: fix this
-
 import { Reducer, Action, CONFIRMED_STATE, get } from 'jiber-core'
 
 /**
