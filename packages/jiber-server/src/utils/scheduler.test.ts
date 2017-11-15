@@ -7,6 +7,7 @@ import { createScheduler } from './scheduler'
 let callCount: number
 const aFunc = () => callCount++
 beforeEach(() => callCount = 0)
+jest.useFakeTimers()
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
@@ -18,17 +19,15 @@ test('start should call the function immediately', () => {
   expect(callCount).toBe(1)
 })
 
-// todo: use fake timers
-/* test('should keep running the function until stop is called', async () => {
+test('should keep running the function until stop is called', () => {
   const scheduler = createScheduler(aFunc, 10)
   scheduler.start()
 
-  await sleep(100)
-  expect(callCount).toBeGreaterThan(2)
-  expect(callCount).toBeLessThan(15)
-  const savedCallCount = callCount
+  jest.runTimersToTime(50)
+  expect(callCount).toBe(6)
+
   scheduler.stop()
 
-  await sleep(100)
-  expect(callCount).toBe(savedCallCount)
-}) */
+  jest.runTimersToTime(100)
+  expect(callCount).toBe(6)
+})
