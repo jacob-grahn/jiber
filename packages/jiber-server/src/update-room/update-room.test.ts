@@ -22,11 +22,6 @@ const store: any = {
   dispatch: (action: any) => {
     calls.push(['dispatch', action])
   },
-  db: {
-    stashState: (roomId: string) => {
-      calls.push(['stashState', roomId])
-    }
-  },
   socketServer: {
     sendToRoom: (roomId: string, action: any) => {
       calls.push(['sendToRoom', roomId, action])
@@ -42,7 +37,6 @@ test('apply actions', async () => {
   await updateRoom(store, action)
   expect(calls).toEqual([
     ['sendToRoom', 'room1', action],
-    ['dispatch', action],
-    ['stashState', 'room1']
+    ['dispatch', action]
   ])
 })

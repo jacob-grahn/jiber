@@ -18,7 +18,8 @@ const store: any = {
     stashState: async (roomId: string, roomState: RoomState) => {
       calledSetState = { roomId, roomState }
     }
-  }
+  },
+  settings: { snapshotInterval: 0 }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
