@@ -5,21 +5,18 @@
     "coveralls": "^3.0.0",
     "execa": "^0.8.0",
     "jest": "^21.2.1",
-    "lerna": "^2.5.1",
     "lodash": "^4.17.4",
     "ts-jest": "^21.2.2",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --hoist",
-    "prepare": "node build",
+    "prepare": "node run npm install && node run npm run build",
     "test": "jest packages",
     "lint": "tslint --fix -p tsconfig.json",
-    "build": "node build",
+    "build": "node run npm run build",
     "watch": "node watch",
-    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls",
-    "publish": "lerna publish"
+    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
