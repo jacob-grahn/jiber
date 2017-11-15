@@ -1,12 +1,10 @@
 ``` javascript
 {
   socketPort: 80,
-  stunPort: 3478,
   reducer: patcher,
   login: memAccounts,
   db: memoryDB,
   snapshotInterval: 5000,                                                       // five seconds
-  syncInterval: 1000,                                                           // one second
   maxRoomAge: 1000 * 60 * 60,                                                   // one hour
   initialState: undefined
 }
@@ -17,14 +15,6 @@ The port to listen for incoming client connections on.
 
 __Default__  
 80
---------------------------------------------------------------------------------
-
-# stunPort
-
-TODO: remove this?
-
-__Default__  
-3478
 --------------------------------------------------------------------------------
 
 # reducer
@@ -68,13 +58,6 @@ How often to save room states to the db.
 
 __Default__  
 5000
---------------------------------------------------------------------------------
-
-# syncInterval
-Todo: remove this?
-
-__Default__  
-1000
 --------------------------------------------------------------------------------
 
 # maxRoomAge
