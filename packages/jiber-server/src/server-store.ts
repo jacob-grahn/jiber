@@ -1,4 +1,4 @@
-import { Store, createStore, ACTION_PUSHED, DB } from 'jiber-core'
+import { Store, createStore, DB } from 'jiber-core'
 import { ServerSettingsInput } from './interfaces/server-settings-input'
 import { ServerSettings } from './interfaces/server-settings'
 import { ServerState } from './interfaces/server-state'
@@ -30,7 +30,7 @@ export const createServerStore = (
   serverStore.start = socketServer.start
   serverStore.stop = socketServer.stop
 
-  settings.db.emitter.on(ACTION_PUSHED, action => onAction(serverStore, action))
+  settings.db.onaction = (action) => onAction(serverStore, action)
 
   return serverStore
 }
