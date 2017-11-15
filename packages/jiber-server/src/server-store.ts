@@ -1,5 +1,3 @@
-// todo: DB should not come from jiber-core, it is only used in the server
-
 import { Store, createStore, ACTION_PUSHED, DB } from 'jiber-core'
 import { ServerSettingsInput } from './interfaces/server-settings-input'
 import { ServerSettings } from './interfaces/server-settings'
