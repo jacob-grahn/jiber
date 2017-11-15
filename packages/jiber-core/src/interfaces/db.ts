@@ -4,11 +4,7 @@ import * as EventEmitter from 'events'
 
 export interface DB {
   emitter: EventEmitter,
-  pushAction: PushAction,
-  fetchState: FetchState,
-  stashState: StashState
+  pushAction: (action: Action) => void,
+  fetchState: (roomId: string) => Promise<RoomState>,
+  stashState: (roomId: string, state: RoomState) => void
 }
-
-export type PushAction = (action: Action) => void
-export type FetchState = (roomId: string) => Promise<RoomState>
-export type StashState = (roomId: string, state: RoomState) => void
