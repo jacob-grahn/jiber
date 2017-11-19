@@ -1,12 +1,10 @@
 import { DB, Action, RoomState } from 'jiber-core'
-import * as EventEmitter from 'events'
 import * as Redis from 'redis'
 
 export const createDb = (options: Redis.ClientOpts) => {
   const client = Redis.createClient(options)
   const pub = Redis.createClient(options)
   const sub = Redis.createClient(options)
-  const emitter = new EventEmitter()
   let lastActionTime = 0
 
   sub.subscribe('channel1')
@@ -30,7 +28,6 @@ export const createDb = (options: Redis.ClientOpts) => {
   }
 
   const redisDb: DB = {
-    emitter,
     pushAction,
     fetchState,
     stashState
