@@ -8,10 +8,11 @@
     "lodash": "^4.17.4",
     "ts-jest": "^21.2.2",
     "tslint": "^5.8.0",
-    "tslint-config-standard": "^7.0.0"
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.6.1"
   },
   "scripts": {
-    "prepare": "node run npm install && node run npm run build",
+    "prepare": "node run npm install",
     "test": "jest packages",
     "lint": "tslint --fix -p tsconfig.json",
     "build": "node run npm run build",
