@@ -24,7 +24,9 @@ npm i jiber-client
 
 ### Documentation
 [Get Started with jiber-server](/packages/jiber-server)
+
 [Get Started with jiber-client](/packages/jiber-client)
+
 See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)
 
 ### Examples
