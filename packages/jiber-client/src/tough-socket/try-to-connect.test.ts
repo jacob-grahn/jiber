@@ -36,12 +36,12 @@ class MockWebSocket {
 jest.useFakeTimers()
 
 beforeEach(() => {
-  (global as any).WebSocket = MockWebSocket
+  (global).WebSocket = MockWebSocket
   tryCount = 0
 })
 
 afterEach(() => {
-  (global as any).WebSocket = undefined
+  (global).WebSocket = undefined
 })
 
 ////////////////////////////////////////////////////////////////////////////////
