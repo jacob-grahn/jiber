@@ -2,6 +2,8 @@
 
 # [Jiber](https://jiber.io)
 
+![Jiber Logo](jiber.gif)
+
 [![Build Status](https://travis-ci.org/jacob-grahn/jiber.svg?branch=master)](https://travis-ci.org/jacob-grahn/jiber)
 [![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
