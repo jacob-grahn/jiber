@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
 
-Jiber is a multiplayer server for web games. It sets up player-to-player connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
+Jiber is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
 
 - **Fast**: Updates are sent peer to peer to minimize latency.
 - **Light**: jiber-client is 3kb, and has no dependencies.
