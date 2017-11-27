@@ -47,11 +47,11 @@ test('remove user from member rooms', () => {
   expect(dispatchCalls).toEqual([
     [
       'pushAction',
-      { type: LEAVE_ROOM, $r: 'room2', $u: 'user1', $id: 999999999 }
+      { type: LEAVE_ROOM, $roomId: 'room2', $userId: 'user1', $actionId: 999999999 }
     ],
     [
       'pushAction',
-      { type: LEAVE_ROOM, $r: 'room3', $u: 'user1', $id: 999999999 }
+      { type: LEAVE_ROOM, $roomId: 'room3', $userId: 'user1', $actionId: 999999999 }
     ]
   ])
 })

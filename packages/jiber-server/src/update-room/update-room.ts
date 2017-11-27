@@ -7,7 +7,7 @@ import { ServerStore } from '../server-store'
  * Update a room
  */
 export const updateRoom = async (store: ServerStore, action: Action) => {
-  const roomId = action.$r
+  const roomId = action.$roomId
   if (!roomId) return
 
   await ensureRoom(store, roomId)

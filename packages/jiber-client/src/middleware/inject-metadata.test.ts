@@ -19,19 +19,19 @@ const final = (action: Action) => lastAction = action
 const inner = injectMetadata(store)(final)
 
 test('$user is added to the metadata', () => {
-  const action: Action = { type: 'test', $r: 'testRoom', $u: 'bob' }
+  const action: Action = { type: 'test', $roomId: 'testRoom', $userId: 'bob' }
   inner(action)
   expect(lastAction.$user).toEqual({ actionId: 0, fun: true })
 })
 
 test('timeMs is added to the metadata', () => {
-  const action: Action = { type: 'test', $r: 'testRoom' }
+  const action: Action = { type: 'test', $roomId: 'testRoom' }
   inner(action)
-  expect(lastAction.$t).toBeTruthy()
+  expect(lastAction.$timeMs).toBeTruthy()
 })
 
 test('actions with existing metadata are not altered', () => {
-  const action = { type: 'test', $r: 'testRoom', $id: 5 }
+  const action = { type: 'test', $roomId: 'testRoom', $actionId: 5 }
   inner(action)
   expect(lastAction).toEqual(action)
 })

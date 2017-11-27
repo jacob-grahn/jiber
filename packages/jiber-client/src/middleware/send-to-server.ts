@@ -7,7 +7,7 @@ export const createSendToServer = (
   send: (action: Action) => void
 ) => {
   return () => (next: Next) => (action: Action) => {
-    if (!action.$confirmed && !action.$u) send(action)
+    if (!action.$confirmed && !action.$userId) send(action)
     next(action)
   }
 }

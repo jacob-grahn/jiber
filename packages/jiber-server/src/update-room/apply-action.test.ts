@@ -40,7 +40,7 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('apply an action and send it out to room members', () => {
-  const action = { type: 'hi', $r: 'room1', $id: 55, $u: 'jay' }
+  const action = { type: 'hi', $roomId: 'room1', $actionId: 55, $userId: 'jay' }
   applyAction(store, action)
   expect(calls).toEqual([
     ['sendToRoom', 'room1', action],
@@ -49,7 +49,7 @@ test('apply an action and send it out to room members', () => {
 })
 
 test('do not apply an action if actionId is less than the last one', () => {
-  const action = { type: 'hi', $r: 'room1', $id: 53, $u: 'jay' }
+  const action = { type: 'hi', $roomId: 'room1', $actionId: 53, $userId: 'jay' }
   applyAction(store, action)
   expect(calls).toEqual([])
 })

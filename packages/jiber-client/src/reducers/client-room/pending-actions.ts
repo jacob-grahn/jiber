@@ -6,9 +6,9 @@ import { Action, CONFIRMED_STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
  */
 const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
   return pendingActions.filter(pendingAction => {
-    if (!pendingAction.$u) return false
-    if (pendingAction.$u !== action.$u) return true
-    return (pendingAction.$id || 0) > (action.$id || 0)
+    if (!pendingAction.$userId) return false
+    if (pendingAction.$userId !== action.$userId) return true
+    return (pendingAction.$actionId || 0) > (action.$actionId || 0)
   })
 }
 
@@ -26,7 +26,7 @@ const addNew = (pendingActions: Action[], action: Action): Action[] => {
   if (!action.$user) return [...pendingActions, action]
 
   // only accept optimistic actions that are newer than the confirmed actions
-  if ((action.$id || 0) > (action.$user.actionId || 0)) {
+  if ((action.$actionId || 0) > (action.$user.actionId || 0)) {
     return [...pendingActions, action]
   } else {
     return pendingActions
@@ -47,7 +47,7 @@ export const pendingActions = (
 
     // Remove pending actions belonging to userId if they leave the room
     case LEAVE_ROOM:
-      return state.filter(pendingAction => pendingAction.$u !== action.$u)
+      return state.filter(pendingAction => pendingAction.$userId !== action.$userId)
 
     // Add or remove specific pending actions
     default:

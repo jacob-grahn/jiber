@@ -8,6 +8,6 @@ const clientReducer = createClientReducer(adder)
 
 test('it should default to something', () => {
   const state = undefined
-  const action = { type: 'test', $r: 'myroom' }
+  const action = { type: 'test', $roomId: 'myroom' }
   expect(clientReducer(state, action)).toBeTruthy()
 })

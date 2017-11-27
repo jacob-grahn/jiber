@@ -22,14 +22,14 @@ const player = (state, action) => {
 }
 
 const players = (state, action) => {
-  if (!action.$u) return state
-  const playerState = state[action.$u]
+  if (!action.$userId) return state
+  const playerState = state[action.$userId]
   const newPlayerState = player(playerState, action)
   if (newPlayerState) {
-    return {...state, [action.$u]: newPlayerState}
+    return {...state, [action.$userId]: newPlayerState}
   } else {
     state = {...state}
-    delete state[action.$u]
+    delete state[action.$userId]
     return state
   }
 }
@@ -73,7 +73,7 @@ const reducer = (pastState, action) => {
     }
   }
 
-  const currentState = physics(pastState, action.$t)
+  const currentState = physics(pastState, action.$timeMs)
 
   return {
     ...currentState,

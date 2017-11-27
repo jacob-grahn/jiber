@@ -20,7 +20,7 @@ const serverSettings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$uid]: 'hi'}
+        return {...state, [action.$userIdid]: 'hi'}
       default:
         return state
     }

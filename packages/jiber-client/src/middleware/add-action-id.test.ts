@@ -6,7 +6,7 @@ const next = (action: Action) => lastAction = action
 const inner = addActionId()(next)
 
 test('actionId is added to the metadata', () => {
-  const action: Action = { type: 'test', $r: 'testRoom' }
+  const action: Action = { type: 'test', $roomId: 'testRoom' }
   inner(action)
-  expect(lastAction.$id).toBeGreaterThan(0)
+  expect(lastAction.$actionId).toBeGreaterThan(0)
 })

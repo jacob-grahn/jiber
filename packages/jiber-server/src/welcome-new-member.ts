@@ -6,18 +6,18 @@ import { ServerStore } from './server-store'
  */
 export const welcomeNewMember = (store: ServerStore, action: Action) => {
   if (action.type !== JOIN_ROOM) return
-  if (!action.$r || !action.$u) return
+  if (!action.$roomId || !action.$userId) return
 
   const state = store.getState()
-  const room = state.rooms[action.$r]
+  const room = state.rooms[action.$roomId]
   if (!room) return
 
   const message: Action = {
     type: CONFIRMED_STATE,
     confirmed: room.confirmed,
     members: room.members,
-    $r: action.$r
+    $roomId: action.$roomId
   }
 
-  store.socketServer.sendToUser(action.$u, message)
+  store.socketServer.sendToUser(action.$userId, message)
 }

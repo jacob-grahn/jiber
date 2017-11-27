@@ -9,7 +9,6 @@ test('return a promise that resolves after X milliseconds', () => {
     const endTime = new Date().getTime()
     const elapsed = endTime - startTime
     const errorMs = Math.abs(elapsed - desiredElapsed)
-    console.log(startTime, endTime)
     expect(errorMs).toBeLessThan(15)
   }).catch(() => {
     throw new Error('Something is bad broke')

@@ -7,8 +7,8 @@ import { Action, Next } from 'jiber-core'
 let nextActionId = 1
 
 export const addActionId = () => (next: Next) => (action: Action) => {
-  if (!action.$id) {
-    action.$id = nextActionId++
+  if (!action.$actionId) {
+    action.$actionId = nextActionId++
   }
   return next(action)
 }

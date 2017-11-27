@@ -13,7 +13,7 @@
       "lastTurn": { ".read": true, ".type": "string" },
       "deck": [{ ".type": "string" }],
       "hands": {
-        "$uid": { ".read": "uid === auth.uid" }
+        "$userIdid": { ".read": "uid === auth.uid" }
       },
       "table": {
         "/.*/": { ".read": true }

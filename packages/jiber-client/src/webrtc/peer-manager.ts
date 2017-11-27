@@ -66,12 +66,12 @@ export const createPeerManager = (store: Store, settings: ClientSettings): void 
       case LEAVE_ROOM:
         return removeUnusedConnections()
       case JOIN_ROOM:
-        if (!action.$u) return
-        if (action.$u === store.getState().me.userId) return
-        return addConnection(action.$u)
+        if (!action.$userId) return
+        if (action.$userId === store.getState().me.userId) return
+        return addConnection(action.$userId)
       case WEBRTC_OFFER:
-        if (!action.$u) return
-        return addConnection(action.$u, action.offer)
+        if (!action.$userId) return
+        return addConnection(action.$userId, action.offer)
     }
   })
 }

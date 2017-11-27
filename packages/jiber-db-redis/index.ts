@@ -10,7 +10,7 @@ export const createDb = (options: Redis.ClientOpts) => {
   sub.subscribe('channel1')
 
   const pushAction = (action: Action) => {
-    action.$t = new Date().getTime()
+    action.$timeMs = new Date().getTime()
     pub.publish('channel1', JSON.stringify(action))
   }
 
@@ -35,10 +35,10 @@ export const createDb = (options: Redis.ClientOpts) => {
 
   sub.on('message', (_channel, message) => {
     const action = JSON.parse(message)
-    if (action.$t <= lastActionTime) {
-      action.$t = lastActionTime + 1
+    if (action.$timeMs <= lastActionTime) {
+      action.$timeMs = lastActionTime + 1
     }
-    lastActionTime = action.$t
+    lastActionTime = action.$timeMs
     if (redisDb.onaction) redisDb.onaction(action)
   })
 

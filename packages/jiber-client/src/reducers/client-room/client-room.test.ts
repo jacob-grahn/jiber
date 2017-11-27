@@ -19,7 +19,7 @@ test('actions from the server update confirmed state', () => {
   const action = {
     type: 'test',
     value: 'ok',
-    $id: 1,
+    $actionId: 1,
     $confirmed: true
   }
   expect(roomReducer(state, action).confirmed).toBe('yayok')

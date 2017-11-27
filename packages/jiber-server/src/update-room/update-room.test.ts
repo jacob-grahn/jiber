@@ -33,7 +33,7 @@ const store: any = {
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('apply actions', async () => {
-  const action = { type: 'action1', $r: 'room1', $u: 'bob' }
+  const action = { type: 'action1', $roomId: 'room1', $userId: 'bob' }
   await updateRoom(store, action)
   expect(calls).toEqual([
     ['sendToRoom', 'room1', action],

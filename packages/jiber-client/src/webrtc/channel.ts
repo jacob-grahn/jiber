@@ -20,7 +20,7 @@ export const createChannel = (
     if (channel && channel.readyState === 'open') {
       const smallerAction = {
         ...action,
-        ...{ $user: undefined, $u: undefined, $t: undefined }
+        ...{ $user: undefined, $userId: undefined, $timeMs: undefined }
       }
       channel.send(JSON.stringify(smallerAction))
     }

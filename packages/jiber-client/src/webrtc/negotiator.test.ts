@@ -55,7 +55,7 @@ test('receive an answer', async () => {
     type: WEBRTC_ANSWER,
     answer: 'LALA',
     $confirmed: true,
-    $u: 'susan'
+    $userId: 'susan'
   }
 
   await Promise.resolve()
@@ -72,7 +72,7 @@ test('receive an ICE candidate', async () => {
     type: WEBRTC_CANDIDATE,
     candidate: 'MEME',
     $confirmed: true,
-    $u: 'susan'
+    $userId: 'susan'
   }
 
   await Promise.resolve()

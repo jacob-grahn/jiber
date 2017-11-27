@@ -18,7 +18,7 @@ export const createOptimistic = (subReducer: Reducer) => {
     }
 
     const curActionId = get(action, '$user.actionId') || 0
-    const actionId = action.$id || 0
+    const actionId = action.$actionId || 0
 
     if (action.$confirmed) {
       const { pendingActions, confirmed } = roomState

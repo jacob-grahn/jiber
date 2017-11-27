@@ -20,10 +20,10 @@ export const ensureRoom = async (
 
   const savedRoomState = await store.db.fetchState(roomId)
   if (savedRoomState) {
-    store.dispatch({ ...savedRoomState, type: CONFIRMED_STATE, $r: roomId })
+    store.dispatch({ ...savedRoomState, type: CONFIRMED_STATE, $roomId: roomId })
     return savedRoomState
   }
 
-  store.dispatch({ ...defaultRoomState, type: CONFIRMED_STATE, $r: roomId })
+  store.dispatch({ ...defaultRoomState, type: CONFIRMED_STATE, $roomId: roomId })
   return defaultRoomState
 }

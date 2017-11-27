@@ -6,7 +6,7 @@ export const onPeerMessage = (
   event: MessageEvent
 ) => {
   const action: Action = JSON.parse(event.data)
-  const roomId = action.$r
+  const roomId = action.$roomId
   if (!roomId) return
 
   // make sure the user is a member of this room
@@ -16,8 +16,8 @@ export const onPeerMessage = (
   if (!user) return
 
   // add some metadata to the action
-  action.$t = new Date().getTime()
-  action.$u = peerUserId
+  action.$timeMs = new Date().getTime()
+  action.$userId = peerUserId
   action.$source = PEER
   action.$user = user
 

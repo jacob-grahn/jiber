@@ -13,5 +13,5 @@ test('return same state for unrelated actions', () => {
 })
 
 test('default to temp userId', () => {
-  expect(me(undefined, { type: 'whatev' })).toEqual({ userId: '$temp' })
+  expect(me(undefined, { type: 'whatev' })).toEqual({ userId: '$timeMsemp' })
 })

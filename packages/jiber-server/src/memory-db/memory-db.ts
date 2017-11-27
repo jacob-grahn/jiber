@@ -9,7 +9,7 @@ const rooms: {[key: string]: RoomState} = {}
 
 export const memoryDB: DB = {
   pushAction: (action: Action): void => {
-    action.$t = new Date().getTime()
+    action.$timeMs = new Date().getTime()
     if (memoryDB.onaction) memoryDB.onaction(action)
   },
   fetchState: async (roomId: string): Promise<RoomState> => {

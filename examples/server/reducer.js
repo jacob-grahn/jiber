@@ -4,7 +4,7 @@ const walkingReducer = require('./reducers/walking-reducer')
 
 // a reducer that routes to other reducers depending on the roomId
 const reducer = (state, action) => {
-  const roomId = action.$r
+  const roomId = action.$roomId
 
   switch (roomId) {
     case 'draw':

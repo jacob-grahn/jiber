@@ -7,6 +7,6 @@ import { users } from './users'
  */
 export const createServerReducer = (subReducer: Reducer): Reducer => {
   const room = createRoom(subReducer)
-  const rooms = createDictionary(room, '$r')
+  const rooms = createDictionary(room, '$roomId')
   return combineReducers({ sockets, users, rooms })
 }
