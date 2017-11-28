@@ -5,6 +5,7 @@ import { ClientSettings } from '../interfaces/client-settings'
  */
 export const tryToConnect = (settings: ClientSettings): Promise<any> => {
   const { url, credential, backoffMs } = settings
+  if (!url) return Promise.reject('NO_URL')
 
   return new Promise((resolve) => {
     const onopen = (socket: WebSocket) => {
@@ -16,8 +17,7 @@ export const tryToConnect = (settings: ClientSettings): Promise<any> => {
     const connect = (retryCount = 0) => {
       const delay = retryCount * backoffMs
       setTimeout(() => {
-        const fullUrl = `ws://${url}`
-        const socket = new WebSocket(fullUrl, credential)
+        const socket = new WebSocket(url, credential)
         socket.onclose = () => connect(retryCount + 1)
         socket.onopen = () => onopen(socket)
       }, delay)

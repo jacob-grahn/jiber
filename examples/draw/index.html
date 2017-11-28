@@ -38,8 +38,7 @@
         clear: () => ({type: 'CLEAR'})
       }
 
-      // TODO: host a demo server
-      const url = 'localhost'
+      const url = 'wss://demo.jiber.io'
 
       // create a room to sync our masterful drawing
       const store = $jiber.createStore({url, reducer, actionCreators})

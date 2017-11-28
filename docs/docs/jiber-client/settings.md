@@ -19,7 +19,7 @@ const settings = {
   middleware: [],
 
   // jiber-server to synch data with
-  url: 'localhost',
+  url: 'ws://localhost:80',
 
   // passed to jiber-server to validate a session
   credential: undefined,
@@ -82,7 +82,7 @@ __Default__
 Url of a jiber-server to synch data with.
 
 __Default__  
-'localhost'
+undefined
 --------------------------------------------------------------------------------
 
 

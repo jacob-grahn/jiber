@@ -5,13 +5,13 @@ import { Reducer, Middleware } from 'jiber-core'
  * to create an object that always confirms to this interface
  */
 export interface ClientSettings {
-  credential: string | undefined
+  actionCreators: {[key: string]: Function},
+  backoffMs: number,
+  credential?: string
+  initialState: any,
+  maxPeers: number,
   middleware: Array<Middleware>,
   reducer: Reducer,
-  url: string,
   stunServers: string[],
-  initialState: any,
-  backoffMs: number,
-  actionCreators: {[key: string]: Function},
-  maxPeers: number
+  url?: string
 }

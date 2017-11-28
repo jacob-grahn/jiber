@@ -7,7 +7,7 @@ npm i jiber-client
 ```
 // Create a data store, which will sync up our data with other users
 const room = $jiber
-  .createStore({url: 'localhost'})
+  .createStore({url: 'wss://demo.jiber.io'})
   .createRoom('example')
 
 // set a value
@@ -45,7 +45,7 @@ const clientSettings = {
   middleware: [],
 
   // jiber-server to synch data with
-  url: 'localhost',
+  url: 'ws://localhost',
 
   // passed to jiber-server to validate a session
   credential: undefined,

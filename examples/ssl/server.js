@@ -8,7 +8,8 @@ const server = https.createServer({
 })
 
 const store = jiber.createStore({server})
-
 store.start()
 
-console.log('SSL Server is listening!')
+server.listen(443, () => {
+  console.log(`SSL Server is listening on port ${server.address().port}!`)
+})

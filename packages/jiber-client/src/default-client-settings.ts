@@ -7,7 +7,7 @@ import { patcher, patcherActionCreators } from 'jiber-core'
 export const defaultClientSettings: ClientSettings = {
   reducer: patcher,
   middleware: [],
-  url: 'localhost',
+  url: undefined,
   stunServers: [],
   credential: undefined,
   initialState: undefined,
