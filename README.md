@@ -10,10 +10,9 @@ Jiber is an open source API for realtime web apps. It sets up peer-to-peer conne
 - **Light**: jiber-client is 3kb, and has no dependencies.
 - **Offline-First**: User actions are applied optimistically until a connection becomes available.
 
-### Demos
-Try out these live demos on codepen!
-[Global Switch](https://codepen.io/jacob-grahn/pen/BmqzpR)
-[Draw with Friends](https://codepen.io/jacob-grahn/pen/mqGmWb)
+### Live Demos
+  - [Global Switch](https://codepen.io/jacob-grahn/pen/BmqzpR)
+  - [Draw with Friends](https://codepen.io/jacob-grahn/pen/mqGmWb)
 
 ### Server Installation
 ```
@@ -26,11 +25,9 @@ npm i jiber-client
 ```
 
 ### Documentation
-[Get Started with jiber-server](/packages/jiber-server)
-
-[Get Started with jiber-client](/packages/jiber-client)
-
-See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)
+- [Get Started with jiber-server](/packages/jiber-server)
+- [Get Started with jiber-client](/packages/jiber-client)
+- See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)
 
 ### Examples
 Examples can be found in [/examples](/examples).
