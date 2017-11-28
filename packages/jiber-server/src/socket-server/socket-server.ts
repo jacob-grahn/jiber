@@ -30,7 +30,8 @@ export const createSocketServer = (store: ServerStore) => {
   const start = () => {
     stop()
     wss = new WebSocket.Server({
-      port: store.settings.socketPort,
+      server: store.settings.server,
+      port: store.settings.port,
       verifyClient: (info, cb) => onAuthorize(store, info, cb)
     })
     wss.on('error', (err) => console.log('wss error', err.message))

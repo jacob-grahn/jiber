@@ -2,7 +2,6 @@ import { createToughSocket } from './tough-socket'
 
 const settings: any = {
   url: 'testurl',
-  socketPort: 123,
   credential: '',
   backoffMs: 1
 }

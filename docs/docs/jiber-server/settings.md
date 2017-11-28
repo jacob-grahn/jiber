@@ -1,16 +1,17 @@
 ``` javascript
 {
-  socketPort: 80,
-  reducer: patcher,
-  login: memAccounts,
   db: memoryDB,
-  snapshotInterval: 5000,                                                       // five seconds
-  maxRoomAge: 1000 * 60 * 60,                                                   // one hour
-  initialState: undefined
+  initialState: undefined,
+  login: memAccounts,
+  maxRoomAge: 1000 * 60 * 60, // one hour
+  port: 80,
+  reducer: patcher,
+  server: undefined,
+  snapshotInterval: 5000 // five seconds
 }
 ```
 
-# socketPort
+# port
 The port to listen for incoming client connections on.
 
 __Default__  

@@ -2,11 +2,12 @@ import { Reducer, DB } from 'jiber-core'
 import { LoginRequestHandler } from './login-request-handler'
 
 export interface ServerSettings {
-  socketPort: number,
-  reducer: Reducer,
-  login: LoginRequestHandler,
   db: DB,
-  snapshotInterval: number,
+  initialState: any,
+  login: LoginRequestHandler,
   maxRoomAge: number,
-  initialState: any
+  port: number,
+  reducer: Reducer,
+  server: any,
+  snapshotInterval: number
 }

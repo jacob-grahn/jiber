@@ -50,7 +50,6 @@ afterEach(() => {
 test('retry connection with an incremental backoff', () => {
   const settings: any = {
     url: 'WORK_AFTER_3_TRIES',
-    socketPort: 123,
     credential: '',
     backoffMs: 10
   }

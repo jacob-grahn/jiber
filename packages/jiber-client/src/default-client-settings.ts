@@ -9,7 +9,6 @@ export const defaultClientSettings: ClientSettings = {
   middleware: [],
   url: 'localhost',
   stunServers: [],
-  socketPort: 80,
   credential: undefined,
   initialState: undefined,
   backoffMs: 5000,

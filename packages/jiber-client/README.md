@@ -47,9 +47,6 @@ const clientSettings = {
   // jiber-server to synch data with
   url: 'localhost',
 
-  // port of the jiber-server to sync data with
-  socketPort: 80,
-
   // passed to jiber-server to validate a session
   credential: undefined,
 

@@ -4,11 +4,12 @@ import { ServerSettings } from './interfaces/server-settings'
 import { patcher } from 'jiber-core'
 
 export const defaultServerSettings: ServerSettings = {
-  socketPort: 80,
-  reducer: patcher,
-  login: memAccounts,
   db: memoryDB,
-  snapshotInterval: 5000,                                                       // five seconds
+  initialState: undefined,
+  login: memAccounts,
   maxRoomAge: 1000 * 60 * 60,                                                   // one hour
-  initialState: undefined
+  port: 80,
+  reducer: patcher,
+  snapshotInterval: 5000,                                                       // five seconds
+  server: undefined
 }

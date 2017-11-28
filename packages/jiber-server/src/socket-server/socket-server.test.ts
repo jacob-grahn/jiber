@@ -19,7 +19,7 @@ class MockServer {
 }
 const store = {
   settings: {
-    socketPort: 123
+    port: 123
   },
   getState: () => 'state'
 } as any
@@ -46,7 +46,7 @@ test('should set up a start and stop interface', () => {
   expect(typeof socketServer.stop).toBe('function')
 })
 
-test('start should try to listen on socketPort with onAuthorize', () => {
+test('start should try to listen with onAuthorize', () => {
   const socketServer = createSocketServer(store)
   socketServer.start()
   const constructorCalls = calls.filter(call => call[0] === 'constructor')

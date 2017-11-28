@@ -29,9 +29,6 @@ const serverSettings = {
   // you could restore state from a db, etc
   initialState: { sue: 'hi', bob: 'hi' },
 
-  // listening port
-  socketPort: 80,
-
   // validate logins
   login: async (credential) => {
     return { userId: randStr(12) }

@@ -9,7 +9,6 @@ export interface ClientSettingsInput {
   middleware?: Array<Middleware>,
   reducer?: Reducer,
   url?: string,
-  socketPort?: number,
   stunServers?: string[],
   initialState?: any,
   backoffMs?: number,
