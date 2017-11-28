@@ -8,6 +8,6 @@ export interface ServerSettingsInput {
   maxRoomAge?: number,
   port?: number,
   reducer?: Reducer,
-  server: any,
+  server?: any,
   snapshotInterval?: number,
 }
