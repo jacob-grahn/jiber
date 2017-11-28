@@ -1,6 +1,6 @@
 {
   "name": "jiber-db-mongo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Mongo backend for jiber",
   "main": "index.js",
   "scripts": {
