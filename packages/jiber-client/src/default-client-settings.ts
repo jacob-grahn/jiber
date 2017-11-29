@@ -8,7 +8,7 @@ export const defaultClientSettings: ClientSettings = {
   reducer: patcher,
   middleware: [],
   url: undefined,
-  stunServers: [],
+  stunServers: ['stun:stun.jiber.io'],
   credential: undefined,
   initialState: undefined,
   backoffMs: 5000,
