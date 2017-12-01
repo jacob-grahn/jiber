@@ -1,0 +1,24 @@
+{
+  "name": "jiber-db-postgres",
+  "version": "0.1.5",
+  "description": "Postgres DB adapter for jiber-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacob-grahn/jiber.git"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jacob-grahn/jiber/issues"
+  },
+  "homepage": "https://github.com/jacob-grahn/jiber#readme",
+  "dependencies": {
+    "@types/pg": "^7.4.0",
+    "jiber-core": "^0.1.5",
+    "pg": "^7.4.0"
+  }
+}
