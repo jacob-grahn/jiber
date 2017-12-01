@@ -22,7 +22,7 @@
       const reducer = (state = {}, action) => {
         switch (action.type) {
           case 'SET_PIXEL':
-            return {...state, [action.path]: action.color}
+            return Object.assign({}, state, {[action.path]: action.color})
           case 'CLEAR':
             return {}
           default:
