@@ -2,9 +2,10 @@
   "name": "jiber-db-postgres",
   "version": "0.1.5",
   "description": "Postgres DB adapter for jiber-server",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,10 @@
   "homepage": "https://github.com/jacob-grahn/jiber#readme",
   "dependencies": {
     "@types/pg": "^7.4.0",
-    "jiber-core": "^0.1.5",
     "pg": "^7.4.0"
+  },
+  "devDependencies": {
+    "jiber-core": "^0.1.5",
+    "typescript": "^2.6.2"
   }
 }
