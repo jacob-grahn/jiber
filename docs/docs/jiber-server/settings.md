@@ -40,7 +40,7 @@ A function to login users as they connect.
 
 __Default__  
 ``` javascript
-async (credential) => {
+async (request, credential) => {
   return { userId: randStr(12) }
 }
 ```

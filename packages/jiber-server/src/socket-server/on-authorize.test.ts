@@ -2,11 +2,11 @@ import { Action } from 'jiber-core'
 import { onAuthorize } from './on-authorize'
 
 test('it should pass the credential to logInRequestHandler', async () => {
-  let receivedCredential: any
+  let calls: any[] = []
   const store: any = {
     settings: {
-      login: async (credential: any) => {
-        receivedCredential = credential
+      login: async (req: any, credential: any) => {
+        calls.push([req, credential])
         const result = { userId: '' }
         return result
       }
@@ -22,5 +22,6 @@ test('it should pass the credential to logInRequestHandler', async () => {
     secure: true
   }
   await onAuthorize(store, info, cb)
-  expect(receivedCredential).toBe('abc')
+  expect(calls[0][0]).toEqual(info.req)
+  expect(calls[0][1]).toBe('abc')
 })
