@@ -15,7 +15,7 @@ export const onAuthorize = async (
   try {
     const socketId = info.req.headers['sec-websocket-key']
     const credential = info.req.headers['sec-websocket-protocol']
-    const user = await store.settings.login(credential)
+    const user = await store.settings.login(info.req, credential)
     user.socketId = socketId
     const action = { type: ADD_USER, user, socketId, userId: user.userId }
     store.dispatch(action)

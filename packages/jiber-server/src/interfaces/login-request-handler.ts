@@ -1,3 +1,3 @@
-import { Action, User } from 'jiber-core'
+import { User } from 'jiber-core'
 
-export type LoginRequestHandler = (action: Action) => Promise<User>
+export type LoginRequestHandler = (req: any, credential: string) => Promise<User>
