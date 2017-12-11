@@ -16,7 +16,7 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "jiber-core": "^0.1.4",
+    "jiber-core": "^0.1.5",
     "redis": "^2.8.0"
   }
 }
