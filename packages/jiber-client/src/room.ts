@@ -5,6 +5,7 @@ import {
   get,
   createSubscription
 } from 'jiber-core'
+import { ClientState } from './interfaces/client-state'
 import { toDispatchers } from './to-dispatchers'
 
 /**
@@ -33,9 +34,9 @@ export const createCreateRoom = (
 
     // subscribe to events that target this room
     const subscription = createSubscription()
-    store.subscribe((action: Action) => {
-      if (action.$roomId === roomId) {
-        subscription.publish(getRoom().optimistic, action)
+    store.subscribe((state: ClientState, action: Action) => {
+      if (action && action.$roomId === roomId) {
+        subscription.publish(state.rooms[roomId].optimistic, action)
       }
     })
 

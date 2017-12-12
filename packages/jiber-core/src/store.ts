@@ -30,7 +30,7 @@ export const createStore = (
 
   const applyAction = (action: Action): void => {                               // replace the state with a new one created by the reducer
     state = reducer(state, action)
-    subscription.publish(action)
+    subscription.publish(state, action)
   }
 
   const getState = (): any => {
