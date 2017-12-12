@@ -1,6 +1,6 @@
 {
   "name": "jiber-db-postgres",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Postgres DB adapter for jiber-server",
   "main": "dist/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "pg": "^7.4.0"
   },
   "devDependencies": {
-    "jiber-core": "^0.1.5",
+    "jiber-core": "^0.1.7",
     "typescript": "^2.6.2"
   }
 }
