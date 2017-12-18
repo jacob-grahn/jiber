@@ -1,7 +1,6 @@
 {
   "devDependencies": {
     "@types/jest": "^21.1.6",
-    "chokidar": "^1.7.0",
     "coveralls": "^3.0.0",
     "execa": "^0.8.0",
     "jest": "^21.0.0",
@@ -12,11 +11,11 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
+    "build": "node utils/exec-in-packages npm run build",
+    "lint": "tslint --fix -p tsconfig.json",
+    "link": "node utils/link",
     "prepare": "node run npm install",
     "test": "jest packages",
-    "lint": "tslint --fix -p tsconfig.json",
-    "build": "node run npm run build",
-    "watch": "node watch",
     "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
