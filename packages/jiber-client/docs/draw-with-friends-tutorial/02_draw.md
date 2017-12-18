@@ -1,6 +1,7 @@
 # Draw
 
 ## Create an html Page
+Here's an example of how to do this if you dont know how, or it's your first time: https://www.w3schools.com/html/html_editors.asp
 
 ## Add a canvas
 ### Creating the Canvas in Javascript
