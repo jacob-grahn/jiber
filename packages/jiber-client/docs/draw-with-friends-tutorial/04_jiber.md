@@ -1,4 +1,4 @@
-### Jiber
+# Jiber
 
 ## Import Jiber
 
@@ -11,4 +11,4 @@
 ## Open up Chrome Devtools and look at traffic
 
 ## Yay finished product
-# link to finished produce at examples/draw-with-friends.html
+### link to finished product at examples/draw-with-friends.html
