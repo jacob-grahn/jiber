@@ -14,7 +14,7 @@
     "build": "node utils/exec-in-packages npm run build",
     "lint": "tslint --fix -p tsconfig.json",
     "link": "node utils/link",
-    "prepare": "node run npm install",
+    "prepare": "node utils/exec-in-packages npm install",
     "test": "jest packages",
     "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
   },
