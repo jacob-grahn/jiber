@@ -3,9 +3,9 @@
     "@types/jest": "^21.1.6",
     "coveralls": "^3.0.0",
     "execa": "^0.8.0",
-    "jest": "^21.0.0",
+    "jest": "^22.0.3",
     "lodash": "^4.17.4",
-    "ts-jest": "^21.2.2",
+    "ts-jest": "^22.0.0",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.6.1"

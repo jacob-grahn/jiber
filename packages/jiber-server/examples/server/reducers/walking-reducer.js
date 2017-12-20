@@ -1,36 +1,44 @@
 const speed = 0.3 // pixels per millisecond
 
 // Our app logic
-const player = (state, action) => {
+const reducer = (state, action) => {
   if (!state) {
     state = {
-      posX: 250,
-      posY: 250,
-      color: 'green'
+      timeMs: action.$timeMs,
+      players: {}
     }
   }
-  switch (action.type) {
-    case 'jiber/LEAVE_ROOM':
-      return undefined
-    case 'COLOR':
-      return {...state, color: action.color}
-    case 'WALK_TO':
-      return {...state, targetX: action.x, targetY: action.y}
-    default:
-      return state
-  }
+
+  physics(state, action.$timeMs)
+  input(state, action)
+
+  return state
 }
 
-const players = (state, action) => {
-  if (!action.$userId) return state
-  const playerState = state[action.$userId]
-  const newPlayerState = player(playerState, action)
-  if (newPlayerState) {
-    return {...state, [action.$userId]: newPlayerState}
-  } else {
-    state = {...state}
-    delete state[action.$userId]
-    return state
+const input = (state, action) => {
+  const userId = action.$userId
+  if (!userId) return
+
+  let player = state.players[userId]
+  if (!player) {
+    player = {
+      posX: 250,
+      posY: 250,
+      color: 0
+    }
+    state.players[userId] = player
+  }
+
+  switch (action.type) {
+    case 'jiber/LEAVE_ROOM':
+      delete state.players[userId]
+      break
+    case 'COLOR':
+      player.color = action.color
+      break
+    case 'WALK_TO':
+      player.targetX = action.x
+      player.targetY = action.y
   }
 }
 
@@ -61,24 +69,6 @@ const physics = (state, timeMs) => {
       player.posY += moveY
     }
   })
-
-  return state
-}
-
-const reducer = (pastState, action) => {
-  if (!pastState) {
-    pastState = {
-      timeMs: new Date().getTime(),
-      players: {}
-    }
-  }
-
-  const currentState = physics(pastState, action.$timeMs)
-
-  return {
-    ...currentState,
-    players: players(currentState.players, action)
-  }
 }
 
 module.exports = reducer

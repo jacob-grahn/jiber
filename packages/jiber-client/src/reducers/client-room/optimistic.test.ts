@@ -76,3 +76,42 @@ test('optimistic state is rebased when confirmed state is updated', () => {
   const newState = optimistic(roomState, action)
   expect(newState).toEqual('abc123456')
 })
+
+test('do not mutate the original confirmed state', () => {
+  const mutateReducer = (state = { count: 0 }) => {
+    state.count++
+    return state
+  }
+  const optimistic = createOptimistic(mutateReducer)
+  const roomState: ClientRoomState = {
+    pendingActions: [
+      {
+        type: 'test',
+        $actionId: 4,
+        $userId: 'sally',
+        $roomId: 'testRoom'
+      },
+      {
+        type: 'test',
+        $actionId: 5,
+        $userId: 'sally',
+        $roomId: 'testRoom'
+      }
+    ],
+    confirmed: { count: 5 },
+    optimistic: { count: 5 },
+    members: {},
+    lastUpdatedAt: 0
+  }
+  const action: Action = {
+    type: 'test',
+    $roomId: 'testRoom',
+    $userId: 'sally',
+    $actionId: 3,
+    $confirmed: true
+  }
+
+  const newState = optimistic(roomState, action)
+  expect(newState).toEqual({ count: 7 })
+  expect(roomState.confirmed).toEqual({ count: 5 })
+})
