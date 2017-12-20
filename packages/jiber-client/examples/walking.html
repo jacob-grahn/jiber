@@ -16,52 +16,44 @@
       const speed = 0.3 // pixels per millisecond
 
       // Our app logic
-      const player = (state, action) => {
+      const reducer = (state, action) => {
         if (!state) {
           state = {
-            posX: 250,
-            posY: 250,
-            color: randomColor()
-          }
-        }
-        switch (action.type) {
-          case 'jiber/LEAVE_ROOM':
-            return undefined
-          case 'COLOR':
-            return {...state, color: action.color}
-          case 'WALK_TO':
-            return {...state, targetX: action.x, targetY: action.y}
-          default:
-            return state
-        }
-      }
-
-      const players = (state, action) => {
-        if (!action.$userId) return state
-        const playerState = state[action.$userId]
-        const newPlayerState = player(playerState, action)
-        if (newPlayerState) {
-          return {...state, [action.$userId]: newPlayerState}
-        } else {
-          state = {...state}
-          delete state[action.$userId]
-          return state
-        }
-      }
-
-      const reducer = (pastState, action) => {
-        if (!pastState) {
-          pastState = {
-            timeMs: new Date().getTime(),
+            timeMs: action.$timeMs,
             players: {}
           }
         }
 
-        const currentState = physics(pastState, action.$timeMs)
+        physics(state, action.$timeMs)
+        input(state, action)
 
-        return {
-          ...currentState,
-          players: players(currentState.players, action)
+        return state
+      }
+
+      const input = (state, action) => {
+        const userId = action.$userId
+        if (!userId) return
+
+        let player = state.players[userId]
+        if (!player) {
+          player = {
+            posX: 250,
+            posY: 250,
+            color: 0
+          }
+          state.players[userId] = player
+        }
+
+        switch (action.type) {
+          case 'jiber/LEAVE_ROOM':
+            delete state.players[userId]
+            break
+          case 'COLOR':
+            player.color = action.color
+            break
+          case 'WALK_TO':
+            player.targetX = action.x
+            player.targetY = action.y
         }
       }
 
@@ -92,8 +84,6 @@
             player.posY += moveY
           }
         })
-
-        return state
       }
 
 
@@ -112,7 +102,9 @@
         .createStore({url, reducer, actionCreators})
         .createRoom('walking')
       let gameState = room.getState()
-      room.subscribe(state => gameState = state)
+      room.subscribe(state => {
+        gameState = JSON.parse(JSON.stringify(state))
+      })
 
       // set up our canvas to draw on
       const canvas = document.getElementById('walking-canvas')
@@ -124,7 +116,7 @@
       //////////////////////////////////////////////////////////////////////////
       const render = () => {
         clearCanvas()
-        gameState = physics(gameState, new Date().getTime())
+        physics(gameState, new Date().getTime())
         draw(gameState)
         window.requestAnimationFrame(render)
       }

@@ -22,7 +22,12 @@ export const createOptimistic = (subReducer: Reducer) => {
 
     if (action.$confirmed) {
       const { pendingActions, confirmed } = roomState
-      return pendingActions.reduce(subReducer, confirmed)
+
+      // copy is not needed if reducer does not mutate state
+      // this could possibly be optional via the settings
+      // it is just a pain to always write code that does not mutate
+      const confirmedCopy = JSON.parse(JSON.stringify(confirmed))
+      return pendingActions.reduce(subReducer, confirmedCopy)
     } else if (actionId > curActionId) {
       return subReducer(state, action)
     } else {
