@@ -1,5 +1,5 @@
 {
-  "name": "jiber-demo-server",
+  "name": "jiber-demo-ssl-server",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
