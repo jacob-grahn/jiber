@@ -31,6 +31,10 @@
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "collectCoverageFrom": [
+      "packages/**/*.ts",
+      "!**/interfaces/*.ts"
+    ],
     "mapCoverage": true,
     "testRegex": "\\.test\\.ts$",
     "moduleFileExtensions": [
