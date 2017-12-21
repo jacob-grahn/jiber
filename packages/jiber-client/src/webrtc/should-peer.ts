@@ -3,6 +3,7 @@ import { ClientState } from '../interfaces/client-state'
 
 /**
  * Is this action relavent for this particular peer?
+ * @hidden
  */
 export const shouldPeer = (
   state: ClientState,

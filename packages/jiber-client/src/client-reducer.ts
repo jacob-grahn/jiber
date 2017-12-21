@@ -4,6 +4,7 @@ import { me } from './reducers/me'
 
 /**
  * Top level reducer for the client
+ * @hidden
  */
 export const createClientReducer = (subReducer: Reducer) => {
   const room = createClientRoom(subReducer)

@@ -6,6 +6,13 @@ import { ActionCreators } from './action-creators'
  * to create an object that always confirms to this interface
  */
 export interface ClientSettings {
+
+  /**
+   * Attach helper functions to your room instances.
+   * @example actionCreators: {
+   *   sayHello: () => ({type: 'HELLO'})
+   * }
+   */
   actionCreators: ActionCreators,
   backoffMs: number,
   credential?: string

@@ -9,6 +9,7 @@ import { ClientState } from './interfaces/client-state'
 
 /**
  * Trigger special behaviors for certain actions from the server
+ * @hidden
  */
 export const actionHandler = (
   sendAction: (action: Action) => void,

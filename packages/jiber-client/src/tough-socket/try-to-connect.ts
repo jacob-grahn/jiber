@@ -2,6 +2,7 @@ import { ClientSettings } from '../interfaces/client-settings'
 
 /**
  * Try to create a connection to the server
+ * @hidden
  */
 export const tryToConnect = (settings: ClientSettings): Promise<any> => {
   const { url, credential, backoffMs } = settings
