@@ -7,71 +7,76 @@ import {
   forEach,
   reduce
 } from 'jiber-core'
-import { Peer, createPeer } from './peer'
+import { Peer } from './peer'
 import { ClientSettings } from '../interfaces/client-settings'
-import { ClientState } from '../interfaces/client-state'
 import { prefixFix } from './prefix-fix'
 
 /**
  * When we join a room, existing members send us offers (WEBRTC_OFFER)
  * When another user joins, we send an offer (we are now an existing member)
+ * @hidden
  */
-export const createPeerManager = (store: Store, settings: ClientSettings): void => {
-  // standardize browser prefixes
-  prefixFix()
+export class PeerManager {
+  private store: Store
+  private settings: ClientSettings
+  private connections: {[userId: string]: Peer} = {}
 
-  //
-  const connections: {[userId: string]: Peer} = {}
+  constructor (store: Store, settings: ClientSettings) {
+    this.store = store
+    this.settings = settings
+    prefixFix()
+
+    // add and remove connections as needed
+    store.subscribe((state: any, action: Action) => {
+      if (!action.$confirmed) return
+
+      switch (action.type) {
+        case LEAVE_ROOM:
+          return this.removeUnusedConnections()
+        case JOIN_ROOM:
+          if (!action.$userId) return
+          if (action.$userId === state.me.userId) return
+          return this.addConnection(action.$userId)
+        case WEBRTC_OFFER:
+          if (!action.$userId) return
+          return this.addConnection(action.$userId, action.offer)
+      }
+    })
+  }
 
   // create a list of all userIds that you should be connected to
-  const toAllMembers = (state: ClientState): string[] => {
+  private allMembers = (): string[] => {
+    const state = this.store.getState()
     return reduce(state.rooms, (members, room) => {
       return Object.assign(members, room.members)
     }, {})
   }
 
   // remove a connection that we no longer want
-  const remove = (userId: string): void => {
-    const connection = connections[userId]
+  private remove = (userId: string): void => {
+    const connection = this.connections[userId]
     if (!connection) return
     connection.close()
-    delete connections[userId]
+    delete this.connections[userId]
   }
 
   // remove connections we no longer want
-  const removeUnusedConnections = () => {
-    const allMembers = toAllMembers(store.getState())
-    forEach(connections, connection => {
-      if (!allMembers[connection.peerUserId]) remove(connection.peerUserId)
+  private removeUnusedConnections = () => {
+    const allMembers = this.allMembers()
+    forEach(this.connections, connection => {
+      if (!allMembers[connection.peerUserId]) this.remove(connection.peerUserId)
     })
   }
 
   // add a new connection
-  const addConnection = (userId: string, offer?: any): void => {
-    if (connections[userId]) return
-    if (Object.keys(connections).length >= settings.maxPeers) return
-    connections[userId] = createPeer(
+  private addConnection = (userId: string, offer?: any): void => {
+    if (this.connections[userId]) return
+    if (Object.keys(this.connections).length >= this.settings.maxPeers) return
+    this.connections[userId] = new Peer(
       userId,
-      store,
-      settings,
+      this.store,
+      this.settings,
       offer
     )
   }
-
-  // add and remove connections as needed
-  store.subscribe((action: Action) => {
-    if (!action.$confirmed) return
-
-    switch (action.type) {
-      case LEAVE_ROOM:
-        return removeUnusedConnections()
-      case JOIN_ROOM:
-        if (!action.$userId) return
-        if (action.$userId === store.getState().me.userId) return
-        return addConnection(action.$userId)
-      case WEBRTC_OFFER:
-        if (!action.$userId) return
-        return addConnection(action.$userId, action.offer)
-    }
-  })
 }

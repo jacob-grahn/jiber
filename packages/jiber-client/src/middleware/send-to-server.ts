@@ -2,6 +2,7 @@ import { Action, Next } from 'jiber-core'
 
 /**
  * Send locally dispatched actions to the server for confirmation
+ * @hidden
  */
 export const createSendToServer = (
   send: (action: Action) => void

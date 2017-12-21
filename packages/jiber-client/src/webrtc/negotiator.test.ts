@@ -1,4 +1,4 @@
-import { createNegotiator } from './negotiator'
+import { Negotiator } from './negotiator'
 import {
   WEBRTC_ANSWER,
   WEBRTC_CANDIDATE
@@ -31,12 +31,13 @@ beforeEach(() => calls = [])
 test('accept initial offer', async () => {
   const peerUserId = 'susan'
   const offer = 'REMOTE_DESC'
-  createNegotiator(dispatch, pc, peerUserId, offer)
+  const negotiator = new Negotiator(dispatch, pc, peerUserId, offer)
 
   await Promise.resolve()
   await Promise.resolve()
   await Promise.resolve()
 
+  expect(negotiator).toBeTruthy()
   expect(calls).toEqual([
     ['setRemoteDescription', 'REMOTE_DESC'],
     ['setLocalDescription', 'LOCAL_ANSWER'],
@@ -50,7 +51,7 @@ test('accept initial offer', async () => {
 
 test('receive an answer', async () => {
   const peerUserId = 'susan'
-  const negotiator = createNegotiator(dispatch, pc, peerUserId)
+  const negotiator = new Negotiator(dispatch, pc, peerUserId)
   const action = {
     type: WEBRTC_ANSWER,
     answer: 'LALA',
@@ -67,7 +68,7 @@ test('receive an answer', async () => {
 
 test('receive an ICE candidate', async () => {
   const peerUserId = 'susan'
-  const negotiator = createNegotiator(dispatch, pc, peerUserId)
+  const negotiator = new Negotiator(dispatch, pc, peerUserId)
   const action = {
     type: WEBRTC_CANDIDATE,
     candidate: 'MEME',

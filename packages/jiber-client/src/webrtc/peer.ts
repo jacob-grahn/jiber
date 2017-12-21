@@ -1,57 +1,54 @@
 import { Store, Action } from 'jiber-core'
 import { ClientSettings } from '../interfaces/client-settings'
-import { createChannel } from './channel'
+import { Channel } from './channel'
 import { shouldPeer } from './should-peer'
-import { createNegotiator } from './negotiator'
+import { Negotiator } from './negotiator'
 import { onPeerMessage } from './on-peer-message'
 import { errorHandler } from '../utils/error-handler'
 
-export type Peer = {
-  peerUserId: string,
-  close: Function
-}
+/**
+ * A direct p2p connection to another user
+ * @hidden
+ */
+export class Peer {
+  private peerConnection: RTCPeerConnection
+  private unsubscribe: Function
 
-const createPC = (stunServers: string[]) => {
-  const config: RTCConfiguration = {
-    iceServers: stunServers.map(url => ({ urls: url }))
-  }
-  return new RTCPeerConnection(config)
-}
+  constructor (
+    peerUserId: string,
+    store: Store,
+    settings: ClientSettings,
+    offer?: any
+  ) {
+    // create peer connection
+    this.peerConnection = new RTCPeerConnection({
+      iceServers: settings.stunServers.map(url => ({ urls: url }))
+    })
 
-export const createPeer = (
-  peerUserId: string,
-  store: Store,
-  settings: ClientSettings,
-  offer: any
-): Peer => {
+    // add a data channel to the peer connection
+    const channel = new Channel(
+      this.peerConnection,
+      !offer,
+      onPeerMessage(store, peerUserId)
+    )
 
-  // pc is short for peerConnection
-  const pc = createPC(settings.stunServers)
-  const channel = createChannel(pc, !offer)
-  const negotiator = createNegotiator(
-    store.dispatch,
-    pc,
-    peerUserId,
-    offer
-  )
+    // negotiate offers until the connection is formed
+    const negotiator = new Negotiator(
+      store.dispatch,
+      this.peerConnection,
+      peerUserId,
+      offer
+    )
 
-  channel.onmessage = (message: MessageEvent) => {
-    onPeerMessage(store, peerUserId, message)
-  }
-
-  const unsubscribe = store.subscribe((action: Action): void => {
-    negotiator.onAction(action).catch(errorHandler)
-    const state = store.getState()
-    if (shouldPeer(state, peerUserId, action)) channel.send(action)
-  })
-
-  const close = () => {
-    unsubscribe()
-    pc.close()
+    // sometimes we just need to stop the madness
+    this.unsubscribe = store.subscribe((state: any, action: Action): void => {
+      negotiator.onAction(action).catch(errorHandler)
+      if (shouldPeer(state, peerUserId, action)) channel.send(action)
+    })
   }
 
-  return {
-    peerUserId,
-    close
+  public close () {
+    this.unsubscribe()
+    this.peerConnection.close()
   }
 }

@@ -8,58 +8,63 @@ import { errorHandler } from '../utils/error-handler'
 
 /**
  * Handle the initial negotiation needed to establish the peer connection
+ * @hidden
  */
-export const createNegotiator = (
-  dispatch: (action: Action) => void,
-  pc: RTCPeerConnection,
-  peerUserId: string,
-  offer?: any
-) => {
+export class Negotiator {
+  private peerConnection: RTCPeerConnection
+  private dispatch: (action: Action) => void
+  private peerUserId: string
 
-  const sendOffer = async (): Promise<void> => {
-    const offer = await pc.createOffer()
-    await pc.setLocalDescription(offer)
-    dispatch({ type: WEBRTC_OFFER, offer, peerUserId })
-  }
+  constructor (
+    dispatch: (action: Action) => void,
+    peerConnection: RTCPeerConnection,
+    peerUserId: string,
+    offer?: any
+  ) {
+    this.dispatch = dispatch
+    this.peerConnection = peerConnection
+    this.peerUserId = peerUserId
 
-  const sendAnswer = async (pc: RTCPeerConnection): Promise<void> => {
-    const answer = await pc.createAnswer()
-    await pc.setLocalDescription(answer)
-    dispatch({ type: WEBRTC_ANSWER, answer, peerUserId })
-  }
+    if (offer) {
+      this.acceptOffer(offer).catch(errorHandler)
+    } else {
+      this.sendOffer().catch(errorHandler)
+    }
 
-  const sendCandidate = (candidate: RTCIceCandidate): void => {
-    dispatch({ type: WEBRTC_CANDIDATE, candidate, peerUserId })
-  }
-
-  const acceptOffer = async (offer: any) => {
-    await pc.setRemoteDescription(offer)
-    return sendAnswer(pc)
-  }
-
-  const onAction = async (action: Action): Promise<void> => {
-    if (!action.$confirmed) return
-    if (action.$userId !== peerUserId) return
-    switch (action.type) {
-      case WEBRTC_ANSWER:
-        return pc.setRemoteDescription(action.answer)
-      case WEBRTC_CANDIDATE:
-        return pc.addIceCandidate(action.candidate)
+    peerConnection.onicecandidate = (event) => {
+      if (!event.candidate) return
+      this.sendCandidate(event.candidate)
     }
   }
 
-  pc.onicecandidate = (event) => {
-    if (!event.candidate) return
-    sendCandidate(event.candidate)
+  public onAction = async (action: Action): Promise<void> => {
+    if (!action.$confirmed) return
+    switch (action.type) {
+      case WEBRTC_ANSWER:
+        return this.peerConnection.setRemoteDescription(action.answer)
+      case WEBRTC_CANDIDATE:
+        return this.peerConnection.addIceCandidate(action.candidate)
+    }
   }
 
-  if (offer) {
-    acceptOffer(offer).catch(errorHandler)
-  } else {
-    sendOffer().catch(errorHandler)
+  private acceptOffer = async (offer: any) => {
+    await this.peerConnection.setRemoteDescription(offer)
+    return this.sendAnswer()
   }
 
-  return {
-    onAction
+  private sendAnswer = async (): Promise<void> => {
+    const answer = await this.peerConnection.createAnswer()
+    await this.peerConnection.setLocalDescription(answer)
+    this.dispatch({ type: WEBRTC_ANSWER, answer, peerUserId: this.peerUserId })
+  }
+
+  private sendOffer = async (): Promise<void> => {
+    const offer = await this.peerConnection.createOffer()
+    await this.peerConnection.setLocalDescription(offer)
+    this.dispatch({ type: WEBRTC_OFFER, offer, peerUserId: this.peerUserId })
+  }
+
+  private sendCandidate = (candidate: RTCIceCandidate): void => {
+    this.dispatch({ type: WEBRTC_CANDIDATE, candidate, peerUserId: this.peerUserId })
   }
 }
