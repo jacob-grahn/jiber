@@ -25,6 +25,9 @@ export const onConnect = (store: ServerStore, webSocket: ws, request: any) => {
   // add listeners
   webSocket.on('message', data => onMessage(store, socketId, data.toString()))
   webSocket.on('close', () => onClose(store, socketId))
+  webSocket.on('error', (err) => {
+    // Handle the error.
+  });
 
   // init socket
   const socketAction = { type: INIT_SOCKET, socketId, ws: webSocket }
