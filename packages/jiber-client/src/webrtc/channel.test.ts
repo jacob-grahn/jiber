@@ -1,4 +1,4 @@
-import { createChannel } from './channel'
+import { Channel } from './channel'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
@@ -20,14 +20,15 @@ beforeEach(() => calls = [])
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('set up channel if isInitiator', () => {
-  createChannel(pc, true)
+  const channel = new Channel(pc, true)
+  expect(channel).toBeTruthy()
   expect(calls).toEqual([
     ['createDataChannel', 'data', { ordered: false, maxRetransmits: 0 }]
   ])
 })
 
 test('wait for channel if not isInitiator', () => {
-  const channel = createChannel(pc, false)
+  const channel = new Channel(pc, false)
   pc.ondatachannel({
     channel: {
       send: (str: string) => calls.push(['send', str]),

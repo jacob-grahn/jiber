@@ -1,51 +1,38 @@
 import { Action } from 'jiber-core'
 
-export type Channel = {
-  send: (action: Action) => void,
-  onmessage?: Function
-}
-
 /**
- * Typescript doesn't seem to include RTCDataChannel by default
- * so I'm using 'any' types in a few places
- * 'pc' is short for peerConnection
+ * P2P data channel
+ * After a peer connection has been formed, this creates a data channel over
+ * that connection
+ * @hidden
  */
-export const createChannel = (
-  pc: RTCPeerConnection,
-  isInitiator: boolean
-): Channel => {
-  let channel: any
+export class Channel {
+  private channel: any
 
-  const send = (action: Action): void => {
-    if (channel && channel.readyState === 'open') {
+  constructor (
+    peerConnection: any, // RTCPeerConnection, no types for this yet
+    isInitiator: boolean,
+    onmessage?: Function
+  ) {
+    if (isInitiator) {
+      const channelConfig = { ordered: false, maxRetransmits: 0 }
+      this.channel = peerConnection.createDataChannel('data', channelConfig)
+      this.channel.onmessage = onmessage
+    } else {
+      peerConnection.ondatachannel = (event: any) => {
+        this.channel = event.channel
+        this.channel.onmessage = onmessage
+      }
+    }
+  }
+
+  public send (action: Action): void {
+    if (this.channel && this.channel.readyState === 'open') {
       const smallerAction = {
         ...action,
         ...{ $user: undefined, $userId: undefined, $timeMs: undefined }
       }
-      channel.send(JSON.stringify(smallerAction))
+      this.channel.send(JSON.stringify(smallerAction))
     }
   }
-
-  const self: Channel = {
-    send
-  }
-
-  const setupChannel = (channel: any) => {
-    channel.onmessage = (message: MessageEvent) => {
-      if (self.onmessage) self.onmessage(message)
-    }
-  }
-
-  if (isInitiator) {
-    const channelConfig = { ordered: false, maxRetransmits: 0 }
-    channel = (pc as any).createDataChannel('data', channelConfig)
-    setupChannel(channel)
-  } else {
-    (pc as any).ondatachannel = (event: any) => {
-      channel = event.channel
-      setupChannel(channel)
-    }
-  }
-
-  return self
 }

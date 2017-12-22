@@ -1,4 +1,4 @@
-import { createToughSocket } from './tough-socket'
+import { ToughSocket } from './tough-socket'
 
 const settings: any = {
   url: 'testurl',
@@ -7,6 +7,6 @@ const settings: any = {
 }
 
 it('socket should be a thing', () => {
-  const socket = createToughSocket(settings)
+  const socket = new ToughSocket(settings)
   expect(socket).toBeTruthy()
 })

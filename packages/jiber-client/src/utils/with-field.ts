@@ -1,5 +1,6 @@
 /**
  * Return objects that match a specified field
+ * @hidden
  */
 export const withField = (
   list: any[],

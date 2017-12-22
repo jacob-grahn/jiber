@@ -1,10 +1,10 @@
 import { Action, Store, PEER } from 'jiber-core'
 
-export const onPeerMessage = (
-  store: Store,
-  peerUserId: string,
-  event: MessageEvent
-) => {
+/**
+ * Handle incoming peer messages
+ * @hidden
+ */
+export const onPeerMessage = (store: Store, peerUserId: string) => (event: MessageEvent) => {
   const action: Action = JSON.parse(event.data)
   const roomId = action.$roomId
   if (!roomId) return

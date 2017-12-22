@@ -1,5 +1,6 @@
 /**
  * standardize browser prefixes
+ * @hidden
  */
 export const prefixFix = () => {
   const w: any = window

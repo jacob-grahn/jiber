@@ -1,13 +1,16 @@
 import { Action, Store, Middleware, Next, SELF } from 'jiber-core'
 
 /**
+ * @hidden
+ */
+let nextActionId = 1
+
+/**
  * userId and timeMs are added to create consistency between
  * optimistic and confirmed actions
  * todo: this is too complicated, and I don't understand it any more
+ * @hidden
  */
-
-let nextActionId = 1
-
 export const injectMetadata: Middleware = (store: Store) => {
   return (next: Next) => (action: Action) => {
     // sanity checks

@@ -1,4 +1,5 @@
 import { Reducer, Middleware } from 'jiber-core'
+import { ActionCreators } from './action-creators'
 
 /**
  * The potential options that can be passed in when creating
@@ -12,6 +13,6 @@ export interface ClientSettingsInput {
   stunServers?: string[],
   initialState?: any,
   backoffMs?: number,
-  actionCreators?: {[key: string]: Function},
+  actionCreators?: ActionCreators,
   maxPeers?: number
 }

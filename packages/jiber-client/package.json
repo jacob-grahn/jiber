@@ -10,7 +10,8 @@
     "build": "tsc && rollup -c && uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
     "compile": "tsc",
     "bundle": "rollup -c",
-    "minify": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js"
+    "minify": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
+    "docs": "rm test-docs -rf && typedoc --out test-docs --excludeExternals --excludePrivate --mode file --exclude **/*.test.ts packages/jiber-client/src"
   },
   "author": "Jacob Grahn",
   "license": "MIT",

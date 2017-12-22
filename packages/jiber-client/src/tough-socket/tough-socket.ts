@@ -1,31 +1,36 @@
 import { tryToConnect } from './try-to-connect'
 import { ClientSettings } from '../interfaces/client-settings'
-
-type ToughSocket = {
-  send: (str: string) => void,
-  onmessage?: (event: any) => void
-}
+import { errorHandler } from '../utils/error-handler'
 
 /**
- * Create an always retrying socket connection
- * Handle incoming messages with onMessage
+ * ToughSocket works much like a regular WebSocket, but it will always
+ * try to reconnect if the connection fails
+ * @hidden
  */
-export const createToughSocket = (settings: ClientSettings): ToughSocket => {
-  let socket: WebSocket
+export class ToughSocket {
+  public onmessage?: (event: any) => void
+  private socket: WebSocket
+  private settings: ClientSettings
 
-  const self: ToughSocket = {
-    send: (str: string) => {
-      if (!socket || socket.readyState !== socket.OPEN) return
-      socket.send(str)
-    }
+  constructor (settings: ClientSettings) {
+    this.settings = settings
+    this.connect()
   }
 
-  const connect = async () => {
-    socket = await tryToConnect(settings)
-    if (self.onmessage) socket.onmessage = self.onmessage
-    socket.onclose = () => setTimeout(connect, 3000)
+  public send = (str: string) => {
+    if (!this.socket || this.socket.readyState !== this.socket.OPEN) return
+    this.socket.send(str)
   }
-  connect() // tslint:disable-line
 
-  return self
+  private connect = () => {
+    tryToConnect(this.settings)
+      .then(socket => {
+        this.socket = socket
+        if (this.onmessage) {
+          socket.onmessage = this.onmessage
+        }
+        socket.onclose = () => setTimeout(this.connect, 3000)
+      })
+      .catch(errorHandler)
+  }
 }

@@ -4,12 +4,16 @@ import { createOptimistic } from './optimistic'
 
 /**
  * Clients have a few additional fields to handle optimistic state
+ * @hidden
  */
 export interface ClientRoomState extends RoomState {
   optimistic: any,
   pendingActions: Action[]
 }
 
+/**
+ * @hidden
+ */
 const defaultState: ClientRoomState = {
   lastUpdatedAt: 0,
   members: {},
@@ -21,6 +25,7 @@ const defaultState: ClientRoomState = {
 /**
  * Calculates a confirmed state,
  * then uses the confirmed state to calculate an optimistic state
+ * @hidden
  */
 export const createClientRoom = (subReducer: Reducer): Reducer => {
   const roomReducer = createRoom(subReducer)

@@ -4,6 +4,7 @@ import { Reducer, Action, CONFIRMED_STATE, get } from 'jiber-core'
  * Use the current room state along with the action to calculate
  * a state that will be correct, assuming the server ends up confirming
  * all of the optimistic actions
+ * @hidden
  */
 export const createOptimistic = (subReducer: Reducer) => {
   return (

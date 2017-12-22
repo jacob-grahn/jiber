@@ -3,6 +3,7 @@ import { Action, CONFIRMED_STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
  * Actions with no $user are assumed to belong to the currently logged in user
+ * @hidden
  */
 const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
   return pendingActions.filter(pendingAction => {
@@ -15,6 +16,7 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
 /**
  * add a new pending action if it is newer than the last confirmed action
  * received for this user
+ * @hidden
  */
 const addNew = (pendingActions: Action[], action: Action): Action[] => {
   // ignore JOIN_ROOM and LEAVE_ROOM actions, rejoin-rooms.ts handles that
@@ -35,6 +37,7 @@ const addNew = (pendingActions: Action[], action: Action): Action[] => {
 
 /**
  * Keep optimistic actions that have not been confirmed by the server yet
+ * @hidden
  */
 export const pendingActions = (
   state: Action[] = [],

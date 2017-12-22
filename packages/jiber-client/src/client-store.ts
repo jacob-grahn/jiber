@@ -4,11 +4,11 @@ import { addActionId } from './middleware/add-action-id'
 import { injectMetadata } from './middleware/inject-metadata'
 import { ClientSettingsInput } from './interfaces/client-settings-input'
 import { ClientState } from './interfaces/client-state'
-import { createToughSocket } from './tough-socket'
-import { createCreateRoom } from './room'
+import { ToughSocket } from './tough-socket'
+import { Room } from './room'
 import { defaultClientSettings } from './default-client-settings'
 import { createClientReducer } from './client-reducer'
-import { createPeerManager } from './webrtc'
+import { PeerManager } from './webrtc'
 import { actionHandler } from './action-handler'
 
 export interface ClientStore extends Store {
@@ -23,7 +23,7 @@ export interface ClientStore extends Store {
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const options = { ...defaultClientSettings, ...optionInput }
   const clientReducer = createClientReducer(options.reducer)
-  const toughSocket = createToughSocket(options)
+  const toughSocket = new ToughSocket(options)
   const sendAction = (action: Action) => toughSocket.send(JSON.stringify(action))
   const sendToServer = createSendToServer(sendAction)
   const middleware = [
@@ -33,7 +33,9 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
     injectMetadata
   ]
   const store = createStore(clientReducer, options.initialState, middleware)
-  const createRoom = createCreateRoom(store, options.actionCreators)
+  const createRoom = (roomId: string) => {
+    return new Room(store, roomId, options.actionCreators)
+  }
   const clientStore: ClientStore = { ...store, createRoom }
 
   toughSocket.onmessage = (event: MessageEvent) => {
@@ -44,7 +46,7 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
     store.dispatch(action)
   }
 
-  createPeerManager(store, options)
+  new PeerManager(store, options) // tslint:disable-line
 
   return clientStore
 }
