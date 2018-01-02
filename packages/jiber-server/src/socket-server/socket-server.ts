@@ -6,6 +6,7 @@ import { ServerStore } from '../server-store'
 import { sendToRoom } from './send-to-room'
 import { sendToSocket } from './send-to-socket'
 import { sendToUser } from './send-to-user'
+import { logger } from '../utils/logger'
 
 export interface SocketServer {
   start: () => void,
@@ -35,7 +36,7 @@ export const createSocketServer = (store: ServerStore) => {
       port: server ? undefined : port,
       verifyClient: (info, cb) => onAuthorize(store, info, cb)
     })
-    wss.on('error', (err) => console.log('wss error', err.message))
+    wss.on('error', (err) => logger.error('wss error', err.message))
     wss.on('connection', (ws, request) => onConnect(store, ws, request))
   }
 
