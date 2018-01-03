@@ -4,8 +4,8 @@ import {
   JOIN_ROOM,
   createSubscription
 } from 'jiber-core'
-import { ClientState } from './interfaces/client-state'
-import { ActionCreators } from './interfaces/action-creators'
+import { ClientState } from '../interfaces/client-state'
+import { ActionCreators } from '../interfaces/action-creators'
 import { toDispatchers } from './to-dispatchers'
 
 /**

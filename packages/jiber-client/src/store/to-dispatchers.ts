@@ -1,5 +1,5 @@
 import { map } from 'jiber-core'
-import { ActionCreators } from './interfaces/action-creators'
+import { ActionCreators } from '../interfaces/action-creators'
 
 /**
  * turn some action creators into handy dandy action dispatchers
