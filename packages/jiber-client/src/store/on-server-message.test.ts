@@ -6,11 +6,13 @@ import { createClientStore } from './client-store'
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const store = createClientStore()
-const sunRoom = store.createRoom('sun')
+let store: any
+let sunRoom: any
 let dispatch: sinon.SinonSpy
 
 beforeEach(() => {
+  store = createClientStore()
+  sunRoom = store.createRoom('sun')
   dispatch = sinon.spy(store, 'dispatch')
 })
 
@@ -44,5 +46,7 @@ test('send optimistic actions from the CONFIRMED_STATE roomId', () => {
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
-  expect(dispatch.callCount).toBe(2)
+  expect(dispatch.getCall(1).args[0].type).toBe('TEST_ACTION')
+  expect(dispatch.getCall(2).args[0].type).toBe(CONFIRMED_STATE)
+  expect(dispatch.callCount).toBe(3)
 })
