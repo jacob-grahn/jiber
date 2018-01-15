@@ -1,4 +1,4 @@
-import { RoomState, UserDict } from 'jiber-core'
+import { UserDict } from 'jiber-core'
 import { Socket } from '../reducers/socket/socket'
 
 export interface ServerState {
@@ -7,6 +7,6 @@ export interface ServerState {
   },
   users: UserDict,
   rooms: {
-    [roomId: string]: RoomState
+    [roomId: string]: any
   }
 }

@@ -21,7 +21,7 @@
 
       // Create a data store, which will sync up our data with other users
       const room = $jiber
-        .createStore({url: 'wss://demo.jiber.io', reducer})
+        .createStore({url: 'ws://localhost', reducer})
         .createRoom('count-clicks')
 
       // Render the page whenever our data changes

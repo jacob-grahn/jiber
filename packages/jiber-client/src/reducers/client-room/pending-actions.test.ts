@@ -1,5 +1,5 @@
 import { pendingActions } from './pending-actions'
-import { CONFIRMED_STATE } from 'jiber-core'
+import { STATE } from 'jiber-core'
 
 test('prune actions that do not have a userId', () => {
   const actions: any = [{}, { $actionId: 0 }]
@@ -30,14 +30,14 @@ test('remove optimistic actions if newer confirmed action is received', () => {
   ])
 })
 
-test('remove all optimistic actions when CONFIRMED_STATE is received', () => {
+test('remove all optimistic actions when STATE is received', () => {
   const list: any = [
     { type: 'WEE', $userId: 'sue', $actionId: 5 },
     { type: 'WEE', $userId: 'sue', $actionId: 6 },
     { type: 'WEE', $userId: 'bob', $actionId: 2 }
   ]
   const action = {
-    type: CONFIRMED_STATE,
+    type: STATE,
     confirmed: {},
     members: { sue: { actionId: 5 } }
   }

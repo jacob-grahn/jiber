@@ -1,42 +1,55 @@
+import { Action } from 'jiber-core'
 import { updateRoom } from './update-room'
 
 ////////////////////////////////////////////////////////////////////////////////
-// setup
+// mocks
 ////////////////////////////////////////////////////////////////////////////////
 let calls: any[]
-beforeEach(() => calls = [])
-
 const store: any = {
   getState: () => {
     return {
       rooms: {
         room1: {
-          lastUpdatedAt: 0,
           members: {
-            bob: { userId: 'bob' }
+            jay: {
+              actionId: 54
+            }
           }
         }
-      }
+      },
+      users: {},
+      sockets: {}
     }
-  },
-  dispatch: (action: any) => {
-    calls.push(['dispatch', action])
   },
   socketServer: {
-    sendToRoom: (roomId: string, action: any) => {
+    sendToRoom: (roomId: string, action: Action) => {
       calls.push(['sendToRoom', roomId, action])
     }
+  },
+  dispatch: (action: Action) => {
+    calls.push(['dispatch', action])
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+beforeEach(() => calls = [])
+
+////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('apply actions', async () => {
-  const action = { type: 'action1', $roomId: 'room1', $userId: 'bob' }
-  await updateRoom(store, action)
+test('apply an action and send it out to room members', () => {
+  const action = { type: 'hi', $roomId: 'room1', $actionId: 55, $userId: 'jay' }
+  updateRoom(store, action)
   expect(calls).toEqual([
     ['sendToRoom', 'room1', action],
     ['dispatch', action]
   ])
+})
+
+test('do not apply an action if actionId is less than the last one', () => {
+  const action = { type: 'hi', $roomId: 'room1', $actionId: 53, $userId: 'jay' }
+  updateRoom(store, action)
+  expect(calls).toEqual([])
 })

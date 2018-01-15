@@ -1,12 +1,13 @@
-import { Action, Reducer, RoomState, createRoom } from 'jiber-core'
-import { pendingActions } from './pending-actions'
+import { Action, Reducer, createRoom, SERVER } from 'jiber-core'
+import { pendingActions as pendingActionReducer } from './pending-actions'
 import { createOptimistic } from './optimistic'
 
 /**
  * Clients have a few additional fields to handle optimistic state
  * @hidden
  */
-export interface ClientRoomState extends RoomState {
+export interface ClientRoomState {
+  confirmed: any,
   optimistic: any,
   pendingActions: Action[]
 }
@@ -15,8 +16,6 @@ export interface ClientRoomState extends RoomState {
  * @hidden
  */
 const defaultState: ClientRoomState = {
-  lastUpdatedAt: 0,
-  members: {},
   confirmed: undefined,
   optimistic: undefined,
   pendingActions: []
@@ -35,9 +34,12 @@ export const createClientRoom = (subReducer: Reducer): Reducer => {
     state: ClientRoomState = defaultState,
     action: Action
   ): ClientRoomState => {
-    const newState = roomReducer(state, action)
-    newState.pendingActions = pendingActions(newState.pendingActions, action)
-    newState.optimistic = optimistic(newState, action)
-    return newState
+    state.pendingActions = pendingActionReducer(state.pendingActions, action)
+    if (action.$souce === SERVER) {
+      state.confirmed = roomReducer(state.confirmed, action)
+    }
+    state.optimistic = optimistic(state, action)
+
+    return state
   }
 }

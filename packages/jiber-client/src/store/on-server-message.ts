@@ -1,6 +1,6 @@
 import {
   Action,
-  CONFIRMED_STATE,
+  STATE,
   LOGIN_RESULT,
   JOIN_ROOM,
   SERVER,
@@ -29,7 +29,7 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
     }
 
     // resend pending actions
-    case CONFIRMED_STATE: {
+    case STATE: {
       if (!action.$roomId) return
       const state = store.getState()
       const room = state.rooms[action.$roomId]

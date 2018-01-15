@@ -1,4 +1,4 @@
-import { JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
+import { JOIN_ROOM, STATE } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
 import * as sts from './socket-server/send-to-socket'
 
@@ -56,7 +56,7 @@ test('ignore actions other than JOIN_ROOM', () => {
   expect(calls).toEqual([])
 })
 
-test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
+test('JOIN_ROOM actions trigger STATE being sent out', () => {
   welcomeNewMember(store, {
     type: JOIN_ROOM,
     $userId: 'user1',
@@ -65,7 +65,7 @@ test('JOIN_ROOM actions trigger CONFIRMED_STATE being sent out', () => {
   expect(calls[0][1]).toEqual('user1')
   expect(calls[0][2]).toEqual(
     {
-      type: CONFIRMED_STATE,
+      type: STATE,
       confirmed: 'hi',
       members: {
         bob: { userId: 'bob' },

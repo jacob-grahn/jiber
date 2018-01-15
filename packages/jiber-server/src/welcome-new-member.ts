@@ -1,4 +1,4 @@
-import { Action, JOIN_ROOM, CONFIRMED_STATE } from 'jiber-core'
+import { Action, JOIN_ROOM, STATE } from 'jiber-core'
 import { ServerStore } from './server-store'
 
 /**
@@ -9,13 +9,12 @@ export const welcomeNewMember = (store: ServerStore, action: Action) => {
   if (!action.$roomId || !action.$userId) return
 
   const state = store.getState()
-  const room = state.rooms[action.$roomId]
-  if (!room) return
+  const roomState = state.rooms[action.$roomId]
+  if (!roomState) return
 
   const message: Action = {
-    type: CONFIRMED_STATE,
-    confirmed: room.confirmed,
-    members: room.members,
+    type: STATE,
+    state: roomState,
     $roomId: action.$roomId
   }
 

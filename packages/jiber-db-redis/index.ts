@@ -1,4 +1,4 @@
-import { DB, Action, RoomState } from 'jiber-core'
+import { DB, Action } from 'jiber-core'
 import * as Redis from 'redis'
 
 export const createDb = (options: Redis.ClientOpts) => {
@@ -14,7 +14,7 @@ export const createDb = (options: Redis.ClientOpts) => {
     pub.publish('channel1', JSON.stringify(action))
   }
 
-  const fetchState = (roomId: string): Promise<RoomState> => {
+  const fetchState = (roomId: string): Promise<any> => {
     return new Promise((resolve, reject) => {
       client.get(roomId, (err, reply) => {
         if (err) reject(err)
@@ -23,7 +23,7 @@ export const createDb = (options: Redis.ClientOpts) => {
     })
   }
 
-  const stashState = (roomId: string, room: RoomState): void => {
+  const stashState = (roomId: string, room: any): void => {
     client.set(roomId, JSON.stringify(room))
   }
 

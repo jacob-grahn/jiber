@@ -1,4 +1,4 @@
-import { RoomState, REMOVE_SOCKET, LEAVE_ROOM, forEach } from 'jiber-core'
+import { REMOVE_SOCKET, LEAVE_ROOM, forEach } from 'jiber-core'
 import { ServerStore } from '../server-store'
 
 /**
@@ -9,12 +9,12 @@ import { ServerStore } from '../server-store'
 const removeUserFromRooms = (
   store: ServerStore,
   userId: string,
-  rooms: {[roomId: string]: RoomState}
+  rooms: {[roomId: string]: any}
 ) => {
   forEach(rooms, (room, roomId) => {
     if (!room.members[userId]) return
     const action = { type: LEAVE_ROOM, $roomId: roomId, $userId: userId, $actionId: 999999999 }
-    store.db.pushAction(action)
+    store.db.dispatch(action)
   })
 }
 

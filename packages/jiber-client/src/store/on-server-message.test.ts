@@ -1,4 +1,4 @@
-import { LOGIN_RESULT, CONFIRMED_STATE, JOIN_ROOM } from 'jiber-core'
+import { LOGIN_RESULT, STATE, JOIN_ROOM } from 'jiber-core'
 import * as sinon from 'sinon'
 import { onServerMessage } from './on-server-message'
 import { createClientStore } from './client-store'
@@ -33,20 +33,20 @@ test('send a join action for each room in the state', () => {
   expect(dispatch.callCount).toBe(2)
 })
 
-test('do nothing extra if the CONFIRMED_STATE room does not exist', () => {
-  const strAction = JSON.stringify({ type: CONFIRMED_STATE, $roomId: 'wowow' })
+test('do nothing extra if the STATE room does not exist', () => {
+  const strAction = JSON.stringify({ type: STATE, $roomId: 'wowow' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.callCount).toBe(1)
 })
 
-test('send optimistic actions from the CONFIRMED_STATE roomId', () => {
+test('send optimistic actions from the STATE roomId', () => {
   sunRoom.dispatch({ type: 'TEST_ACTION' })
-  const strAction = JSON.stringify({ type: CONFIRMED_STATE, $roomId: 'sun' })
+  const strAction = JSON.stringify({ type: STATE, $roomId: 'sun' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
   expect(dispatch.getCall(1).args[0].type).toBe('TEST_ACTION')
-  expect(dispatch.getCall(2).args[0].type).toBe(CONFIRMED_STATE)
+  expect(dispatch.getCall(2).args[0].type).toBe(STATE)
   expect(dispatch.callCount).toBe(3)
 })

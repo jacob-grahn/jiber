@@ -1,4 +1,4 @@
-import { Action, CONFIRMED_STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
+import { Action, STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId
@@ -45,7 +45,7 @@ export const pendingActions = (
 ): Action[] => {
   switch (action.type) {
     // Remove all pending actions
-    case CONFIRMED_STATE:
+    case STATE:
       return []
 
     // Remove pending actions belonging to userId if they leave the room

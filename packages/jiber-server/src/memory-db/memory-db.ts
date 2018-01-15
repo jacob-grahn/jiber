@@ -1,21 +1,17 @@
 /**
- * Store room data in memory.
  * This serves as a fake database if one is not provided
  */
 
-import { Action, RoomState, DB } from 'jiber-core'
-
-const rooms: {[key: string]: RoomState} = {}
+import { Action, DB } from 'jiber-core'
 
 export const memoryDB: DB = {
-  pushAction: (action: Action): void => {
+  dispatch: (action: Action) => {
     action.$timeMs = new Date().getTime()
     if (memoryDB.onaction) memoryDB.onaction(action)
+    return Promise.resolve()
   },
-  fetchState: async (roomId: string): Promise<RoomState> => {
-    return rooms[roomId]
+  close: () => {
+    /* do nothing */
   },
-  stashState: (roomId: string, state: RoomState): void => {
-    rooms[roomId] = state
-  }
+  onaction: undefined
 }

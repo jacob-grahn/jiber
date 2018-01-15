@@ -17,7 +17,7 @@ export const onMessage = (
     const userId = socket.userId
     const action = JSON.parse(message)
     action.$userId = userId
-    store.db.pushAction(action)
+    store.db.dispatch(action)
   } catch (e) {
     store.socketServer.sendToSocket(socketId, e.message)
   }
