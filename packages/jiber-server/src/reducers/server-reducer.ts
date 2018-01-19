@@ -1,4 +1,4 @@
-import { createRoom, createDictionary, combineReducers, Reducer } from 'jiber-core'
+import { createRoom, dictionary, combineReducers, Reducer } from 'jiber-core'
 import { sockets } from './socket/sockets'
 import { users } from './users'
 
@@ -7,6 +7,6 @@ import { users } from './users'
  */
 export const createServerReducer = (subReducer: Reducer): Reducer => {
   const room = createRoom(subReducer)
-  const rooms = createDictionary(room, '$roomId')
+  const rooms = dictionary(room, '$roomId')
   return combineReducers({ sockets, users, rooms })
 }

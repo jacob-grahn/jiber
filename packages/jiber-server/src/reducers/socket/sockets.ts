@@ -1,5 +1,5 @@
 import {
-  createDictionary,
+  dictionary,
   createAllowActions,
   Reducer,
   INIT_SOCKET,
@@ -11,10 +11,10 @@ import { socket } from './socket'
 /**
  * Dictionary to look up sockets by id
  */
-const dictionary = createDictionary(socket, 'socketId')
+const socketDict = dictionary(socket, 'socketId')
 
 export const sockets = createAllowActions(
-  dictionary,
+  socketDict,
   [INIT_SOCKET, REMOVE_SOCKET, ADD_USER]
 )
 

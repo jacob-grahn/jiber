@@ -1,14 +1,6 @@
-import { Action } from './interfaces/action'
-import { Reducer } from './interfaces/reducer'
-import { Middleware } from './interfaces/middleware'
-import { initMiddleware } from './init-middleware'
+import { Action, Reducer, Middleware, Store } from './interfaces'
+import { runMiddleware } from './run-middleware'
 import { createSubscription } from './utils/subscription'
-
-export interface Store {
-  getState: () => any,
-  dispatch: (action: Action) => any,
-  subscribe: (listener: Function) => Function
-}
 
 /**
  * A store holds sate, and provides an interface to dispatch actions that
@@ -20,34 +12,17 @@ export const createStore = (
   middlewares: Middleware[] = []
 ): Store => {
   let state: any = reducer(initialState, {} as Action)
-  let applyMiddleware: (action: Action) => void
-
   const subscription = createSubscription()
 
-  const dispatch = (action: Action): void => {                                  // run an action through middleware and the reducer
-    applyMiddleware(action)                                                     // applyMiddleware will evantually call applyAction
+  const store = {
+    dispatch: async (action: Action): Promise<any> => {
+      const finalAction = await runMiddleware(store, action, middlewares)
+      state = reducer(state, finalAction)
+      subscription.publish(state, finalAction)
+    },
+    getState: () => state,
+    subscribe: subscription.subscribe
   }
-
-  const applyAction = (action: Action): void => {                               // replace the state with a new one created by the reducer
-    state = reducer(state, action)
-    subscription.publish(state, action)
-  }
-
-  const getState = (): any => {
-    return state
-  }
-
-  const store = { dispatch, getState, subscribe: subscription.subscribe }
-
-  const setMiddleware = (middlewares: Middleware[]): void => {
-    applyMiddleware = initMiddleware(
-      middlewares,
-      store,
-      applyAction
-    )
-  }
-
-  setMiddleware(middlewares)
 
   return store
 }

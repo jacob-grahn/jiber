@@ -1,11 +1,6 @@
 import { Action, Store, SELF, SERVER, PEER } from 'jiber-core'
 
 /**
- * @hidden
- */
-let nextActionId = 1
-
-/**
  * add handy metadata like $timeMs and $source to incoming actions
  * @hidden
  */
@@ -21,10 +16,8 @@ export const injectMetadata = (store: Store, action: Action) => {
     }
   } else {
     action.$source = SELF
-    action.$timeMs = new Date().getTime()
-    action.$userId = state.me.userId
-    action.$user = state.me
-    action.$actionId = nextActionId++
+    action.$time = new Date().getTime()
+    action.$uid = state.me.userId
   }
 
   return action

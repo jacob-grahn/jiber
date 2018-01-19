@@ -2,13 +2,13 @@ import {
   ADD_USER,
   REMOVE_USER,
   createAllowActions,
-  createDictionary,
+  dictionary,
   user
 } from 'jiber-core'
 
 /**
  * Keep track of the users that are connected to the server
  */
-const dictionary = createDictionary(user, 'user.userId')
-const allowedActions = createAllowActions(dictionary, [ADD_USER, REMOVE_USER])
+const userDict = dictionary(user, 'user.userId')
+const allowedActions = createAllowActions(userDict, [ADD_USER, REMOVE_USER])
 export const users = allowedActions
