@@ -36,7 +36,7 @@ export const createClientDoc = (subReducer: Reducer): Reducer => {
     state: ClientDocState = defaultState,
     action: Action
   ): ClientDocState => {
-    if (action.$souce === SERVER) {
+    if (action.$src === SERVER) {
       state.watchers = watchers(state.watchers, action)
       state.confirmed = subReducer(state.confirmed, action)
     }

@@ -4,7 +4,7 @@ __Arguments__
 
 __Returns__  
 - (ServerState): Returns the servers's global state.
-This includes state and members of all s.
+This includes state and watchers of all docs.
 
 __Example__
 ``` javascript

@@ -13,7 +13,7 @@ import { ClientSettings } from '../interfaces/client-settings'
 import { prefixFix } from './prefix-fix'
 
 /**
- * When we join a , existing members send us offers (WEBRTC_OFFER)
+ * When we join a , existing watchers send us offers (WEBRTC_OFFER)
  * When another user joins, we send an offer (we are now an existing member)
  * @hidden
  */
@@ -46,10 +46,10 @@ export class PeerManager {
   }
 
   // create a list of all uids that you should be connected to
-  private allMembers = (): string[] => {
+  private allWatchers = (): string[] => {
     const state = this.store.getState()
-    return reduce(state.s, (members) => {
-      return Object.assign(members, members)
+    return reduce(state.watchers, (collector, user) => {
+      return Object.assign(collector, {[user.uid]: user})
     }, {})
   }
 
@@ -63,9 +63,9 @@ export class PeerManager {
 
   // remove connections we no longer want
   private removeUnusedConnections = () => {
-    const allMembers = this.allMembers()
+    const allWatchers = this.allWatchers()
     forEach(this.connections, connection => {
-      if (!allMembers[connection.peerUserId]) this.remove(connection.peerUserId)
+      if (!allWatchers[connection.peerUserId]) this.remove(connection.peerUserId)
     })
   }
 

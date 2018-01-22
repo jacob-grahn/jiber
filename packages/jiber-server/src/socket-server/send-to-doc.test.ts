@@ -1,57 +1,46 @@
 import { sendToDoc } from './send-to-doc'
 import { createServerStore } from '../server-store'
-import * as sts from './send-to-socket'
+import * as s2s from './send-to-socket'
+import * as sinon from 'sinon'
 
-const stsa = sts as any
-let calls: any[] = []
-
-beforeEach(() => {
-  calls = []
-  stsa._sendToSocket = sts.sendToSocket
-  stsa.sendToSocket = (getState: any, socketId: any, action: any) => {
-    calls.push([getState, socketId, action])
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+const store = createServerStore({initialState: {
+  doc1: {
+    watchers: {
+      user1: {},
+      user2: {}
+    },
+    state: undefined
   }
+}})
+const action = { type: 'hi' }
+
+store.socketServer.socketLookup = {
+  user1: 'socket1' as any,
+  user2: 'socket2' as any
+}
+
+let spy: sinon.SinonSpy
+beforeEach(() => {
+  spy = sinon.spy(s2s, 'sendToSocket')
 })
 
 afterEach(() => {
-  stsa._sendToSocket = sts.sendToSocket
+  spy.restore()
 })
 
-test('call sendToSocket for every member of a ', () => {
-  const store = createServerStore({initialState: {
-    1: {
-      members: {
-        user1: { uid: 'user1', actionId: 0 },
-        user2: { uid: 'user2', actionId: 0 }
-      },
-      state: undefined
-    }
-  }})
-  sendToDoc(store, '1', { type: 'hi' })
-  expect(calls).toEqual([
-    ['s1', { type: 'hi' }],
-    ['s2', { type: 'hi' }]
-  ])
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
+test('call sendToSocket for every watcher of a doc', () => {
+  sendToDoc(store, 'doc1', action)
+  expect(spy.getCall(0).args).toEqual(['socket1', action])
+  expect(spy.getCall(1).args).toEqual(['socket2', action])
 })
 
-test('do nothing if  does not exist', () => {
-  const store = createServerStore({ initialState: {} })
-  sendToDoc(store, '1', { type: 'hi' })
-  expect(calls).toEqual([])
-})
-
-test('only send to users that exist', () => {
-  const store = createServerStore({initialState: {
-    1: {
-      members: {
-        user1: { uid: 'user1', actionId: 0 },
-        user2: { uid: 'user2', actionId: 0 }
-      },
-      state: undefined
-    }
-  }})
-  sendToDoc(store, '1', { type: 'hi' })
-  expect(calls).toEqual([
-    ['s2', { type: 'hi' }]
-  ])
+test('do nothing if doc does not exist', () => {
+  sendToDoc(store, 'nope', action)
+  expect(spy.callCount).toBe(0)
 })

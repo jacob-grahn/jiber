@@ -4,7 +4,7 @@ import { shouldPeer } from './should-peer'
 const state: any = {
   docs: {
     1: {
-      members: {
+      watchers: {
         nancy: {}
       }
     }

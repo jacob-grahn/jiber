@@ -10,8 +10,8 @@ export const sendToDoc = (store: ServerStore, docId: string, action: Action): vo
   const doc = state[docId]
   if (!doc) return
 
-  forEach(doc.members, user => {
-    const ws = store.socketServer.socketLookup[user.uid]
+  forEach(doc.watchers, (_user, uid) => {
+    const ws = store.socketServer.socketLookup[uid]
     if (ws) {
       sendToSocket(ws, action)
     }

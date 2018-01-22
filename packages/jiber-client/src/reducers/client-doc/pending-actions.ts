@@ -9,7 +9,7 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
   return pendingActions.filter(pendingAction => {
     if (!pendingAction.$uid) return false
     if (pendingAction.$uid !== action.$uid) return true
-    return (pendingAction.$actionId || 0) > (action.$actionId || 0)
+    return (pendingAction.$madeAt || 0) > (action.$madeAt || 0)
   })
 }
 

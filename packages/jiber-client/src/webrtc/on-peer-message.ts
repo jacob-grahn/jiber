@@ -11,8 +11,8 @@ export const onPeerMessage = (store: Store, peerUserId: string) => (event: Messa
 
   // make sure the user is a member of this doc
   const doc = store.getState().docs[docId]
-  const members = doc.members
-  const user = members[peerUserId]
+  const watchers = doc.watchers
+  const user = watchers[peerUserId]
   if (!user) return
 
   // add some metadata to the action

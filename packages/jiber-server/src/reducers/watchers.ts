@@ -1,6 +1,6 @@
 import { Action, OPEN, CLOSE } from 'jiber-core'
 
-export const members = (state = {}, action: Action) => {
+export const watchers = (state = {}, action: Action) => {
   if (!action.$user) return
 
   switch (action.type) {

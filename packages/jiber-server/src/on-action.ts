@@ -7,7 +7,6 @@ import {
 } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
 import { ServerStore } from './server-store'
-import { updateDoc } from './update-doc'
 
 const webRtcActions = [WEBRTC_OFFER, WEBRTC_ANSWER, WEBRTC_CANDIDATE]
 
@@ -18,7 +17,8 @@ export const onAction = async (store: ServerStore, action: Action) => {
   if (webRtcActions.indexOf(action.type) !== -1) {
     store.socketServer.sendToUser(action.peerUserId, action)
   } else if (action.$doc) {
-    await updateDoc(store, action)
+    store.socketServer.sendToDoc(action.$doc, action)
+    await store.dispatch(action)
     if (action.type === OPEN) {
       welcomeNewMember(store, action)
     }

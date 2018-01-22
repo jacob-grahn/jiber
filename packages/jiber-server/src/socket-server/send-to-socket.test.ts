@@ -24,6 +24,6 @@ test('send stringified action to a socket', () => {
 })
 
 test('ignore non-existant sockets', () => {
-  sendToSocket(ws, { type: 'test' })
+  sendToSocket(undefined, { type: 'test' })
   expect(calls).toEqual([])
 })

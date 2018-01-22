@@ -8,52 +8,51 @@ const adder = (state: any = '', action: Action): any => {
 const optimistic = createOptimistic(adder)
 
 test('user generated actions are used on the optimistic state', () => {
-  const state: any = undefined
   const action = {
     type: 'bet',
     value: '123',
-    $actionId: 1
+    $madeAt: 1
   }
-  const State: ClientDocState = {
+  const state: ClientDocState = {
     pendingActions: [],
     confirmed: undefined,
-    optimistic: state,
+    optimistic: undefined,
     watchers: {}
   }
-  expect(optimistic(State, action)).toEqual('123')
+  expect(optimistic(state, action)).toEqual('123')
 })
 
 test('an optimistic action coming in after a confirmed action is ignored', () => {
   const action = {
     type: 'add',
     value: '2',
-    $actionId: 5,
-    $user: { uid: 'bob', actionId: 5 }
+    $madeAt: 5,
+    $uid: 'bob'
   }
-  const State: ClientDocState = {
+  const state: ClientDocState = {
     pendingActions: [],
     confirmed: '2',
     optimistic: '2',
     watchers: {}
   }
-  expect(optimistic(State, action)).toEqual('2')
+  expect(optimistic(state, action)).toEqual('2')
 })
 
 test('optimistic state is rebased when confirmed state is updated', () => {
-  const State: ClientDocState = {
+  const state: ClientDocState = {
     pendingActions: [
       {
         type: 'test',
         value: '123',
-        $actionId: 4,
-        $user: {uid: 'sally'},
+        $madeAt: 4,
+        $uid: 'sally',
         $doc: 'testDoc'
       },
       {
         type: 'test',
         value: '456',
-        $actionId: 5,
-        $user: {uid: 'sally'},
+        $madeAt: 5,
+        $uid: 'sally',
         $doc: 'testDoc'
       }
     ],
@@ -65,12 +64,11 @@ test('optimistic state is rebased when confirmed state is updated', () => {
     type: 'test',
     value: 'abc',
     $doc: 'testDoc',
-    $user: {uid: 'sally'},
-    $actionId: 3,
+    $madeAt: 3,
     $src: SERVER
   }
 
-  const newState = optimistic(State, action)
+  const newState = optimistic(state, action)
   expect(newState).toEqual('abc123456')
 })
 
@@ -80,18 +78,18 @@ test('do not mutate the original confirmed state', () => {
     return state
   }
   const optimistic = createOptimistic(mutateReducer)
-  const State: ClientDocState = {
+  const state: ClientDocState = {
     pendingActions: [
       {
         type: 'test',
-        $actionId: 4,
-        $user: {uid: 'sally'},
+        $madeAt: 4,
+        $uid: 'sally',
         $doc: 'testDoc'
       },
       {
         type: 'test',
-        $actionId: 5,
-        $user: {uid: 'sally'},
+        $madeAt: 5,
+        $uid: 'sally',
         $doc: 'testDoc'
       }
     ],
@@ -102,12 +100,12 @@ test('do not mutate the original confirmed state', () => {
   const action: Action = {
     type: 'test',
     $doc: 'testDoc',
-    $user: {uid: 'sally'},
-    $actionId: 3,
+    $uid: 'sally',
+    $madeAt: 3,
     $src: SERVER
   }
 
-  const newState = optimistic(State, action)
+  const newState = optimistic(state, action)
   expect(newState).toEqual({ count: 7 })
-  expect(State.confirmed).toEqual({ count: 5 })
+  expect(state.confirmed).toEqual({ count: 5 })
 })

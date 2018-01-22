@@ -27,10 +27,10 @@ const sendToUser = (uid: string, action: any) => {
 const store: any = {
   getState: () => {
     return {
-      s: {
+      docs: {
         1: {
           confirmed: 'hi',
-          members: {
+          watchers: {
             bob: { uid: 'bob' },
             sally: { uid: 'sally' }
           }
@@ -67,7 +67,7 @@ test('OPEN actions trigger STATE being sent out', () => {
     {
       type: STATE,
       confirmed: 'hi',
-      members: {
+      watchers: {
         bob: { uid: 'bob' },
         sally: { uid: 'sally' }
       },

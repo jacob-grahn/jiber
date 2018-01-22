@@ -1,4 +1,4 @@
-import { Reducer, Action, STATE, SERVER, get } from 'jiber-core'
+import { Reducer, Action, STATE, SERVER } from 'jiber-core'
 
 /**
  * Use the current  state along with the action to calculate
@@ -18,18 +18,15 @@ export const createOptimistic = (subReducer: Reducer) => {
       return pendingActions.reduce(subReducer, State.confirmed)
     }
 
-    const curActionId = get(action, '$user.actionId') || 0
-    const actionId = action.$actionId || 0
-
     if (action.$src !== SERVER) {
       const { pendingActions, confirmed } = State
 
       // copy is not needed if reducer does not mutate state
       // this could possibly be optional via the settings
       // it is just a pain to always write code that does not mutate
-      const confirmedCopy = JSON.parse(JSON.stringify(confirmed))
+      const confirmedCopy = confirmed ? JSON.parse(JSON.stringify(confirmed)) : confirmed
       return pendingActions.reduce(subReducer, confirmedCopy)
-    } else if (actionId > curActionId) {
+    } else if (action.$madeAt || 0 > state.watchers[action.$uid].time) {
       return subReducer(state, action)
     } else {
       return state

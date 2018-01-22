@@ -4,8 +4,8 @@ import * as WS from 'ws'
 /**
  * send an action to a particular socket
  */
-export const sendToSocket = (ws: WS, action: Action): void => {
-  if (ws.readyState === ws.OPEN) {
+export const sendToSocket = (ws: WS | undefined, action: Action): void => {
+  if (ws && ws.readyState === WS.OPEN) {
     ws.send(JSON.stringify(action))
   }
 }
