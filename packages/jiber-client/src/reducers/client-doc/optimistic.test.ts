@@ -1,6 +1,6 @@
-import { Action } from 'jiber-core'
+import { Action, SERVER } from 'jiber-core'
 import { createOptimistic } from './optimistic'
-import { ClientDocState } from './client-'
+import { ClientDocState } from './client-doc'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
@@ -18,8 +18,7 @@ test('user generated actions are used on the optimistic state', () => {
     pendingActions: [],
     confirmed: undefined,
     optimistic: state,
-    members: {},
-    lastUpdatedAt: 0
+    watchers: {}
   }
   expect(optimistic(State, action)).toEqual('123')
 })
@@ -35,8 +34,7 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     pendingActions: [],
     confirmed: '2',
     optimistic: '2',
-    members: {},
-    lastUpdatedAt: 0
+    watchers: {}
   }
   expect(optimistic(State, action)).toEqual('2')
 })
@@ -48,29 +46,28 @@ test('optimistic state is rebased when confirmed state is updated', () => {
         type: 'test',
         value: '123',
         $actionId: 4,
-        $uid: 'sally',
+        $user: {uid: 'sally'},
         $doc: 'testDoc'
       },
       {
         type: 'test',
         value: '456',
         $actionId: 5,
-        $uid: 'sally',
+        $user: {uid: 'sally'},
         $doc: 'testDoc'
       }
     ],
     confirmed: 'abc',
     optimistic: '',
-    members: {},
-    lastUpdatedAt: 0
+    watchers: {}
   }
   const action: Action = {
     type: 'test',
     value: 'abc',
     $doc: 'testDoc',
-    $uid: 'sally',
+    $user: {uid: 'sally'},
     $actionId: 3,
-    $confirmed: true
+    $src: SERVER
   }
 
   const newState = optimistic(State, action)
@@ -88,27 +85,26 @@ test('do not mutate the original confirmed state', () => {
       {
         type: 'test',
         $actionId: 4,
-        $uid: 'sally',
+        $user: {uid: 'sally'},
         $doc: 'testDoc'
       },
       {
         type: 'test',
         $actionId: 5,
-        $uid: 'sally',
+        $user: {uid: 'sally'},
         $doc: 'testDoc'
       }
     ],
     confirmed: { count: 5 },
     optimistic: { count: 5 },
-    members: {},
-    lastUpdatedAt: 0
+    watchers: {},
   }
   const action: Action = {
     type: 'test',
     $doc: 'testDoc',
-    $uid: 'sally',
+    $user: {uid: 'sally'},
     $actionId: 3,
-    $confirmed: true
+    $src: SERVER
   }
 
   const newState = optimistic(State, action)

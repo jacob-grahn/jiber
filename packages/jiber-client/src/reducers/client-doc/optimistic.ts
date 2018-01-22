@@ -1,4 +1,4 @@
-import { Reducer, Action, STATE, get } from 'jiber-core'
+import { Reducer, Action, STATE, SERVER, get } from 'jiber-core'
 
 /**
  * Use the current  state along with the action to calculate
@@ -21,7 +21,7 @@ export const createOptimistic = (subReducer: Reducer) => {
     const curActionId = get(action, '$user.actionId') || 0
     const actionId = action.$actionId || 0
 
-    if (action.$confirmed) {
+    if (action.$src !== SERVER) {
       const { pendingActions, confirmed } = State
 
       // copy is not needed if reducer does not mutate state

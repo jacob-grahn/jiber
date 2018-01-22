@@ -43,12 +43,10 @@ export const setupTable = async (pool: Pool, table: string) => {
 
     // done
     await client.query('COMMIT')
-  }
-  catch (e) {
+  } catch (e) {
     await client.query('ROLLBACK')
     throw e
-  }
-  finally {
+  } finally {
     client.release()
   }
 }

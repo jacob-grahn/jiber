@@ -1,5 +1,5 @@
 import { dictionary, combineReducers, Reducer } from 'jiber-core'
-import { createClientDoc } from './reducers/docs/client-doc'
+import { createClientDoc } from './reducers/client-doc/client-doc'
 import { me } from './reducers/me'
 
 /**

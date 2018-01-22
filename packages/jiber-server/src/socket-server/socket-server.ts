@@ -3,7 +3,7 @@ import * as WS from 'ws'
 import { verifyClient } from './verify-client'
 import { onConnect } from './on-connect'
 import { ServerStore } from '../server-store'
-import { sendToDoc } from './send-to-'
+import { sendToDoc } from './send-to-doc'
 import { sendToUser } from './send-to-user'
 import { logger } from '../utils/logger'
 

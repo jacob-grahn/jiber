@@ -2,6 +2,7 @@ import { Pool, PoolConfig } from 'pg'
 import { DB, Action } from 'jiber-core'
 import { toSafeTableName } from './to-safe-table-name'
 import { setupTable } from './setup-table'
+import { listenToTable } from './listen-to-table'
 
 interface PostgresConfig extends PoolConfig {
   Id: string,
@@ -13,7 +14,7 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
   const workerId = Math.round(Math.random() * 30000)
   const Id = config.Id
   const tablePrefix = config.tablePrefix || 'actions_'
-  const snapshotFrequency = config.snapshotFrequency || 100;
+  const snapshotFrequency = config.snapshotFrequency || 100
 
   const table = toSafeTableName(`${tablePrefix}${Id}`)
   const pool = new Pool(config)
@@ -21,28 +22,9 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
   let intervalId: any
   let state: any
 
-  await pool.connect()
+  const conn = await pool.connect()
   await setupTable(pool, table)
   await listenToTable(pool, table)
-
-  const emitRow = (row: any) => {
-    const action = JSON.parse(row.action)
-    action.$timeMs = row.sent_at
-    lastActionId = row.action_id
-    if (db.onaction) {
-      state = db.onaction(action)
-    }
-  }
-
-  pool.on('notification', (msg) => {
-    if(msg.channel === `${table}_insert`) {
-      const row = JSON.parse(msg.payload)
-      emitRow(row)
-      if (row % snapshotFrequency === 0 && row.worker_id === workerId) {
-        snapshot()
-      }
-    }
-  }
 
   const db: DB = {
     dispatch: (action: Action): Promise<any> => {
@@ -58,9 +40,18 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     }
   }
 
+  const emitRow = (row: any) => {
+    const action = JSON.parse(row.action)
+    action.$timeMs = row.sent_at
+    lastActionId = row.action_id
+    if (db.onaction) {
+      state = db.onaction(action)
+    }
+  }
+
   const snapshot = async (): Promise<any> => {
     const snapshotAction = { type: 'STATE', state }
-    return await pool.query(`
+    return pool.query(`
       BEGIN;
       DELETE FROM ${table}
       WHERE action_id < $2::integer;
@@ -70,6 +61,22 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
       COMMIT;
     `, [snapshotAction, lastActionId])
   }
+
+  const onNotification = async (msg: any) => {
+    if (msg.channel === `${table}_insert`) {
+      const row = JSON.parse(msg.payload)
+      emitRow(row)
+      if (row % snapshotFrequency === 0 && row.worker_id === workerId) {
+        try {
+          await snapshot()
+        } catch (e) {
+          console.log(e.message)
+        }
+      }
+    }
+  }
+
+  conn.on('notification', onNotification)
 
   const loadHistory = async (): Promise<Action[]> => {
     const result = await pool.query(`

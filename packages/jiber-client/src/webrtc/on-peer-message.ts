@@ -18,7 +18,7 @@ export const onPeerMessage = (store: Store, peerUserId: string) => (event: Messa
   // add some metadata to the action
   action.$timeMs = new Date().getTime()
   action.$uid = peerUserId
-  action.$source = PEER
+  action.$src = PEER
   action.$user = user
 
   // optimistic

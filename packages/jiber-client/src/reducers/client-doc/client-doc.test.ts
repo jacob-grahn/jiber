@@ -1,4 +1,4 @@
-import { Action } from 'jiber-core'
+import { Action, SERVER } from 'jiber-core'
 import { createClientDoc } from './client-doc'
 
 const adder = (state: any = '', action: Action): any => {
@@ -19,8 +19,8 @@ test('actions from the server update confirmed state', () => {
   const action = {
     type: 'test',
     value: 'ok',
-    $actionId: 1,
-    $confirmed: true
+    $madeAt: 1,
+    $src: SERVER
   }
   expect(docReducer(state, action).confirmed).toBe('yayok')
 })

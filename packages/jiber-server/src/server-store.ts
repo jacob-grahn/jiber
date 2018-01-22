@@ -19,7 +19,7 @@ export const createServerStore = (
 ): ServerStore => {
   const initialState = inputSettings.initialState
   const settings = { ...defaultServerSettings, ...inputSettings }
-  const reducer = combineReducers({state: settings.reducer, members})
+  const reducer = combineReducers({ state: settings.reducer, members })
   const store = createStore(reducer, initialState)
   const serverStore = { ...store, db: settings.db, settings } as ServerStore
 

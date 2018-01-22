@@ -26,6 +26,7 @@ export const onConnect = (dispatch: Function, socketLookup: any) => (ws: WS, req
       const message = data.toString()
       const action = JSON.parse(message)
       action.$user = user
+      action.$uid = uid
       dispatch(action)
     } catch (e) {
       logger.warning(e.message)

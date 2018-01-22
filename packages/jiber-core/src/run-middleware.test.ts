@@ -9,7 +9,7 @@ test('middleware is called', async () => {
     action.value += store.getState()
     next(action)
   }
-  const action: Action = {type: 'test', value: 1}
+  const action: Action = { type: 'test', value: 1 }
   const finalAction = await runMiddleware(store, action, [func, func])
   expect(finalAction.value).toBe(11)
 })

@@ -2,7 +2,7 @@ import { Action, OPEN, STATE } from 'jiber-core'
 import { ServerStore } from './server-store'
 
 /**
- * When a user joins a , send them the current state of that 
+ * When a user joins a , send them the current state of that
  */
 export const welcomeNewMember = (store: ServerStore, action: Action) => {
   if (action.type !== OPEN) return

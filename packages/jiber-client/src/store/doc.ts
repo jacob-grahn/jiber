@@ -30,11 +30,11 @@ export class Doc {
     const actionDispatchers = toDispatchers(this.dispatch, actionCreators)
     Object.assign(this, actionDispatchers)
 
-    // subscribe to events that target this 
+    // subscribe to events that target this
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
       if (action && action.$doc === Id) {
-        subscription.publish(state.s[Id].optimistic, action)
+        subscription.publish(state.docs[Id].optimistic, action)
       }
     })
     this.subscribe = subscription.subscribe

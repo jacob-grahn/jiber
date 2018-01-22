@@ -30,7 +30,7 @@ const input = (state, action) => {
   }
 
   switch (action.type) {
-    case 'jiber/LEAVE_ROOM':
+    case 'jiber/CLOSE':
       delete state.players[uid]
       break
     case 'COLOR':

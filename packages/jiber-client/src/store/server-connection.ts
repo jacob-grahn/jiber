@@ -12,9 +12,9 @@ export const serverConnection = (store: ClientStore, options: ClientSettings) =>
 
   // send local actions to the server
   store.subscribe((_state: any, action: Action) => {
-    if (action.$source === SELF) {
+    if (action.$src === SELF) {
       const copy = { ...action }
-      copy.$uid = copy.$user = copy.$timeMs = copy.$source = undefined
+      copy.$uid = copy.$user = copy.$timeMs = copy.$src = undefined
       toughSocket.send(JSON.stringify(copy))
     }
   })

@@ -14,15 +14,14 @@ import { ClientStore } from '../store/client-store'
  */
 export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => {
   const action: Action = JSON.parse(event.data)
-  action.$confirmed = true
-  action.$source = SERVER
+  action.$src = SERVER
 
   switch (action.type) {
 
     // rejoin s
     case LOGIN_RESULT: {
       const state = store.getState()
-      forEach(state.s, (_, Id) => {
+      forEach(state.docs, (_doc, Id) => {
         store.dispatch({ type: OPEN, $doc: Id })
       })
       break
@@ -32,8 +31,8 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
     case STATE: {
       if (!action.$doc) return
       const state = store.getState()
-      const  = state.s[action.$doc]
-      if () .pendingActions.forEach(store.dispatch)
+      const doc = state.docs[action.$doc]
+      if (doc) doc.pendingActions.forEach(store.dispatch)
       break
     }
   }

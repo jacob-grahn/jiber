@@ -1,5 +1,5 @@
 import { Action } from 'jiber-core'
-import { ServerStore } from '../server-store'
+import { ServerStore } from './server-store'
 
 export const updateDoc = (store: ServerStore, action: Action): void => {
   if (!action.$doc) return

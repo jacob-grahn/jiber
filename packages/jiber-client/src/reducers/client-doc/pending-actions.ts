@@ -1,4 +1,4 @@
-import { Action, STATE, LEAVE_ROOM, OPEN } from 'jiber-core'
+import { Action, STATE, CLOSE, OPEN, SERVER } from 'jiber-core'
 
 /**
  * Remove actions that have the same uid, and a lesser or equal actionId
@@ -19,8 +19,8 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
  * @hidden
  */
 const addNew = (pendingActions: Action[], action: Action): Action[] => {
-  // ignore OPEN and LEAVE_ROOM actions, rejoin-s.ts handles that
-  if (action.type === OPEN || action.type === LEAVE_ROOM) {
+  // ignore OPEN and CLOSE actions, rejoin-s.ts handles that
+  if (action.type === OPEN || action.type === CLOSE) {
     return pendingActions
   }
 
@@ -48,12 +48,16 @@ export const pendingActions = (
     case STATE:
       return []
 
-    // Remove pending actions belonging to uid if they leave the 
-    case LEAVE_ROOM:
+    // Remove pending actions belonging to uid if they leave the
+    case CLOSE:
       return state.filter(pendingAction => pendingAction.$uid !== action.$uid)
 
     // Add or remove specific pending actions
     default:
-      return action.$confirmed ? pruneOld(state, action) : addNew(state, action)
+      if (action.$src === SERVER) {
+        return pruneOld(state, action)
+      } else {
+        return addNew(state, action)
+      }
   }
 }

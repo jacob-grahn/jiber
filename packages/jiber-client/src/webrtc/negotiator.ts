@@ -2,7 +2,8 @@ import {
   Action,
   WEBRTC_OFFER,
   WEBRTC_ANSWER,
-  WEBRTC_CANDIDATE
+  WEBRTC_CANDIDATE,
+  SERVER
 } from 'jiber-core'
 import { errorHandler } from '../utils/error-handler'
 
@@ -38,7 +39,7 @@ export class Negotiator {
   }
 
   public onAction = async (action: Action): Promise<void> => {
-    if (!action.$confirmed) return
+    if (action.$src !== SERVER) return
     switch (action.type) {
       case WEBRTC_ANSWER:
         return this.peerConnection.setRemoteDescription(action.answer)

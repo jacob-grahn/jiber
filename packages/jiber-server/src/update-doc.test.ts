@@ -1,5 +1,5 @@
 import { Action } from 'jiber-core'
-import { updateDoc } from './update-'
+import { updateDoc } from './update-doc'
 
 ////////////////////////////////////////////////////////////////////////////////
 // mocks

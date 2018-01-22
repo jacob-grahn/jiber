@@ -1,4 +1,4 @@
-import { sendToDoc } from './send-to-'
+import { sendToDoc } from './send-to-doc'
 import { createServerStore } from '../server-store'
 import * as sts from './send-to-socket'
 
@@ -24,7 +24,7 @@ test('call sendToSocket for every member of a ', () => {
         user1: { uid: 'user1', actionId: 0 },
         user2: { uid: 'user2', actionId: 0 }
       },
-      state: undefined,
+      state: undefined
     }
   }})
   sendToDoc(store, '1', { type: 'hi' })
@@ -35,7 +35,7 @@ test('call sendToSocket for every member of a ', () => {
 })
 
 test('do nothing if  does not exist', () => {
-  const store = createServerStore({initialState: {}})
+  const store = createServerStore({ initialState: {} })
   sendToDoc(store, '1', { type: 'hi' })
   expect(calls).toEqual([])
 })
@@ -47,7 +47,7 @@ test('only send to users that exist', () => {
         user1: { uid: 'user1', actionId: 0 },
         user2: { uid: 'user2', actionId: 0 }
       },
-      state: undefined,
+      state: undefined
     }
   }})
   sendToDoc(store, '1', { type: 'hi' })

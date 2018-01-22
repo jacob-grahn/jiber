@@ -11,10 +11,10 @@ export const shouldPeer = (
   action: Action
 ): boolean => {
   if (!action.$doc) return false
-  if (action.$source !== SELF) return false
+  if (action.$src !== SELF) return false
 
-  const  = state.s[action.$doc]
-  if (!.members[peerUserId]) return false
+  const doc = state.docs[action.$doc]
+  if (!doc.watchers[peerUserId]) return false
 
   return true
 }

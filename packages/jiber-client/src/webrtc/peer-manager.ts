@@ -1,9 +1,10 @@
 import {
   Action,
   Store,
-  LEAVE_ROOM,
+  CLOSE,
   OPEN,
   WEBRTC_OFFER,
+  SERVER,
   forEach,
   reduce
 } from 'jiber-core'
@@ -28,10 +29,10 @@ export class PeerManager {
 
     // add and remove connections as needed
     store.subscribe((state: any, action: Action) => {
-      if (!action.$confirmed) return
+      if (action.$src !== SERVER) return
 
       switch (action.type) {
-        case LEAVE_ROOM:
+        case CLOSE:
           return this.removeUnusedConnections()
         case OPEN:
           if (!action.$uid) return
@@ -47,8 +48,8 @@ export class PeerManager {
   // create a list of all uids that you should be connected to
   private allMembers = (): string[] => {
     const state = this.store.getState()
-    return reduce(state.s, (members, ) => {
-      return Object.assign(members, .members)
+    return reduce(state.s, (members) => {
+      return Object.assign(members, members)
     }, {})
   }
 

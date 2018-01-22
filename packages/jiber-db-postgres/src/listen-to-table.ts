@@ -5,16 +5,14 @@ export const listenToTable = async (pool: Pool, table: string) => {
   try {
     await client.query(`LISTEN ${table}_insert`)
     client.on('notification', (msg) => {
-        console.log(msg.payload);
+      console.log(msg.payload)
     })
     client.on('error', (error) => {
-      console.error('This never even runs:', error);
+      console.error('This never even runs:', error)
     })
-  }
-  catch (e) {
+  } catch (e) {
     throw e
-  }
-  finally {
+  } finally {
     client.release()
   }
 }

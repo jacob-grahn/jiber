@@ -7,7 +7,7 @@ import {
 } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
 import { ServerStore } from './server-store'
-import { updateDoc } from './update-'
+import { updateDoc } from './update-doc'
 
 const webRtcActions = [WEBRTC_OFFER, WEBRTC_ANSWER, WEBRTC_CANDIDATE]
 

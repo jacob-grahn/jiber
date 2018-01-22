@@ -5,7 +5,7 @@ const state = {
   me: { uid: 'bob' },
   s: {
     testDoc: {
-      members: { bob: { actionId: 0, fun: true } }
+      watchers: { bob: { time: 0 } }
     }
   }
 }
@@ -16,7 +16,7 @@ const store = {
 }
 
 test('$user is added to the metadata from server', () => {
-  const action: Action = { type: 'test', $doc: 'testDoc', $uid: 'bob', $source: SERVER }
+  const action: Action = { type: 'test', $doc: 'testDoc', $uid: 'bob', $src: SERVER }
   injectMetadata(store, action)
   expect(action.$user).toEqual({ actionId: 0, fun: true })
 })
