@@ -13,8 +13,8 @@ export const shouldPeer = (
   if (!action.$doc) return false
   if (action.$source !== SELF) return false
 
-  const room = state.rooms[action.$doc]
-  if (!room.members[peerUserId]) return false
+  const  = state.s[action.$doc]
+  if (!.members[peerUserId]) return false
 
   return true
 }

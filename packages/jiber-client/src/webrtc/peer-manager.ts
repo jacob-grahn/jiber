@@ -12,7 +12,7 @@ import { ClientSettings } from '../interfaces/client-settings'
 import { prefixFix } from './prefix-fix'
 
 /**
- * When we join a room, existing members send us offers (WEBRTC_OFFER)
+ * When we join a , existing members send us offers (WEBRTC_OFFER)
  * When another user joins, we send an offer (we are now an existing member)
  * @hidden
  */
@@ -47,8 +47,8 @@ export class PeerManager {
   // create a list of all uids that you should be connected to
   private allMembers = (): string[] => {
     const state = this.store.getState()
-    return reduce(state.rooms, (members, room) => {
-      return Object.assign(members, room.members)
+    return reduce(state.s, (members, ) => {
+      return Object.assign(members, .members)
     }, {})
   }
 

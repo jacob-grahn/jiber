@@ -3,7 +3,7 @@ import * as WS from 'ws'
 import { verifyClient } from './verify-client'
 import { onConnect } from './on-connect'
 import { ServerStore } from '../server-store'
-import { sendToRoom } from './send-to-room'
+import { sendToDoc } from './send-to-'
 import { sendToUser } from './send-to-user'
 import { logger } from '../utils/logger'
 
@@ -11,7 +11,7 @@ export interface SocketServer {
   start: () => void,
   stop: () => void,
   sendToUser: (uid: string, action: Action) => void,
-  sendToRoom: (roomId: string, action: Action) => void,
+  sendToDoc: (Id: string, action: Action) => void,
   socketLookup: {[key: string]: WS}
 }
 
@@ -45,8 +45,8 @@ export const createSocketServer = (store: ServerStore) => {
   return {
     start,
     stop,
-    sendToRoom: (roomId: string, action: Action) => {
-      return sendToRoom(store, roomId, action)
+    sendToDoc: (Id: string, action: Action) => {
+      return sendToDoc(store, Id, action)
     },
     sendToUser: (uid: string, action: Action) => {
       return sendToUser(socketLookup, uid, action)

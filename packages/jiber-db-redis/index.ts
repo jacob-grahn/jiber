@@ -14,17 +14,17 @@ export const createDb = (options: Redis.ClientOpts) => {
     pub.publish('channel1', JSON.stringify(action))
   }
 
-  const fetchState = (roomId: string): Promise<any> => {
+  const fetchState = (Id: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-      client.get(roomId, (err, reply) => {
+      client.get(Id, (err, reply) => {
         if (err) reject(err)
         resolve(JSON.parse(reply))
       })
     })
   }
 
-  const stashState = (roomId: string, room: any): void => {
-    client.set(roomId, JSON.stringify(room))
+  const stashState = (Id: string, : any): void => {
+    client.set(Id, JSON.stringify())
   }
 
   const redisDb: DB = {

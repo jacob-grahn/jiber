@@ -8,7 +8,7 @@ import { ActionCreators } from './action-creators'
 export interface ClientSettings {
 
   /**
-   * Attach helper functions to your room instances.
+   * Attach helper functions to your doc instances.
    * @example actionCreators: {
    *   sayHello: () => ({type: 'HELLO'})
    * }

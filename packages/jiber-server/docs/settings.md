@@ -3,7 +3,7 @@
   db: memoryDB,
   initialState: undefined,
   login: memAccounts,
-  maxRoomAge: 1000 * 60 * 60, // one hour
+  maxDocAge: 1000 * 60 * 60, // one hour
   port: 80,
   reducer: patcher,
   server: undefined,
@@ -55,15 +55,15 @@ jiber-server/src/memory-db/memory-db.ts
 --------------------------------------------------------------------------------
 
 # snapshotInterval
-How often to save room states to the db.
+How often to save  states to the db.
 
 __Default__  
 5000
 --------------------------------------------------------------------------------
 
-# maxRoomAge
-How long to store an inactive room in active memory before closing it.
-(A closed room is still saved in the db, and can be re-opened)
+# maxDocAge
+How long to store an inactive  in active memory before closing it.
+(A closed  is still saved in the db, and can be re-opened)
 
 __Default__  
 360000

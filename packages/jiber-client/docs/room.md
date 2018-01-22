@@ -76,6 +76,6 @@ const store = jiber.createStore({
     eatApples: (quantity) => ({type: 'EAT_APPLES', quantity})
   }
 })
-const doc = store.joinRoom('apple-feast')
+const doc = store.joinDoc('apple-feast')
 doc.eatApples(5)
 ```

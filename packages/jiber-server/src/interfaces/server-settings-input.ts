@@ -5,7 +5,7 @@ export interface ServerSettingsInput {
   db?: DB,
   initialState?: any
   login?: LoginRequestHandler,
-  maxRoomAge?: number,
+  maxDocAge?: number,
   port?: number,
   reducer?: Reducer,
   server?: any,

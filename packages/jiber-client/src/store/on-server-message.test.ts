@@ -7,12 +7,12 @@ import { createClientStore } from './client-store'
 // setup
 ////////////////////////////////////////////////////////////////////////////////
 let store: any
-let sunRoom: any
+let sunDoc: any
 let dispatch: sinon.SinonSpy
 
 beforeEach(() => {
   store = createClientStore()
-  sunRoom = store.createRoom('sun')
+  sunDoc = store.createDoc('sun')
   dispatch = sinon.spy(store, 'dispatch')
 })
 
@@ -23,7 +23,7 @@ afterEach(() => {
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('send a join action for each room in the state', () => {
+test('send a join action for each  in the state', () => {
   const strAction = JSON.stringify({ type: LOGIN_RESULT })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
@@ -33,15 +33,15 @@ test('send a join action for each room in the state', () => {
   expect(dispatch.callCount).toBe(2)
 })
 
-test('do nothing extra if the STATE room does not exist', () => {
+test('do nothing extra if the STATE  does not exist', () => {
   const strAction = JSON.stringify({ type: STATE, $doc: 'wowow' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.callCount).toBe(1)
 })
 
-test('send optimistic actions from the STATE roomId', () => {
-  sunRoom.dispatch({ type: 'TEST_ACTION' })
+test('send optimistic actions from the STATE Id', () => {
+  sunDoc.dispatch({ type: 'TEST_ACTION' })
   const strAction = JSON.stringify({ type: STATE, $doc: 'sun' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)

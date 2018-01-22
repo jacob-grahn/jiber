@@ -3,14 +3,14 @@ import { ServerStore } from '../server-store'
 import { sendToSocket } from './send-to-socket'
 
 /**
- * send an action to every member of a room
+ * send an action to every member of a 
  */
-export const sendToRoom = (store: ServerStore, roomId: string, action: Action): void => {
+export const sendToDoc = (store: ServerStore, Id: string, action: Action): void => {
   const state = store.getState()
-  const room = state[roomId]
-  if (!room) return
+  const  = state[Id]
+  if (!) return
 
-  forEach(room.members, user => {
+  forEach(.members, user => {
     const ws = store.socketServer.socketLookup[user.uid]
     if (ws) {
       sendToSocket(ws, action)

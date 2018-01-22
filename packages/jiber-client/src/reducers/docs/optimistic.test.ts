@@ -1,6 +1,6 @@
 import { Action } from 'jiber-core'
 import { createOptimistic } from './optimistic'
-import { ClientRoomState } from './client-room'
+import { ClientDocState } from './client-'
 
 const adder = (state: any = '', action: Action): any => {
   return state + action.value
@@ -14,14 +14,14 @@ test('user generated actions are used on the optimistic state', () => {
     value: '123',
     $actionId: 1
   }
-  const roomState: ClientRoomState = {
+  const State: ClientDocState = {
     pendingActions: [],
     confirmed: undefined,
     optimistic: state,
     members: {},
     lastUpdatedAt: 0
   }
-  expect(optimistic(roomState, action)).toEqual('123')
+  expect(optimistic(State, action)).toEqual('123')
 })
 
 test('an optimistic action coming in after a confirmed action is ignored', () => {
@@ -31,32 +31,32 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     $actionId: 5,
     $user: { uid: 'bob', actionId: 5 }
   }
-  const roomState: ClientRoomState = {
+  const State: ClientDocState = {
     pendingActions: [],
     confirmed: '2',
     optimistic: '2',
     members: {},
     lastUpdatedAt: 0
   }
-  expect(optimistic(roomState, action)).toEqual('2')
+  expect(optimistic(State, action)).toEqual('2')
 })
 
 test('optimistic state is rebased when confirmed state is updated', () => {
-  const roomState: ClientRoomState = {
+  const State: ClientDocState = {
     pendingActions: [
       {
         type: 'test',
         value: '123',
         $actionId: 4,
         $uid: 'sally',
-        $doc: 'testRoom'
+        $doc: 'testDoc'
       },
       {
         type: 'test',
         value: '456',
         $actionId: 5,
         $uid: 'sally',
-        $doc: 'testRoom'
+        $doc: 'testDoc'
       }
     ],
     confirmed: 'abc',
@@ -67,13 +67,13 @@ test('optimistic state is rebased when confirmed state is updated', () => {
   const action: Action = {
     type: 'test',
     value: 'abc',
-    $doc: 'testRoom',
+    $doc: 'testDoc',
     $uid: 'sally',
     $actionId: 3,
     $confirmed: true
   }
 
-  const newState = optimistic(roomState, action)
+  const newState = optimistic(State, action)
   expect(newState).toEqual('abc123456')
 })
 
@@ -83,19 +83,19 @@ test('do not mutate the original confirmed state', () => {
     return state
   }
   const optimistic = createOptimistic(mutateReducer)
-  const roomState: ClientRoomState = {
+  const State: ClientDocState = {
     pendingActions: [
       {
         type: 'test',
         $actionId: 4,
         $uid: 'sally',
-        $doc: 'testRoom'
+        $doc: 'testDoc'
       },
       {
         type: 'test',
         $actionId: 5,
         $uid: 'sally',
-        $doc: 'testRoom'
+        $doc: 'testDoc'
       }
     ],
     confirmed: { count: 5 },
@@ -105,13 +105,13 @@ test('do not mutate the original confirmed state', () => {
   }
   const action: Action = {
     type: 'test',
-    $doc: 'testRoom',
+    $doc: 'testDoc',
     $uid: 'sally',
     $actionId: 3,
     $confirmed: true
   }
 
-  const newState = optimistic(roomState, action)
+  const newState = optimistic(State, action)
   expect(newState).toEqual({ count: 7 })
-  expect(roomState.confirmed).toEqual({ count: 5 })
+  expect(State.confirmed).toEqual({ count: 5 })
 })

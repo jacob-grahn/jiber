@@ -4,18 +4,18 @@ import { toSafeTableName } from './to-safe-table-name'
 import { setupTable } from './setup-table'
 
 interface PostgresConfig extends PoolConfig {
-  roomId: string,
+  Id: string,
   tablePrefix?: string,
   snapshotFrequency?: number
 }
 
 export const createDb = async (config: PostgresConfig): Promise<DB> => {
   const workerId = Math.round(Math.random() * 30000)
-  const roomId = config.roomId
+  const Id = config.Id
   const tablePrefix = config.tablePrefix || 'actions_'
   const snapshotFrequency = config.snapshotFrequency || 100;
 
-  const table = toSafeTableName(`${tablePrefix}${roomId}`)
+  const table = toSafeTableName(`${tablePrefix}${Id}`)
   const pool = new Pool(config)
   let lastActionId = 0
   let intervalId: any

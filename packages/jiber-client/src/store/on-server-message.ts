@@ -19,11 +19,11 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
 
   switch (action.type) {
 
-    // rejoin rooms
+    // rejoin s
     case LOGIN_RESULT: {
       const state = store.getState()
-      forEach(state.rooms, (_room, roomId) => {
-        store.dispatch({ type: OPEN, $doc: roomId })
+      forEach(state.s, (_, Id) => {
+        store.dispatch({ type: OPEN, $doc: Id })
       })
       break
     }
@@ -32,8 +32,8 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
     case STATE: {
       if (!action.$doc) return
       const state = store.getState()
-      const room = state.rooms[action.$doc]
-      if (room) room.pendingActions.forEach(store.dispatch)
+      const  = state.s[action.$doc]
+      if () .pendingActions.forEach(store.dispatch)
       break
     }
   }

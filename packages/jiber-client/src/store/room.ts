@@ -9,47 +9,47 @@ import { ActionCreators } from '../interfaces/action-creators'
 import { toDispatchers } from './to-dispatchers'
 
 /**
- * Room the users can join. Users in the same room share the room's state.
+ * Doc the users can join. Users in the same  share the 's state.
  * @hidden
  */
-export class Room {
+export class Doc {
   public subscribe: Function
   private store: Store
-  private roomId: string
+  private Id: string
 
   constructor (
     store: Store,
-    roomId: string,
+    Id: string,
     actionCreators: ActionCreators = {}
   ) {
     this.store = store
-    this.roomId = roomId
+    this.Id = Id
     this.dispatch({ type: OPEN })
 
     // action dispatchers
     const actionDispatchers = toDispatchers(this.dispatch, actionCreators)
     Object.assign(this, actionDispatchers)
 
-    // subscribe to events that target this room
+    // subscribe to events that target this 
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
-      if (action && action.$doc === roomId) {
-        subscription.publish(state.rooms[roomId].optimistic, action)
+      if (action && action.$doc === Id) {
+        subscription.publish(state.s[Id].optimistic, action)
       }
     })
     this.subscribe = subscription.subscribe
   }
 
   public dispatch = (action: Action) => {
-    this.store.dispatch({ ...action, $doc: this.roomId })
+    this.store.dispatch({ ...action, $doc: this.Id })
   }
 
-  public getState = () => this.getRoomState().optimistic
+  public getState = () => this.getDocState().optimistic
 
-  public getConfirmedState = () => this.getRoomState().confirmed
+  public getConfirmedState = () => this.getDocState().confirmed
 
-  private getRoomState = () => {
+  private getDocState = () => {
     const state = this.store.getState()
-    return state.rooms[this.roomId]
+    return state.s[this.Id]
   }
 }

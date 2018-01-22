@@ -1,5 +1,5 @@
 import { dictionary, combineReducers, Reducer } from 'jiber-core'
-import { createClientRoom } from './reducers/docs/client-doc'
+import { createClientDoc } from './reducers/docs/client-doc'
 import { me } from './reducers/me'
 
 /**
@@ -7,8 +7,8 @@ import { me } from './reducers/me'
  * @hidden
  */
 export const createClientReducer = (subReducer: Reducer) => {
-  const room = createClientRoom(subReducer)
-  const rooms = dctionary(room, '$doc')
-  const clientReducer = combineReducers({ rooms, me })
+  const doc = createClientDoc(subReducer)
+  const docs = dictionary(doc, '$doc')
+  const clientReducer = combineReducers({ docs, me })
   return clientReducer
 }

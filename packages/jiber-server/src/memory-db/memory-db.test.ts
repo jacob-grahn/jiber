@@ -3,7 +3,7 @@ import { memoryDB } from './memory-db'
 const db = memoryDB
 
 test('pushAction', async () => {
-  const $doc = 'memRoom1'
+  const $doc = 'memDoc1'
   const events: any = []
   db.onaction = (action) => events.push(action)
   db.dispatch({ type: 'one', $doc })

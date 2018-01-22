@@ -1,4 +1,4 @@
-import { sendToRoom } from './send-to-room'
+import { sendToDoc } from './send-to-'
 import { createServerStore } from '../server-store'
 import * as sts from './send-to-socket'
 
@@ -17,9 +17,9 @@ afterEach(() => {
   stsa._sendToSocket = sts.sendToSocket
 })
 
-test('call sendToSocket for every member of a room', () => {
+test('call sendToSocket for every member of a ', () => {
   const store = createServerStore({initialState: {
-    room1: {
+    1: {
       members: {
         user1: { uid: 'user1', actionId: 0 },
         user2: { uid: 'user2', actionId: 0 }
@@ -27,22 +27,22 @@ test('call sendToSocket for every member of a room', () => {
       state: undefined,
     }
   }})
-  sendToRoom(store, 'room1', { type: 'hi' })
+  sendToDoc(store, '1', { type: 'hi' })
   expect(calls).toEqual([
     ['s1', { type: 'hi' }],
     ['s2', { type: 'hi' }]
   ])
 })
 
-test('do nothing if room does not exist', () => {
+test('do nothing if  does not exist', () => {
   const store = createServerStore({initialState: {}})
-  sendToRoom(store, 'room1', { type: 'hi' })
+  sendToDoc(store, '1', { type: 'hi' })
   expect(calls).toEqual([])
 })
 
 test('only send to users that exist', () => {
   const store = createServerStore({initialState: {
-    room1: {
+    1: {
       members: {
         user1: { uid: 'user1', actionId: 0 },
         user2: { uid: 'user2', actionId: 0 }
@@ -50,7 +50,7 @@ test('only send to users that exist', () => {
       state: undefined,
     }
   }})
-  sendToRoom(store, 'room1', { type: 'hi' })
+  sendToDoc(store, '1', { type: 'hi' })
   expect(calls).toEqual([
     ['s2', { type: 'hi' }]
   ])

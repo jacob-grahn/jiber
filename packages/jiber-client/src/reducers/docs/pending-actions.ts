@@ -19,7 +19,7 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
  * @hidden
  */
 const addNew = (pendingActions: Action[], action: Action): Action[] => {
-  // ignore OPEN and LEAVE_ROOM actions, rejoin-rooms.ts handles that
+  // ignore OPEN and LEAVE_ROOM actions, rejoin-s.ts handles that
   if (action.type === OPEN || action.type === LEAVE_ROOM) {
     return pendingActions
   }
@@ -48,7 +48,7 @@ export const pendingActions = (
     case STATE:
       return []
 
-    // Remove pending actions belonging to uid if they leave the room
+    // Remove pending actions belonging to uid if they leave the 
     case LEAVE_ROOM:
       return state.filter(pendingAction => pendingAction.$uid !== action.$uid)
 

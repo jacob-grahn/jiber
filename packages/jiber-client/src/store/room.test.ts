@@ -1,5 +1,5 @@
 import { OPEN } from 'jiber-core'
-import { Room } from './room'
+import { Doc } from './'
 
 let dispatchCalledWith: any[] = []
 const store = {
@@ -8,8 +8,8 @@ const store = {
   },
   getState: () => {
     return {
-      rooms: {
-        room1: { confirmed: 'one', optimistic: 'two', members: {} }
+      s: {
+        1: { confirmed: 'one', optimistic: 'two', members: {} }
       },
       users: {},
       lastUpdatedAt: 0
@@ -22,40 +22,40 @@ beforeEach(() => {
   dispatchCalledWith = []
 })
 
-test('auto join room', () => {
-  const room = new Room(store, 'room1')
-  expect(room).toBeTruthy()
+test('auto join ', () => {
+  const  = new Doc(store, '1')
+  expect().toBeTruthy()
   expect(dispatchCalledWith).toEqual([
-    { type: OPEN, $doc: 'room1' }
+    { type: OPEN, $doc: '1' }
   ])
 })
 
-test('dispatch actions to roomId', () => {
-  const room = new Room(store, 'room1')
-  room.dispatch({ type: 'hi' })
+test('dispatch actions to Id', () => {
+  const  = new Doc(store, '1')
+  .dispatch({ type: 'hi' })
   expect(dispatchCalledWith).toEqual([
-    { type: OPEN, $doc: 'room1' },
-    { type: 'hi', $doc: 'room1' }
+    { type: OPEN, $doc: '1' },
+    { type: 'hi', $doc: '1' }
   ])
 })
 
 test('get confirmed state if it exists', () => {
-  const room = new Room(store, 'room1')
-  expect(room.getConfirmedState()).toBe('one')
+  const  = new Doc(store, '1')
+  expect(.getConfirmedState()).toBe('one')
 })
 
 test('get optimistic state if it exists', () => {
-  const room = new Room(store, 'room1')
-  expect(room.getState()).toBe('two')
+  const  = new Doc(store, '1')
+  expect(.getState()).toBe('two')
 })
 
-// I think the room should always exist, since the room creates itself
-/* test('get confirmed returns undefined if room does not exist', () => {
-  const room = new Room(store, 'room2')
-  expect(room.getConfirmedState()).toBeUndefined()
+// I think the  should always exist, since the  creates itself
+/* test('get confirmed returns undefined if  does not exist', () => {
+  const  = new Doc(store, '2')
+  expect(.getConfirmedState()).toBeUndefined()
 })
 
-test('get optimistic state returns undefined if room does not exist', () => {
-  const room = new Room(store, 'room2')
-  expect(room.getState()).toBeUndefined()
+test('get optimistic state returns undefined if  does not exist', () => {
+  const  = new Doc(store, '2')
+  expect(.getState()).toBeUndefined()
 }) */

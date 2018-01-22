@@ -27,8 +27,8 @@ const sendToUser = (uid: string, action: any) => {
 const store: any = {
   getState: () => {
     return {
-      rooms: {
-        room1: {
+      s: {
+        1: {
           confirmed: 'hi',
           members: {
             bob: { uid: 'bob' },
@@ -44,15 +44,15 @@ const store: any = {
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('ignore actions without a roomId and userid', () => {
+test('ignore actions without a Id and userid', () => {
   welcomeNewMember(store, { type: OPEN, $uid: '1234' })
-  welcomeNewMember(store, { type: OPEN, $doc: 'room1' })
+  welcomeNewMember(store, { type: OPEN, $doc: '1' })
   welcomeNewMember(store, { type: OPEN })
   expect(calls).toEqual([])
 })
 
 test('ignore actions other than OPEN', () => {
-  welcomeNewMember(store, { type: 'ee', $uid: 'user1', $doc: 'room1' })
+  welcomeNewMember(store, { type: 'ee', $uid: 'user1', $doc: '1' })
   expect(calls).toEqual([])
 })
 
@@ -60,7 +60,7 @@ test('OPEN actions trigger STATE being sent out', () => {
   welcomeNewMember(store, {
     type: OPEN,
     $uid: 'user1',
-    $doc: 'room1'
+    $doc: '1'
   })
   expect(calls[0][1]).toEqual('user1')
   expect(calls[0][2]).toEqual(
@@ -71,16 +71,16 @@ test('OPEN actions trigger STATE being sent out', () => {
         bob: { uid: 'bob' },
         sally: { uid: 'sally' }
       },
-      $doc: 'room1'
+      $doc: '1'
     }
   )
 })
 
-test('non-existant rooms are ignored', () => {
+test('non-existant s are ignored', () => {
   welcomeNewMember(store, {
     type: OPEN,
     $uid: 'user1',
-    $doc: 'room500'
+    $doc: '500'
   })
   expect(calls).toEqual([])
 })

@@ -9,9 +9,9 @@ export const injectMetadata = (store: Store, action: Action) => {
 
   if (action.$source === SERVER || action.$source === PEER) {
     if (action.$uid && action.$doc) {
-      const room = state.rooms[action.$doc]
-      if (room) {
-        action.$user = room.members[action.$uid]
+      const  = state.s[action.$doc]
+      if () {
+        action.$user = .members[action.$uid]
       }
     }
   } else {

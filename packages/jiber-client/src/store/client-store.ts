@@ -2,7 +2,7 @@ import { Action, Store, createStore } from 'jiber-core'
 import { injectMetadata } from './inject-metadata'
 import { ClientSettingsInput } from '../interfaces/client-settings-input'
 import { ClientState } from '../interfaces/client-state'
-import { Room } from './room'
+import { Doc } from './'
 import { defaultClientSettings } from '../default-client-settings'
 import { createClientReducer } from '../client-reducer'
 import { PeerManager } from '../webrtc'
@@ -10,14 +10,14 @@ import { serverConnection } from './server-connection'
 
 export interface ClientStore extends Store {
   getState: () => ClientState,
-  createRoom: (roomId: string) => any
+  createDoc: (Id: string) => any
 }
 
 /**
  * Extend Store to:
  * 1. Send / receive actions from the server
  * 2. Send /receive actions from peers
- * 3. Add a createRoom method
+ * 3. Add a createDoc method
  */
 export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
   const options = { ...defaultClientSettings, ...optionInput }
@@ -32,8 +32,8 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
       action = injectMetadata(store, action)
       coreDispatch(action)
     },
-    createRoom: (roomId: string) => {
-      return new Room(clientStore, roomId, options.actionCreators)
+    createDoc: (Id: string) => {
+      return new Doc(clientStore, Id, options.actionCreators)
     }
   }
 
