@@ -1,9 +1,7 @@
-import { Store, createStore, DB } from 'jiber-core'
-import { ServerSettingsInput } from './interfaces/server-settings-input'
-import { ServerSettings } from './interfaces/server-settings'
-import { ServerState } from './interfaces/server-state'
+import { Store, createStore, combineReducers, DB } from 'jiber-core'
+import { ServerSettingsInput, ServerSettings, ServerState } from './interfaces'
+import { members } from './reducers/members'
 import { createSocketServer, SocketServer } from './socket-server/index'
-import { createServerReducer } from './reducers/server-reducer'
 import { defaultServerSettings } from './default-server-settings'
 import { onAction } from './on-action'
 
@@ -21,8 +19,8 @@ export const createServerStore = (
 ): ServerStore => {
   const initialState = inputSettings.initialState
   const settings = { ...defaultServerSettings, ...inputSettings }
-  const serverReducer = createServerReducer(settings.reducer)
-  const store = createStore(serverReducer, initialState)
+  const reducer = combineReducers({state: settings.reducer, members})
+  const store = createStore(reducer, initialState)
   const serverStore = { ...store, db: settings.db, settings } as ServerStore
 
   const socketServer = createSocketServer(serverStore)

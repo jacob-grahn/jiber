@@ -4,13 +4,13 @@ __Arguments__
 
 __Returns__  
 - (ClientState): Returns the client's global state.
-This includes the optimistic and confirmed state for all rooms.
+This includes the optimistic and confirmed state for all docs.
 
 __Example__
 ``` javascript
-// log every room we are a member of
+// log every doc we are a member of
 const state = store.getState()
-console.log(Object.keys(state.rooms))
+console.log(Object.keys(state.docs))
 ```
 --------------------------------------------------------------------------------
 
@@ -33,14 +33,14 @@ setTimeout(cancel, 30000)
 --------------------------------------------------------------------------------
 
 
-# createRoom('room-name')
+# open('doc-name')
 __Arguments__  
-- (string): The Name of the room you would like to join.
+- (string): The Name of the doc you would like to open.
 
 __Returns__  
-- ([Room](room.md)): A Room instance.
+- ([Doc](doc.md)): A Doc instance.
 
 __Example__
 ``` javascript
-const room = store.createRoom('smelly-beans')
+const doc = store.open('smelly-beans')
 ```

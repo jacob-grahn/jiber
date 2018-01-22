@@ -1,14 +1,14 @@
-import { Action, STATE, LEAVE_ROOM, JOIN_ROOM } from 'jiber-core'
+import { Action, STATE, LEAVE_ROOM, OPEN } from 'jiber-core'
 
 /**
- * Remove actions that have the same userId, and a lesser or equal actionId
+ * Remove actions that have the same uid, and a lesser or equal actionId
  * Actions with no $user are assumed to belong to the currently logged in user
  * @hidden
  */
 const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
   return pendingActions.filter(pendingAction => {
-    if (!pendingAction.$userId) return false
-    if (pendingAction.$userId !== action.$userId) return true
+    if (!pendingAction.$uid) return false
+    if (pendingAction.$uid !== action.$uid) return true
     return (pendingAction.$actionId || 0) > (action.$actionId || 0)
   })
 }
@@ -19,8 +19,8 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
  * @hidden
  */
 const addNew = (pendingActions: Action[], action: Action): Action[] => {
-  // ignore JOIN_ROOM and LEAVE_ROOM actions, rejoin-rooms.ts handles that
-  if (action.type === JOIN_ROOM || action.type === LEAVE_ROOM) {
+  // ignore OPEN and LEAVE_ROOM actions, rejoin-rooms.ts handles that
+  if (action.type === OPEN || action.type === LEAVE_ROOM) {
     return pendingActions
   }
 
@@ -48,9 +48,9 @@ export const pendingActions = (
     case STATE:
       return []
 
-    // Remove pending actions belonging to userId if they leave the room
+    // Remove pending actions belonging to uid if they leave the room
     case LEAVE_ROOM:
-      return state.filter(pendingAction => pendingAction.$userId !== action.$userId)
+      return state.filter(pendingAction => pendingAction.$uid !== action.$uid)
 
     // Add or remove specific pending actions
     default:

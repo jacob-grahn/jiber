@@ -30,7 +30,7 @@ export class Channel {
     if (this.channel && this.channel.readyState === 'open') {
       const smallerAction = {
         ...action,
-        ...{ $user: undefined, $userId: undefined, $timeMs: undefined }
+        ...{ $user: undefined, $uid: undefined, $timeMs: undefined }
       }
       this.channel.send(JSON.stringify(smallerAction))
     }

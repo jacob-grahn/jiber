@@ -6,18 +6,18 @@ import { Action, Store, PEER } from 'jiber-core'
  */
 export const onPeerMessage = (store: Store, peerUserId: string) => (event: MessageEvent) => {
   const action: Action = JSON.parse(event.data)
-  const roomId = action.$roomId
-  if (!roomId) return
+  const docId = action.$doc
+  if (!docId) return
 
-  // make sure the user is a member of this room
-  const room = store.getState().rooms[roomId]
-  const members = room.members
+  // make sure the user is a member of this doc
+  const doc = store.getState().docs[docId]
+  const members = doc.members
   const user = members[peerUserId]
   if (!user) return
 
   // add some metadata to the action
   action.$timeMs = new Date().getTime()
-  action.$userId = peerUserId
+  action.$uid = peerUserId
   action.$source = PEER
   action.$user = user
 

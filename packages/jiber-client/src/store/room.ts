@@ -1,7 +1,7 @@
 import {
   Action,
   Store,
-  JOIN_ROOM,
+  OPEN,
   createSubscription
 } from 'jiber-core'
 import { ClientState } from '../interfaces/client-state'
@@ -24,7 +24,7 @@ export class Room {
   ) {
     this.store = store
     this.roomId = roomId
-    this.dispatch({ type: JOIN_ROOM })
+    this.dispatch({ type: OPEN })
 
     // action dispatchers
     const actionDispatchers = toDispatchers(this.dispatch, actionCreators)
@@ -33,7 +33,7 @@ export class Room {
     // subscribe to events that target this room
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
-      if (action && action.$roomId === roomId) {
+      if (action && action.$doc === roomId) {
         subscription.publish(state.rooms[roomId].optimistic, action)
       }
     })
@@ -41,7 +41,7 @@ export class Room {
   }
 
   public dispatch = (action: Action) => {
-    this.store.dispatch({ ...action, $roomId: this.roomId })
+    this.store.dispatch({ ...action, $doc: this.roomId })
   }
 
   public getState = () => this.getRoomState().optimistic

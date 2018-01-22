@@ -6,18 +6,18 @@ npm i jiber-client
 ### Quick Example
 ```
 // Create a data store, which will sync up our data with other users
-const room = $jiber
+const doc = $jiber
   .createStore({url: 'wss://demo.jiber.io'})
-  .createRoom('example')
+  .open('example')
 
 // set a value
-room.set({phrase: 'hello world'})
+doc.set({phrase: 'hello world'})
 
 // get a value
-alert(room.getState().phrase)
+alert(doc.getState().phrase)
 ```
 
-This example used the default reducer, which provides the room.set() method.
+This example used the default reducer, which provides the doc.set() method.
 Custom reducers and custom methods can be used!
 More examples can be found in /examples.
 
@@ -30,13 +30,13 @@ const clientSettings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$userIdid]: 'hi'}
+        return {...state, [action.$uidid]: 'hi'}
       default:
         return state
     }
   },
 
-  // attach helper functions to your room instances.
+  // attach helper functions to your doc instances.
   actionCreators: {
     sayHello: () => ({type: 'HELLO'})
   },
@@ -64,28 +64,28 @@ const clientSettings = {
 }
 ```
 
-Once you have your options worked out you'll want to create a store, and then create as many rooms
+Once you have your options worked out you'll want to create a store, and then create as many docs
 as you need.
 
 ```
 // jiber-client's one and only method
 const store = jiber.createStore(clientSettings)
 
-// get your global state, which contains all rooms
+// get your global state, which contains all docs
 store.getState()
 store.subscribe((state, action) => /* do something */)
 
-// join 'room1' to do some serious buisiness
-const room = store.createRoom('room1') // join a room that other players can also join
+// join 'doc1' to do some serious business
+const doc = store.open('doc1') // open a doc
 
-// get the room's state
-room.getState() // optimistic, lower latency
-room.getConfirmedState() // confirmed, higher latency
-room.subscribe((roomState, action)) => /* do something */)
+// get the doc's state
+doc.getState() // optimistic, lower latency
+doc.getConfirmedState() // confirmed, higher latency
+doc.subscribe((state, action)) => /* do something */)
 
-// change the room's state
-room.dispatch({type: 'HELLO'}) // this is sent to your reducer in clientSettings.reducer
-room.sayHello() // the same as the line above, thanks to clientSettings.actionCreators
+// change the doc's state
+doc.dispatch({type: 'HELLO'}) // this is sent to your reducer in clientSettings.reducer
+doc.sayHello() // the same as the line above, thanks to clientSettings.actionCreators
 ```
 
 See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)

@@ -1,12 +1,8 @@
-import { UserDict } from 'jiber-core'
-import { Socket } from '../reducers/socket/socket'
+import { User } from 'jiber-core'
 
 export interface ServerState {
-  sockets: {
-    [socketId: string]: Socket
-  },
-  users: UserDict,
-  rooms: {
-    [roomId: string]: any
+  [docId: string]: {
+    state: any,
+    members: {[uid: string]: User}
   }
 }

@@ -5,7 +5,7 @@ const jiberCore = require('jiber-core')
 
 // a reducer that routes to other reducers depending on the roomId
 const reducer = (state, action) => {
-  const roomId = action.$roomId
+  const roomId = action.$doc
 
   switch (roomId) {
     case 'draw':

@@ -3,6 +3,7 @@ export * from './store'
 
 export * from './reducers/combine-reducers'
 export * from './reducers/dictionary'
+export * from './reducers/swiss'
 
 export * from './utils/del'
 export * from './utils/for-each'

@@ -29,7 +29,7 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     type: 'add',
     value: '2',
     $actionId: 5,
-    $user: { userId: 'bob', actionId: 5 }
+    $user: { uid: 'bob', actionId: 5 }
   }
   const roomState: ClientRoomState = {
     pendingActions: [],
@@ -48,15 +48,15 @@ test('optimistic state is rebased when confirmed state is updated', () => {
         type: 'test',
         value: '123',
         $actionId: 4,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $uid: 'sally',
+        $doc: 'testRoom'
       },
       {
         type: 'test',
         value: '456',
         $actionId: 5,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $uid: 'sally',
+        $doc: 'testRoom'
       }
     ],
     confirmed: 'abc',
@@ -67,8 +67,8 @@ test('optimistic state is rebased when confirmed state is updated', () => {
   const action: Action = {
     type: 'test',
     value: 'abc',
-    $roomId: 'testRoom',
-    $userId: 'sally',
+    $doc: 'testRoom',
+    $uid: 'sally',
     $actionId: 3,
     $confirmed: true
   }
@@ -88,14 +88,14 @@ test('do not mutate the original confirmed state', () => {
       {
         type: 'test',
         $actionId: 4,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $uid: 'sally',
+        $doc: 'testRoom'
       },
       {
         type: 'test',
         $actionId: 5,
-        $userId: 'sally',
-        $roomId: 'testRoom'
+        $uid: 'sally',
+        $doc: 'testRoom'
       }
     ],
     confirmed: { count: 5 },
@@ -105,8 +105,8 @@ test('do not mutate the original confirmed state', () => {
   }
   const action: Action = {
     type: 'test',
-    $roomId: 'testRoom',
-    $userId: 'sally',
+    $doc: 'testRoom',
+    $uid: 'sally',
     $actionId: 3,
     $confirmed: true
   }

@@ -1,14 +1,14 @@
 import { withField } from './with-field'
 
-test('return values with a matching userId property', () => {
+test('return values with a matching uid property', () => {
   const actions = [
     null,
     undefined,
     false,
     {},
-    { userId: 'abc' },
-    { userId: 'def' }
+    { uid: 'abc' },
+    { uid: 'def' }
   ]
 
-  expect(withField(actions, 'userId', 'abc')).toEqual([{ userId: 'abc' }])
+  expect(withField(actions, 'uid', 'abc')).toEqual([{ uid: 'abc' }])
 })

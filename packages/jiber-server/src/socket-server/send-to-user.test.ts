@@ -17,30 +17,17 @@ afterEach(() => {
 })
 
 test('do nothing if user does not exist on server', () => {
-  const getState = () => {
-    return {
-      rooms: {},
-      sockets: {},
-      users: {}
-    }
-  }
-  sendToUser(getState, 'user1', { type: 'hi' })
+  const socketLookup = {}
+  sendToUser(socketLookup, 'user1', { type: 'hi' })
   expect(calls).toEqual([])
 })
 
 test('call sendToSocket for user', () => {
-  const getState = () => {
-    return {
-      rooms: {},
-      sockets: {},
-      users: {
-        user1: { userId: 'user1', socketId: 's1' }
-      }
-    }
+  const socketLookup = {
+    'user1': {} as any
   }
-  sendToUser(getState, 'user1', { type: 'hi' })
+  sendToUser(socketLookup, 'user1', { type: 'hi' })
   expect(calls).toEqual([[
-    getState,
     's1',
     { type: 'hi' }
   ]])

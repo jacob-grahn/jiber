@@ -2,7 +2,7 @@ import {
   Action,
   STATE,
   LOGIN_RESULT,
-  JOIN_ROOM,
+  OPEN,
   SERVER,
   forEach
 } from 'jiber-core'
@@ -23,16 +23,16 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
     case LOGIN_RESULT: {
       const state = store.getState()
       forEach(state.rooms, (_room, roomId) => {
-        store.dispatch({ type: JOIN_ROOM, $roomId: roomId })
+        store.dispatch({ type: OPEN, $doc: roomId })
       })
       break
     }
 
     // resend pending actions
     case STATE: {
-      if (!action.$roomId) return
+      if (!action.$doc) return
       const state = store.getState()
-      const room = state.rooms[action.$roomId]
+      const room = state.rooms[action.$doc]
       if (room) room.pendingActions.forEach(store.dispatch)
       break
     }

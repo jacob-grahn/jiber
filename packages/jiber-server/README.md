@@ -20,7 +20,7 @@ const serverSettings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$userIdid]: 'hi'}
+        return {...state, [action.$uidid]: 'hi'}
       default:
         return state
     }
@@ -31,7 +31,7 @@ const serverSettings = {
 
   // validate logins
   login: async (credential) => {
-    return { userId: randStr(12) }
+    return { uid: randStr(12) }
   },
 
   // custom backend, check out jiber-db-redis for documentation

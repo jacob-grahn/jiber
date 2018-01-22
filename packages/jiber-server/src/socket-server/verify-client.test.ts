@@ -1,5 +1,5 @@
 import { Action } from 'jiber-core'
-import { onAuthorize } from './on-authorize'
+import { verifyClient } from './verify-client'
 
 test('it should pass the credential to logInRequestHandler', async () => {
   let calls: any[] = []
@@ -7,7 +7,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
     settings: {
       login: async (req: any, credential: any) => {
         calls.push([req, credential])
-        const result = { userId: '' }
+        const result = { uid: '' }
         return result
       }
     },
@@ -21,7 +21,7 @@ test('it should pass the credential to logInRequestHandler', async () => {
     req: { headers: { 'sec-websocket-key': '', 'sec-websocket-protocol': 'abc' } },
     secure: true
   }
-  await onAuthorize(store, info, cb)
+  await verifyClient(store)(info, cb)
   expect(calls[0][0]).toEqual(info.req)
   expect(calls[0][1]).toBe('abc')
 })

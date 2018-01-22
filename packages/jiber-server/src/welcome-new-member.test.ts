@@ -1,4 +1,4 @@
-import { JOIN_ROOM, STATE } from 'jiber-core'
+import { OPEN, STATE } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
 import * as sts from './socket-server/send-to-socket'
 
@@ -20,8 +20,8 @@ afterEach(() => {
   stsa._sendToSocket = sts.sendToSocket
 })
 
-const sendToUser = (userId: string, action: any) => {
-  calls.push(['sendToUser', userId, action])
+const sendToUser = (uid: string, action: any) => {
+  calls.push(['sendToUser', uid, action])
 }
 
 const store: any = {
@@ -31,8 +31,8 @@ const store: any = {
         room1: {
           confirmed: 'hi',
           members: {
-            bob: { userId: 'bob' },
-            sally: { userId: 'sally' }
+            bob: { uid: 'bob' },
+            sally: { uid: 'sally' }
           }
         }
       }
@@ -45,22 +45,22 @@ const store: any = {
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('ignore actions without a roomId and userid', () => {
-  welcomeNewMember(store, { type: JOIN_ROOM, $userId: '1234' })
-  welcomeNewMember(store, { type: JOIN_ROOM, $roomId: 'room1' })
-  welcomeNewMember(store, { type: JOIN_ROOM })
+  welcomeNewMember(store, { type: OPEN, $uid: '1234' })
+  welcomeNewMember(store, { type: OPEN, $doc: 'room1' })
+  welcomeNewMember(store, { type: OPEN })
   expect(calls).toEqual([])
 })
 
-test('ignore actions other than JOIN_ROOM', () => {
-  welcomeNewMember(store, { type: 'ee', $userId: 'user1', $roomId: 'room1' })
+test('ignore actions other than OPEN', () => {
+  welcomeNewMember(store, { type: 'ee', $uid: 'user1', $doc: 'room1' })
   expect(calls).toEqual([])
 })
 
-test('JOIN_ROOM actions trigger STATE being sent out', () => {
+test('OPEN actions trigger STATE being sent out', () => {
   welcomeNewMember(store, {
-    type: JOIN_ROOM,
-    $userId: 'user1',
-    $roomId: 'room1'
+    type: OPEN,
+    $uid: 'user1',
+    $doc: 'room1'
   })
   expect(calls[0][1]).toEqual('user1')
   expect(calls[0][2]).toEqual(
@@ -68,19 +68,19 @@ test('JOIN_ROOM actions trigger STATE being sent out', () => {
       type: STATE,
       confirmed: 'hi',
       members: {
-        bob: { userId: 'bob' },
-        sally: { userId: 'sally' }
+        bob: { uid: 'bob' },
+        sally: { uid: 'sally' }
       },
-      $roomId: 'room1'
+      $doc: 'room1'
     }
   )
 })
 
 test('non-existant rooms are ignored', () => {
   welcomeNewMember(store, {
-    type: JOIN_ROOM,
-    $userId: 'user1',
-    $roomId: 'room500'
+    type: OPEN,
+    $uid: 'user1',
+    $doc: 'room500'
   })
   expect(calls).toEqual([])
 })

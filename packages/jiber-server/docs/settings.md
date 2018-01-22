@@ -41,7 +41,7 @@ A function to login users as they connect.
 __Default__  
 ``` javascript
 async (request, credential) => {
-  return { userId: randStr(12) }
+  return { uid: randStr(12) }
 }
 ```
 --------------------------------------------------------------------------------

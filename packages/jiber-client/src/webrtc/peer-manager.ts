@@ -2,7 +2,7 @@ import {
   Action,
   Store,
   LEAVE_ROOM,
-  JOIN_ROOM,
+  OPEN,
   WEBRTC_OFFER,
   forEach,
   reduce
@@ -19,7 +19,7 @@ import { prefixFix } from './prefix-fix'
 export class PeerManager {
   private store: Store
   private settings: ClientSettings
-  private connections: {[userId: string]: Peer} = {}
+  private connections: {[uid: string]: Peer} = {}
 
   constructor (store: Store, settings: ClientSettings) {
     this.store = store
@@ -33,18 +33,18 @@ export class PeerManager {
       switch (action.type) {
         case LEAVE_ROOM:
           return this.removeUnusedConnections()
-        case JOIN_ROOM:
-          if (!action.$userId) return
-          if (action.$userId === state.me.userId) return
-          return this.addConnection(action.$userId)
+        case OPEN:
+          if (!action.$uid) return
+          if (action.$uid === state.me.uid) return
+          return this.addConnection(action.$uid)
         case WEBRTC_OFFER:
-          if (!action.$userId) return
-          return this.addConnection(action.$userId, action.offer)
+          if (!action.$uid) return
+          return this.addConnection(action.$uid, action.offer)
       }
     })
   }
 
-  // create a list of all userIds that you should be connected to
+  // create a list of all uids that you should be connected to
   private allMembers = (): string[] => {
     const state = this.store.getState()
     return reduce(state.rooms, (members, room) => {
@@ -53,11 +53,11 @@ export class PeerManager {
   }
 
   // remove a connection that we no longer want
-  private remove = (userId: string): void => {
-    const connection = this.connections[userId]
+  private remove = (uid: string): void => {
+    const connection = this.connections[uid]
     if (!connection) return
     connection.close()
-    delete this.connections[userId]
+    delete this.connections[uid]
   }
 
   // remove connections we no longer want
@@ -69,11 +69,11 @@ export class PeerManager {
   }
 
   // add a new connection
-  private addConnection = (userId: string, offer?: any): void => {
-    if (this.connections[userId]) return
+  private addConnection = (uid: string, offer?: any): void => {
+    if (this.connections[uid]) return
     if (Object.keys(this.connections).length >= this.settings.maxPeers) return
-    this.connections[userId] = new Peer(
-      userId,
+    this.connections[uid] = new Peer(
+      uid,
       this.store,
       this.settings,
       offer
