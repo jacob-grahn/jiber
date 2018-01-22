@@ -6,7 +6,7 @@ import { createClientStore } from './client-store'
 // setup
 ////////////////////////////////////////////////////////////////////////////////
 const store = createClientStore({initialState: {
-  me: {uid: 'barf'},
+  me: { uid: 'barf' },
   docs: {}
 }})
 
@@ -16,7 +16,7 @@ const store = createClientStore({initialState: {
 test('$user is added to the metadata from self', () => {
   const action: Action = { type: 'test' }
   injectMetadata(store, action)
-  expect(action.$user).toEqual({uid: 'barf'})
+  expect(action.$user).toEqual({ uid: 'barf' })
 })
 
 test('actions from server are not altered', () => {

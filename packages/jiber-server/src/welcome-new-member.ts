@@ -9,12 +9,12 @@ export const welcomeNewMember = (store: ServerStore, action: Action) => {
   if (!action.$doc || !action.$uid) return
 
   const state = store.getState()
-  const State = state[action.$doc]
-  if (!State) return
+  const docState = state[action.$doc]
+  if (!docState) return
 
   const message: Action = {
     type: STATE,
-    state: State,
+    state: docState,
     $doc: action.$doc
   }
 

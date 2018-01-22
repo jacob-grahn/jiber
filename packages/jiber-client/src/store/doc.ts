@@ -15,15 +15,11 @@ import { toDispatchers } from './to-dispatchers'
 export class Doc {
   public subscribe: Function
   private store: Store
-  private Id: string
+  private id: string
 
-  constructor (
-    store: Store,
-    Id: string,
-    actionCreators: ActionCreators = {}
-  ) {
+  constructor (store: Store, id: string, actionCreators: ActionCreators = {}) {
     this.store = store
-    this.Id = Id
+    this.id = id
     this.dispatch({ type: OPEN })
 
     // action dispatchers
@@ -33,23 +29,27 @@ export class Doc {
     // subscribe to events that target this
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
-      if (action && action.$doc === Id) {
-        subscription.publish(state.docs[Id].optimistic, action)
+      if (action && action.$doc === id) {
+        subscription.publish(state.docs[id].optimistic, action)
       }
     })
     this.subscribe = subscription.subscribe
   }
 
   public dispatch = (action: Action) => {
-    this.store.dispatch({ ...action, $doc: this.Id })
+    this.store.dispatch({ ...action, $doc: this.id })
   }
 
-  public getState = () => this.getDocState().optimistic
+  public getState = () => {
+    return this.getDocState().optimistic
+  }
 
-  public getConfirmedState = () => this.getDocState().confirmed
+  public getConfirmedState = () => {
+    return this.getDocState().confirmed
+  }
 
   private getDocState = () => {
     const state = this.store.getState()
-    return state.s[this.Id]
+    return state.docs[this.id]
   }
 }

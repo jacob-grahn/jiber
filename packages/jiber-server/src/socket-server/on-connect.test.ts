@@ -1,35 +1,33 @@
-import { Action, LOGIN_RESULT } from 'jiber-core'
+import { LOGIN_RESULT } from 'jiber-core'
 import { onConnect } from './on-connect'
-
-////////////////////////////////////////////////////////////////////////////////
-// mocks
-////////////////////////////////////////////////////////////////////////////////
-let calls: any[]
-const dispatch = (action: Action) => calls.push(['dispatch', action])
-const socketLookup = {}
-const ws: any = {
-  on: (_event: string, _cb: any) => undefined
-}
+import * as sinon from 'sinon'
+import * as s2s from './send-to-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const request: any = { headers: { 'sec-websocket-key': 'socket1' } }
-beforeEach(() => calls = [])
+let dispatch: sinon.SinonStub
+let spy: sinon.SinonSpy
+const socketLookup = {}
+const ws: any = {on: () => {/* do nothing */}}
+const request: any = { verified: {uid: 'sally'} }
+
+beforeEach(() => {
+  dispatch = sinon.stub() as any
+  spy = sinon.spy(s2s, 'sendToSocket')
+})
+
+afterEach(() => {
+  spy.restore()
+})
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('should send login result back to user', () => {
   onConnect(dispatch, socketLookup)(ws, request)
-  expect(calls.filter(call => call[0] === 'sendToSocket')).toEqual([
-    [
-      'sendToSocket',
-      'socket1',
-      {
-        type: LOGIN_RESULT,
-        user: { socketId: 'socket1', public: { name: 'sally' } }
-      }
-    ]
-  ])
+  expect(spy.getCall(0).args).toEqual([
+      ws,
+      { type: LOGIN_RESULT, user: { uid: 'sally' } }
+    ])
 })

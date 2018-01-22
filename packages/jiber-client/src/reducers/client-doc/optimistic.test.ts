@@ -33,7 +33,12 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     pendingActions: [],
     confirmed: '2',
     optimistic: '2',
-    watchers: {}
+    watchers: {
+      bob: {
+        time: 6,
+        user: {uid: 'bob'}
+      }
+    }
   }
   expect(optimistic(state, action)).toEqual('2')
 })
@@ -95,7 +100,7 @@ test('do not mutate the original confirmed state', () => {
     ],
     confirmed: { count: 5 },
     optimistic: { count: 5 },
-    watchers: {},
+    watchers: {}
   }
   const action: Action = {
     type: 'test',

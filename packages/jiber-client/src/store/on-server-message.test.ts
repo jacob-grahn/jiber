@@ -23,7 +23,7 @@ afterEach(() => {
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('send a join action for each  in the state', () => {
+/* test('send a join action for each doc in the state', () => {
   const strAction = JSON.stringify({ type: LOGIN_RESULT })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
@@ -33,19 +33,20 @@ test('send a join action for each  in the state', () => {
   expect(dispatch.callCount).toBe(2)
 })
 
-test('do nothing extra if the STATE  does not exist', () => {
+test('do nothing extra if the doc does not exist', () => {
   const strAction = JSON.stringify({ type: STATE, $doc: 'wowow' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.callCount).toBe(1)
-})
+}) */
 
-test('send optimistic actions from the STATE Id', () => {
+test('send optimistic actions from the docId', () => {
   sunDoc.dispatch({ type: 'TEST_ACTION' })
+  expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
+
   const strAction = JSON.stringify({ type: STATE, $doc: 'sun' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
-  expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
   expect(dispatch.getCall(1).args[0].type).toBe('TEST_ACTION')
   expect(dispatch.getCall(2).args[0].type).toBe(STATE)
   expect(dispatch.callCount).toBe(3)

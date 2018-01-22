@@ -12,6 +12,6 @@ test('return same state for unrelated actions', () => {
   expect(me(state, action)).toBe(state)
 })
 
-test('default to temp uid', () => {
-  expect(me(undefined, { type: 'whatev' })).toEqual({ uid: '$timeMsemp' })
+test('default to undefined', () => {
+  expect(me(undefined, { type: 'whatev' })).toEqual(undefined)
 })

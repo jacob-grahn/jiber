@@ -49,7 +49,7 @@ export class PeerManager {
   private allWatchers = (): string[] => {
     const state = this.store.getState()
     return reduce(state.watchers, (collector, user) => {
-      return Object.assign(collector, {[user.uid]: user})
+      return Object.assign(collector, { [user.uid]: user })
     }, {})
   }
 

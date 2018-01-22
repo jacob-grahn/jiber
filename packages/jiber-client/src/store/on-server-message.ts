@@ -18,11 +18,11 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
 
   switch (action.type) {
 
-    // rejoin s
+    // rejoin docs
     case LOGIN_RESULT: {
       const state = store.getState()
-      forEach(state.docs, (_doc, Id) => {
-        store.dispatch({ type: OPEN, $doc: Id })
+      forEach(state.docs, (_doc, docId) => {
+        store.dispatch({ type: OPEN, $doc: docId })
       })
       break
     }

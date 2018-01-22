@@ -39,10 +39,7 @@ const addNew = (pendingActions: Action[], action: Action): Action[] => {
  * Keep optimistic actions that have not been confirmed by the server yet
  * @hidden
  */
-export const pendingActions = (
-  state: Action[] = [],
-  action: Action
-): Action[] => {
+export const pendingActions = (state: Action[] = [], action: Action): Action[] => {
   switch (action.type) {
     // Remove all pending actions
     case STATE:

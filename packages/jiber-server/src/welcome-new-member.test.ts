@@ -1,86 +1,55 @@
 import { OPEN, STATE } from 'jiber-core'
 import { welcomeNewMember } from './welcome-new-member'
-import * as sts from './socket-server/send-to-socket'
+import { createServerStore } from './server-store'
+import * as sinon from 'sinon'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-const stsa = sts as any
-let calls: any[] = []
+const store = createServerStore({initialState: {
+  doc1: 'hello'
+}})
 
+let stub: sinon.SinonStub
 beforeEach(() => {
-  calls = []
-  stsa._sendToSocket = sts.sendToSocket
-  stsa.sendToSocket = (getState: any, socketId: any, action: any) => {
-    calls.push([getState, socketId, action])
-  }
+  stub = sinon.stub()
+  store.socketServer.sendToUser = stub as any
 })
 
-afterEach(() => {
-  stsa._sendToSocket = sts.sendToSocket
-})
-
-const sendToUser = (uid: string, action: any) => {
-  calls.push(['sendToUser', uid, action])
-}
-
-const store: any = {
-  getState: () => {
-    return {
-      docs: {
-        1: {
-          confirmed: 'hi',
-          watchers: {
-            bob: { uid: 'bob' },
-            sally: { uid: 'sally' }
-          }
-        }
-      }
-    }
-  },
-  socketServer: { sendToUser }
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-test('ignore actions without a Id and userid', () => {
+test('ignore actions without a $doc and $uid', () => {
   welcomeNewMember(store, { type: OPEN, $uid: '1234' })
-  welcomeNewMember(store, { type: OPEN, $doc: '1' })
+  welcomeNewMember(store, { type: OPEN, $doc: 'doc1' })
   welcomeNewMember(store, { type: OPEN })
-  expect(calls).toEqual([])
+  expect(stub.callCount).toBe(0)
 })
 
 test('ignore actions other than OPEN', () => {
-  welcomeNewMember(store, { type: 'ee', $uid: 'user1', $doc: '1' })
-  expect(calls).toEqual([])
+  welcomeNewMember(store, { type: 'ee', $uid: 'user1', $doc: 'doc1' })
+  expect(stub.callCount).toBe(0)
 })
 
 test('OPEN actions trigger STATE being sent out', () => {
   welcomeNewMember(store, {
     type: OPEN,
     $uid: 'user1',
-    $doc: '1'
+    $doc: 'doc1'
   })
-  expect(calls[0][1]).toEqual('user1')
-  expect(calls[0][2]).toEqual(
-    {
-      type: STATE,
-      confirmed: 'hi',
-      watchers: {
-        bob: { uid: 'bob' },
-        sally: { uid: 'sally' }
-      },
-      $doc: '1'
-    }
-  )
+  expect(stub.getCall(0).args).toEqual(['user1', {
+    type: STATE,
+    state: 'hello',
+    $doc: 'doc1'
+  }])
 })
 
-test('non-existant s are ignored', () => {
+test('non-existant docs are ignored', () => {
   welcomeNewMember(store, {
     type: OPEN,
     $uid: 'user1',
     $doc: '500'
   })
-  expect(calls).toEqual([])
+  expect(stub.callCount).toBe(0)
 })
