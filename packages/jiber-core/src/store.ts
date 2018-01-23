@@ -15,10 +15,11 @@ export const createStore = (
   const subscription = createSubscription()
 
   const store = {
-    dispatch: async (action: Action): Promise<any> => {
-      const finalAction = await runMiddleware(store, action, middlewares)
-      state = reducer(state, finalAction)
-      subscription.publish(state, finalAction)
+    dispatch: (action: Action): void => {
+      runMiddleware(store, action, middlewares, (finalAction: Action) => {
+        state = reducer(state, finalAction)
+        subscription.publish(state, finalAction)
+      })
     },
     getState: () => state,
     subscribe: subscription.subscribe

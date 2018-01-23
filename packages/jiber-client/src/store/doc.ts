@@ -20,7 +20,7 @@ export class Doc {
   constructor (store: Store, id: string, actionCreators: ActionCreators = {}) {
     this.store = store
     this.id = id
-    this.dispatch({ type: OPEN })
+    this.dispatch({ type: OPEN, $doc: id })
 
     // action dispatchers
     const actionDispatchers = toDispatchers(this.dispatch, actionCreators)

@@ -23,7 +23,7 @@ afterEach(() => {
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
-/* test('send a join action for each doc in the state', () => {
+test('send a join action for each doc in the state', () => {
   const strAction = JSON.stringify({ type: LOGIN_RESULT })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
@@ -38,7 +38,7 @@ test('do nothing extra if the doc does not exist', () => {
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.callCount).toBe(1)
-}) */
+})
 
 test('send optimistic actions from the docId', () => {
   sunDoc.dispatch({ type: 'TEST_ACTION' })

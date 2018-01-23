@@ -6,13 +6,12 @@ import { Action, Store, Middleware } from './interfaces'
 export const runMiddleware = (
   store: Store,
   action: Action,
-  funcs: Middleware[]
-): Promise<Action> => {
-  return new Promise((resolve) => {
-    const chain = funcs
-      .reverse()
-      .map(func => func(store))
-      .reduce((next: any, func) => func(next), resolve)
-    chain(action)
-  })
+  funcs: Middleware[],
+  cb: Function
+): void => {
+  const chain = funcs
+    .reverse()
+    .map(func => func(store))
+    .reduce((next: any, func) => func(next), cb)
+  chain(action)
 }

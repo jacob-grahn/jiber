@@ -1,7 +1,7 @@
 import { runMiddleware } from './run-middleware'
 import { Action, Store } from './interfaces'
 
-test('middleware is called', async () => {
+test('middleware is called', (done) => {
   const store: any = {
     getState: () => 5
   }
@@ -10,6 +10,8 @@ test('middleware is called', async () => {
     next(action)
   }
   const action: Action = { type: 'test', value: 1 }
-  const finalAction = await runMiddleware(store, action, [func, func])
-  expect(finalAction.value).toBe(11)
+  runMiddleware(store, action, [func, func], (finalAction: Action) => {
+    expect(finalAction.value).toBe(11)
+    done()
+  })
 })
