@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@types/jest": "^21.1.6",
+    "@types/jest": "^22.1.0",
     "@types/sinon": "^4.1.2",
     "coveralls": "^3.0.0",
     "execa": "^0.8.0",
