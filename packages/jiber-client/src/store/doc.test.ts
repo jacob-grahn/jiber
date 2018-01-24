@@ -18,7 +18,7 @@ test('auto join ', () => {
 test('dispatch actions to docId', () => {
   const doc = new Doc(store, 'doc3')
   doc.dispatch({ type: SET, path: 'hats', value: 5 })
-  expect(doc.getState()).toEqual({hats: 5})
+  expect(doc.getState()).toEqual({ hats: 5 })
 })
 
 test('get confirmed state if it exists', () => {

@@ -36,7 +36,7 @@ test('an optimistic action coming in after a confirmed action is ignored', () =>
     watchers: {
       bob: {
         time: 6,
-        user: {uid: 'bob'}
+        user: { uid: 'bob' }
       }
     }
   }
