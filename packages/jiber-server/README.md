@@ -20,7 +20,7 @@ const serverSettings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$userIdid]: 'hi'}
+        return {...state, [action.$uidid]: 'hi'}
       default:
         return state
     }
@@ -31,17 +31,17 @@ const serverSettings = {
 
   // validate logins
   login: async (credential) => {
-    return { userId: randStr(12) }
+    return { uid: randStr(12) }
   },
 
   // custom backend, check out jiber-db-redis for documentation
   db: jiberDbRedis,
 
-  // how often to save rooms to the db
+  // how often to save s to the db
   snapshotInterval: 5000, // five seconds
 
-  // how long to leave an inactive room in memory
-  maxRoomAge: 3600000, // one hour
+  // how long to leave an inactive  in memory
+  maxDocAge: 3600000, // one hour
 }
 ```
 

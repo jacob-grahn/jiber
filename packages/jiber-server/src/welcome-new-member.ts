@@ -1,22 +1,22 @@
-import { Action, JOIN_ROOM, STATE } from 'jiber-core'
+import { Action, OPEN, STATE } from 'jiber-core'
 import { ServerStore } from './server-store'
 
 /**
- * When a user joins a room, send them the current state of that room
+ * When a user joins a , send them the current state of that
  */
 export const welcomeNewMember = (store: ServerStore, action: Action) => {
-  if (action.type !== JOIN_ROOM) return
-  if (!action.$roomId || !action.$userId) return
+  if (action.type !== OPEN) return
+  if (!action.$doc || !action.$uid) return
 
   const state = store.getState()
-  const roomState = state.rooms[action.$roomId]
-  if (!roomState) return
+  const docState = state[action.$doc]
+  if (!docState) return
 
   const message: Action = {
     type: STATE,
-    state: roomState,
-    $roomId: action.$roomId
+    state: docState,
+    $doc: action.$doc
   }
 
-  store.socketServer.sendToUser(action.$userId, message)
+  store.socketServer.sendToUser(action.$uid, message)
 }

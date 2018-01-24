@@ -4,13 +4,13 @@ __Arguments__
 
 __Returns__  
 - (ServerState): Returns the servers's global state.
-This includes state and members of all rooms.
+This includes state and watchers of all docs.
 
 __Example__
 ``` javascript
-// log every room we are a member of
+// log every  we are a member of
 const state = store.getState()
-console.log(Object.keys(state.rooms))
+console.log(Object.keys(state.s))
 ```
 --------------------------------------------------------------------------------
 

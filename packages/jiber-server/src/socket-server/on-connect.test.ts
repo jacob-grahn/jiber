@@ -1,59 +1,33 @@
-import { Action, LOGIN_RESULT, INIT_SOCKET } from 'jiber-core'
+import { LOGIN_RESULT } from 'jiber-core'
 import { onConnect } from './on-connect'
-
-////////////////////////////////////////////////////////////////////////////////
-// mocks
-////////////////////////////////////////////////////////////////////////////////
-let state: any
-let calls: any[]
-const store: any = {
-  getState: () => state,
-  dispatch: (action: Action) => calls.push(['dispatch', action]),
-  socketServer: {
-    sendToSocket: (socketId: string, action: Action) => {
-      calls.push(['sendToSocket', socketId, action])
-    }
-  }
-}
-const webSocket: any = {
-  on: (_event: string, _cb: any) => undefined
-}
+import * as sinon from 'sinon'
+import * as s2s from './send-to-socket'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
 ////////////////////////////////////////////////////////////////////////////////
-state = {
-  users: {
-    user1: { socketId: 'socket1', public: { name: 'sally' } }
-  },
-  sockets: {
-    socket1: { userId: 'user1' }
-  }
-}
-const request: any = { headers: { 'sec-websocket-key': 'socket1' } }
-beforeEach(() => calls = [])
+let dispatch: sinon.SinonStub
+let spy: sinon.SinonSpy
+const socketLookup = {}
+const ws: any = {on: () => {/* do nothing */}}
+const request: any = { verified: {uid: 'sally'} }
+
+beforeEach(() => {
+  dispatch = sinon.stub() as any
+  spy = sinon.spy(s2s, 'sendToSocket')
+})
+
+afterEach(() => {
+  spy.restore()
+})
 
 ////////////////////////////////////////////////////////////////////////////////
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('should send login result back to user', () => {
-  onConnect(store, webSocket, request)
-  expect(calls.filter(call => call[0] === 'sendToSocket')).toEqual([
-    [
-      'sendToSocket',
-      'socket1',
-      {
-        type: LOGIN_RESULT,
-        user: { socketId: 'socket1', public: { name: 'sally' } }
-      }
-    ]
-  ])
-})
-
-test('should dispatch an INIT_SOCKET action', () => {
-  onConnect(store, webSocket, request)
-  const releventCalls = calls.filter(call => call[0] === 'dispatch')
-  const action = releventCalls[0][1]
-  expect(action.type).toEqual(INIT_SOCKET)
-  expect(action.ws).toBeTruthy()
+  onConnect(dispatch, socketLookup)(ws, request)
+  expect(spy.getCall(0).args).toEqual([
+      ws,
+      { type: LOGIN_RESULT, user: { uid: 'sally' } }
+    ])
 })

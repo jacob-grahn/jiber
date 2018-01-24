@@ -1,47 +1,30 @@
-import * as sts from './send-to-socket'
+import * as sinon from 'sinon'
+import * as s2s from './send-to-socket'
 import { sendToUser } from './send-to-user'
 
-const stsa = sts as any
-let calls: any[] = []
-
+////////////////////////////////////////////////////////////////////////////////
+// setup
+////////////////////////////////////////////////////////////////////////////////
+const socketLookup = { 'user1': 'fakesocket' as any }
+const action = { type: 'hi' }
+let spy: sinon.SinonSpy
 beforeEach(() => {
-  calls = []
-  stsa._sendToSocket = sts.sendToSocket
-  stsa.sendToSocket = (getState: any, socketId: any, action: any) => {
-    calls.push([getState, socketId, action])
-  }
+  spy = sinon.spy(s2s, 'sendToSocket')
 })
 
 afterEach(() => {
-  stsa._sendToSocket = sts.sendToSocket
+  spy.restore()
 })
 
+////////////////////////////////////////////////////////////////////////////////
+// tests
+////////////////////////////////////////////////////////////////////////////////
 test('do nothing if user does not exist on server', () => {
-  const getState = () => {
-    return {
-      rooms: {},
-      sockets: {},
-      users: {}
-    }
-  }
-  sendToUser(getState, 'user1', { type: 'hi' })
-  expect(calls).toEqual([])
+  sendToUser(socketLookup, 'user2', action)
+  expect(spy.callCount).toBe(0)
 })
 
 test('call sendToSocket for user', () => {
-  const getState = () => {
-    return {
-      rooms: {},
-      sockets: {},
-      users: {
-        user1: { userId: 'user1', socketId: 's1' }
-      }
-    }
-  }
-  sendToUser(getState, 'user1', { type: 'hi' })
-  expect(calls).toEqual([[
-    getState,
-    's1',
-    { type: 'hi' }
-  ]])
+  sendToUser(socketLookup, 'user1', action)
+  expect(spy.getCall(0).args).toEqual(['fakesocket', action])
 })

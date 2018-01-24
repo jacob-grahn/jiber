@@ -10,7 +10,7 @@
     <br>
     <button id="place-btn" onclick="setRemove(false)">Add</button>
     <button id="remove-btn" onclick="setRemove(true)">Remove</button>
-    <button id="clear-btn" onclick="room.clear()">Clear</button>
+    <button id="clear-btn" onclick="doc.clear()">Clear</button>
 
     <script>
 
@@ -33,9 +33,9 @@
         }
       }
 
-      // optional convenience functions that will be attached to 'room'
-      // now we can write room.clear()
-      // instead of room.dispatch({type: 'CLEAR'})
+      // optional convenience functions that will be attached to 'doc'
+      // now we can write doc.clear()
+      // instead of doc.dispatch({type: 'CLEAR'})
       const actionCreators = {
         setPixel: (path, color) => ({type: 'SET_PIXEL', path, color}),
         clear: () => ({type: 'CLEAR'})
@@ -43,9 +43,9 @@
 
       const url = 'wss://demo.jiber.io'
 
-      // create a room to sync our masterful drawing
+      // open a doc for our masterful drawing
       const store = $jiber.createStore({url, reducer, actionCreators})
-      const room = store.createRoom('draw')
+      const doc = store.open('draw')
 
       // each 'pixel' is a 10px by 10px square
       const scale = 10
@@ -59,7 +59,7 @@
       // RENDER: draw the state onto the canvas when our data changes
       //////////////////////////////////////////////////////////////////////////
       function render () {
-        const state = room.getState()
+        const state = doc.getState()
         clearCanvas()
         drawPixels(state)
       }
@@ -78,7 +78,7 @@
         })
       }
 
-      room.subscribe(render)
+      doc.subscribe(render)
 
 
       //////////////////////////////////////////////////////////////////////////
@@ -90,10 +90,10 @@
         const path = `${x},${y}`
 
         // avoid dispatching redundant actions
-        const state = room.getState()
+        const state = doc.getState()
         if (state[path] === color) return
 
-        room.setPixel(path, color)
+        doc.setPixel(path, color)
       }
 
       function setRemove(remove){

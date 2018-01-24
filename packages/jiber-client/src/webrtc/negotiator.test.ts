@@ -1,8 +1,5 @@
 import { Negotiator } from './negotiator'
-import {
-  WEBRTC_ANSWER,
-  WEBRTC_CANDIDATE
-} from 'jiber-core'
+import { WEBRTC_ANSWER, WEBRTC_CANDIDATE, SERVER } from 'jiber-core'
 
 ////////////////////////////////////////////////////////////////////////////////
 // setup
@@ -55,8 +52,8 @@ test('receive an answer', async () => {
   const action = {
     type: WEBRTC_ANSWER,
     answer: 'LALA',
-    $confirmed: true,
-    $userId: 'susan'
+    $src: SERVER,
+    $uid: 'susan'
   }
 
   await Promise.resolve()
@@ -72,8 +69,8 @@ test('receive an ICE candidate', async () => {
   const action = {
     type: WEBRTC_CANDIDATE,
     candidate: 'MEME',
-    $confirmed: true,
-    $userId: 'susan'
+    $src: SERVER,
+    $uid: 'susan'
   }
 
   await Promise.resolve()

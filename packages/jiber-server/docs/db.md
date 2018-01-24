@@ -2,7 +2,7 @@
 interface DB {
   emitter: EventEmitter,
   pushAction: (action: Action) => void,
-  fetchState: (roomId: string) => Promise<RoomState>,
-  stashState: (roomId: string, state: RoomState) => void
+  fetchState: (Id: string) => Promise<DocState>,
+  stashState: (Id: string, state: DocState) => void
 }
 ```

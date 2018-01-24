@@ -16,22 +16,22 @@ const reducer = (state, action) => {
 }
 
 const input = (state, action) => {
-  const userId = action.$userId
-  if (!userId) return
+  const uid = action.$uid
+  if (!uid) return
 
-  let player = state.players[userId]
+  let player = state.players[uid]
   if (!player) {
     player = {
       posX: 250,
       posY: 250,
       color: 0
     }
-    state.players[userId] = player
+    state.players[uid] = player
   }
 
   switch (action.type) {
-    case 'jiber/LEAVE_ROOM':
-      delete state.players[userId]
+    case 'jiber/CLOSE':
+      delete state.players[uid]
       break
     case 'COLOR':
       player.color = action.color

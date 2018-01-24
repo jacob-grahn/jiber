@@ -10,7 +10,7 @@ export interface Dictionary {
  * Factory to create a dict reducer that stores sub-states by key,
  * and updates those sub-states using the provided reducer
  */
-export const createDictionary = (reducer: Reducer, idKey: string): Reducer => {
+export const dictionary = (reducer: Reducer, idKey: string): Reducer => {
   return (state: Dictionary = {}, action: Action): Dictionary => {
     const id = get(action, idKey)
     if (!id) return state

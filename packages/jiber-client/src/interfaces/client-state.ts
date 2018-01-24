@@ -1,13 +1,12 @@
-import { UserDict, User } from 'jiber-core'
-import { ClientRoomState } from '../reducers/client-room/client-room'
+import { User } from 'jiber-core'
+import { ClientDocState } from '../reducers/client-doc/client-doc'
 
 /**
  * Overview of what state the client will store
  */
 export interface ClientState {
-  users: UserDict,
-  rooms: {
-    [roomId: string]: ClientRoomState
+  docs: {
+    [docId: string]: ClientDocState
   },
   me: User
 }

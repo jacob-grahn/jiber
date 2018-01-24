@@ -1,26 +1,27 @@
 import { Action } from 'jiber-core'
-import * as WebSocket from 'ws'
-import { onAuthorize } from './on-authorize'
+import * as WS from 'ws'
+import { verifyClient } from './verify-client'
 import { onConnect } from './on-connect'
 import { ServerStore } from '../server-store'
-import { sendToRoom } from './send-to-room'
-import { sendToSocket } from './send-to-socket'
+import { sendToDoc } from './send-to-doc'
 import { sendToUser } from './send-to-user'
 import { logger } from '../utils/logger'
 
 export interface SocketServer {
   start: () => void,
   stop: () => void,
-  sendToUser: (userId: string, action: Action) => void,
-  sendToRoom: (roomId: string, action: Action) => void,
-  sendToSocket: (socketId: string, action: Action) => void
+  sendToUser: (uid: string, action: Action) => void,
+  sendToDoc: (Id: string, action: Action) => void,
+  socketLookup: {[key: string]: WS}
 }
 
 /**
  * Listen for incoming user actions
  */
 export const createSocketServer = (store: ServerStore) => {
-  let wss: WebSocket.Server | undefined
+  let wss: WS.Server | undefined
+
+  const socketLookup = {}
 
   const stop = () => {
     if (!wss) return
@@ -31,27 +32,25 @@ export const createSocketServer = (store: ServerStore) => {
   const start = () => {
     stop()
     const { server, port } = store.settings
-    wss = new WebSocket.Server({
+    wss = new WS.Server({
       server,
       port: server ? undefined : port,
-      verifyClient: (info, cb) => onAuthorize(store, info, cb)
+      verifyClient: verifyClient(store)
     })
     wss.on('error', (err) => logger.error('wss error', err.message))
-    wss.on('connection', (ws, request) => onConnect(store, ws, request))
+    wss.on('connection', onConnect(store.dispatch, socketLookup))
   }
 
   // some currying here sure would be nice
   return {
     start,
     stop,
-    sendToRoom: (roomId: string, action: Action) => {
-      return sendToRoom(store.getState, roomId, action)
+    sendToDoc: (Id: string, action: Action) => {
+      return sendToDoc(store, Id, action)
     },
-    sendToSocket: (socketId: string, action: Action) => {
-      return sendToSocket(store.getState, socketId, action)
+    sendToUser: (uid: string, action: Action) => {
+      return sendToUser(socketLookup, uid, action)
     },
-    sendToUser: (userId: string, action: Action) => {
-      return sendToUser(store.getState, userId, action)
-    }
+    socketLookup
   }
 }

@@ -8,10 +8,10 @@ test('update account on login success', () => {
 
 test('return same state for unrelated actions', () => {
   const action = { type: 'ANOTHER_ACTION', user: 'bob' }
-  const state = { userId: 'sue' }
+  const state = { uid: 'sue' }
   expect(me(state, action)).toBe(state)
 })
 
-test('default to temp userId', () => {
-  expect(me(undefined, { type: 'whatev' })).toEqual({ userId: '$timeMsemp' })
+test('default to undefined', () => {
+  expect(me(undefined, { type: 'whatev' })).toEqual(undefined)
 })

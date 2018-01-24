@@ -2,12 +2,10 @@ import { User } from './user'
 
 export interface Action {
   type: string,
-  $roomId?: string,  // roomId
-  $userId?: string,  // userId
-  $user?: User, // full user object
-  $source?: string, // where the action came from
-  $actionId?: number, // actionId
-  $timeMs?: number,  // time, in ms
-  $confirmed?: boolean  // confirmed
+  $doc?: string, // doc id
+  $user?: User, // user account
+  $src?: string, // where the action came from
+  $madeAt?: number, // when this was created by a client, in ms
+  $ranAt?: number, // when the server processed the event, in ms
   [key: string]: any
 }

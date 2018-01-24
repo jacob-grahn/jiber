@@ -4,13 +4,13 @@ const settings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$userIdid]: 'hi'}
+        return {...state, [action.$uid]: 'hi'}
       default:
         return state
     }
   },
 
-  // attach helper functions to your room instances.
+  // attach helper functions to your doc instances.
   actionCreators: {
     sayHello: () => ({type: 'HELLO'})
   },
@@ -59,7 +59,7 @@ __Default__
 
 
 # actionCreators
-Attach helper functions to your room instances.
+Attach helper functions to your doc instances.
 
 __Default__  
 ``` javascript
