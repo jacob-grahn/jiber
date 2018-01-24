@@ -12,8 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^8.0.28",
-    "@types/ws": "^3.0.2",
-    "typescript": "^2.6.1"
+    "@types/ws": "^3.0.2"
   },
   "dependencies": {
     "jiber-core": "^0.1.9",

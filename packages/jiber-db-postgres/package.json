@@ -22,7 +22,6 @@
     "pg": "^7.4.0"
   },
   "devDependencies": {
-    "jiber-core": "^0.1.9",
-    "typescript": "^2.6.2"
+    "jiber-core": "^0.1.9"
   }
 }
