@@ -4,7 +4,10 @@ import { createClientStore } from './client-store'
 
 const store = createClientStore({initialState: {
   docs: {
-    doc1: { confirmed: 'one', optimistic: 'two', watchers: {} }
+    doc1: 'one'
+  },
+  optimisticDocs: {
+    doc1: 'two'
   }
 }})
 
@@ -12,7 +15,7 @@ test('auto join ', () => {
   const doc = new Doc(store, 'doc2')
   expect(doc).toBeTruthy()
   expect(doc.getState()).toEqual({})
-  expect(store.getState().docs['doc2'].optimistic).toEqual({})
+  expect(store.getState().optimisticDocs['doc2']).toEqual({})
 })
 
 test('dispatch actions to docId', () => {

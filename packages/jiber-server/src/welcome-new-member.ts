@@ -2,14 +2,15 @@ import { Action, OPEN, STATE } from 'jiber-core'
 import { ServerStore } from './server-store'
 
 /**
- * When a user joins a , send them the current state of that
+ * TODO: make this middleware?
+ * When a user opens a doc, send them the current state of the doc
  */
 export const welcomeNewMember = (store: ServerStore, action: Action) => {
   if (action.type !== OPEN) return
   if (!action.$doc || !action.$uid) return
 
   const state = store.getState()
-  const docState = state[action.$doc]
+  const docState = state.docs[action.$doc]
   if (!docState) return
 
   const message: Action = {

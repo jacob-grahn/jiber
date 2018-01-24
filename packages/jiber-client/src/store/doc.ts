@@ -30,7 +30,7 @@ export class Doc {
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
       if (action && action.$doc === id) {
-        subscription.publish(state.docs[id].optimistic, action)
+        subscription.publish(state.optimisticDocs[id], action)
       }
     })
     this.subscribe = subscription.subscribe
@@ -41,14 +41,11 @@ export class Doc {
   }
 
   public getState = () => {
-    return this.getDocState().optimistic
+    const state = this.store.getState()
+    return state.optimisticDocs[this.id]
   }
 
   public getConfirmedState = () => {
-    return this.getDocState().confirmed
-  }
-
-  private getDocState = () => {
     const state = this.store.getState()
     return state.docs[this.id]
   }

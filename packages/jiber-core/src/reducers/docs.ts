@@ -1,5 +1,14 @@
-import { Reducer } from '../interfaces/reducer'
+import { Action, Reducer } from '../interfaces'
 import { dictionary } from './dictionary'
-import { doc } from './doc'
+import { STATE } from '../constants/action-types'
+
+const doc = (reducer: Reducer) => (state: any, action: Action) => {
+  switch (action.type) {
+    case STATE:
+      return action.state
+    default:
+      return reducer(state, action)
+  }
+}
 
 export const docs = (reducer: Reducer) => dictionary(doc(reducer), '$doc')

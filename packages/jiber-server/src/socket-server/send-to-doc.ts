@@ -7,10 +7,10 @@ import { sendToSocket } from './send-to-socket'
  */
 export const sendToDoc = (store: ServerStore, docId: string, action: Action): void => {
   const state = store.getState()
-  const doc = state[docId]
-  if (!doc) return
+  const watchers = state.watchers[docId]
+  if (!watchers) return
 
-  forEach(doc.watchers, (_user, uid) => {
+  forEach(watchers, (_user, uid) => {
     const ws = store.socketServer.socketLookup[uid]
     if (ws) {
       sendToSocket(ws, action)

@@ -7,12 +7,11 @@ import * as sinon from 'sinon'
 // setup
 ////////////////////////////////////////////////////////////////////////////////
 const store = createServerStore({initialState: {
-  doc1: {
-    watchers: {
+  watchers: {
+    doc1: {
       user1: {},
       user2: {}
-    },
-    state: undefined
+    }
   }
 }})
 const action = { type: 'hi' }

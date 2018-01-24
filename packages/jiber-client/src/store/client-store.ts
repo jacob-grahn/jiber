@@ -4,7 +4,7 @@ import { ClientSettingsInput } from '../interfaces/client-settings-input'
 import { ClientState } from '../interfaces/client-state'
 import { Doc } from './doc'
 import { defaultClientSettings } from '../default-client-settings'
-import { createClientReducer } from '../client-reducer'
+import { createClientReducer } from './client-reducer'
 import { PeerManager } from '../webrtc'
 import { serverConnection } from './server-connection'
 
@@ -19,11 +19,10 @@ export interface ClientStore extends Store {
  * 2. Send /receive actions from peers
  * 3. Add a createDoc method
  */
-export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
-  const options = { ...defaultClientSettings, ...optionInput }
-  const clientReducer = createClientReducer(options.reducer)
-
-  const store = createStore(clientReducer, options.initialState, options.middleware)
+export const createClientStore = (input: ClientSettingsInput = {}) => {
+  const settings = { ...defaultClientSettings, ...input }
+  const reducer = createClientReducer(settings.reducer)
+  const store = createStore(reducer, settings.initialState, settings.middleware)
   const coreDispatch = store.dispatch
 
   const clientStore: ClientStore = {
@@ -33,15 +32,15 @@ export const createClientStore = (optionInput: ClientSettingsInput = {}) => {
       coreDispatch(action)
     },
     createDoc: (Id: string) => {
-      return new Doc(clientStore, Id, options.actionCreators)
+      return new Doc(clientStore, Id, settings.actionCreators)
     }
   }
 
   // send and receive actions from peers
-  new PeerManager(clientStore, options) // tslint:disable-line
+  new PeerManager(clientStore, settings) // tslint:disable-line
 
   // send and receive actions from server
-  serverConnection(clientStore, options)
+  serverConnection(clientStore, settings)
 
   return clientStore
 }

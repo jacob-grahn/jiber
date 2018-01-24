@@ -26,21 +26,16 @@
     "url": "https://github.com/jacob-grahn/jiber"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
     "transform": {
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "^.+\\.tsx?$": "ts-jest"
     },
+    "testRegex": "\\.test\\.ts$",
     "collectCoverageFrom": [
       "packages/**/*.ts",
       "!**/*d.ts",
-      "!**/interfaces/*.ts"
+      "!**/interfaces/*.ts",
+      "!**/constants/*.ts"
     ],
-    "mapCoverage": true,
-    "testRegex": "\\.test\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "js"

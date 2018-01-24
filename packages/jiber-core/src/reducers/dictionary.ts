@@ -1,6 +1,5 @@
 import { Reducer } from '../interfaces/reducer'
 import { Action } from '../interfaces/action'
-import { get } from '../utils/get'
 
 export interface Dictionary {
   [key: string]: any
@@ -12,16 +11,16 @@ export interface Dictionary {
  */
 export const dictionary = (reducer: Reducer, idKey: string): Reducer => {
   return (state: Dictionary = {}, action: Action): Dictionary => {
-    const id = get(action, idKey)
+    const id = action[idKey]
     if (!id) return state
 
-    const subState = reducer(state[id], action)
-    const newState = { ...state }
+    const newState: Dictionary = {
+      ...state,
+      [id]: reducer(state[id], action)
+    }
 
-    if (subState === undefined) {
+    if (newState[id] === undefined) {
       delete newState[id]
-    } else {
-      newState[id] = subState
     }
 
     return newState

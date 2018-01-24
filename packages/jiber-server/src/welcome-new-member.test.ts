@@ -7,7 +7,9 @@ import * as sinon from 'sinon'
 // setup
 ////////////////////////////////////////////////////////////////////////////////
 const store = createServerStore({initialState: {
-  doc1: 'hello'
+  docs: {
+    doc1: 'hello'
+  }
 }})
 
 let stub: sinon.SinonStub

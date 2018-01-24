@@ -1,4 +1,4 @@
-import { pendingActions } from './pending-actions'
+import { optimisticActions } from './optimistic-actions'
 import { STATE, SERVER } from 'jiber-core'
 
 test('prune actions that do not have a uid', () => {
@@ -8,7 +8,7 @@ test('prune actions that do not have a uid', () => {
     $uid: '1',
     $src: SERVER
   }
-  expect(pendingActions(actions, action)).toEqual([])
+  expect(optimisticActions(actions, action)).toEqual([])
 })
 
 test('remove optimistic actions if newer confirmed action is received', () => {
@@ -24,7 +24,7 @@ test('remove optimistic actions if newer confirmed action is received', () => {
     $madeAt: 2,
     $src: SERVER
   }
-  expect(pendingActions(actions, action)).toEqual([
+  expect(optimisticActions(actions, action)).toEqual([
     { $madeAt: 3, $uid: 'bob' },
     { $madeAt: 1, $uid: 'sue' }
   ])
@@ -41,7 +41,7 @@ test('remove all optimistic actions when STATE is received', () => {
     confirmed: {},
     watchers: { sue: { time: 5 } }
   }
-  expect(pendingActions(list, action)).toEqual([])
+  expect(optimisticActions(list, action)).toEqual([])
 })
 
 test('user generated actions are added to the optimistic list', () => {
@@ -51,6 +51,6 @@ test('user generated actions are added to the optimistic list', () => {
     value: '123',
     $madeAt: 1
   }
-  const newState = pendingActions(state, action)
+  const newState = optimisticActions(state, action)
   expect(newState[0].value).toEqual('123')
 })
