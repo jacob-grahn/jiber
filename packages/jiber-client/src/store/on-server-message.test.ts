@@ -1,4 +1,4 @@
-import { LOGIN_RESULT, STATE, OPEN } from 'jiber-core'
+import { LOGIN_RESULT, STATE, OPEN, SELF } from 'jiber-core'
 import * as sinon from 'sinon'
 import { onServerMessage } from './on-server-message'
 import { createClientStore } from './client-store'
@@ -41,13 +41,16 @@ test('do nothing extra if the doc does not exist', () => {
 })
 
 test('send optimistic actions from the docId', () => {
-  sunDoc.dispatch({ type: 'TEST_ACTION' })
+  // create an optimistic action
+  sunDoc.dispatch({ type: 'TEST_ACTION', $src: SELF })
   expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
 
-  const strAction = JSON.stringify({ type: STATE, $doc: 'sun' })
+  // simulate a LOGIN_RESULT from the server
+  const strAction = JSON.stringify({ type: LOGIN_RESULT, $doc: 'sun' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
-  expect(dispatch.getCall(1).args[0].type).toBe('TEST_ACTION')
-  expect(dispatch.getCall(2).args[0].type).toBe(STATE)
-  expect(dispatch.callCount).toBe(3)
+  expect(dispatch.getCall(1).args[0].type).toBe(OPEN)
+  expect(dispatch.getCall(2).args[0].type).toBe('TEST_ACTION')
+  expect(dispatch.getCall(3).args[0].type).toBe(LOGIN_RESULT)
+  expect(dispatch.callCount).toBe(4)
 })

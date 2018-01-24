@@ -5,8 +5,8 @@ import { Action, STATE, CLOSE, OPEN, SERVER } from 'jiber-core'
  * Actions with no $user are assumed to belong to the currently logged in user
  * @hidden
  */
-const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
-  return pendingActions.filter(pendingAction => {
+const pruneOld = (optimisticActions: Action[], action: Action): Action[] => {
+  return optimisticActions.filter(pendingAction => {
     if (!pendingAction.$uid) return false
     if (pendingAction.$uid !== action.$uid) return true
     return (pendingAction.$madeAt || 0) > (action.$madeAt || 0)
@@ -18,20 +18,20 @@ const pruneOld = (pendingActions: Action[], action: Action): Action[] => {
  * received for this user
  * @hidden
  */
-const addNew = (pendingActions: Action[], action: Action): Action[] => {
+const addNew = (optimisticActions: Action[], action: Action): Action[] => {
   // ignore OPEN and CLOSE actions, rejoin-s.ts handles that
   if (action.type === OPEN || action.type === CLOSE) {
-    return pendingActions
+    return optimisticActions
   }
 
   // if the user is not set, then we made this action but are not logged in yet
-  if (!action.$user) return [...pendingActions, action]
+  if (!action.$user) return [...optimisticActions, action]
 
   // only accept optimistic actions that are newer than the confirmed actions
   if ((action.$actionId || 0) > (action.$user.actionId || 0)) {
-    return [...pendingActions, action]
+    return [...optimisticActions, action]
   } else {
-    return pendingActions
+    return optimisticActions
   }
 }
 
@@ -39,7 +39,7 @@ const addNew = (pendingActions: Action[], action: Action): Action[] => {
  * Keep optimistic actions that have not been confirmed by the server yet
  * @hidden
  */
-export const pendingActions = (state: Action[] = [], action: Action): Action[] => {
+export const optimisticActions = (state: Action[] = [], action: Action): Action[] => {
   switch (action.type) {
     // Remove all pending actions
     case STATE:

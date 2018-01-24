@@ -1,6 +1,6 @@
 {
   "name": "jiber-server",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Synced data store",
   "main": "dist/index.js",
   "types": "src/index.ts",
@@ -12,11 +12,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^8.0.28",
-    "@types/ws": "^3.0.2",
-    "typescript": "^2.6.1"
+    "@types/ws": "^3.0.2"
   },
   "dependencies": {
-    "jiber-core": "^0.1.9",
+    "jiber-core": "^0.1.10",
     "ws": "^3.1.0"
   }
 }

@@ -23,6 +23,7 @@ export class ToughSocket {
   }
 
   private connect = () => {
+    if (!this.settings.url) return
     tryToConnect(this.settings)
       .then(socket => {
         this.socket = socket

@@ -1,6 +1,6 @@
 {
   "name": "jiber-client",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Synced data store",
   "main": "dist/jiber-client.bundle.js",
   "module": "dist/es6/index.js",
@@ -18,10 +18,9 @@
   "devDependencies": {
     "rollup": "^0.49.3",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "typescript": "^2.6.1",
     "uglify-es": "^3.0.15"
   },
   "dependencies": {
-    "jiber-core": "^0.1.9"
+    "jiber-core": "^0.1.10"
   }
 }

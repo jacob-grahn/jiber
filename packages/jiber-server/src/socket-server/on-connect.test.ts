@@ -9,8 +9,8 @@ import * as s2s from './send-to-socket'
 let dispatch: sinon.SinonStub
 let spy: sinon.SinonSpy
 const socketLookup = {}
-const ws: any = {on: () => {/* do nothing */}}
-const request: any = { verified: {uid: 'sally'} }
+const ws: any = { on: () => {/* do nothing */} }
+const request: any = { verified: { uid: 'sally' } }
 
 beforeEach(() => {
   dispatch = sinon.stub() as any
@@ -27,7 +27,7 @@ afterEach(() => {
 test('should send login result back to user', () => {
   onConnect(dispatch, socketLookup)(ws, request)
   expect(spy.getCall(0).args).toEqual([
-      ws,
+    ws,
       { type: LOGIN_RESULT, user: { uid: 'sally' } }
-    ])
+  ])
 })
