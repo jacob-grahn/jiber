@@ -1,6 +1,6 @@
 {
   "name": "jiber-core",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Synced data store",
   "main": "dist/commonjs/index.js",
   "module": "dist/es6/index.js",
