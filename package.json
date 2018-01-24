@@ -19,7 +19,7 @@
     "link": "node utils/link",
     "prepare": "link-parent-bin && node utils/exec-in-packages npm install",
     "test": "jest packages",
-    "travis-ci": "jest packages --coverage && cat ./coverage/lcov.info | coveralls"
+    "travis-ci": "jest packages --ci --runInBand --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
