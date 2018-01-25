@@ -4,6 +4,7 @@ import { optimisticActions } from '../reducers/optimistic-actions'
 import { optimisticDocs } from '../reducers/optimistic-docs'
 import { me } from '../reducers/me'
 import { filter } from '../reducers/filter'
+import { exfiltrate } from '../reducers/exfiltrate'
 
 /**
  * Top level reducer for the client
@@ -11,10 +12,10 @@ import { filter } from '../reducers/filter'
  */
 export const createClientReducer = (subReducer: Reducer) => {
   const reducer = combineReducers({
-    docs: filter(docs(subReducer), '$src', SERVER),
+    docs: exfiltrate(filter(docs(subReducer), '$src', SERVER), '$$docs'),
     watchers: filter(watchers, '$src', SERVER),
     peerTimes: filter(peerTimes, '$src', SERVER),
-    optimisticActions,
+    optimisticActions: exfiltrate(optimisticActions, '$$optimisticActions'),
     optimisticDocs: optimisticDocs(subReducer),
     me: filter(me, '$src', SERVER)
   })

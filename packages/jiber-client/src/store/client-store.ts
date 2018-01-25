@@ -17,7 +17,7 @@ export interface ClientStore extends Store {
  * Extend Store to:
  * 1. Send / receive actions from the server
  * 2. Send /receive actions from peers
- * 3. Add a createDoc method
+ * 3. Add an 'open' method
  */
 export const createClientStore = (input: ClientSettingsInput = {}) => {
   const settings = { ...defaultClientSettings, ...input }
