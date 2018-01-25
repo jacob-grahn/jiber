@@ -11,7 +11,7 @@ const orderedPackages = _.uniq(['jiber-core', ...packages])
 
 orderedPackages.reduce((promise, pkg) => {
   return promise
-    .then(() => console.log(`executing in ${pkg}...`))
+    .then(() => console.log(`executing '${args.join(' ')}' in ${pkg}...`))
     .then(() => execa.shell(`cd packages/${pkg} && ${strArgs}`))
     .then(() => console.log('success!'))
 }, Promise.resolve())

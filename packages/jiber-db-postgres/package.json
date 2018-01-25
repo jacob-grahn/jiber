@@ -19,9 +19,8 @@
   "homepage": "https://github.com/jacob-grahn/jiber#readme",
   "dependencies": {
     "@types/pg": "^7.4.0",
+    "jiber-core": "file:../jiber-core",
     "pg": "^7.4.0"
   },
-  "devDependencies": {
-    "jiber-core": "^0.1.10"
-  }
+  "devDependencies": {}
 }

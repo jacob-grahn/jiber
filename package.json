@@ -14,7 +14,7 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
-    "build": "node utils/link && node utils/exec-in-packages npm run build",
+    "build": "node utils/exec-in-packages npm run build",
     "lint": "tslint --fix -p tsconfig.json",
     "link": "node utils/link",
     "prepare": "link-parent-bin && node utils/exec-in-packages npm install",

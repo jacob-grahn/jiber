@@ -21,6 +21,6 @@
     "uglify-es": "^3.0.15"
   },
   "dependencies": {
-    "jiber-core": "^0.1.10"
+    "jiber-core": "file:../jiber-core"
   }
 }
