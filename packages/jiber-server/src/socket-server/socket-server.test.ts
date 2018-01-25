@@ -6,7 +6,7 @@ import { LOGIN_RESULT } from 'jiber-core'
 // tests
 ////////////////////////////////////////////////////////////////////////////////
 test('listen on port', (done) => {
-  const store = createServerStore({port: 1001})
+  const store = createServerStore({port: 2001})
   store.start()
   const ws = new WS('ws://127.0.0.1:1001')
   ws.on('open', () => {
@@ -22,7 +22,7 @@ test('listen on port', (done) => {
 })
 
 test('actions should come back', (done) => {
-  const store = createServerStore({port: 1002})
+  const store = createServerStore({port: 2002})
   store.start()
   const ws = new WS('ws://127.0.0.1:1002')
   ws.on('message', (data) => {
