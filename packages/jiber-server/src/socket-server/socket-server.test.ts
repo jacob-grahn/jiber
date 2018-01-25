@@ -8,7 +8,7 @@ import { LOGIN_RESULT } from 'jiber-core'
 test('listen on port', (done) => {
   const store = createServerStore({port: 1001})
   store.start()
-  const ws = new WS('ws://localhost:1001')
+  const ws = new WS('ws://127.0.0.1:1001')
   ws.on('open', () => {
     ws.close()
     store.stop()
@@ -24,7 +24,7 @@ test('listen on port', (done) => {
 test('actions should come back', (done) => {
   const store = createServerStore({port: 1002})
   store.start()
-  const ws = new WS('ws://localhost:1002')
+  const ws = new WS('ws://127.0.0.1:1002')
   ws.on('message', (data) => {
     const action = JSON.parse(data.toString())
     if (action.type === LOGIN_RESULT) {
@@ -35,5 +35,10 @@ test('actions should come back', (done) => {
       store.stop()
       done()
     }
+  })
+  ws.on('error', (e) => {
+    ws.close()
+    store.stop()
+    done(e)
   })
 })
