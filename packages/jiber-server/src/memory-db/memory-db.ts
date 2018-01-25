@@ -6,7 +6,7 @@ import { Action, DB } from 'jiber-core'
 
 export const memoryDB: DB = {
   dispatch: (action: Action) => {
-    action.$timeMs = new Date().getTime()
+    action.$ranAt = new Date().getTime()
     if (memoryDB.onaction) memoryDB.onaction(action)
     return Promise.resolve()
   },

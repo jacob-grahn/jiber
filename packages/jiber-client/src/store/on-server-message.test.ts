@@ -12,7 +12,7 @@ let dispatch: sinon.SinonSpy
 
 beforeEach(() => {
   store = createClientStore()
-  sunDoc = store.createDoc('sun')
+  sunDoc = store.open('sun')
   dispatch = sinon.spy(store, 'dispatch')
 })
 

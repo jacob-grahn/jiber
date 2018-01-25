@@ -9,6 +9,6 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "dependencies": {
-    "jiber-server": "^0.1.9"
+    "jiber-server": "file:../.."
   }
 }

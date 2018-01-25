@@ -10,14 +10,14 @@ import { serverConnection } from './server-connection'
 
 export interface ClientStore extends Store {
   getState: () => ClientState,
-  createDoc: (Id: string) => any
+  open: (id: string) => any
 }
 
 /**
  * Extend Store to:
  * 1. Send / receive actions from the server
  * 2. Send /receive actions from peers
- * 3. Add a createDoc method
+ * 3. Add an 'open' method
  */
 export const createClientStore = (input: ClientSettingsInput = {}) => {
   const settings = { ...defaultClientSettings, ...input }
@@ -31,8 +31,8 @@ export const createClientStore = (input: ClientSettingsInput = {}) => {
       action = injectMetadata(store, action)
       coreDispatch(action)
     },
-    createDoc: (Id: string) => {
-      return new Doc(clientStore, Id, settings.actionCreators)
+    open: (id: string) => {
+      return new Doc(clientStore, id, settings.actionCreators)
     }
   }
 

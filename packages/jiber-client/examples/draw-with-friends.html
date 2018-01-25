@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Draw With Friends</title>
-    <script src="https://unpkg.com/jiber-client"></script>
+    <script src="../dist/jiber-client.bundle.js"></script>
   </head>
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
@@ -41,7 +41,7 @@
         clear: () => ({type: 'CLEAR'})
       }
 
-      const url = 'wss://demo.jiber.io'
+      const url = 'ws://localhost'
 
       // open a doc for our masterful drawing
       const store = $jiber.createStore({url, reducer, actionCreators})

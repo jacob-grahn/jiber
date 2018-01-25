@@ -38,7 +38,7 @@ export const createSocketServer = (store: ServerStore) => {
       verifyClient: verifyClient(store)
     })
     wss.on('error', (err) => logger.error('wss error', err.message))
-    wss.on('connection', onConnect(store.dispatch, socketLookup))
+    wss.on('connection', onConnect(store.db.dispatch, socketLookup))
   }
 
   // some currying here sure would be nice
