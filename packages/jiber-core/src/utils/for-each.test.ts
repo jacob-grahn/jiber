@@ -20,3 +20,7 @@ test('forEach an object', () => {
     { key: 'length', val: 55 }
   ])
 })
+
+test('survive a falsy input without throwing an error', () => {
+  forEach(undefined, () => { /* do nothing */ })
+})

@@ -10,7 +10,7 @@ import { serverConnection } from './server-connection'
 
 export interface ClientStore extends Store {
   getState: () => ClientState,
-  createDoc: (Id: string) => any
+  open: (id: string) => any
 }
 
 /**
@@ -31,8 +31,8 @@ export const createClientStore = (input: ClientSettingsInput = {}) => {
       action = injectMetadata(store, action)
       coreDispatch(action)
     },
-    createDoc: (Id: string) => {
-      return new Doc(clientStore, Id, settings.actionCreators)
+    open: (id: string) => {
+      return new Doc(clientStore, id, settings.actionCreators)
     }
   }
 

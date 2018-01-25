@@ -20,7 +20,7 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
     const state = store.getState()
 
     // re-open docs
-    forEach(state.docs, (_doc, docId) => {
+    forEach(state.optimisticDocs, (_doc, docId) => {
       store.dispatch({ type: OPEN, $doc: docId })
     })
 
