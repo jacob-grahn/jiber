@@ -1,15 +1,13 @@
-import { Pool } from 'pg'
+import { Pool, Notification } from 'pg'
 
-export const listenToTable = async (pool: Pool, table: string) => {
+type Handler = (msg: Notification) => any
+
+export const listenToTable = async (pool: Pool, table: string, handler: Handler) => {
   const client = await pool.connect()
   try {
     await client.query(`LISTEN ${table}_insert`)
-    client.on('notification', (msg) => {
-      console.log(msg.payload)
-    })
-    client.on('error', (error) => {
-      console.error('This never even runs:', error)
-    })
+    client.on('notification', handler)
+    client.on('end', () => listenToTable(pool, table, handler))
   } catch (e) {
     throw e
   } finally {

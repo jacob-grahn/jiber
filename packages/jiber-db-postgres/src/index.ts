@@ -1,4 +1,4 @@
-import { Pool, PoolConfig } from 'pg'
+import { Pool, PoolConfig, Notification } from 'pg'
 import { DB, Action } from 'jiber-core'
 import { toSafeTableName } from './to-safe-table-name'
 import { setupTable } from './setup-table'
@@ -19,12 +19,7 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
   const table = toSafeTableName(`${tablePrefix}${Id}`)
   const pool = new Pool(config)
   let lastActionId = 0
-  let intervalId: any
   let state: any
-
-  const conn = await pool.connect()
-  await setupTable(pool, table)
-  await listenToTable(pool, table)
 
   const db: DB = {
     dispatch: (action: Action): Promise<any> => {
@@ -36,7 +31,6 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     },
 
     close: (): void => {
-      clearInterval(intervalId)
     }
   }
 
@@ -62,8 +56,9 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     `, [snapshotAction, lastActionId])
   }
 
-  const onNotification = async (msg: any) => {
+  const onNotification = async (msg: Notification) => {
     if (msg.channel === `${table}_insert`) {
+      if (!msg.payload) return
       const row = JSON.parse(msg.payload)
       emitRow(row)
       if (row % snapshotFrequency === 0 && row.worker_id === workerId) {
@@ -76,8 +71,6 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     }
   }
 
-  conn.on('notification', onNotification)
-
   const loadHistory = async (): Promise<Action[]> => {
     const result = await pool.query(`
       SELECT *
@@ -86,6 +79,10 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     `, [lastActionId])
     return result.rows
   }
+
+  await pool.connect()
+  await setupTable(pool, table)
+  await listenToTable(pool, table, onNotification)
 
   const rows = await loadHistory()
   rows.forEach(emitRow)
