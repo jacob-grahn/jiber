@@ -18,7 +18,7 @@
     "lint": "tslint --fix -p tsconfig.json",
     "link": "node utils/link",
     "prepare": "link-parent-bin && node utils/exec-in-packages npm install",
-    "test": "jest packages",
+    "test": "jest packages --runInBand",
     "travis-ci": "jest packages --ci --runInBand --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
