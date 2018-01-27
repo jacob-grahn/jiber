@@ -8,8 +8,6 @@
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
     <br>
-    <button id="place-btn" onclick="setRemove(false)">Add</button>
-    <button id="remove-btn" onclick="setRemove(true)">Remove</button>
     <button id="clear-btn" onclick="doc.clear()">Clear</button>
 
     <script>
@@ -17,8 +15,6 @@
       //////////////////////////////////////////////////////////////////////////
       // INIT
       //////////////////////////////////////////////////////////////////////////
-
-      var removePixels = false;
 
       // Our app logic
       // Track pixel colors
@@ -85,6 +81,7 @@
       // I/O: draw pixels when a user taps and drags
       //////////////////////////////////////////////////////////////////////////
       function setPixel (e, color) {
+        console.log('setPixel', e, color)
         const x = Math.floor(e.clientX / scale)
         const y = Math.floor(e.clientY / scale)
         const path = `${x},${y}`
@@ -94,13 +91,6 @@
         if (state[path] === color) return
 
         doc.setPixel(path, color)
-      }
-
-      function setRemove(remove){
-        if(remove)
-          removePixels = true
-        else
-          removePixels = false
       }
 
       function randomColor () {
@@ -114,11 +104,7 @@
       }
 
       canvas.onmousedown = (e) => {
-        var color
-        if(!removePixels)
-          color = randomColor()
-        else
-           color = "#FFFFFF"
+        const color = randomColor()
         setPixel(e, color)
         canvas.onmousemove = (e) => setPixel(e, color)
         window.onmouseup = (e) => canvas.onmousemove = undefined
