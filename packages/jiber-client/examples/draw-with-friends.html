@@ -81,7 +81,6 @@
       // I/O: draw pixels when a user taps and drags
       //////////////////////////////////////////////////////////////////////////
       function setPixel (e, color) {
-        console.log('setPixel', e, color)
         const x = Math.floor(e.clientX / scale)
         const y = Math.floor(e.clientY / scale)
         const path = `${x},${y}`
