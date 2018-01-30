@@ -13,6 +13,7 @@
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.6.1"
   },
+  "version": "0.1.11",
   "scripts": {
     "build": "node utils/exec-in-packages npm run build",
     "lint": "tslint --fix -p tsconfig.json",
