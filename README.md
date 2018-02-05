@@ -1,7 +1,7 @@
 [![Jiber](jiber.gif)](https://jiber.io)
 
 [![Build Status](https://travis-ci.org/jacob-grahn/jiber.svg?branch=master)](https://travis-ci.org/jacob-grahn/jiber)
-[![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master&cache_bust=yay)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
 
 Jiber is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
