@@ -13,13 +13,14 @@
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.6.1"
   },
+  "version": "0.1.11",
   "scripts": {
     "build": "node utils/exec-in-packages npm run build",
     "lint": "tslint --fix -p tsconfig.json",
     "link": "node utils/link",
     "prepare": "link-parent-bin && node utils/exec-in-packages npm install",
-    "test": "jest packages",
-    "travis-ci": "jest packages --ci --runInBand --coverage && cat ./coverage/lcov.info | coveralls"
+    "test": "jest packages --runInBand",
+    "travis-ci": "npm run lint && jest packages --ci --runInBand --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -30,12 +31,6 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "\\.test\\.ts$",
-    "collectCoverageFrom": [
-      "packages/**/*.ts",
-      "!**/*d.ts",
-      "!**/interfaces/*.ts",
-      "!**/constants/*.ts"
-    ],
     "moduleFileExtensions": [
       "ts",
       "js"
