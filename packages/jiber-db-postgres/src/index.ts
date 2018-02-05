@@ -31,6 +31,7 @@ export const createDb = async (config: PostgresConfig): Promise<DB> => {
     },
 
     close: (): void => {
+      /* todo: fill this out */
     }
   }
 
