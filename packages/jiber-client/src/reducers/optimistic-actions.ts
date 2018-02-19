@@ -19,20 +19,12 @@ const pruneOld = (optimisticActions: Action[], action: Action): Action[] => {
  * @hidden
  */
 const addNew = (optimisticActions: Action[], action: Action): Action[] => {
-  // ignore OPEN and CLOSE actions, rejoin-s.ts handles that
+  // ignore OPEN and CLOSE actions, on-server-message.ts handles that
   if (action.type === OPEN || action.type === CLOSE) {
     return optimisticActions
   }
 
-  // if the user is not set, then we made this action but are not logged in yet
-  if (!action.$user) return [...optimisticActions, action]
-
-  // only accept optimistic actions that are newer than the confirmed actions
-  if ((action.$actionId || 0) > (action.$user.actionId || 0)) {
-    return [...optimisticActions, action]
-  } else {
-    return optimisticActions
-  }
+  return [...optimisticActions, action]
 }
 
 /**

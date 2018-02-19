@@ -47,10 +47,15 @@ test('remove all optimistic actions when STATE is received', () => {
 test('user generated actions are added to the optimistic list', () => {
   const state: any = undefined
   const action = {
-    type: 'lasswe',
-    value: '123',
-    $madeAt: 1
+    doc: 'draw',
+    $madeAt: 1519067435081,
+    $src: 'SELF',
+    $uid: 'ba112aeb7873',
+    $user: { uid: 'ba112aeb7873' },
+    color: '#64FDCD',
+    path: '5,18',
+    type: 'SET_PIXEL'
   }
   const newState = optimisticActions(state, action)
-  expect(newState[0].value).toEqual('123')
+  expect(newState[0].color).toEqual('#64FDCD')
 })

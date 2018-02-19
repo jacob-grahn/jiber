@@ -21,6 +21,9 @@ export const onPeerMessage = (store: Store, peerUserId: string) => (event: Messa
   action.$src = PEER
   action.$user = user
 
+  // TODO: don't dispatch out of order peer actions
+  // check peer-times first
+
   // optimistic
   store.dispatch(action)
 }
