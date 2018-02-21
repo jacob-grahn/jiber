@@ -1,12 +1,5 @@
-import { Store } from 'jiber-core'
-import { ClientSettings } from '../interfaces'
-
-export interface PeerSettings {
-  peerId: string,
-  store: Store,
-  stunServers: ClientSettings['stunServers'],
-  offer?: any
-}
+import { negotiateConnection } from './negotiate-connection'
+import { PeerSettings } from './peer-settings'
 
 export class Peer {
   private connection: RTCPeerConnection
@@ -15,6 +8,7 @@ export class Peer {
   constructor (settings: PeerSettings) {
     this.connection = this.createConnection(settings.stunServers)
     this.lastReceivedAt = new Date().getTime()
+    negotiateConnection(this.connection, settings)
   }
 
   private createConnection = (stunServers: string[]) => {

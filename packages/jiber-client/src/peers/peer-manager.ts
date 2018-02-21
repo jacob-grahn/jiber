@@ -1,11 +1,6 @@
-import { Action, Store, OPEN, CLOSE, WEBRTC_OFFER } from 'jiber-core'
+import { Action, OPEN, CLOSE, WEBRTC_OFFER } from 'jiber-core'
 import { Peer } from './peer'
-
-export interface PeerSettings {
-  store: Store,
-  stunServers: string[],
-  maxPeers: number
-}
+import { PeerSettings } from './peer-settings'
 
 export class PeerManager {
   private dict: {[peerId: string]: Peer} = {}
@@ -17,7 +12,6 @@ export class PeerManager {
   }
 
   private onLocalAction = (_state: any, action: Action) => {
-    const { store, stunServers, maxPeers } = this.settings
     const peerId = action.$uid
     if (!peerId) return
 
@@ -31,11 +25,10 @@ export class PeerManager {
       if (this.dict[peerId]) return
 
       // don't exceed the maximum number of allowed peers
-      if (Object.keys(this.dict).length >= maxPeers) return
+      if (Object.keys(this.dict).length >= this.settings.maxPeers) return
 
       // create a new peer connection
-      const { offer } = action
-      const peer = new Peer({ peerId, store, stunServers, offer })
+      const peer = new Peer({...this.settings, offer: action.offer})
       this.dict[peerId] = peer
     }
 
