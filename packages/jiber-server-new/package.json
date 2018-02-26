@@ -1,0 +1,21 @@
+{
+  "name": "jiber-server",
+  "version": "0.1.11",
+  "description": "Synced data store",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "build": "tsc"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^8.0.28",
+    "@types/ws": "^3.0.2"
+  },
+  "dependencies": {
+    "jiber-core": "file:../jiber-core",
+    "ws": "^3.1.0"
+  }
+}
