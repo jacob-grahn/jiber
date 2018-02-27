@@ -28,7 +28,7 @@ export class PeerManager {
       if (Object.keys(this.dict).length >= this.settings.maxPeers) return
 
       // create a new peer connection
-      const peer = new Peer({...this.settings, offer: action.offer})
+      const peer = new Peer({ ...this.settings, offer: action.offer })
       this.dict[peerId] = peer
     }
 

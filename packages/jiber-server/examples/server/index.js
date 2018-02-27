@@ -1,9 +1,11 @@
-const jiber = require('jiber-server')
-const reducer = require('./reducer')
-
-// Pass our custom app logic to jiber
-const store = jiber.createStore({reducer})
+const { JiberServer } = require('jiber-server')
 
 // Start listening for incomming connections
-store.start()
+const server = new JiberServer({
+  actionTtl: 1000 * 60, // one minute
+  port: 8080
+})
+
 console.log('Jiber Server is running!')
+
+module.exports = server

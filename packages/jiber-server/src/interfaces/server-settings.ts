@@ -1,13 +1,17 @@
-import { Reducer, DB } from 'jiber-core'
-import { LoginRequestHandler } from './login-request-handler'
+import * as WS from 'ws'
+
+type ActionTtl = (docId: string) => number
+
+export interface ServerSettingsInput {
+  actionTtl?: number | ActionTtl,
+  port?: number,
+  server?: any,
+  verifyClient?: WS.VerifyClientCallbackAsync
+}
 
 export interface ServerSettings {
-  db: DB,
-  initialState: any,
-  login: LoginRequestHandler,
-  maxDocAge: number,
+  actionTtl: number | ActionTtl,
   port: number,
-  reducer: Reducer,
   server: any,
-  snapshotInterval: number
+  verifyClient: WS.VerifyClientCallbackAsync
 }

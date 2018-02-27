@@ -1,12 +1,6 @@
-import { User } from 'jiber-core'
+import { SocketServer } from '../socket-server'
 
 export interface ServerState {
-  docs: {
-    [docId: string]: any
-  },
-  watchers: {
-    [docId: string]: {
-      [uid: string]: User
-    }
-  }
+  socketServer: SocketServer,
+  subscriptions: {[docId: string]: Set<string>}
 }
