@@ -28,13 +28,13 @@ test('send a join action for each doc in the state', () => {
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   const param = dispatch.getCall(0).args[0]
-  expect(param.$doc).toBe('sun')
+  expect(param.$docId).toBe('sun')
   expect(param.type).toBe(OPEN)
   expect(dispatch.callCount).toBe(2)
 })
 
 test('do nothing extra if the doc does not exist', () => {
-  const strAction = JSON.stringify({ type: STATE, $doc: 'wowow' })
+  const strAction = JSON.stringify({ type: STATE, $docId: 'wowow' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.callCount).toBe(1)
@@ -46,7 +46,7 @@ test('send optimistic actions from the docId', () => {
   expect(dispatch.getCall(0).args[0].type).toBe('TEST_ACTION')
 
   // simulate a LOGIN_RESULT from the server
-  const strAction = JSON.stringify({ type: LOGIN_RESULT, $doc: 'sun' })
+  const strAction = JSON.stringify({ type: LOGIN_RESULT, $docId: 'sun' })
   const event: any = { data: strAction }
   onServerMessage(store)(event)
   expect(dispatch.getCall(1).args[0].type).toBe(OPEN)

@@ -12,7 +12,7 @@ import { exfiltrate } from '../reducers/exfiltrate'
  */
 export const createClientReducer = (subReducer: Reducer) => {
   const reducer = combineReducers({
-    docs: exfiltrate(filter(docs(subReducer), '$src', SERVER), '$$docs'),
+    docs: exfiltrate(filter(docs(subReducer), '$src', SERVER), '$$docIds'),
     watchers: filter(watchers, '$src', SERVER),
     peerTimes: filter(peerTimes, '$src', SERVER),
     optimisticActions: exfiltrate(optimisticActions, '$$optimisticActions'),

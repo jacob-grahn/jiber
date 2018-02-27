@@ -9,14 +9,14 @@ import { Reducer, SERVER, dictionary } from 'jiber-core'
 
 const optimisticDoc = (reducer: Reducer) => (state: any, action: any) => {
   // hack to clean up the other hack to get this info into this reducer
-  const docs = action.$$docs
+  const docs = action.$$docIds
   const optimisticActions = action.$$optimisticActions
-  delete action.$$docs
+  delete action.$$docIds
   delete action.$$optimisticActions
 
   if (action.$src === SERVER) {
     if (!docs || !optimisticActions) return state
-    const docState = docs[action.$doc]
+    const docState = docs[action.$docId]
 
     // copy is not needed if reducer does not mutate state
     // this could possibly be optional via the settings
@@ -28,5 +28,5 @@ const optimisticDoc = (reducer: Reducer) => (state: any, action: any) => {
 }
 
 export const optimisticDocs = (reducer: Reducer) => {
-  return dictionary(optimisticDoc(reducer), '$doc')
+  return dictionary(optimisticDoc(reducer), '$docId')
 }

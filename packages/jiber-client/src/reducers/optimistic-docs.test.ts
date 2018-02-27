@@ -9,9 +9,9 @@ test('user generated actions are used on the optimistic state', () => {
   const action = {
     type: 'bet',
     value: '123',
-    $doc: 'doc1',
+    $docId: 'doc1',
     $$optimisticActions: [],
-    $$docs: undefined
+    $$docIds: undefined
   }
   const optimisticState = undefined
   const newOptimisticState = optimisticDocs(adder)(optimisticState, action)
@@ -22,13 +22,13 @@ test('optimistic state is rebased when confirmed state is updated', () => {
   const action: Action = {
     type: 'test',
     value: 'abc',
-    $doc: 'testDoc',
+    $docId: 'testDoc',
     $src: SERVER,
     $$optimisticActions: [
-      { type: 'test', value: '123', $doc: 'testDoc' },
-      { type: 'test', value: '456', $doc: 'testDoc' }
+      { type: 'test', value: '123', $docId: 'testDoc' },
+      { type: 'test', value: '456', $docId: 'testDoc' }
     ],
-    $$docs: {
+    $$docIds: {
       testDoc: 'abc'
     }
   }
@@ -47,12 +47,12 @@ test('do not mutate the original confirmed state', () => {
   const optimisticState = { doc1: { count: 5 } }
   const action: Action = {
     type: 'test',
-    $doc: 'doc1',
+    $docId: 'doc1',
     $uid: 'sally',
     $src: SERVER,
-    $$docs: docState,
+    $$docIds: docState,
     $$optimisticActions: [
-      { type: 'add', $doc: 'testDoc', ammount: 100 }
+      { type: 'add', $docId: 'testDoc', ammount: 100 }
     ]
   }
 

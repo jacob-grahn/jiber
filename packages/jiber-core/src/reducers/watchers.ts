@@ -13,4 +13,4 @@ const watcher = (state: User | undefined, action: Action): User | undefined => {
   }
 }
 
-export const watchers = dictionary(dictionary(watcher, '$uid'), '$doc')
+export const watchers = dictionary(dictionary(watcher, '$uid'), '$docId')

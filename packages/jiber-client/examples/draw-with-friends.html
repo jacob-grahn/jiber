@@ -37,7 +37,7 @@
         clear: () => ({type: 'CLEAR'})
       }
 
-      const url = 'ws://localhost'
+      const url = 'ws://localhost:8080'
 
       // open a doc for our masterful drawing
       const store = $jiber.createStore({url, reducer, actionCreators})

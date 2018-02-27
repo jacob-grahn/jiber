@@ -20,7 +20,7 @@ export class Doc {
   constructor (store: Store, id: string, actionCreators: ActionCreators = {}) {
     this.store = store
     this.id = id
-    this.dispatch({ type: OPEN, $doc: id })
+    this.dispatch({ type: OPEN, $docId: id })
 
     // action dispatchers
     const actionDispatchers = toDispatchers(this.dispatch, actionCreators)
@@ -29,7 +29,7 @@ export class Doc {
     // subscribe to events that target this
     const subscription = createSubscription()
     store.subscribe((state: ClientState, action: Action) => {
-      if (action && action.$doc === id) {
+      if (action && action.$docId === id) {
         subscription.publish(state.optimisticDocs[id], action)
       }
     })
@@ -37,7 +37,7 @@ export class Doc {
   }
 
   public dispatch = (action: Action) => {
-    this.store.dispatch({ ...action, $doc: this.id })
+    this.store.dispatch({ ...action, $docId: this.id })
   }
 
   public getState = () => {

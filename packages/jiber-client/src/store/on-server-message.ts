@@ -21,7 +21,7 @@ export const onServerMessage = (store: ClientStore) => (event: MessageEvent) => 
 
     // re-open docs
     forEach(state.optimisticDocs, (_doc, docId) => {
-      store.dispatch({ type: OPEN, $doc: docId })
+      store.dispatch({ type: OPEN, $docId: docId })
     })
 
     // re-send pending actions

@@ -11,4 +11,4 @@ const doc = (reducer: Reducer) => (state: any, action: Action) => {
   }
 }
 
-export const docs = (reducer: Reducer) => dictionary(doc(reducer), '$doc')
+export const docs = (reducer: Reducer) => dictionary(doc(reducer), '$docId')
