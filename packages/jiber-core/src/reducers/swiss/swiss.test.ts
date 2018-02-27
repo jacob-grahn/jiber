@@ -7,7 +7,7 @@ import {
   swiss
 } from './swiss'
 
-const $user = { uid: 'Sun', grantWrite: [''] }
+const $user = { userId: 'Sun', grantWrite: [''] }
 
 test(SET, () => {
   const action = { type: SET, path: 'flavor', value: 'mint', $user }

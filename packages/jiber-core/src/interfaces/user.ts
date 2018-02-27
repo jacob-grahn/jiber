@@ -1,4 +1,4 @@
 export interface User {
-  uid: string,
+  userId: string,
   [key: string]: any
 }

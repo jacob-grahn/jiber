@@ -10,7 +10,7 @@ export const injectMetadata = (store: Store, action: Action) => {
     action.$src = SELF
     action.$madeAt = new Date().getTime()
     action.$user = state.me
-    action.$userId = get(state, 'me.uid')
+    action.$userId = get(state, 'me.userId')
   }
 
   return action

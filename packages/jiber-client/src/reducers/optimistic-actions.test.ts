@@ -1,7 +1,7 @@
 import { optimisticActions } from './optimistic-actions'
 import { STATE, SERVER } from 'jiber-core'
 
-test('prune actions that do not have a uid', () => {
+test('prune actions that do not have a userId', () => {
   const actions: any = [{}, { $madeAt: 0 }]
   const action = {
     type: 'lala',

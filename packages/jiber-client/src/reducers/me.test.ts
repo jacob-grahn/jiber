@@ -8,7 +8,7 @@ test('update account on login success', () => {
 
 test('return same state for unrelated actions', () => {
   const action = { type: 'ANOTHER_ACTION', user: 'bob' }
-  const state = { uid: 'sue' }
+  const state = { userId: 'sue' }
   expect(me(state, action)).toBe(state)
 })
 

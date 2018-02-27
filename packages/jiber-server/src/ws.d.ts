@@ -1,4 +1,4 @@
 interface WebSocket {
   verified: any,
-  uid: string
+  userId: string
 }

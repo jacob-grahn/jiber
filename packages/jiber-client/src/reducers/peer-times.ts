@@ -1,7 +1,7 @@
 import { Action, SERVER } from 'jiber-core'
 
 export interface PeerTimesState {
-  [uid: string]: number
+  [userId: string]: number
 }
 
 export const peerTimes = (state: PeerTimesState = {}, action: Action): PeerTimesState => {

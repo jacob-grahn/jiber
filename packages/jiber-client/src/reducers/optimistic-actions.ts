@@ -1,7 +1,7 @@
 import { Action, STATE, CLOSE, OPEN, SERVER } from 'jiber-core'
 
 /**
- * Remove actions that have the same uid, and a lesser or equal actionId
+ * Remove actions that have the same userId, and a lesser or equal actionId
  * Actions with no $user are assumed to belong to the currently logged in user
  * @hidden
  */
@@ -45,7 +45,7 @@ export const optimisticActions = (state: Action[] = [], action: Action): Action[
     case STATE:
       return []
 
-    // Remove pending actions belonging to uid if they leave the
+    // Remove pending actions belonging to userId if they leave the
     case CLOSE:
       return state.filter(pendingAction => pendingAction.$userId !== action.$userId)
 

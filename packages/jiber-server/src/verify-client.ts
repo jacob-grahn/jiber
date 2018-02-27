@@ -5,7 +5,7 @@ import { randStr } from './utils/rand-str'
  */
 export const verifyClient = async (info: {req: any}, cb: Function) => {
   try {
-    const result = { uid: randStr(12) }
+    const result = { userId: randStr(12) }
     info.req.verified = result
     cb(true)
   } catch (e) {

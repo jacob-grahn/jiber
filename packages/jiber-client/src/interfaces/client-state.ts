@@ -9,11 +9,11 @@ export interface ClientState {
   },
   watchers: {
     [docId: string]: {
-      [uid: string]: User
+      [userId: string]: User
     }
   },
   peerTimes: {
-    [uid: string]: number
+    [userId: string]: number
   },
   optimisticActions: Action[],
   optimisticDocs: {
