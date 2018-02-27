@@ -48,7 +48,7 @@ test('do not mutate the original confirmed state', () => {
   const action: Action = {
     type: 'test',
     $docId: 'doc1',
-    $uid: 'sally',
+    $userId: 'sally',
     $src: SERVER,
     $$docIds: docState,
     $$optimisticActions: [

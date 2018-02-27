@@ -5,8 +5,8 @@ export interface PeerTimesState {
 }
 
 export const peerTimes = (state: PeerTimesState = {}, action: Action): PeerTimesState => {
-  if (action.$uid && action.$madeAt && action.$source === SERVER) {
-    return { ...state, [action.$uid]: action.$madeAt }
+  if (action.$userId && action.$madeAt && action.$source === SERVER) {
+    return { ...state, [action.$userId]: action.$madeAt }
   }
   return state
 }

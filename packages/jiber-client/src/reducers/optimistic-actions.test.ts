@@ -5,7 +5,7 @@ test('prune actions that do not have a uid', () => {
   const actions: any = [{}, { $madeAt: 0 }]
   const action = {
     type: 'lala',
-    $uid: '1',
+    $userId: '1',
     $src: SERVER
   }
   expect(optimisticActions(actions, action)).toEqual([])
@@ -13,28 +13,28 @@ test('prune actions that do not have a uid', () => {
 
 test('remove optimistic actions if newer confirmed action is received', () => {
   const actions: any = [
-    { $madeAt: 1, $uid: 'bob' },
-    { $madeAt: 2, $uid: 'bob' },
-    { $madeAt: 3, $uid: 'bob' },
-    { $madeAt: 1, $uid: 'sue' }
+    { $madeAt: 1, $userId: 'bob' },
+    { $madeAt: 2, $userId: 'bob' },
+    { $madeAt: 3, $userId: 'bob' },
+    { $madeAt: 1, $userId: 'sue' }
   ]
   const action = {
     type: 'wee',
-    $uid: 'bob',
+    $userId: 'bob',
     $madeAt: 2,
     $src: SERVER
   }
   expect(optimisticActions(actions, action)).toEqual([
-    { $madeAt: 3, $uid: 'bob' },
-    { $madeAt: 1, $uid: 'sue' }
+    { $madeAt: 3, $userId: 'bob' },
+    { $madeAt: 1, $userId: 'sue' }
   ])
 })
 
 test('remove all optimistic actions when STATE is received', () => {
   const list: any = [
-    { type: 'WEE', $uid: 'sue', $madeAt: 5 },
-    { type: 'WEE', $uid: 'sue', $madeAt: 6 },
-    { type: 'WEE', $uid: 'bob', $madeAt: 2 }
+    { type: 'WEE', $userId: 'sue', $madeAt: 5 },
+    { type: 'WEE', $userId: 'sue', $madeAt: 6 },
+    { type: 'WEE', $userId: 'bob', $madeAt: 2 }
   ]
   const action = {
     type: STATE,

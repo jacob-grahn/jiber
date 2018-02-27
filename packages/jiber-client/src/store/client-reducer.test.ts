@@ -23,18 +23,18 @@ test('add a confirmed action', () => {
       mydoc: '123456'
     },
     optimisticActions: [
-      { $docId: 'mydoc', value: '4', $madeAt: 4, $uid: 'paul' },
-      { $docId: 'mydoc', value: '5', $madeAt: 5, $uid: 'paul' },
-      { $docId: 'mydoc', value: '6', $madeAt: 6, $uid: 'paul' }
+      { $docId: 'mydoc', value: '4', $madeAt: 4, $userId: 'paul' },
+      { $docId: 'mydoc', value: '5', $madeAt: 5, $userId: 'paul' },
+      { $docId: 'mydoc', value: '6', $madeAt: 6, $userId: 'paul' }
     ]
   }
-  const action = { type: 'test', $docId: 'mydoc', value: '4', $madeAt: 4, $src: SERVER, $uid: 'paul' }
+  const action = { type: 'test', $docId: 'mydoc', value: '4', $madeAt: 4, $src: SERVER, $userId: 'paul' }
   const newState = clientReducer(state, action)
   expect(newState.docs.mydoc).toBe('1234')
   expect(newState.optimisticDocs.mydoc).toBe('123456')
   expect(newState.optimisticActions).toEqual([
-    { $docId: 'mydoc', value: '5', $madeAt: 5, $uid: 'paul' },
-    { $docId: 'mydoc', value: '6', $madeAt: 6, $uid: 'paul' }
+    { $docId: 'mydoc', value: '5', $madeAt: 5, $userId: 'paul' },
+    { $docId: 'mydoc', value: '6', $madeAt: 6, $userId: 'paul' }
   ])
 })
 

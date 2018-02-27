@@ -7,8 +7,8 @@ import { Action, STATE, CLOSE, OPEN, SERVER } from 'jiber-core'
  */
 const pruneOld = (optimisticActions: Action[], action: Action): Action[] => {
   return optimisticActions.filter(pendingAction => {
-    if (!pendingAction.$uid) return false
-    if (pendingAction.$uid !== action.$uid) return true
+    if (!pendingAction.$userId) return false
+    if (pendingAction.$userId !== action.$userId) return true
     return (pendingAction.$madeAt || 0) > (action.$madeAt || 0)
   })
 }
@@ -47,7 +47,7 @@ export const optimisticActions = (state: Action[] = [], action: Action): Action[
 
     // Remove pending actions belonging to uid if they leave the
     case CLOSE:
-      return state.filter(pendingAction => pendingAction.$uid !== action.$uid)
+      return state.filter(pendingAction => pendingAction.$userId !== action.$userId)
 
     // Add or remove specific pending actions
     default:

@@ -4,7 +4,7 @@ const settings = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case 'HELLO':
-        return {...state, [action.$uid]: 'hi'}
+        return {...state, [action.$userId]: 'hi'}
       default:
         return state
     }
