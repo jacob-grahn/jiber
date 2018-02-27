@@ -3,7 +3,7 @@ import { OPEN, CLOSE, DISCONNECT } from '../constants'
 
 export const subscriptions = (state: any) => (next: Function) => (action: Action) => {
   const subs = state.subscriptions
-  const docId = action.$docIdId
+  const docId = action.$docId
   const userId = action.$userId
 
   switch (action.type) {
