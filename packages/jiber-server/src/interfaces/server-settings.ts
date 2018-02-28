@@ -1,16 +1,18 @@
 import * as WS from 'ws'
 
-type ActionTtl = (docId: string) => number
+type DocIDToNumber = (docId: string) => number
 
 export interface ServerSettingsInput {
-  actionTtl?: number | ActionTtl,
+  actionTtl?: number | DocIDToNumber,
+  maxHistory?: number | DocIDToNumber,
   port?: number,
   server?: any,
   verifyClient?: WS.VerifyClientCallbackAsync
 }
 
 export interface ServerSettings {
-  actionTtl: number | ActionTtl,
+  actionTtl: number | DocIDToNumber,
+  maxHistory: number | DocIDToNumber,
   port: number,
   server: any,
   verifyClient: WS.VerifyClientCallbackAsync

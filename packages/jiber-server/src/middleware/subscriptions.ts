@@ -1,7 +1,7 @@
-import { Action } from '../interfaces'
+import { Action, ServerState } from '../interfaces'
 import { OPEN, CLOSE, DISCONNECT } from '../constants'
 
-export const subscriptions = (state: any) => (next: Function) => (action: Action) => {
+export const subscriptions = (state: ServerState) => (next: Function) => (action: Action) => {
   const subs = state.subscriptions
   const docId = action.$docId
   const userId = action.$userId
@@ -10,6 +10,10 @@ export const subscriptions = (state: any) => (next: Function) => (action: Action
     case OPEN:
       subs[docId] = subs[docId] || new Set()
       subs[docId].add(userId)
+      const docHistory = state.history[docId]
+      if (docHistory) {
+        docHistory.forEach(action => state.socketServer.send(userId, action))
+      }
       return
     case CLOSE:
       if (subs[docId]) {
