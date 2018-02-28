@@ -17,7 +17,6 @@ export class SocketServer {
   }
 
   public send = (userId: string, action: any) => {
-    console.log('send', userId, action)
     const ws = this.socketLookup[userId]
     if (ws && ws.readyState === WS.OPEN) {
       ws.send(JSON.stringify(action))
