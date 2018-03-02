@@ -1,3 +1,5 @@
+// TODO: remove docId key completely when there are no subscribers
+
 import { Action, ServerState } from '../interfaces'
 import { OPEN, CLOSE, DISCONNECT } from '../constants'
 

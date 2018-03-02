@@ -1,0 +1,47 @@
+/**
+  * Send incoming actions to redis stream
+  * Read actions from subscribed streams, and send them on to next()
+  */
+
+import * as redis from 'redis'
+import { promisify } from 'util'
+
+export interface JiberRedisSettings {
+  host?: string,
+  port?: number,
+  maxHistory: number
+}
+
+export const jiberRedis = (settings: JiberRedisSettings) => {
+  const host = settings.host || '127.0.0.1'
+  const port = settings.port || 6379
+  const maxHistory = settings.maxHistory || 1000
+  const client = redis.createClient({host, port})
+  const sendCommand = promisify(client.send_command).bind(client)
+
+  return (state: any) => (next: Function) => {
+    state.lastEntryIds = {}
+
+    const fetch = async () => {
+      const docIds = Object.keys(state.subscriptions)
+      const ids = docIds.map(docId => state.lastEntryIds[docId] || '$')
+      const results = await sendCommand('XREAD', ['BLOCK', '100', 'STREAMS', ...docIds, ...ids])
+      results.forEach((result: any) => {
+        const strAction = result.action
+        const entryId = result.entryId
+        const docId = result.stream
+        const action = JSON.parse(strAction)
+        state.lastEntryIds[docId] = entryId
+        next(action)
+      })
+      fetch()
+    }
+    fetch()
+
+    return (action: any) => {
+      const stream = action.$docId
+      const strAction = JSON.stringify(action)
+      sendCommand('XADD', [stream, 'MAXLEN', '~', maxHistory, '*', 'action', strAction])
+    }
+  }
+}

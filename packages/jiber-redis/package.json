@@ -1,0 +1,17 @@
+{
+  "name": "jiber-redis",
+  "version": "0.0.1",
+  "description": "Redis middleware for Jiber",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/redis": "^2.8.6"
+  }
+}
