@@ -1,4 +1,5 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from '../interfaces'
+import { SERVER } from '../constants'
 import { optimisticDocs } from './optimistic-docs'
 
 const adder = (state: any = '', action: Action): any => {

@@ -1,4 +1,6 @@
-import { Action, Store, SELF, SERVER, PEER, get } from 'jiber-core'
+import { Action, Store } from '../interfaces'
+import { SELF, SERVER, PEER } from '../constants'
+import { get } from '../utils/get'
 
 /**
  * add handy metadata like $timeMs and $src to incoming actions

@@ -1,4 +1,6 @@
-import { Reducer, SERVER, dictionary } from 'jiber-core'
+import { Reducer } from '../interfaces'
+import { SERVER } from '../constants'
+import { dictionary } from './dictionary'
 
 /**
  * Use the current  state along with the action to calculate

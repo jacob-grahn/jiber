@@ -1,4 +1,4 @@
-import { SERVER } from 'jiber-core'
+import { SERVER } from '../constants'
 import { peerTimes } from './peer-times'
 
 test('record time if action came from the server', () => {

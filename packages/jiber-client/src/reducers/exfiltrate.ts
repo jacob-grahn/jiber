@@ -1,4 +1,4 @@
-import { Action, Reducer } from 'jiber-core'
+import { Action, Reducer } from '../interfaces'
 
 /**
  * Shady non-pure reducer that smuggles the resulting state into the action

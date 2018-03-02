@@ -1,4 +1,5 @@
-import { Action, STATE, CLOSE, OPEN, SERVER } from 'jiber-core'
+import { Action } from '../interfaces'
+import { STATE, CLOSE, OPEN, SERVER } from '../constants'
 
 /**
  * Remove actions that have the same userId, and a lesser or equal actionId

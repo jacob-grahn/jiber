@@ -1,11 +1,6 @@
-import {
-  Action,
-  Store,
-  OPEN,
-  createSubscription
-} from 'jiber-core'
-import { ClientState } from '../interfaces/client-state'
-import { ActionCreators } from '../interfaces/action-creators'
+import { Action, Store, ClientState, ActionCreators } from '../interfaces'
+import { OPEN } from '../constants'
+import { createSubscription } from '../utils/subscription'
 import { toDispatchers } from './to-dispatchers'
 
 /**

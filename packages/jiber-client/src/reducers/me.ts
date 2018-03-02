@@ -1,4 +1,5 @@
-import { Action, User, LOGIN_RESULT } from 'jiber-core'
+import { Action, User } from '../interfaces'
+import { LOGIN_RESULT } from '../constants'
 
 /**
  * Keep track of the currently logged in user

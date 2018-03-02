@@ -1,4 +1,4 @@
-import { map } from 'jiber-core'
+import { map } from '../utils/map'
 import { ActionCreators } from '../interfaces/action-creators'
 
 /**

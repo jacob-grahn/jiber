@@ -1,4 +1,4 @@
-import { SET } from 'jiber-core'
+import { SET } from '../reducers/swiss'
 import { Doc } from './doc'
 import { createClientStore } from './client-store'
 

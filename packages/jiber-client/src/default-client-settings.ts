@@ -1,5 +1,5 @@
 import { ClientSettings } from './interfaces/client-settings'
-import { swiss, swissActionCreators } from 'jiber-core'
+import { swiss, swissActionCreators } from './reducers/swiss'
 
 /**
  * Default settings

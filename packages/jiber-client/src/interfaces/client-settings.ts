@@ -1,4 +1,5 @@
-import { Reducer, Middleware } from 'jiber-core'
+import { Reducer } from './reducer'
+import { Middleware } from './middleware'
 import { ActionCreators } from './action-creators'
 
 /**

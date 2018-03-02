@@ -1,4 +1,5 @@
-import { Action, SELF } from 'jiber-core'
+import { Action } from '../interfaces'
+import { SELF } from '../constants'
 import { onServerMessage } from './on-server-message'
 import { ClientStore } from './client-store'
 import { ToughSocket } from '../tough-socket'

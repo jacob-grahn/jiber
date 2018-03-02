@@ -1,4 +1,5 @@
-import { Action, User } from 'jiber-core'
+import { Action } from './action'
+import { User } from './user'
 
 /**
  * Overview of what state the client will store

@@ -1,9 +1,7 @@
-import { combineReducers, Reducer, docs, watchers, SERVER } from 'jiber-core'
+import { combineReducers, me, optimisticDocs, optimisticActions, filter, docs, watchers } from '../reducers'
+import { Reducer } from '../interfaces'
+import { SERVER } from '../constants'
 import { peerTimes } from '../reducers/peer-times'
-import { optimisticActions } from '../reducers/optimistic-actions'
-import { optimisticDocs } from '../reducers/optimistic-docs'
-import { me } from '../reducers/me'
-import { filter } from '../reducers/filter'
 import { exfiltrate } from '../reducers/exfiltrate'
 
 /**

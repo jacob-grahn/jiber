@@ -1,4 +1,5 @@
-import { Action, SERVER } from 'jiber-core'
+import { Action } from '../interfaces'
+import { SERVER } from '../constants'
 
 export interface PeerTimesState {
   [userId: string]: number

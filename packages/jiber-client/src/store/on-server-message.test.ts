@@ -1,4 +1,4 @@
-import { LOGIN_RESULT, STATE, OPEN, SELF } from 'jiber-core'
+import { LOGIN_RESULT, STATE, OPEN, SELF } from '../constants'
 import * as sinon from 'sinon'
 import { onServerMessage } from './on-server-message'
 import { createClientStore } from './client-store'

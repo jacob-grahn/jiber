@@ -1,11 +1,6 @@
-import {
-  Action,
-  LOGIN_RESULT,
-  OPEN,
-  SERVER,
-  SELF,
-  forEach
-} from 'jiber-core'
+import { Action } from '../interfaces'
+import { LOGIN_RESULT, OPEN, SERVER, SELF } from '../constants'
+import { forEach } from '../utils/for-each'
 import { ClientStore } from '../store/client-store'
 
 /**

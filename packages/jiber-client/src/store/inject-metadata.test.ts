@@ -1,5 +1,6 @@
 import { injectMetadata } from './inject-metadata'
-import { Action, SERVER } from 'jiber-core'
+import { Action } from '../interfaces'
+import { SERVER } from '../constants'
 import { createClientStore } from './client-store'
 
 ////////////////////////////////////////////////////////////////////////////////
