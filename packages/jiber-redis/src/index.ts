@@ -27,7 +27,7 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
     const fetch = async () => {
       const docIds = Object.keys(state.subscriptions)
       const ids = docIds.map(docId => state.lastEntryIds[docId] || '$')
-      const results = await sendReadCommand('XREAD', ['BLOCK', '100', 'STREAMS', ...docIds, ...ids])
+      const results = await sendReadCommand('XREAD', ['BLOCK', '5000', 'STREAMS', ...docIds, ...ids])
       results.forEach((result: any) => {
         const strAction = result.action
         const entryId = result.entryId
