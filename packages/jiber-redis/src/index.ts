@@ -16,8 +16,10 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
   const host = settings.host || '127.0.0.1'
   const port = settings.port || 6379
   const maxHistory = settings.maxHistory || 1000
-  const client = redis.createClient({host, port})
-  const sendCommand = promisify(client.send_command).bind(client)
+  const readClient = redis.createClient({host, port})
+  const writeClient = redis.createClient({host, port})
+  const sendReadCommand = promisify(readClient.send_command).bind(readClient)
+  const sendWriteCommand = promisify(writeClient.send_command).bind(writeClient)
 
   return (state: any) => (next: Function) => {
     state.lastEntryIds = {}
@@ -25,7 +27,7 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
     const fetch = async () => {
       const docIds = Object.keys(state.subscriptions)
       const ids = docIds.map(docId => state.lastEntryIds[docId] || '$')
-      const results = await sendCommand('XREAD', ['BLOCK', '100', 'STREAMS', ...docIds, ...ids])
+      const results = await sendReadCommand('XREAD', ['BLOCK', '100', 'STREAMS', ...docIds, ...ids])
       results.forEach((result: any) => {
         const strAction = result.action
         const entryId = result.entryId
@@ -41,7 +43,7 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
     return (action: any) => {
       const stream = action.$docId
       const strAction = JSON.stringify(action)
-      sendCommand('XADD', [stream, 'MAXLEN', '~', maxHistory, '*', 'action', strAction])
+      sendWriteCommand('XADD', [stream, 'MAXLEN', '~', maxHistory, '*', 'action', strAction])
     }
   }
 }
