@@ -11,6 +11,6 @@ packages.reduce((promise, pkg) => {
     .then(() => execa.shell(`cd packages/${pkg} && ${strArgs}`))
     .then(() => console.log('success!'))
 }, Promise.resolve())
-.catch(e => {
-  console.log(e)
-})
+  .catch(e => {
+    console.log(e)
+  })
