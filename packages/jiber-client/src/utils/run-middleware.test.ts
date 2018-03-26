@@ -1,5 +1,5 @@
 import { runMiddleware } from './run-middleware'
-import { Action, Store } from './interfaces'
+import { Action, Store } from '../interfaces'
 
 test('middleware is called', (done) => {
   const store: any = {

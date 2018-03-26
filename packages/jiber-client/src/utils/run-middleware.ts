@@ -1,4 +1,4 @@
-import { Action, Store, Middleware } from './interfaces'
+import { Action, Store, Middleware } from '../interfaces'
 
 /**
  * Chain a bunch of middleware together

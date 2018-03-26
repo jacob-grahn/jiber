@@ -1,6 +1,6 @@
-import { Action, Reducer, Middleware, Store } from './interfaces'
-import { runMiddleware } from './run-middleware'
-import { createSubscription } from './utils/subscription'
+import { Action, Reducer, Middleware, Store } from '../interfaces'
+import { runMiddleware } from '../utils/run-middleware'
+import { createSubscription } from '../utils/subscription'
 
 /**
  * A store holds sate, and provides an interface to dispatch actions that
