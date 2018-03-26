@@ -5,7 +5,7 @@ export const history = (state: ServerState) => (next: Function) => (action: Acti
   const { actionTtl, maxHistory } = settings
   const docId = action.$docId
   const numActionTtl: number = (typeof actionTtl === 'function') ? actionTtl(docId) : Number(actionTtl)
-  const numMaxHistory: number = (typeof maxHistory === 'function') ? maxHistory(docId) :  Number(maxHistory)
+  const numMaxHistory: number = (typeof maxHistory === 'function') ? maxHistory(docId) : Number(maxHistory)
   const docHistory = history[docId] = history[docId] || []
   const time = new Date().getTime()
 

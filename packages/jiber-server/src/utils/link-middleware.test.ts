@@ -1,7 +1,7 @@
 import { linkMiddleware } from './link-middleware'
 
 test('create a middleware chain', () => {
-  const state: any = {i: 0}
+  const state: any = { i: 0 }
   const count = (state: any) => (next: Function) => (data: any) => {
     state.i += data
     next(data)

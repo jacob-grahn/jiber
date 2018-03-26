@@ -1,7 +1,7 @@
 /**
-  * Send incoming actions to redis stream
-  * Read actions from subscribed streams, and send them on to next()
-  */
+ * Send incoming actions to redis stream
+ * Read actions from subscribed streams, and send them on to next()
+ */
 
 import * as redis from 'redis'
 import { promisify } from 'util'
@@ -16,8 +16,8 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
   const host = settings.host || '127.0.0.1'
   const port = settings.port || 6379
   const maxHistory = settings.maxHistory || 1000
-  const readClient = redis.createClient({host, port})
-  const writeClient = redis.createClient({host, port})
+  const readClient = redis.createClient({ host, port })
+  const writeClient = redis.createClient({ host, port })
   const sendReadCommand = promisify(readClient.send_command).bind(readClient)
   const sendWriteCommand = promisify(writeClient.send_command).bind(writeClient)
 
@@ -36,9 +36,9 @@ export const jiberRedis = (settings: JiberRedisSettings) => {
         state.lastEntryIds[docId] = entryId
         next(action)
       })
-      fetch()
+      fetch().catch(console.log)
     }
-    fetch()
+    fetch().catch(console.log)
 
     return (action: any) => {
       const stream = action.$docId
