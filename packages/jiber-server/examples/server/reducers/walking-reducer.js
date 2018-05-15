@@ -4,12 +4,12 @@ const speed = 0.3 // pixels per millisecond
 const reducer = (state, action) => {
   if (!state) {
     state = {
-      timeMs: action.$timeMs,
+      timeMs: action.$ranAt,
       players: {}
     }
   }
 
-  physics(state, action.$timeMs)
+  physics(state, action.$ranAt)
   input(state, action)
 
   return state
