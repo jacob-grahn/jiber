@@ -9,7 +9,7 @@ import { errorHandler } from '../utils/error-handler'
  */
 export class ToughSocket {
   public onmessage?: (event: any) => void
-  private socket: WebSocket
+  private socket: WebSocket | undefined
   private settings: ClientSettings
 
   constructor (settings: ClientSettings) {
