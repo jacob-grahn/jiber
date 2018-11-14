@@ -2,7 +2,7 @@ interface Snapshot {state: any, time: number}
 
 export class Snapshots {
 
-  history: Snapshot[]
+  private history: Snapshot[]
 
   constructor () {
     this.history = []
