@@ -13,5 +13,6 @@ module.exports = {
     'jsx',
     'json',
     'node'
-  ]
+  ],
+  'setupTestFrameworkScriptFile': '<rootDir>/jest-setup'
 }

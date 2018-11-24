@@ -21,11 +21,11 @@ export class Snapshots {
     return this.history[this.history.length - 1].time
   }
 
-  retrieve (time: number): Snapshot | undefined {
+  retrieve (time: number): Snapshot {
     let mostRecent: Snapshot | undefined
     this.history.forEach(obj => {
       if (obj.time <= time) mostRecent = obj
     })
-    return mostRecent
+    return mostRecent || { state: undefined, time: 0 }
   }
 }
