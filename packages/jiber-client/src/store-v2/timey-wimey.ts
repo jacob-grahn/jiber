@@ -15,7 +15,8 @@ export class TimeyWimey {
   addAction (action: Action) {
     this.history.add(action)
     const snapshot = this.snapshots.retrieve(action.time)
-    const actions = this.history.from(snapshot.time + 1)
+    const actions = this.history.from(snapshot.time + 0.1)
+    if (actions.length === 0) actions.push(action)
     return { state: snapshot.state, actions }
   }
 

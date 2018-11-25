@@ -4,7 +4,7 @@ export interface ActionConfig {
   payload?: any,
   time?: number,
   trust?: number
-  [key: string]: any
+  id?: string
 }
 
 export class Action {
