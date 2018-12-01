@@ -1,6 +1,6 @@
 import { History } from './history'
 import { Snapshots } from './snapshots'
-import { Action } from './action'
+import { Packet } from './packet'
 
 export class TimeyWimey {
 
@@ -12,12 +12,12 @@ export class TimeyWimey {
     this.snapshots = new Snapshots()
   }
 
-  addAction (action: Action) {
-    this.history.add(action)
-    const snapshot = this.snapshots.retrieve(action.time)
-    const actions = this.history.from(snapshot.time + 0.1)
-    if (actions.length === 0) actions.push(action)
-    return { state: snapshot.state, actions }
+  addPacket (packet: Packet) {
+    this.history.add(packet)
+    const snapshot = this.snapshots.retrieve(packet.time)
+    const packets = this.history.from(snapshot.time + 0.1)
+    if (packets.length === 0) packets.push(packet)
+    return { state: snapshot.state, packets }
   }
 
   addSnapshot (state: any, time: number): void {

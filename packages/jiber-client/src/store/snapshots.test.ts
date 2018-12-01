@@ -1,3 +1,5 @@
+/* global test, expect */
+
 import { Snapshots } from './snapshots'
 
 test('retrieve most recent snapshot that is <= to <time>', () => {

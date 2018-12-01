@@ -1,6 +1,5 @@
-import { Action } from '../../interfaces/action'
-import { set } from '../../utils/set'
-import { get } from '../../utils/get'
+import { set } from './set'
+import { get } from './get'
 import { splice } from './splice'
 
 /**
@@ -37,7 +36,7 @@ export const swissActionCreators = {
   splice: toSplice
 }
 
-export const swiss = (state: SwissState = {}, action: Action): SwissState => {
+export const swiss = (state: SwissState = {}, action: any): SwissState => {
   const path = action.path
   const newValue = action.value
   const oldValue = get(state, path)

@@ -1,4 +1,5 @@
 import { Reducer } from './reducer'
+import { Middleware } from './middleware'
 import { ActionCreators } from './action-creators'
 
 /**
@@ -18,6 +19,7 @@ export interface ClientSettings {
   credential?: string
   initialState: any,
   maxPeers: number,
+  middleware: Array<Middleware>,
   reducer: Reducer,
   stunServers: string[],
   url?: string
