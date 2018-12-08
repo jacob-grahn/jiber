@@ -1,6 +1,5 @@
 import { tryToConnect } from './try-to-connect'
 import { ClientSettings } from '../interfaces/client-settings'
-import { errorHandler } from '../utils/error-handler'
 
 /**
  * ToughSocket works much like a regular WebSocket, but it will always
@@ -32,6 +31,6 @@ export class ToughSocket {
         }
         socket.onclose = () => setTimeout(this.connect, 3000)
       })
-      .catch(errorHandler)
+      .catch(console.log)
   }
 }
