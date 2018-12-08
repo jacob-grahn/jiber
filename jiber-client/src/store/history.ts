@@ -10,8 +10,7 @@ export class History {
       if ((this.dict[packet.id].trust) < (packet.trust)) {
         Object.assign(this.dict[packet.id], packet)
       }
-    }
-    else {
+    } else {
       this.dict[packet.id] = packet
       this.arr.push(packet)
     }

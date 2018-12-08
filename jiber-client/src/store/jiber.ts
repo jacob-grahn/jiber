@@ -14,11 +14,11 @@ interface JiberSettings {
 }
 
 export class Jiber {
+  public subscribe: Function
 
   private reducer = swiss
   private state: any
   private subscription: Subscription = new Subscription()
-  public subscribe: Function
 
   constructor (settings: JiberSettings) {
     Object.assign(this, settings)
