@@ -1,6 +1,6 @@
 import { Packet } from './packet'
-import { Reducer } from '../interfaces'
-import { SERVER, SELF, PEER } from '../constants'
+import { Reducer } from './interfaces'
+import { SERVER, SELF, PEER } from './constants'
 
 export class FlexStore {
 

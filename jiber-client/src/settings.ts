@@ -1,5 +1,5 @@
-import { ActionCreators, Reducer } from '../interfaces'
-import { swiss, swissActionCreators } from '../swiss'
+import { ActionCreators, Reducer } from './interfaces'
+import { swiss, swissActionCreators } from './swiss'
 
 export interface CustomSettings {
   actionCreators?: ActionCreators,

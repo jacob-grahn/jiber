@@ -1,7 +1,7 @@
 /* global test, expect */
 
-import { Action } from '../interfaces'
-import { SERVER, SELF, PEER } from '../constants'
+import { Action } from './interfaces'
+import { SERVER, SELF, PEER } from './constants'
 import { FlexStore } from './flex-store'
 import { Packet } from './packet'
 

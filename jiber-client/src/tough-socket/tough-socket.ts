@@ -1,5 +1,5 @@
 import { tryToConnect } from './try-to-connect'
-import { Settings } from '../store/settings'
+import { Settings } from '../settings'
 
 /**
  * ToughSocket works much like a regular WebSocket, but it will always

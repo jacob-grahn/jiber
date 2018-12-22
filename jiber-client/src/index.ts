@@ -1,1 +1,1 @@
-export * from './store/jiber-client'
+export * from './jiber-client'

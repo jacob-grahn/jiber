@@ -1,4 +1,4 @@
-import { ActionCreators } from '../interfaces/action-creators'
+import { ActionCreators } from './interfaces'
 
 /**
  * turn some action creators into handy dandy action dispatchers

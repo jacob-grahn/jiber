@@ -6,7 +6,7 @@
 import { Subscription } from './subscription'
 import { Packet } from './packet'
 import { Doc } from './doc'
-import { ToughSocket } from '../tough-socket'
+import { ToughSocket } from './tough-socket'
 import { Settings, CustomSettings } from './settings'
 
 export class JiberClient {

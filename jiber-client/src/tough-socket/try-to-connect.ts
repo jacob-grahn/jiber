@@ -1,10 +1,10 @@
-import { ClientSettings } from '../interfaces/client-settings'
+import { Settings } from '../settings'
 
 /**
  * Try to create a connection to the server
  * @hidden
  */
-export const tryToConnect = (settings: ClientSettings): Promise<any> => {
+export const tryToConnect = (settings: Settings): Promise<any> => {
   const { url, credential, backoffMs } = settings
   if (!url) return Promise.reject('NO_URL')
 
