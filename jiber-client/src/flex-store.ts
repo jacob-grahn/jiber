@@ -13,7 +13,7 @@ export class FlexStore {
     this.state = state
   }
 
-  public receive (packet: Packet) {
+  public receive = (packet: Packet) => {
     if (packet.trust === SERVER) {
       this.state = this.reducer(this.state, packet.payload)
       this.untrusted = this.untrusted.filter(p => p.id !== packet.id)
@@ -25,7 +25,7 @@ export class FlexStore {
     // this.untrusted = this.untrusted.filter(p => p.time <= packet.time - 3000)
   }
 
-  public getState (trust: number = SELF) {
+  public getState = (trust: number = SELF) => {
     if (trust === SERVER) {
       return this.state
     }
@@ -38,7 +38,7 @@ export class FlexStore {
     }
   }
 
-  private fastForward (state: any, packets: Packet[]) {
+  private fastForward = (state: any, packets: Packet[]) => {
     packets.forEach(packet => {
       state = this.reducer(state, packet.payload)
     })
