@@ -26,3 +26,13 @@ test('remove a subscription', () => {
   sub.publish()
   expect(calls).toEqual(['one', 'three'])
 })
+
+test('remove all subscriptions', () => {
+  const sub = new Subscription()
+  let calls: any = []
+  sub.subscribe(() => calls.push('one'))
+  sub.subscribe(() => calls.push('two'))
+  sub.removeAllSubscribers()
+  sub.publish()
+  expect(calls).toEqual([])
+})

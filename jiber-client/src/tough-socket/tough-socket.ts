@@ -4,7 +4,6 @@ import { Settings } from '../settings'
 /**
  * ToughSocket works much like a regular WebSocket, but it will always
  * try to reconnect if the connection fails
- * @hidden
  */
 export class ToughSocket {
   public onmessage?: (event: any) => void

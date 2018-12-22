@@ -8,7 +8,6 @@ import { FlexStore } from './flex-store'
 
 /**
  * Doc the users can join
- * @hidden
  */
 export class Doc {
   public sendSub: Subscription = new Subscription()
@@ -38,9 +37,8 @@ export class Doc {
 
   public dispatch (payload: Action) {
     const packet = new Packet({ payload, doc: this.id })
-    this.store.receive(packet)
-    this.updateSub.publish(this.store.getState(), packet.payload)
     this.sendSub.publish(packet)
+    this.receive(packet)
   }
 
   public close () {

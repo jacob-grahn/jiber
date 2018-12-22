@@ -39,7 +39,6 @@ export class FlexStore {
   }
 
   private fastForward (state: any, packets: Packet[]) {
-    console.log(state, packets)
     packets.forEach(packet => {
       state = this.reducer(state, packet.payload)
     })

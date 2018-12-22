@@ -18,4 +18,9 @@ export class Subscription {
   removeSubscriber (subscriber: Function) {
     this.subscribers = this.subscribers.filter(s => s !== subscriber)
   }
+
+  //
+  removeAllSubscribers () {
+    this.subscribers = []
+  }
 }
