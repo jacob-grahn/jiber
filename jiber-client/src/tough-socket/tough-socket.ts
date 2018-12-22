@@ -1,5 +1,5 @@
 import { tryToConnect } from './try-to-connect'
-import { ClientSettings } from '../interfaces/client-settings'
+import { Settings } from '../store/settings'
 
 /**
  * ToughSocket works much like a regular WebSocket, but it will always
@@ -9,9 +9,9 @@ import { ClientSettings } from '../interfaces/client-settings'
 export class ToughSocket {
   public onmessage?: (event: any) => void
   private socket: WebSocket | undefined
-  private settings: ClientSettings
+  private settings: Settings
 
-  constructor (settings: ClientSettings) {
+  constructor (settings: Settings) {
     this.settings = settings
     this.connect()
   }
