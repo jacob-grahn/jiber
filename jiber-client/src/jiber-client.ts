@@ -11,8 +11,8 @@ import { Settings, CustomSettings } from './settings'
 import { CLOSE } from './constants'
 
 export class JiberClient {
-  private settings: Settings
   public subscription: Subscription = new Subscription()
+  private settings: Settings
   private socket: ToughSocket
 
   constructor (customSettings: CustomSettings = {}) {

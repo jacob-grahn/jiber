@@ -17,8 +17,7 @@ export class FlexStore {
     if (packet.trust === SERVER) {
       this.state = this.reducer(this.state, packet.payload)
       this.untrusted = this.untrusted.filter(p => p.id !== packet.id)
-    }
-    else {
+    } else {
       this.untrusted.push(packet)
     }
 
@@ -28,12 +27,10 @@ export class FlexStore {
   public getState = (trust: number = SELF) => {
     if (trust === SERVER) {
       return this.state
-    }
-    else if (trust === SELF) {
+    } else if (trust === SELF) {
       const selfPackets = this.untrusted.filter(p => p.trust === SELF)
       return this.fastForward(this.state, selfPackets)
-    }
-    else if (trust === PEER) {
+    } else if (trust === PEER) {
       return this.fastForward(this.state, this.untrusted)
     }
   }
