@@ -36,8 +36,7 @@ export class JiberClient {
     const forwardPackets = (packet: Packet) => {
       if (!doc.open) {
         this.subscription.removeSubscriber(forwardPackets)
-      }
-      else if (packet.doc === docId) {
+      } else if (packet.doc === docId) {
         doc.receiveFromServer(packet)
       }
     }

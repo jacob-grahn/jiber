@@ -5,8 +5,9 @@ import { Settings } from './settings'
 import { Packet } from './packet'
 
 test('wrap actions in packets', () => {
-  const doc = new Doc('abc', new Settings({}))
-  doc.sendSub.subscribe((packet: Packet) => {
+  const sendToServer = () => {}
+  const doc = new Doc('abc', sendToServer, new Settings({}))
+  doc.subscription.subscribe((packet: Packet) => {
     expect(packet.doc).toBe('abc')
     expect(packet.payload).toEqual({ type: 'hi' })
   })
@@ -14,7 +15,8 @@ test('wrap actions in packets', () => {
 })
 
 test('apply actions to optimistic state', () => {
-  const doc = new Doc('abc', new Settings({}))
+  const sendToServer = () => {}
+  const doc = new Doc('abc', sendToServer, new Settings({}))
   doc.dispatchers.set('name', 'sue')
   expect(doc.getState()).toEqual({ name: 'sue' })
 })
