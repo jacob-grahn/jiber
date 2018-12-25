@@ -2,14 +2,12 @@
 
 import { Doc } from './doc'
 import { Settings } from './settings'
-import { Packet } from './packet'
 
-test('wrap actions in packets', () => {
+test('subscribe to changes', () => {
   const sendToServer = () => {}
   const doc = new Doc('abc', sendToServer, new Settings({}))
-  doc.subscription.subscribe((packet: Packet) => {
-    expect(packet.doc).toBe('abc')
-    expect(packet.payload).toEqual({ type: 'hi' })
+  doc.subscription.subscribe((_state: any, payload: any) => {
+    expect(payload).toEqual({ type: 'hi' })
   })
   doc.dispatch({ type: 'hi' })
 })

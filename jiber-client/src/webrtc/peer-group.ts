@@ -24,7 +24,7 @@ export class PeerGroup {
           this.sendToStore
         )
       }
-      this.peers[peerId].receive(packet).catch(console.log)
+      this.peers[peerId].receiveFromServer(packet).catch(console.log)
     }
   }
 

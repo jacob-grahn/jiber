@@ -48,7 +48,7 @@ export class Peer {
     }
   }
 
-  public receive = async (packet: Packet) => {
+  public receiveFromServer = async (packet: Packet) => {
     if (packet.type === WEBRTC_SOLICIT) {
       await this.sendOffer()
       this.createChannel()
