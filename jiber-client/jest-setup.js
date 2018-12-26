@@ -1,4 +1,5 @@
 const crypt = require('crypto')
+const { RTCPeerConnection } = require('wrtc')
 
 // mock window.getRandomValues, it doesn't exist in node
 global.crypto = {
@@ -8,3 +9,6 @@ global.crypto = {
     return buf
   }
 }
+
+// add peer connections to node
+global.RTCPeerConnection = RTCPeerConnection

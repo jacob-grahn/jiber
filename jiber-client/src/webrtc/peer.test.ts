@@ -2,6 +2,7 @@
 
 import { Peer } from './peer'
 import { Packet } from '../packet'
+import { WEBRTC_SOLICIT } from '../constants'
 
 test('send a message from one peer to another', () => {
   return new Promise((resolve) => {
@@ -20,8 +21,10 @@ test('send a message from one peer to another', () => {
       resolve()
     }
 
-    const peerA = new Peer('a', sendToServer, sendToStoreA)
-    const peerB = new Peer('b', sendToServer, sendToStoreB)
+    const peerA = new Peer('b', sendToServer, sendToStoreA)
+    const peerB = new Peer('a', sendToServer, sendToStoreB)
+
+    peerA.receiveFromServer(new Packet({ type: WEBRTC_SOLICIT }))
 
     setTimeout(() => {
       peerA.send(new Packet({ payload: 'hi-peer-b' }))

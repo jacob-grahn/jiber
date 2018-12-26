@@ -26,6 +26,7 @@
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.6",
-    "uglify-es": "^3.0.15"
+    "uglify-es": "^3.0.15",
+    "wrtc": "^0.3.3"
   }
 }
