@@ -29,20 +29,15 @@ export class Peer {
       iceServers: stunServers.map(url => ({ urls: url }))
     })
     this.connection.addEventListener('icecandidate', (event) => {
-      console.log(this.peerId, 'onicecandidate', event)
       if (!event.candidate) return
       this.sendToServer(new Packet({
         type: WEBRTC_CANDIDATE,
         payload: { candidate: event.candidate, peerId: this.peerId}
       }))
     })
-    this.connection.ondatachannel = (event: any) => {
-      console.log(this.peerId, 'ondatachannel')
-      this.channel = event.channel
-      event.channel.onmessage = onmessage
-    }
-    this.connection.addEventListener('open', () => {
-      console.log(this.peerId, 'onopen')
+    this.connection.addEventListener('datachannel', (event: any) => {
+      this.channel = (event.channel) as RTCDataChannel
+      this.channel.addEventListener('message', this.onmessage)
     })
   }
 
@@ -72,7 +67,6 @@ export class Peer {
 
   private sendOffer = async (): Promise<void> => {
     const offer = await this.connection.createOffer()
-    console.log(this.peerId, 'setLocalDescription', offer)
     await this.connection.setLocalDescription(offer)
     this.sendToServer(new Packet({
       type: WEBRTC_OFFER,
@@ -81,10 +75,8 @@ export class Peer {
   }
 
   private sendAnswer = async (offer: any) => {
-    console.log(this.peerId, 'setRemoteDescription', offer)
     await this.connection.setRemoteDescription(offer)
     const answer = await this.connection.createAnswer()
-    console.log(this.peerId, 'setLocalDescription', answer)
     await this.connection.setLocalDescription(answer)
     this.sendToServer(new Packet({
       type: WEBRTC_ANSWER,
@@ -97,16 +89,11 @@ export class Peer {
       name,
       this.channelSettings
     )
-    this.channel.onmessage = this.onmessage
+    this.channel.addEventListener('message', this.onmessage)
   }
 
   private onmessage = (event: any) => {
     const data: any = JSON.parse(event.data)
-
-    // sanity check
-    if (data.type !== this.peerId) return
-
-    // apply optimistic packet
     const packet = new Packet({ ...data, trust: PEER, time: Date.now() })
     this.sendToStore(packet)
   }

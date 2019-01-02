@@ -7,7 +7,6 @@ import { WEBRTC_SOLICIT } from '../constants'
 test('send a message from one peer to another', () => {
   return new Promise((resolve) => {
     const sendToServer = (packet: Packet) => {
-      console.log('sendToServer', packet)
       if (packet.payload.peerId === 'a') {
         peerA.receiveFromServer(packet)
       }
@@ -25,12 +24,10 @@ test('send a message from one peer to another', () => {
     const peerA = new Peer('b', sendToServer, sendToStoreA)
     const peerB = new Peer('a', sendToServer, sendToStoreB)
 
-    setTimeout(() => {
-      peerA.receiveFromServer(new Packet({ type: WEBRTC_SOLICIT }))
-    }, 2000)
+    peerA.receiveFromServer(new Packet({ type: WEBRTC_SOLICIT }))
 
     setTimeout(() => {
       peerA.send(new Packet({ payload: 'hi-peer-b' }))
-    }, 4000)
+    }, 2000)
   })
 })
