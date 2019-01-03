@@ -13,7 +13,7 @@
     "compile": "tsc",
     "bundle": "rollup -c",
     "minify": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
-    "docs": "rm test-docs -rf && typedoc --out test-docs --excludeExternals --excludePrivate --mode file --exclude **/*.test.ts packages/jiber-client/src"
+    "travis-ci": "npm run lint && npm run test -- --ci --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "author": "Jacob Grahn",
   "license": "MIT",

@@ -24,11 +24,6 @@ export class JiberClient {
     this.socket.send(JSON.stringify(packet))
   }
 
-  private receiveFromServer = (message: string): void => {
-    const packet: Packet = JSON.parse(message)
-    this.subscription.publish(packet)
-  }
-
   public createDoc = (docId: string): Doc => {
     const doc = new Doc(docId, this.send, this.settings)
 
@@ -43,5 +38,10 @@ export class JiberClient {
     this.subscription.subscribe(forwardPackets)
 
     return doc
+  }
+
+  private receiveFromServer = (message: string): void => {
+    const packet: Packet = JSON.parse(message)
+    this.subscription.publish(packet)
   }
 }
