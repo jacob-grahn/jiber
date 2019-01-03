@@ -1,8 +1,15 @@
 /* global test, expect */
 
 import { JiberClient } from './jiber-client'
+import { Packet } from './packet'
 
-test('it should provide a createDoc method', () => {
+test('pass messages from server to docs', () => {
   const jiber = new JiberClient()
-  expect(jiber.createDoc).toBeTruthy()
+  const doc = jiber.createDoc('bloop')
+
+  doc.subscription.subscribe((_state: any, payload: any) => {
+    expect(payload).toBe('doop')
+  })
+
+  jiber.subscription.publish(new Packet({ doc: 'bloop', payload: 'doop' }))
 })

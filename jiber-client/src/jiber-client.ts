@@ -17,19 +17,19 @@ export class JiberClient {
   constructor (customSettings: CustomSettings = {}) {
     this.settings = new Settings(customSettings)
     this.socket = new ToughSocket(this.settings)
-    this.socket.onmessage = this.receive
+    this.socket.onmessage = this.receiveFromServer
   }
 
-  send (packet: Packet): void {
+  public send = (packet: Packet): void => {
     this.socket.send(JSON.stringify(packet))
   }
 
-  receive (message: string): void {
+  private receiveFromServer = (message: string): void => {
     const packet: Packet = JSON.parse(message)
     this.subscription.publish(packet)
   }
 
-  createDoc (docId: string): Doc {
+  public createDoc = (docId: string): Doc => {
     const doc = new Doc(docId, this.send, this.settings)
 
     // forward received packets to the doc

@@ -28,6 +28,6 @@ test('send a message from one peer to another', () => {
 
     setTimeout(() => {
       peerA.send(new Packet({ payload: 'hi-peer-b' }))
-    }, 2000)
+    }, 1000)
   })
 })
