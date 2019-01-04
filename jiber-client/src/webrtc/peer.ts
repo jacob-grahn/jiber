@@ -32,7 +32,7 @@ export class Peer {
       if (!event.candidate) return
       this.sendToServer(new Packet({
         type: WEBRTC_CANDIDATE,
-        payload: { candidate: event.candidate, peerId: this.peerId}
+        payload: { candidate: event.candidate, peerId: this.peerId }
       }))
     })
     this.connection.addEventListener('datachannel', (event: any) => {
