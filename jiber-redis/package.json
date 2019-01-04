@@ -14,8 +14,8 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "@types/redis": "^2.8.6",
     "@types/jest": "^23.3.9",
+    "@types/redis": "^2.8.10",
     "jest": "^23.6.0",
     "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
