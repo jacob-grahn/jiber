@@ -1,4 +1,3 @@
-/*
 import { ToughSocket } from './tough-socket'
 
 const settings: any = {
@@ -10,8 +9,4 @@ const settings: any = {
 it('socket should be a thing', () => {
   const socket = new ToughSocket(settings)
   expect(socket).toBeTruthy()
-}) */
-
-it('fake test', () => {
-  expect(true).toBe(true)
 })
