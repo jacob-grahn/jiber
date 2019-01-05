@@ -8,7 +8,7 @@ for package in $packages; do
   cd $package
   npm install
   npm run lint
-  npm run test --ci --coverage --runInBand
+  npm run test --ci --coverage --runInBand --detectOpenHandles
   cd ../
 done
 
