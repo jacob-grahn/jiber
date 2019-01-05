@@ -13,12 +13,13 @@
     "compile": "tsc",
     "bundle": "rollup -c",
     "minify": "uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",
-    "travis-ci": "npm run lint && npm run test -- --ci --coverage && cat ./coverage/lcov.info | coveralls"
+    "send-to-coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^23.3.11",
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "rollup": "^1.0.1",
     "rollup-plugin-node-resolve": "^4.0.0",
