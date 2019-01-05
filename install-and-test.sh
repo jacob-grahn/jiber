@@ -8,7 +8,7 @@ for package in $packages; do
   cd $package
   npm install
   npm run lint
-  npm run test --ci --coverage --runInBand --forceExit
+  npm run test --ci --coverage --forceExit --detectOpenHandles --maxWorkers=10
   cd ../
 done
 
