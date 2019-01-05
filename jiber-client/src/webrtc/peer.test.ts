@@ -16,6 +16,8 @@ test('send a message from one peer to another', () => {
     const sendToStoreA = () => { /* do nothing */ }
     const sendToStoreB = (packet: Packet) => {
       expect(packet.payload).toBe('hi-peer-b')
+      peerA.close()
+      peerB.close()
       resolve()
     }
 
