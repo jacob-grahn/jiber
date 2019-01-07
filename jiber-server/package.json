@@ -15,6 +15,8 @@
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "@types/node": "^8.10.39",
+    "@types/sinon": "^7.0.3",
+    "@types/uuid": "^3.4.4",
     "@types/ws": "^3.0.2",
     "jest": "^23.6.0",
     "sinon": "^7.2.2",
@@ -24,7 +26,7 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
-    "@types/sinon": "^7.0.3",
+    "uuid": "^3.3.2",
     "ws": "^3.1.0"
   }
 }

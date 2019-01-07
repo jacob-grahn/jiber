@@ -1,16 +1,22 @@
 import * as WS from 'ws'
 import { logger } from './utils/logger'
-import { LOGIN_RESULT, DISCONNECT } from './constants'
+import { LOGIN_RESULT } from './constants'
+import { Packet } from './packet'
+import { verifyClient as defaultVerifyClient } from './verify-client'
 
 export class SocketServer {
   private socketLookup: {[userId: string]: WS} = {}
   private wss: WS.Server
 
-  constructor (port: number = 80, verifyClient: WS.VerifyClientCallbackAsync, server: any) {
+  constructor (
+    port: number = 80,
+    verifyClient?: WS.VerifyClientCallbackAsync,
+    customServer?: any
+  ) {
     this.wss = new WS.Server({
-      server,
-      verifyClient,
-      port: server ? undefined : port
+      server: customServer,
+      verifyClient: verifyClient || defaultVerifyClient,
+      port: customServer ? undefined : port
     })
     this.wss.on('error', logger.error)
     this.wss.on('connection', this.onConnection)
@@ -45,14 +51,13 @@ export class SocketServer {
     // event handlers
     ws.on('close', () => {
       delete this.socketLookup[userId]
-      this.wss.emit('action', { type: DISCONNECT, $userId: userId })
     })
     ws.on('error', logger.error)
     ws.on('message', (data: any) => {
       try {
-        const action = JSON.parse(data.toString())
-        action.$userId = userId
-        this.wss.emit('action', action)
+        const packet = new Packet(JSON.parse(data.toString()))
+        packet.user = userId
+        this.wss.emit('packet', packet)
       } catch (e) {
         logger.warning(e.message)
       }
