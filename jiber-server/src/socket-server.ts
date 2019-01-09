@@ -14,9 +14,9 @@ export class SocketServer {
     customServer?: any
   ) {
     this.wss = new WS.Server({
-      server: customServer,
+      port: customServer ? undefined : port,
       verifyClient: verifyClient || defaultVerifyClient,
-      port: customServer ? undefined : port
+      server: customServer
     })
     this.wss.on('error', logger.error)
     this.wss.on('connection', this.onConnection)
