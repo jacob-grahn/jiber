@@ -4,13 +4,9 @@ import { SocketServer } from './socket-server'
 const WebSocket = require('ws')
 
 test('Listen on a given port', () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const server = new SocketServer(8080)
     const client = new WebSocket('ws://localhost:8080')
-
-    client.addEventListener('error', (error: any) => {
-      reject(error)
-    })
 
     client.on('open', function open() {
       expect(true).toBeTruthy()
