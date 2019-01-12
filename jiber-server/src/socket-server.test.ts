@@ -1,9 +1,10 @@
 /* global test, expect, afterEach */
 
-import { SocketServer } from './socket-server'
 import * as WebSocket from 'ws'
 import * as https from 'https'
 import * as fs from 'fs'
+import { SocketServer } from './socket-server'
+import { Packet } from './packet'
 
 const connectTest = (server: any, client: any) => {
   return new Promise((resolve: any, reject: any) => {
@@ -54,32 +55,69 @@ test('Allow authorized', async () => {
   await connectTest(server, client)
 })
 
-test('Reject unauthorized', () => {
+test('Reject unauthorized', async () => {
   const verifyClient = (_info: any, done: Function) => {
     done(false)
   }
   const server = new SocketServer({ port: 8083, verifyClient })
   const client = new WebSocket.default('ws://localhost:8083')
 
-  return new Promise((resolve: any, reject: any) => {
+  await new Promise((resolve: any, reject: any) => {
     client.on('error', (err: any) => {
       expect(err.toString()).toContain('(401)')
-      server.close()
-      client.close()
       resolve()
     })
     client.on('open', () => {
-      server.close()
-      client.close()
       reject('should not connect')
     })
   })
+
+  server.close()
+  client.close()
 })
 
-/*
-test('Send packets from client to backend', () => {
+test('Send packets from client to backend', async () => {
+  const server = new SocketServer({ port: 8089 })
+  const client = new WebSocket.default('ws://localhost:8089')
+
+  client.on('open', () => {
+    const packet = new Packet({ payload: 'hi' })
+    client.send(JSON.stringify(packet))
+  })
+
+  await new Promise((resolve: any) => {
+    server.on('packetFromClient', (packet: Packet) => {
+      expect(packet.payload).toBe('hi')
+      resolve()
+    })
+  })
+
+  server.close()
+  client.close()
 })
 
-test('Send packets from backend to clients', () => {
+test('Send packets from backend to clients', async () => {
+  const verifyClient = (info: any) => {
+    info.req.verified = { userId: 'abcde' }
+    return true
+  }
+  const server = new SocketServer({ port: 8090, verifyClient })
+  const client = new WebSocket.default('ws://localhost:8090')
+
+  client.on('open', () => {
+    const packet = new Packet({ payload: 'hi' })
+    const socketId = 'abcde'
+    server.send(socketId, packet)
+  })
+
+  await new Promise((resolve: any) => {
+    client.on('message', (message: string) => {
+      const packet = new Packet(JSON.parse(message))
+      expect(packet.payload).toBe('hi')
+      resolve()
+    })
+  })
+
+  server.close()
+  client.close()
 })
-*/

@@ -1,6 +1,7 @@
 import * as WS from 'ws'
+import { default as EventEmitter } from 'events'
 import { logger } from './utils/logger'
-import { LOGIN_RESULT } from './constants'
+// import { LOGIN_RESULT } from './constants'
 import { Packet } from './packet'
 import { verifyClient as defaultVerifyClient } from './verify-client'
 
@@ -16,11 +17,12 @@ const defaultOptions: SocketServerOptions = {
   server: undefined
 }
 
-export class SocketServer {
+export class SocketServer extends EventEmitter {
   private socketLookup: { [userId: string]: WS } = {}
   private wss: WS.Server
 
   constructor (inputOptions: SocketServerOptions) {
+    super()
     const options = { ...defaultOptions, ...inputOptions }
 
     // if port is defined, it creates and uses an internal server
@@ -45,10 +47,6 @@ export class SocketServer {
     this.wss.close()
   }
 
-  public on = (name: string, func: (...args: any[]) => void) => {
-    this.wss.on(name, func)
-  }
-
   private onConnection = (ws: WS, request: any) => {
     const userId = request.verified.userId
 
@@ -61,21 +59,19 @@ export class SocketServer {
     this.socketLookup[userId] = ws
 
     // event handlers
-    ws.on('close', () => {
-      delete this.socketLookup[userId]
-    })
+    ws.on('close', () => delete this.socketLookup[userId])
     ws.on('error', logger.error)
     ws.on('message', (data: any) => {
       try {
         const packet = new Packet(JSON.parse(data.toString()))
         packet.user = userId
-        this.wss.emit('packet', packet)
+        this.emit('packetFromClient', packet)
       } catch (e) {
         logger.warning(e.message)
       }
     })
 
     // let the client know they logged in
-    this.send(userId, { type: LOGIN_RESULT, user: request.verified })
+    // this.send(userId, { type: LOGIN_RESULT, user: request.verified })
   }
 }
