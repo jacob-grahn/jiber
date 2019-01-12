@@ -21,7 +21,7 @@ export class SocketServer {
   private wss: WS.Server
 
   constructor (inputOptions: SocketServerOptions) {
-    const options = Object.assign(defaultOptions, inputOptions)
+    const options = { ...defaultOptions, ...inputOptions }
 
     // if port is defined, it creates and uses an internal server
     // this is not good if we want to pass in a custom server
