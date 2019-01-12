@@ -50,6 +50,7 @@ test('Use a custom server with ssl', () => {
   })
 })
 
+/*
 test('Authenticate connection attempts', () => {
 })
 
@@ -58,3 +59,4 @@ test('Send packets from client to backend', () => {
 
 test('Send packets from backend to clients', () => {
 })
+*/
