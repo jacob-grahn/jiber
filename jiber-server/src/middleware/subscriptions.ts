@@ -1,7 +1,7 @@
 // TODO: remove docId key completely when there are no subscribers
 
 import { Action, ServerState } from '../interfaces'
-import { OPEN, CLOSE, DISCONNECT } from '../constants'
+import { OPEN, CLOSE } from '../constants'
 
 export const subscriptions = (state: ServerState) => (next: Function) => (action: Action) => {
   const subs = state.subscriptions
@@ -21,9 +21,6 @@ export const subscriptions = (state: ServerState) => (next: Function) => (action
       if (subs[docId]) {
         subs[docId].delete(userId)
       }
-      return
-    case DISCONNECT:
-      Object.values(subs).forEach(subscribers => subscribers.delete(userId))
       return
     default:
       next(action)

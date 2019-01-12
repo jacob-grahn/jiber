@@ -9,9 +9,7 @@ export class JiberServer {
 
   constructor (input: ServerSettingsInput) {
     const settings: ServerSettings = { ...defaultServerSettings, ...input }
-
-    const { port, verifyClient, server } = settings
-    const socketServer = new SocketServer(port, verifyClient, server)
+    const socketServer = new SocketServer(settings)
 
     this.state = {
       history: {},
