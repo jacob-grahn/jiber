@@ -1,9 +1,8 @@
 import * as WS from 'ws'
 import { default as EventEmitter } from 'events'
 import { logger } from './utils/logger'
-// import { LOGIN_RESULT } from './constants'
-import { Packet } from './packet'
 import { verifyClient as defaultVerifyClient } from './verify-client'
+import { ConnectionToClient } from './connection-to-client'
 
 export interface SocketServerOptions {
   port?: number,
@@ -18,14 +17,14 @@ const defaultOptions: SocketServerOptions = {
 }
 
 export class SocketServer extends EventEmitter {
-  private socketLookup: { [userId: string]: WS } = {}
+  private connectionMap: { [connectionId: string]: ConnectionToClient } = {}
   private wss: WS.Server
 
   constructor (inputOptions: SocketServerOptions) {
     super()
     const options = { ...defaultOptions, ...inputOptions }
 
-    // if port is defined, it creates and uses an internal server
+    // if port is defined, ws creates and uses an internal server
     // this is not good if we want to pass in a custom server
     if (options.server) {
       delete options.port
@@ -36,10 +35,10 @@ export class SocketServer extends EventEmitter {
     this.wss.on('connection', this.onConnection)
   }
 
-  public send = (userId: string, action: any) => {
-    const ws = this.socketLookup[userId]
-    if (ws && ws.readyState === WS.OPEN) {
-      ws.send(JSON.stringify(action))
+  public send = (connectionId: string, message: string) => {
+    const connection = this.connectionMap[connectionId]
+    if (connection) {
+      connection.send(message)
     }
   }
 
@@ -48,30 +47,13 @@ export class SocketServer extends EventEmitter {
   }
 
   private onConnection = (ws: WS, request: any) => {
-    const userId = request.verified.userId
-
-    // close old socket if there is one
-    if (this.socketLookup[userId]) {
-      this.socketLookup[userId].close()
-    }
-
-    // store new socket
-    this.socketLookup[userId] = ws
+    const user = request.jiberUserData
+    const connection = new ConnectionToClient(ws, user)
+    const connectionId = connection.getId()
+    this.connectionMap[connectionId] = connection
 
     // event handlers
-    ws.on('close', () => delete this.socketLookup[userId])
-    ws.on('error', logger.error)
-    ws.on('message', (data: any) => {
-      try {
-        const packet = new Packet(JSON.parse(data.toString()))
-        packet.user = userId
-        this.emit('packetFromClient', packet)
-      } catch (e) {
-        logger.warning(e.message)
-      }
-    })
-
-    // let the client know they logged in
-    // this.send(userId, { type: LOGIN_RESULT, user: request.verified })
+    connection.on('close', () => delete this.connectionMap[connectionId])
+    connection.on('packetFromClient', (event) => this.emit('packetFromClient', event))
   }
 }

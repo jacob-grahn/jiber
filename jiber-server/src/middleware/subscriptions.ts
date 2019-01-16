@@ -2,6 +2,7 @@
 
 import { Action, ServerState } from '../interfaces'
 import { OPEN, CLOSE } from '../constants'
+import { Packet } from '../packet'
 
 export const subscriptions = (state: ServerState) => (next: Function) => (action: Action) => {
   const subs = state.subscriptions
@@ -14,7 +15,10 @@ export const subscriptions = (state: ServerState) => (next: Function) => (action
       subs[docId].add(userId)
       const docHistory = state.history[docId]
       if (docHistory) {
-        docHistory.forEach(action => state.socketServer.send(userId, action))
+        docHistory.forEach(action => {
+          const message = JSON.stringify(new Packet({ payload: action }))
+          state.socketServer.send(userId, message)
+        })
       }
       return
     case CLOSE:

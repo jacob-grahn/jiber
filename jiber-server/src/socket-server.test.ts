@@ -5,6 +5,7 @@ import * as https from 'https'
 import * as fs from 'fs'
 import { SocketServer } from './socket-server'
 import { Packet } from './packet'
+import { WELCOME } from './constants'
 
 const connectTest = (server: any, client: any) => {
   return new Promise((resolve: any, reject: any) => {
@@ -77,7 +78,11 @@ test('Reject unauthorized', async () => {
 })
 
 test('Send packets from client to backend', async () => {
-  const server = new SocketServer({ port: 8089 })
+  const verifyClient = (info: any) => {
+    info.req.jiberUserData = { name: 'sally' }
+    return true
+  }
+  const server = new SocketServer({ port: 8089, verifyClient })
   const client = new WebSocket.default('ws://localhost:8089')
 
   client.on('open', () => {
@@ -88,6 +93,7 @@ test('Send packets from client to backend', async () => {
   await new Promise((resolve: any) => {
     server.on('packetFromClient', (packet: Packet) => {
       expect(packet.payload).toBe('hi')
+      expect(packet.user.name).toBe('sally')
       resolve()
     })
   })
@@ -98,23 +104,22 @@ test('Send packets from client to backend', async () => {
 
 test('Send packets from backend to clients', async () => {
   const verifyClient = (info: any) => {
-    info.req.verified = { userId: 'abcde' }
+    info.req.jiberUserData = { userId: 'abcde' }
     return true
   }
   const server = new SocketServer({ port: 8090, verifyClient })
   const client = new WebSocket.default('ws://localhost:8090')
 
-  client.on('open', () => {
-    const packet = new Packet({ payload: 'hi' })
-    const socketId = 'abcde'
-    server.send(socketId, packet)
-  })
-
   await new Promise((resolve: any) => {
     client.on('message', (message: string) => {
       const packet = new Packet(JSON.parse(message))
-      expect(packet.payload).toBe('hi')
-      resolve()
+      if (packet.type === WELCOME) {
+        server.send(packet.conn, JSON.stringify(new Packet({ payload: 'hi', user: packet.user })))
+      } else {
+        expect(packet.payload).toBe('hi')
+        expect(packet.user.userId).toBe('abcde')
+        resolve()
+      }
     })
   })
 

@@ -6,7 +6,8 @@ export interface PacketConfig {
   trust?: number
   id?: string,
   doc?: string,
-  type?: string
+  type?: string,
+  user?: any
 }
 
 export class Packet {
@@ -16,6 +17,7 @@ export class Packet {
   public trust: number = 0
   public doc: string = 'default'
   public type?: string = undefined
+  public user?: any = undefined
 
   constructor (config?: PacketConfig) {
     if (config) Object.assign(this, config)
