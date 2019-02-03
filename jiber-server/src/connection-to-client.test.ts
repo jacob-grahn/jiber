@@ -21,7 +21,7 @@ test('send a welcome packet when a connection is established', () => {
   expect(welcomePacket.user).toEqual({ name: 'sue' })
 })
 
-test('emit packets from client', () => {
+test('emit packets from client with user data attached', () => {
   const received: Packet[] = []
   let handler: Function = () => { /* do nothing */ }
   const socket: any = {

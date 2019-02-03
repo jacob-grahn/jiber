@@ -1,0 +1,1 @@
+export const SEND_TO_CONNECTION = 'SEND_TO_CONNECTION'
