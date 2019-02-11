@@ -42,7 +42,7 @@ export class DocStream extends EventEmitter {
     }
   }
 
-  private sendToMembers = (message: string) => {
+  public sendToMembers = (message: string) => {
     this.members.forEach((connectionId: string) => {
       this.emit(SEND_TO_CONNECTION, connectionId, message)
     })

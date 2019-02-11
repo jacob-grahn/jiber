@@ -2,7 +2,7 @@ import { SocketServer } from './socket-server'
 import { ServerSettingsInput, ServerSettings, ServerState } from './interfaces'
 import { defaultServerSettings } from './default-server-settings'
 import { linkMiddleware } from './utils/link-middleware'
-import { broadcast, history, subscriptions } from './middleware'
+import { wrtc } from './middleware'
 
 export class JiberServer {
   private state: ServerState
@@ -18,7 +18,7 @@ export class JiberServer {
       subscriptions: {}
     }
 
-    const actionHandler: any = linkMiddleware(this.state, [subscriptions, history, broadcast])
+    const actionHandler: any = linkMiddleware(this.state, [wrtc])
     socketServer.on('action', actionHandler)
   }
 
