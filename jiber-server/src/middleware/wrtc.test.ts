@@ -11,7 +11,7 @@ import { DocStream } from '../doc-stream'
 
 test('forward non wrtc packets to next middleware', () => {
   let passedPacket: any
-  const server = {}
+  const server: any = {}
   const next = (packet: Packet) => {
     passedPacket = packet
   }
@@ -25,7 +25,7 @@ test('forward non wrtc packets to next middleware', () => {
 
 test('do not forward wrtc packets to next middleware', () => {
   let passedPacket: any
-  const server = {
+  const server: any = {
     docs: {
       fun: new DocStream()
     }
@@ -46,7 +46,7 @@ test('do not forward wrtc packets to next middleware', () => {
 })
 
 test('send solicit to all members of a doc', () => {
-  const server = {
+  const server: any = {
     docs: {
       fun: new DocStream()
     }
@@ -69,7 +69,7 @@ test('send offer, answer, and candidates to specific connection', () => {
     sent.push(message)
   })
 
-  const server = {
+  const server: any = {
     docs: {
       fun: doc
     }
