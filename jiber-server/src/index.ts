@@ -1,1 +1,1 @@
-export * from './jiber-server'
+export { JiberServer as default } from './jiber-server'

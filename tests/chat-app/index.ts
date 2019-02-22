@@ -1,5 +1,5 @@
-import { JiberClient } from 'jiber-client'
-import { JiberServer } from 'jiber-server'
+import JiberClient from 'jiber-client'
+import JiberServer from 'jiber-server'
 
 export const runChatApp = (): Promise<{state1: any, state2: any}> => {
   const server = new JiberServer()

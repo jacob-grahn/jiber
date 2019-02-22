@@ -4,7 +4,7 @@ export default {
   input: 'dist/es6/index.js',
   output: {
     file: 'dist/jiber-client.bundle.js',
-    format: 'iife',
+    format: 'umd',
     name: '$jiber'
   },
   plugins: [

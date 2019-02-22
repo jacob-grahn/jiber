@@ -1,1 +1,1 @@
-export * from './jiber-client'
+export { JiberClient as default } from './jiber-client'

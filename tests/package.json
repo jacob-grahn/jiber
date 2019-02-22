@@ -15,7 +15,9 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "jiber-client": "file:../jiber-client",
-    "jiber-server": "file:../jiber-server"
+    "jiber-server": "file:../jiber-server",
+    "wrtc": "^0.3.5"
   }
 }

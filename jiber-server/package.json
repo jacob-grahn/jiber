@@ -1,7 +1,7 @@
 {
   "name": "jiber-server",
   "version": "0.1.11",
-  "description": "Synced data store",
+  "description": "Shared data store",
   "main": "dist/index.js",
   "types": "src/index.ts",
   "scripts": {
