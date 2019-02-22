@@ -10,7 +10,7 @@ export class JiberServer {
   public socketServer: SocketServer
   public docs: { [key: string]: DocStream } = {}
 
-  constructor (input: ServerSettingsInput) {
+  constructor (input: ServerSettingsInput = {}) {
     this.settings = { ...defaultServerSettings, ...input }
     this.socketServer = new SocketServer(this.settings)
 

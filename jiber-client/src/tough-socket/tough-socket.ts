@@ -32,4 +32,13 @@ export class ToughSocket {
       })
       .catch(console.log)
   }
+
+  public close = () => {
+    const socket = this.socket
+    if (socket) {
+      delete socket.onclose
+      socket.close()
+      delete this.socket
+    }
+  }
 }
