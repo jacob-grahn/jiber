@@ -24,7 +24,12 @@ test('subtract', () => {
 
 test('push', () => {
   expect(ac.push('path.yay', 'value'))
-    .toEqual({ type: 'PUSH', path: 'path.yay', value: 'value' })
+    .toEqual({ type: 'PUSH', path: 'path.yay', value: ['value'] })
+})
+
+test('push multiple', () => {
+  expect(ac.push('path.yay', 'value1', 'value2'))
+    .toEqual({ type: 'PUSH', path: 'path.yay', value: ['value1', 'value2'] })
 })
 
 test('pop', () => {
