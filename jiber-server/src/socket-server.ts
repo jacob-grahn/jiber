@@ -3,6 +3,7 @@ import { default as EventEmitter } from 'events'
 import { logger } from './utils/logger'
 import { verifyClient as defaultVerifyClient } from './verify-client'
 import { ConnectionToClient } from './connection-to-client'
+import { PACKET_FROM_CLIENT } from './constants'
 
 export interface SocketServerOptions {
   port?: number,
@@ -54,6 +55,8 @@ export class SocketServer extends EventEmitter {
 
     // event handlers
     connection.on('close', () => delete this.connectionMap[connectionId])
-    connection.on('packetFromClient', (event) => this.emit('packetFromClient', event))
+    connection.on(PACKET_FROM_CLIENT, (event) => {
+      this.emit(PACKET_FROM_CLIENT, event)
+    })
   }
 }

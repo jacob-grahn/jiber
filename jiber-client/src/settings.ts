@@ -21,7 +21,7 @@ export class Settings {
   public maxPeers: number = 0
   public reducer: Reducer = swiss
   public stunServers: string[] = []
-  public url?: string = ''
+  public url?: string = 'ws://localhost:8080'
 
   constructor (custom: CustomSettings) {
     Object.assign(this, custom)

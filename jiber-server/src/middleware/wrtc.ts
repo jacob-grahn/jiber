@@ -19,6 +19,7 @@ export const wrtc = (server: JiberServer) => (next: Function) => (packet: Packet
   if (packet.type && WRTC_TYPES.indexOf(packet.type) !== -1) {
     const docId = packet.doc
     const doc: DocStream = server.docs[docId]
+    if (!doc) return
     if (packet.type === WEBRTC_SOLICIT) {
       doc.sendToMembers(JSON.stringify(packet))
     } else {

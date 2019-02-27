@@ -3,7 +3,7 @@ import { Packet } from './packet'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './utils/logger'
 import { default as EventEmitter } from 'events'
-import { WELCOME, SERVER } from './constants'
+import { WELCOME, SERVER, PACKET_FROM_CLIENT } from './constants'
 
 export class ConnectionToClient extends EventEmitter {
 
@@ -25,7 +25,7 @@ export class ConnectionToClient extends EventEmitter {
       const packet = new Packet(JSON.parse(data.toString()))
       packet.user = this.user
       packet.conn = this.id
-      this.emit('packetFromClient', packet)
+      this.emit(PACKET_FROM_CLIENT, packet)
     } catch (e) {
       logger.warning(e.message)
     }

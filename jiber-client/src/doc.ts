@@ -34,7 +34,7 @@ export class Doc {
     Object.assign(this, this.dispatchers)
 
     // start receiving updates from this room
-    this.sendToServer(new Packet({ doc: this.id, payload: OPEN }))
+    this.sendToServer(new Packet({ doc: this.id, type: OPEN }))
   }
 
   public receiveFromServer = (packet: Packet): void => {

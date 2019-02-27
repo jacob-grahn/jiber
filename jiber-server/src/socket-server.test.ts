@@ -5,7 +5,7 @@ import * as https from 'https'
 import * as fs from 'fs'
 import { SocketServer } from './socket-server'
 import { Packet } from './packet'
-import { WELCOME } from './constants'
+import { WELCOME, PACKET_FROM_CLIENT } from './constants'
 
 const connectTest = (server: any, client: any) => {
   return new Promise((resolve: any, reject: any) => {
@@ -91,7 +91,7 @@ test('Send packets from client to backend', async () => {
   })
 
   await new Promise((resolve: any) => {
-    server.on('packetFromClient', (packet: Packet) => {
+    server.on(PACKET_FROM_CLIENT, (packet: Packet) => {
       expect(packet.payload).toBe('hi')
       expect(packet.user.name).toBe('sally')
       resolve()

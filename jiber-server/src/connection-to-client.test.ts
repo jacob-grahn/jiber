@@ -3,6 +3,7 @@
 import * as WS from 'ws'
 import { ConnectionToClient } from './connection-to-client'
 import { Packet } from './packet'
+import { PACKET_FROM_CLIENT } from './constants'
 
 test('send a welcome packet when a connection is established', () => {
   const sends: string[] = []
@@ -31,7 +32,7 @@ test('emit packets from client with user data attached', () => {
   }
 
   const conn = new ConnectionToClient(socket, { id: 'abc' })
-  conn.on('packetFromClient', (packet: Packet) => { received.push(packet) })
+  conn.on(PACKET_FROM_CLIENT, (packet: Packet) => { received.push(packet) })
 
   const packet = { payload: 'test' }
   const message = JSON.stringify(packet)

@@ -11,7 +11,7 @@ export class PeerGroup {
   constructor (docId: string, sendToServer: Function, sendToStore: Function) {
     this.sendToServer = sendToServer
     this.sendToStore = sendToStore
-    this.sendToServer(new Packet({ doc: docId, payload: WEBRTC_SOLICIT }))
+    this.sendToServer(new Packet({ doc: docId, type: WEBRTC_SOLICIT }))
   }
 
   public receiveFromServer = (packet: Packet): void => {

@@ -9,6 +9,7 @@ export class ToughSocket {
   public onmessage?: (event: any) => void
   private socket: WebSocket | undefined
   private settings: Settings
+  private queue: string[] = []
 
   constructor (settings: Settings) {
     this.settings = settings
@@ -16,8 +17,17 @@ export class ToughSocket {
   }
 
   public send = (str: string) => {
-    if (!this.socket || this.socket.readyState !== this.socket.OPEN) return
-    this.socket.send(str)
+    if (this.socket && this.socket.readyState === this.socket.OPEN) {
+      this.socket.send(str)
+    } else {
+      this.queue.push(str)
+    }
+  }
+
+  private sendQueue = () => {
+    const queue = this.queue
+    this.queue = []
+    queue.forEach(this.send)
   }
 
   private connect = () => {
@@ -29,6 +39,7 @@ export class ToughSocket {
           socket.onmessage = this.onmessage
         }
         socket.onclose = () => setTimeout(this.connect, 3000)
+        this.sendQueue()
       })
       .catch(console.log)
   }
