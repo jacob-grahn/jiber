@@ -20,6 +20,10 @@ export const wrtc = (server: JiberServer) => (next: Function) => (packet: Packet
     const docId = packet.doc
     const doc: DocStream = server.docs[docId]
     if (!doc) return
+
+    packet.payload = packet.payload || {}
+    packet.payload.peerId = packet.conn
+
     if (packet.type === WEBRTC_SOLICIT) {
       doc.sendToMembers(JSON.stringify(packet))
     } else {

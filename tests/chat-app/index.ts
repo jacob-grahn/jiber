@@ -10,10 +10,18 @@ export const runChatApp = (): Promise<{state1: any, state2: any}> => {
   const chat1 = client1.createDoc('bees')
   const chat2 = client2.createDoc('bees')
 
-  chat1.dispatchers.push('messages', 'Hi')
-  chat2.dispatchers.push('messages', 'Hello')
-  chat1.dispatchers.push('messages', 'I like bees')
-  chat2.dispatchers.push('messages', 'Me too')
+  setTimeout(() => {
+    chat1.dispatchers.push('messages', 'Hi')
+  }, 100)
+  setTimeout(() => {
+    chat2.dispatchers.push('messages', 'Hello')
+  }, 125)
+  setTimeout(() => {
+    chat1.dispatchers.push('messages', 'I like bees')
+  }, 150)
+  setTimeout(() => {
+    chat2.dispatchers.push('messages', 'Me too')
+  }, 175)
 
   return new Promise((resolve) => {
     setTimeout(() => {

@@ -7,7 +7,7 @@ export const broadcast = (server: JiberServer) => (next: Function) => (packet: P
   const doc: DocStream = server.docs[docId]
   const message = JSON.stringify(packet)
   if (doc) {
-    doc.sendToMembers(message)
+    doc.addMessage(message)
   }
   next(packet)
 }

@@ -3,7 +3,7 @@ import { DocStream } from './doc-stream'
 import { ServerSettingsInput, ServerSettings } from './interfaces'
 import { defaultServerSettings } from './default-server-settings'
 import { linkMiddleware } from './utils/link-middleware'
-import { broadcast, openAndClose, wrtc } from './middleware'
+import { broadcast, init, openAndClose, wrtc } from './middleware'
 import { PACKET_FROM_CLIENT } from './constants'
 
 export class JiberServer {
@@ -15,7 +15,7 @@ export class JiberServer {
     this.settings = { ...defaultServerSettings, ...input }
     this.socketServer = new SocketServer(this.settings)
 
-    const packetHandler: any = linkMiddleware(this, [openAndClose, wrtc, broadcast])
+    const packetHandler: any = linkMiddleware(this, [init, openAndClose, wrtc, broadcast])
     this.socketServer.on(PACKET_FROM_CLIENT, packetHandler)
   }
 

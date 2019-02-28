@@ -44,7 +44,8 @@ export class JiberClient {
     this.socket.close()
   }
 
-  private receiveFromServer = (message: string): void => {
+  private receiveFromServer = (event: MessageEvent): void => {
+    const message = event.data
     const packet: Packet = JSON.parse(message)
     this.subscription.publish(packet)
   }

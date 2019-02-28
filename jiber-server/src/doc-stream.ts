@@ -49,6 +49,7 @@ export class DocStream extends EventEmitter {
   }
 
   private sendHistoryToConnection = (connectionId: string) => {
+    console.log('doc-stream sendHistoryToConnection', this.history)
     this.history.forEach((message: string) => {
       this.emit(SEND_TO_CONNECTION, connectionId, message)
     })

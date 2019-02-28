@@ -38,8 +38,11 @@ export class Doc {
   }
 
   public receiveFromServer = (packet: Packet): void => {
-    this.peerGroup.receiveFromServer(packet)
-    this.sendToStore(packet)
+    if (packet.type) {
+      this.peerGroup.receiveFromServer(packet)
+    } else {
+      this.sendToStore(packet)
+    }
   }
 
   public sendToStore = (packet: Packet): void => {

@@ -15,6 +15,7 @@ export class FlexStore {
 
   public receive = (packet: Packet) => {
     if (packet.trust === SERVER) {
+      console.log('flex-store trusted packet', packet)
       this.state = this.reducer(this.state, packet.payload)
       this.untrusted = this.untrusted.filter(p => p.id !== packet.id)
     } else {
@@ -25,6 +26,8 @@ export class FlexStore {
   }
 
   public getState = (trust: number = SELF) => {
+    // console.log('flex-store getState')
+    // console.log({state: this.state, untrusted: this.untrusted, optimistic: this.fastForward(this.state, this.untrusted)})
     if (trust === SERVER) {
       return this.state
     } else if (trust === SELF) {
