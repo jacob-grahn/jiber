@@ -5,7 +5,8 @@ import {
   WEBRTC_SOLICIT,
   WEBRTC_OFFER,
   WEBRTC_ANSWER,
-  WEBRTC_CANDIDATE
+  WEBRTC_CANDIDATE,
+  SERVER
 } from '../constants'
 
 const WRTC_TYPES = [
@@ -21,13 +22,18 @@ export const wrtc = (server: JiberServer) => (next: Function) => (packet: Packet
     const doc: DocStream = server.docs[docId]
     if (!doc) return
 
-    packet.payload = packet.payload || {}
-    packet.payload.peerId = packet.conn
+    const replyPacket = new Packet({
+      type: packet.type,
+      payload: { ...packet.payload } || {},
+      trust: SERVER,
+      doc: packet.doc
+    })
+    replyPacket.payload.peerId = packet.conn
 
     if (packet.type === WEBRTC_SOLICIT) {
-      doc.sendToMembers(JSON.stringify(packet))
+      doc.sendToMembers(JSON.stringify(replyPacket))
     } else {
-      doc.sendToMember(packet.payload.peerId, JSON.stringify(packet))
+      doc.sendToMember(packet.payload.peerId, JSON.stringify(replyPacket))
     }
   } else {
     next(packet)

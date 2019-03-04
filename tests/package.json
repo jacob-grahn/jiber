@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "echo yay",
     "test": "jest chat-app"
   },
   "author": "",

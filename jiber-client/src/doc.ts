@@ -52,6 +52,7 @@ export class Doc {
 
   public dispatch = (payload: Action): void => {
     const packet = new Packet({ payload, doc: this.id, trust: SELF })
+    this.peerGroup.send(packet)
     this.sendToServer(packet)
     this.sendToStore(packet)
   }

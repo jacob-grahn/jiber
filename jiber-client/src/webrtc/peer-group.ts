@@ -19,6 +19,7 @@ export class PeerGroup {
       const peerId = packet.payload.peerId
       if (!this.peers[peerId]) {
         this.peers[peerId] = new Peer(
+          packet.doc,
           peerId,
           this.sendToServer,
           this.sendToStore
@@ -26,6 +27,12 @@ export class PeerGroup {
       }
       this.peers[peerId].receiveFromServer(packet).catch(console.log)
     }
+  }
+
+  public send = (packet: Packet): void => {
+    Object.keys(this.peers).forEach(peerId => {
+      this.peers[peerId].send(packet)
+    })
   }
 
   public close = (): void => {

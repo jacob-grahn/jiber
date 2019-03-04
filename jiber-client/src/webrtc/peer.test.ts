@@ -21,8 +21,8 @@ test('send a message from one peer to another', () => {
       resolve()
     }
 
-    const peerA = new Peer('b', sendToServer, sendToStoreA)
-    const peerB = new Peer('a', sendToServer, sendToStoreB)
+    const peerA = new Peer('default', 'b', sendToServer, sendToStoreA)
+    const peerB = new Peer('default', 'a', sendToServer, sendToStoreB)
     peers['a'] = peerA
     peers['b'] = peerB
 

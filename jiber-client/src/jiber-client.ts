@@ -13,6 +13,7 @@ export class JiberClient {
   public subscription: Subscription = new Subscription()
   private settings: Settings
   private socket: ToughSocket
+  private docs: {[key: string]: Doc} = {}
 
   constructor (customSettings: CustomSettings = {}) {
     this.settings = new Settings(customSettings)
@@ -25,7 +26,8 @@ export class JiberClient {
   }
 
   public createDoc = (docId: string): Doc => {
-    const doc = new Doc(docId, this.send, this.settings)
+    const doc = this.docs[docId] || new Doc(docId, this.send, this.settings)
+    this.docs[docId] = doc
 
     // forward received packets to the doc
     const forwardPackets = (packet: Packet) => {
@@ -42,6 +44,9 @@ export class JiberClient {
 
   public close = () => {
     this.socket.close()
+    Object.keys(this.docs).forEach((key: string) => {
+      this.docs[key].close()
+    })
   }
 
   private receiveFromServer = (event: MessageEvent): void => {

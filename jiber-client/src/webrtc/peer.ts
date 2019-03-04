@@ -11,17 +11,20 @@ export class Peer {
 
   private sendToServer: Function
   private sendToStore: Function
+  private docId: string
   private peerId: string
   private connection: RTCPeerConnection
   private channel?: RTCDataChannel
   private channelSettings = { ordered: false, maxRetransmits: 0 }
 
   constructor (
+    docId: string,
     peerId: string,
     sendToServer: Function,
     sendToStore: Function,
     stunServers: string[] = []
   ) {
+    this.docId = docId
     this.peerId = peerId
     this.sendToServer = sendToServer
     this.sendToStore = sendToStore
@@ -32,18 +35,18 @@ export class Peer {
       if (!event.candidate) return
       this.sendToServer(new Packet({
         type: WEBRTC_CANDIDATE,
+        doc: this.docId,
         payload: { candidate: event.candidate, peerId: this.peerId }
       }))
     })
     this.connection.addEventListener('datachannel', (event: any) => {
       this.channel = (event.channel) as RTCDataChannel
-      this.channel.addEventListener('message', this.onmessage)
+      this.channel.addEventListener('message', this.receiveFromPeer)
     })
   }
 
   public send = (packet: Packet) => {
     if (this.channel && this.channel.readyState === 'open') {
-      packet.type = this.peerId
       this.channel.send(JSON.stringify(packet))
     }
   }
@@ -70,6 +73,7 @@ export class Peer {
     await this.connection.setLocalDescription(offer)
     this.sendToServer(new Packet({
       type: WEBRTC_OFFER,
+      doc: this.docId,
       payload: { offer, peerId: this.peerId }
     }))
   }
@@ -80,6 +84,7 @@ export class Peer {
     await this.connection.setLocalDescription(answer)
     this.sendToServer(new Packet({
       type: WEBRTC_ANSWER,
+      doc: this.docId,
       payload: { answer, peerId: this.peerId }
     }))
   }
@@ -89,10 +94,10 @@ export class Peer {
       name,
       this.channelSettings
     )
-    this.channel.addEventListener('message', this.onmessage)
+    this.channel.addEventListener('message', this.receiveFromPeer)
   }
 
-  private onmessage = (event: any) => {
+  private receiveFromPeer = (event: any) => {
     const data: any = JSON.parse(event.data)
     const packet = new Packet({ ...data, trust: PEER, time: Date.now() })
     this.sendToStore(packet)
