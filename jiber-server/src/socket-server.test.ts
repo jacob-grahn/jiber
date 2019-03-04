@@ -65,7 +65,7 @@ test('Reject unauthorized', async () => {
 
   await new Promise((resolve: any, reject: any) => {
     client.on('error', (err: any) => {
-      expect(err.toString()).toContain('(401)')
+      expect(err.toString()).toContain('401')
       resolve()
     })
     client.on('open', () => {
