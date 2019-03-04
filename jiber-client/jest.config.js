@@ -14,5 +14,7 @@ module.exports = {
     'json',
     'node'
   ],
-  'setupTestFrameworkScriptFile': '<rootDir>/jest-setup'
+  'setupFilesAfterEnv': [
+    '<rootDir>/jest-setup'
+  ]
 }
