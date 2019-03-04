@@ -1,0 +1,32 @@
+{
+  "name": "jiber-server",
+  "version": "0.1.11",
+  "description": "Shared data store",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "build": "tsc",
+    "test": "jest src",
+    "lint": "tslint --fix -p tsconfig.json"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.10.4",
+    "@types/sinon": "^7.0.8",
+    "@types/uuid": "^3.4.4",
+    "@types/ws": "^6.0.1",
+    "jest": "^24.1.0",
+    "sinon": "^7.2.6",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3333",
+    "ws": "^6.1.4"
+  },
+  "dependencies": {
+    "uuid": "^3.3.2"
+  }
+}

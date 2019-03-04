@@ -1,0 +1,12 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es2017",
+        "outDir": "dist/es6",
+        "lib": ["es6", "DOM"]
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}

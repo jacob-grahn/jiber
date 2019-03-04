@@ -1,0 +1,25 @@
+{
+  "name": "jiber-redis",
+  "version": "0.0.1",
+  "description": "Redis middleware for Jiber",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint --fix -p tsconfig.json",
+    "test": "jest src"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "@types/redis": "^2.8.10",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3333"
+  }
+}
