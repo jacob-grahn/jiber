@@ -36,3 +36,13 @@ test('seperate optimistic states', () => {
   expect(store.getState(SELF)).toBe('hi server self')
   expect(store.getState(PEER)).toBe('hi server self peer')
 })
+
+test('ignore late optimistic packets', () => {
+  const store = new FlexStore(reducer, 'hi')
+  const action = { value: 'there' }
+  const confirmedPacket = new Packet({ trust: SERVER, payload: action })
+  const optimisticPacket = new Packet({ id: confirmedPacket.id, trust: PEER, payload: action })
+  store.receive(confirmedPacket)
+  store.receive(optimisticPacket)
+  expect(store.getState(PEER)).toBe('hi there')
+})
