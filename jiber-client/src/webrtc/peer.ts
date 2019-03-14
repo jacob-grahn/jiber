@@ -1,4 +1,4 @@
-import { Packet } from '../packet'
+import { Action } from '../action'
 import {
   WEBRTC_OFFER,
   WEBRTC_ANSWER,
@@ -33,10 +33,11 @@ export class Peer {
     })
     this.connection.addEventListener('icecandidate', (event) => {
       if (!event.candidate) return
-      this.sendToServer(new Packet({
+      this.sendToServer(new Action({
         type: WEBRTC_CANDIDATE,
         doc: this.docId,
-        payload: { candidate: event.candidate, peerId: this.peerId }
+        candidate: event.candidate,
+        peerId: this.peerId
       }))
     })
     this.connection.addEventListener('datachannel', (event: any) => {
@@ -45,22 +46,22 @@ export class Peer {
     })
   }
 
-  public send = (packet: Packet) => {
+  public send = (action: Action) => {
     if (this.channel && this.channel.readyState === 'open') {
-      this.channel.send(JSON.stringify(packet))
+      this.channel.send(JSON.stringify(action))
     }
   }
 
-  public receiveFromServer = async (packet: Packet) => {
-    if (packet.type === WEBRTC_SOLICIT) {
+  public receiveFromServer = async (action: Action) => {
+    if (action.type === WEBRTC_SOLICIT) {
       this.createChannel()
       await this.sendOffer()
-    } else if (packet.type === WEBRTC_OFFER) {
-      await this.sendAnswer(packet.payload.offer)
-    } else if (packet.type === WEBRTC_ANSWER) {
-      await this.connection.setRemoteDescription(packet.payload.answer)
-    } else if (packet.type === WEBRTC_CANDIDATE) {
-      await this.connection.addIceCandidate(packet.payload.candidate)
+    } else if (action.type === WEBRTC_OFFER) {
+      await this.sendAnswer(action.offer)
+    } else if (action.type === WEBRTC_ANSWER) {
+      await this.connection.setRemoteDescription(action.answer)
+    } else if (action.type === WEBRTC_CANDIDATE) {
+      await this.connection.addIceCandidate(action.candidate)
     }
   }
 
@@ -71,10 +72,11 @@ export class Peer {
   private sendOffer = async (): Promise<void> => {
     const offer = await this.connection.createOffer()
     await this.connection.setLocalDescription(offer)
-    this.sendToServer(new Packet({
+    this.sendToServer(new Action({
       type: WEBRTC_OFFER,
       doc: this.docId,
-      payload: { offer, peerId: this.peerId }
+      offer,
+      peerId: this.peerId
     }))
   }
 
@@ -82,10 +84,11 @@ export class Peer {
     await this.connection.setRemoteDescription(offer)
     const answer = await this.connection.createAnswer()
     await this.connection.setLocalDescription(answer)
-    this.sendToServer(new Packet({
+    this.sendToServer(new Action({
       type: WEBRTC_ANSWER,
       doc: this.docId,
-      payload: { answer, peerId: this.peerId }
+      answer,
+      peerId: this.peerId
     }))
   }
 
@@ -99,7 +102,7 @@ export class Peer {
 
   private receiveFromPeer = (event: any) => {
     const data: any = JSON.parse(event.data)
-    const packet = new Packet({ ...data, trust: PEER, time: Date.now() })
-    this.sendToStore(packet)
+    const action = new Action({ ...data, trust: PEER, time: Date.now() })
+    this.sendToStore(action)
   }
 }

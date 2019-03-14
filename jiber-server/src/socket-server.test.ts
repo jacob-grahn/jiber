@@ -4,7 +4,7 @@ import * as WebSocket from 'ws'
 import * as https from 'https'
 import * as fs from 'fs'
 import { SocketServer } from './socket-server'
-import { Packet } from './packet'
+import { Action } from './action'
 import { WELCOME, PACKET_FROM_CLIENT } from './constants'
 
 const connectTest = (server: any, client: any) => {
@@ -77,7 +77,7 @@ test('Reject unauthorized', async () => {
   client.close()
 })
 
-test('Send packets from client to backend', async () => {
+test('Send actions from client to backend', async () => {
   const verifyClient = (info: any) => {
     info.req.jiberUserData = { name: 'sally' }
     return true
@@ -86,14 +86,14 @@ test('Send packets from client to backend', async () => {
   const client = new WebSocket.default('ws://localhost:8089')
 
   client.on('open', () => {
-    const packet = new Packet({ payload: 'hi' })
-    client.send(JSON.stringify(packet))
+    const action = new Action({ type: 'hi' })
+    client.send(JSON.stringify(action))
   })
 
   await new Promise((resolve: any) => {
-    server.on(PACKET_FROM_CLIENT, (packet: Packet) => {
-      expect(packet.payload).toBe('hi')
-      expect(packet.user.name).toBe('sally')
+    server.on(PACKET_FROM_CLIENT, (action: Action) => {
+      expect(action.type).toBe('hi')
+      expect(action.user.name).toBe('sally')
       resolve()
     })
   })
@@ -102,7 +102,7 @@ test('Send packets from client to backend', async () => {
   client.close()
 })
 
-test('Send packets from backend to clients', async () => {
+test('Send actions from backend to clients', async () => {
   const verifyClient = (info: any) => {
     info.req.jiberUserData = { userId: 'abcde' }
     return true
@@ -112,12 +112,11 @@ test('Send packets from backend to clients', async () => {
 
   await new Promise((resolve: any) => {
     client.on('message', (message: string) => {
-      const packet = new Packet(JSON.parse(message))
-      if (packet.type === WELCOME) {
-        server.send(packet.conn, JSON.stringify(new Packet({ payload: 'hi', user: packet.user })))
+      const action = new Action(JSON.parse(message))
+      if (action.type === WELCOME) {
+        server.send(action.conn, JSON.stringify(new Action({ user: action.user })))
       } else {
-        expect(packet.payload).toBe('hi')
-        expect(packet.user.userId).toBe('abcde')
+        expect(action.user.userId).toBe('abcde')
         resolve()
       }
     })

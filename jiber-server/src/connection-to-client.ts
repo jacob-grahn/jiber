@@ -1,5 +1,5 @@
 import * as WS from 'ws'
-import { Packet } from './packet'
+import { Action } from './action'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './utils/logger'
 import { default as EventEmitter } from 'events'
@@ -17,29 +17,29 @@ export class ConnectionToClient extends EventEmitter {
     this.user = user
     this.socket = socket
     socket.on('message', this.onMessage)
-    this.sendWelcomePacket()
+    this.sendWelcomeAction()
   }
 
   private onMessage = (data: any) => {
     try {
-      const packet = new Packet(JSON.parse(data.toString()))
-      packet.user = this.user
-      packet.conn = this.id
-      this.emit(PACKET_FROM_CLIENT, packet)
+      const action = new Action(JSON.parse(data.toString()))
+      action.user = this.user
+      action.conn = this.id
+      this.emit(PACKET_FROM_CLIENT, action)
     } catch (e) {
       logger.warning(e.message)
     }
   }
 
-  private sendWelcomePacket = () => {
-    const welcomePacket = new Packet({
+  private sendWelcomeAction = () => {
+    const welcomeAction = new Action({
       type: WELCOME,
       user: this.user,
       time: Date.now(),
       trust: SERVER,
       conn: this.id
     })
-    this.send(JSON.stringify(welcomePacket))
+    this.send(JSON.stringify(welcomeAction))
   }
 
   public send = (message: string) => {

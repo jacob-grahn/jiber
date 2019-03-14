@@ -1,9 +1,9 @@
-import { Packet } from '../packet'
+import { Action } from '../action'
 import { JiberServer } from '../jiber-server'
 import { SERVER } from '../constants'
 
-export const init = (_server: JiberServer) => (next: Function) => (packet: Packet) => {
-  packet.trust = SERVER
-  packet.time = Date.now()
-  next(packet)
+export const init = (_server: JiberServer) => (next: Function) => (action: Action) => {
+  action.trust = SERVER
+  action.time = Date.now()
+  next(action)
 }

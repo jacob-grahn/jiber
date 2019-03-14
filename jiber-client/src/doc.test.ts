@@ -6,8 +6,8 @@ import { Settings } from './settings'
 test('subscribe to changes', () => {
   const sendToServer = () => { /* do nothing */ }
   const doc = new Doc('abc', sendToServer, new Settings({}))
-  doc.subscription.subscribe((_state: any, payload: any) => {
-    expect(payload).toEqual({ type: 'hi' })
+  doc.subscription.subscribe((_state: any, action: any) => {
+    expect(action.type).toEqual('hi')
   })
   doc.dispatch({ type: 'hi' })
 })

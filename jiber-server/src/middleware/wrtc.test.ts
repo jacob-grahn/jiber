@@ -1,5 +1,5 @@
 import { wrtc } from './wrtc'
-import { Packet } from '../packet'
+import { Action } from '../action'
 import {
   WEBRTC_OFFER,
   WEBRTC_ANSWER,
@@ -9,40 +9,40 @@ import {
 } from '../constants'
 import { DocStream } from '../doc-stream'
 
-test('forward non wrtc packets to next middleware', () => {
-  let passedPacket: any
+test('forward non wrtc actions to next middleware', () => {
+  let passedAction: any
   const server: any = {}
-  const next = (packet: Packet) => {
-    passedPacket = packet
+  const next = (action: Action) => {
+    passedAction = action
   }
-  const packet = new Packet({ type: 'message' })
+  const action = new Action({ type: 'message' })
   const link = wrtc(server)(next)
 
-  link(packet)
+  link(action)
 
-  expect(passedPacket.type).toBe('message')
+  expect(passedAction.type).toBe('message')
 })
 
-test('do not forward wrtc packets to next middleware', () => {
-  let passedPacket: any
+test('do not forward wrtc actions to next middleware', () => {
+  let passedAction: any
   const server: any = {
     docs: {
       fun: new DocStream()
     }
   }
-  const next = (packet: Packet) => {
-    passedPacket = packet
+  const next = (action: Action) => {
+    passedAction = action
   }
-  const packet = new Packet({
+  const action = new Action({
     type: WEBRTC_OFFER,
     doc: 'fun',
-    payload: { peerId: 'somebody' }
+    peerId: 'somebody'
   })
   const link = wrtc(server)(next)
 
-  link(packet)
+  link(action)
 
-  expect(passedPacket).toBe(undefined)
+  expect(passedAction).toBe(undefined)
 })
 
 test('send solicit to all members of a doc', () => {
@@ -52,13 +52,13 @@ test('send solicit to all members of a doc', () => {
     }
   }
   const next = () => { /* do nothing */ }
-  const packet = new Packet({
+  const action = new Action({
     type: WEBRTC_SOLICIT,
     doc: 'fun'
   })
   const link = wrtc(server)(next)
 
-  link(packet)
+  link(action)
 })
 
 test('send offer, answer, and candidates to specific connection', () => {
@@ -75,26 +75,26 @@ test('send offer, answer, and candidates to specific connection', () => {
     }
   }
   const next = () => { /* do nothing */ }
-  const offerPacket = new Packet({
+  const offerAction = new Action({
     type: WEBRTC_OFFER,
     doc: 'fun',
-    payload: { peerId: 'user5' }
+    peerId: 'user5'
   })
-  const answerPacket = new Packet({
+  const answerAction = new Action({
     type: WEBRTC_ANSWER,
     doc: 'fun',
-    payload: { peerId: 'user5' }
+    peerId: 'user5'
   })
-  const candidatePacket = new Packet({
+  const candidateAction = new Action({
     type: WEBRTC_CANDIDATE,
     doc: 'fun',
-    payload: { peerId: 'user5' }
+    peerId: 'user5'
   })
   const link = wrtc(server)(next)
 
-  link(offerPacket)
-  link(answerPacket)
-  link(candidatePacket)
+  link(offerAction)
+  link(answerAction)
+  link(candidateAction)
 
   expect(sent.length).toBe(3)
   expect(JSON.parse(sent[0]).type).toBe(WEBRTC_OFFER)

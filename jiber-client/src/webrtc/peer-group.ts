@@ -1,4 +1,4 @@
-import { Packet } from '../packet'
+import { Action } from '../action'
 import { WEBRTC_SOLICIT } from '../constants'
 import { Peer } from './peer'
 
@@ -11,27 +11,29 @@ export class PeerGroup {
   constructor (docId: string, sendToServer: Function, sendToStore: Function) {
     this.sendToServer = sendToServer
     this.sendToStore = sendToStore
-    this.sendToServer(new Packet({ doc: docId, type: WEBRTC_SOLICIT }))
+    this.sendToServer(new Action({ doc: docId, type: WEBRTC_SOLICIT }))
   }
 
-  public receiveFromServer = (packet: Packet): void => {
-    if (packet.type && packet.type.indexOf('WEBRTC_') === 0) {
-      const peerId = packet.payload.peerId
+  public receiveFromServer = (action: Action): void => {
+    if (!action.doc) return
+    if (action.type && action.type.indexOf('WEBRTC_') === 0) {
+      const peerId = action.peerId
+      if (!peerId) return
       if (!this.peers[peerId]) {
         this.peers[peerId] = new Peer(
-          packet.doc,
+          action.doc,
           peerId,
           this.sendToServer,
           this.sendToStore
         )
       }
-      this.peers[peerId].receiveFromServer(packet).catch(console.log)
+      this.peers[peerId].receiveFromServer(action).catch(console.log)
     }
   }
 
-  public send = (packet: Packet): void => {
+  public send = (action: Action): void => {
     Object.keys(this.peers).forEach(peerId => {
-      this.peers[peerId].send(packet)
+      this.peers[peerId].send(action)
     })
   }
 

@@ -1,4 +1,4 @@
-import { Packet } from '../packet'
+import { Action } from '../action'
 import { DocStream } from '../doc-stream'
 import { JiberServer } from '../jiber-server'
 import {
@@ -16,26 +16,29 @@ const WRTC_TYPES = [
   WEBRTC_CANDIDATE
 ]
 
-export const wrtc = (server: JiberServer) => (next: Function) => (packet: Packet) => {
-  if (packet.type && WRTC_TYPES.indexOf(packet.type) !== -1) {
-    const docId = packet.doc
+export const wrtc = (server: JiberServer) => (next: Function) => (action: Action) => {
+  if (action.type && WRTC_TYPES.indexOf(action.type) !== -1) {
+    const docId = action.doc
+    if (!docId) return
     const doc: DocStream = server.docs[docId]
     if (!doc) return
 
-    const replyPacket = new Packet({
-      type: packet.type,
-      payload: { ...packet.payload } || {},
+    const replyAction = new Action({
+      type: action.type,
       trust: SERVER,
-      doc: packet.doc
+      doc: action.doc,
+      peerId: action.conn,
+      offer: action.offer,
+      answer: action.answer,
+      candidate: action.candidate
     })
-    replyPacket.payload.peerId = packet.conn
 
-    if (packet.type === WEBRTC_SOLICIT) {
-      doc.sendToMembers(JSON.stringify(replyPacket))
+    if (action.type === WEBRTC_SOLICIT) {
+      doc.sendToMembers(JSON.stringify(replyAction))
     } else {
-      doc.sendToMember(packet.payload.peerId, JSON.stringify(replyPacket))
+      doc.sendToMember(action.peerId || '', JSON.stringify(replyAction))
     }
   } else {
-    next(packet)
+    next(action)
   }
 }
