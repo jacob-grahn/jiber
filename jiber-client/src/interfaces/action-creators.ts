@@ -1,5 +1,5 @@
-import { Action } from './action'
+import { ActionConfig } from '../action'
 
 export interface ActionCreators {
-  [key: string]: (...args: any[]) => Action
+  [key: string]: (...args: any[]) => ActionConfig
 }

@@ -1,8 +1,7 @@
-import { Action } from './interfaces'
 import { OPEN, CLOSE, SELF } from './constants'
 import { Subscription } from './subscription'
 import { toDispatchers } from './to-dispatchers'
-import { Packet } from './packet'
+import { Action } from './action'
 import { Settings } from './settings'
 import { FlexStore } from './flex-store'
 import { PeerGroup } from './webrtc'
@@ -34,32 +33,33 @@ export class Doc {
     Object.assign(this, this.dispatchers)
 
     // start receiving updates from this room
-    this.sendToServer(new Packet({ doc: this.id, type: OPEN }))
+    this.sendToServer(new Action({ doc: this.id, type: OPEN }))
   }
 
-  public receiveFromServer = (packet: Packet): void => {
-    if (packet.type) {
-      this.peerGroup.receiveFromServer(packet)
+  public receiveFromServer = (action: Action): void => {
+    if (!action.type) return
+    if (action.type.indexOf('WEBRTC_') === 0) {
+      this.peerGroup.receiveFromServer(action)
     } else {
-      this.sendToStore(packet)
+      this.sendToStore(action)
     }
   }
 
-  public sendToStore = (packet: Packet): void => {
-    this.store.receive(packet)
-    this.subscription.publish(this.store.getState(), packet.payload)
+  public sendToStore = (action: Action): void => {
+    this.store.receive(action)
+    this.subscription.publish(this.store.getState(), action)
   }
 
-  public dispatch = (payload: Action): void => {
-    const packet = new Packet({ payload, doc: this.id, trust: SELF })
-    this.peerGroup.send(packet)
-    this.sendToServer(packet)
-    this.sendToStore(packet)
+  public dispatch = (obj: any): void => {
+    const action = new Action({ ...obj, doc: this.id, trust: SELF })
+    this.peerGroup.send(action)
+    this.sendToServer(action)
+    this.sendToStore(action)
   }
 
   public close = (): void => {
     this.peerGroup.close()
-    this.sendToServer(new Packet({ payload: CLOSE, doc: this.id }))
+    this.sendToServer(new Action({ type: CLOSE, doc: this.id }))
     this.open = false
   }
 }

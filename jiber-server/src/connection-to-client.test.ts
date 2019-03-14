@@ -2,10 +2,10 @@
 
 import * as WS from 'ws'
 import { ConnectionToClient } from './connection-to-client'
-import { Packet } from './packet'
+import { Action } from './action'
 import { PACKET_FROM_CLIENT } from './constants'
 
-test('send a welcome packet when a connection is established', () => {
+test('send a welcome action when a connection is established', () => {
   const sends: string[] = []
   const socket: any = {
     readyState: WS.OPEN,
@@ -14,16 +14,16 @@ test('send a welcome packet when a connection is established', () => {
   }
 
   const conn = new ConnectionToClient(socket, { name: 'sue' })
-  const welcomePacket = JSON.parse(sends[0])
+  const welcomeAction = JSON.parse(sends[0])
 
   expect(conn).toBeTruthy()
   expect(sends.length).toBe(1)
-  expect(welcomePacket.type).toBe('WELCOME')
-  expect(welcomePacket.user).toEqual({ name: 'sue' })
+  expect(welcomeAction.type).toBe('WELCOME')
+  expect(welcomeAction.user).toEqual({ name: 'sue' })
 })
 
-test('emit packets from client with user data attached', () => {
-  const received: Packet[] = []
+test('emit actions from client with user data attached', () => {
+  const received: Action[] = []
   let handler: Function = () => { /* do nothing */ }
   const socket: any = {
     readyState: WS.OPEN,
@@ -32,15 +32,15 @@ test('emit packets from client with user data attached', () => {
   }
 
   const conn = new ConnectionToClient(socket, { id: 'abc' })
-  conn.on(PACKET_FROM_CLIENT, (packet: Packet) => { received.push(packet) })
+  conn.on(PACKET_FROM_CLIENT, (action: Action) => { received.push(action) })
 
-  const packet = { payload: 'test' }
-  const message = JSON.stringify(packet)
+  const action = { type: 'test' }
+  const message = JSON.stringify(action)
   handler(message)
 
   expect(received.length).toBe(1)
 
-  const receivedPacket = received[0]
-  expect(receivedPacket.user).toEqual({ id: 'abc' })
-  expect(receivedPacket.payload).toBe('test')
+  const receivedAction = received[0]
+  expect(receivedAction.user).toEqual({ id: 'abc' })
+  expect(receivedAction.type).toBe('test')
 })

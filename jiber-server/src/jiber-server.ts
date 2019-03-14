@@ -15,8 +15,8 @@ export class JiberServer {
     this.settings = { ...defaultServerSettings, ...input }
     this.socketServer = new SocketServer(this.settings)
 
-    const packetHandler: any = linkMiddleware(this, [init, openAndClose, wrtc, broadcast])
-    this.socketServer.on(PACKET_FROM_CLIENT, packetHandler)
+    const actionHandler: any = linkMiddleware(this, [init, openAndClose, wrtc, broadcast])
+    this.socketServer.on(PACKET_FROM_CLIENT, actionHandler)
   }
 
   close = () => {

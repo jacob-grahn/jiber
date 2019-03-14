@@ -1,9 +1,9 @@
 import { broadcast } from './broadcast'
 import { DocStream } from '../doc-stream'
-import { Packet } from '../packet'
+import { Action } from '../action'
 import { SEND_TO_CONNECTION } from '../constants'
 
-test('send packet to all doc subscribers', () => {
+test('send action to all doc subscribers', () => {
   const doc = new DocStream()
   const sent: any[] = []
   doc.join('one')
@@ -18,11 +18,11 @@ test('send packet to all doc subscribers', () => {
     }
   }
   const next = () => { /* do nothing */ }
-  const packet = new Packet({ payload: '123', doc: 'fun' })
+  const action = new Action({ doc: 'fun' })
   const link = broadcast(server)(next)
-  const expectedMessage = JSON.stringify(packet)
+  const expectedMessage = JSON.stringify(action)
 
-  link(packet)
+  link(action)
 
   expect(sent.length).toBe(3)
   expect(sent[0]).toEqual(['one', expectedMessage])

@@ -1,21 +1,22 @@
 /* global test, expect */
 
 import { Peer } from './peer'
-import { Packet } from '../packet'
+import { Action } from '../action'
 import { WEBRTC_SOLICIT } from '../constants'
 
 test('send a message from one peer to another', () => {
   return new Promise((resolve) => {
     const peers: {[key: string]: Peer} = {}
 
-    const sendToServer = (packet: Packet) => {
-      const peer = peers[packet.payload.peerId]
-      peer.receiveFromServer(packet).catch(console.log)
+    const sendToServer = (action: Action) => {
+      if (!action.peerId) return
+      const peer = peers[action.peerId]
+      peer.receiveFromServer(action).catch(console.log)
     }
 
     const sendToStoreA = () => { /* do nothing */ }
-    const sendToStoreB = (packet: Packet) => {
-      expect(packet.payload).toBe('hi-peer-b')
+    const sendToStoreB = (action: Action) => {
+      expect(action.type).toBe('hi-peer-b')
       peerA.close()
       peerB.close()
       resolve()
@@ -26,11 +27,11 @@ test('send a message from one peer to another', () => {
     peers['a'] = peerA
     peers['b'] = peerB
 
-    peerA.receiveFromServer(new Packet({ type: WEBRTC_SOLICIT }))
+    peerA.receiveFromServer(new Action({ type: WEBRTC_SOLICIT }))
       .catch(console.log)
 
     setTimeout(() => {
-      peerA.send(new Packet({ payload: 'hi-peer-b' }))
+      peerA.send(new Action({ type: 'hi-peer-b' }))
     }, 1000)
   })
 })
