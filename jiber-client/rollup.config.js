@@ -5,7 +5,7 @@ export default {
   output: {
     file: 'dist/jiber-client.bundle.js',
     format: 'umd',
-    name: '$jiber'
+    name: 'JiberClient'
   },
   plugins: [
     resolve()
