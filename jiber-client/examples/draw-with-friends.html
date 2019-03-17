@@ -46,7 +46,7 @@
       function drawPixels (pixels = {}) {
         Object.keys(pixels).forEach(point => {
           const [x, y] = point.split(',')
-          const color = state[point]
+          const color = pixels[point]
           ctx.fillStyle = color
           ctx.fillRect(x * scale, y * scale, scale, scale)
         })
