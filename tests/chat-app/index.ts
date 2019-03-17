@@ -13,14 +13,14 @@ export const runChatApp = async (): Promise<{state1: any, state2: any}> => {
   // push a message before client1 could have made a connection to the server
   // the message should be queued up and sent later when the connection is made
   const client1 = new JiberClient()
-  const chat1 = client1.createDoc('bees')
+  const chat1 = client1.open('bees')
   chat1.dispatchers.push('messages', 'Hi')
 
   // client2 should receive the messages from client1, even though they
   // were sent before client2 connected
   await sleep(250)
   const client2 = new JiberClient()
-  const chat2 = client2.createDoc('bees')
+  const chat2 = client2.open('bees')
   chat2.dispatchers.push('messages', 'Hello')
 
   // send two normal updates

@@ -8,7 +8,7 @@
   <body style="background-color: grey; padding: 0; margin: 0;">
     <canvas id="line-canvas" width="500" height="500"></canvas>
     <br>
-    <button id="clear-btn" onclick="doc.clear()">Clear</button>
+    <button id="clear-btn" onclick="doc.set('pixels', {})">Clear</button>
 
     <script>
 
@@ -16,32 +16,10 @@
       // INIT
       //////////////////////////////////////////////////////////////////////////
 
-      // Our app logic
-      // Track pixel colors
-      const reducer = (state = {}, action) => {
-        switch (action.type) {
-          case 'SET_PIXEL':
-            return Object.assign({}, state, {[action.path]: action.color})
-          case 'CLEAR':
-            return {}
-          default:
-            return state
-        }
-      }
-
-      // optional convenience functions that will be attached to 'doc'
-      // now we can write doc.clear()
-      // instead of doc.dispatch({type: 'CLEAR'})
-      const actionCreators = {
-        setPixel: (path, color) => ({type: 'SET_PIXEL', path, color}),
-        clear: () => ({type: 'CLEAR'})
-      }
-
-      const url = 'ws://localhost:8080'
-
       // open a doc for our masterful drawing
-      const store = $jiber.createStore({url, reducer, actionCreators})
-      const doc = store.open('draw')
+      const url = 'ws://localhost:8080'
+      const jiber = new JiberClient({ url })
+      const doc = jiber.open('draw')
 
       // each 'pixel' is a 10px by 10px square
       const scale = 10
@@ -55,9 +33,9 @@
       // RENDER: draw the state onto the canvas when our data changes
       //////////////////////////////////////////////////////////////////////////
       function render () {
-        const state = doc.getState()
+        const state = doc.getState(0) || {}
         clearCanvas()
-        drawPixels(state)
+        drawPixels(state.pixels)
       }
 
       function clearCanvas () {
@@ -65,10 +43,10 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height)
       }
 
-      function drawPixels (state) {
-        Object.keys(state).forEach(point => {
+      function drawPixels (pixels = {}) {
+        Object.keys(pixels).forEach(point => {
           const [x, y] = point.split(',')
-          const color = state[point]
+          const color = pixels[point]
           ctx.fillStyle = color
           ctx.fillRect(x * scale, y * scale, scale, scale)
         })
@@ -86,10 +64,10 @@
         const path = `${x},${y}`
 
         // avoid dispatching redundant actions
-        const state = doc.getState()
-        if (state[path] === color) return
-
-        doc.setPixel(path, color)
+        const state = doc.getState(0) || {}
+        const pixels = state.pixels || {}
+        if (pixels[path] === color) return
+        doc.set(`pixels.${path}`, color)
       }
 
       function randomColor () {

@@ -14,6 +14,7 @@ export class Doc {
   public getState: FlexStore['getState']
   public dispatchers: { [key: string]: Function }
   public open: boolean = true
+  public subscribe: Function = this.subscription.subscribe
   private sendToServer: Function
   private id: string
   private store: FlexStore

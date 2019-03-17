@@ -25,7 +25,7 @@ export class JiberClient {
     this.socket.send(JSON.stringify(action))
   }
 
-  public createDoc = (docId: string): Doc => {
+  public open = (docId: string): Doc => {
     const doc = this.docs[docId] || new Doc(docId, this.send, this.settings)
     this.docs[docId] = doc
 

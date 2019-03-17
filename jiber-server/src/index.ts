@@ -1,1 +1,2 @@
-export { JiberServer as default } from './jiber-server'
+import { JiberServer } from './jiber-server'
+export = JiberServer

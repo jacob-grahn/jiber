@@ -5,7 +5,7 @@ import { Action } from './action'
 
 test('pass messages from server to docs', () => {
   const jiber = new JiberClient()
-  const doc = jiber.createDoc('bloop')
+  const doc = jiber.open('bloop')
 
   doc.subscription.subscribe((_state: any, action: any) => {
     expect(action.doc).toBe('bloop')
