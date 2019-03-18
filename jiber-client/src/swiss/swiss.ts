@@ -1,7 +1,6 @@
 import { set } from './set'
 import { get } from './get'
 import { splice } from './splice'
-import { canWrite } from './can-write'
 
 /**
  * This reducer offers some generic functionality which could work well for
@@ -23,12 +22,9 @@ export const SPLICE = 'SPLICE'
 
 export const swiss = (state: SwissState = {}, action: any): SwissState => {
   if (!action.path) return state
-  const user = action.user
   const path: string[] = Array.isArray(action.path) ? action.path : action.path.split('.')
   const newValue = action.value
   const oldValue = get(state, path)
-
-  if (!canWrite(path, user)) return state
 
   switch (action.type) {
     case SET:

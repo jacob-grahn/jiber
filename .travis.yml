@@ -1,4 +1,7 @@
 language: node_js
 node_js:
   - "10"
-script: ./install-and-test.sh
+script: >-
+  ./install-and-test.sh
+  cd jiber-client
+  npm run send-to-coveralls
