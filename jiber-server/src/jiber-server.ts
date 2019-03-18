@@ -25,7 +25,7 @@ export class JiberServer {
       init,
       openAndClose,
       wrtc,
-      securityRules,
+      securityRules(this.settings.securityRules),
       broadcast
     ])
     this.socketServer.on(PACKET_FROM_CLIENT, actionHandler)
