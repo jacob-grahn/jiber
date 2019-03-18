@@ -5,5 +5,6 @@ export const defaultServerSettings: ServerSettings = {
   maxHistory: 1000,
   port: 8080,
   server: undefined,
-  verifyClient
+  verifyClient,
+  securityRules: []
 }

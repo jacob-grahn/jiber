@@ -11,6 +11,3 @@ for package in $packages; do
   npm run test -- --ci --coverage --runInBand
   cd ../
 done
-
-cd jiber-client
-npm run send-to-coveralls
