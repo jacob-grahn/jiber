@@ -1,6 +1,7 @@
-import { Action } from '../action'
+import { Action } from '../../action'
 import { securityRules, SecurityRule, ALLOW, DENY } from './security-rules'
-import { SERVER } from '../constants'
+import { EQUAL, NOT_EQUAL } from './comparisons'
+import { SERVER } from '../../constants'
 
 let sendResult: any
 const server: any = {
@@ -37,8 +38,8 @@ test('rule with no condition is applied', () => {
 
 test('first rule to match is applied', () => {
   const rules: SecurityRule[] = [
-    { do: DENY, if: 'name', equals: 'bob' }, // does not match
-    { do: ALLOW, if: 'age', equals: 50 }, // this should match
+    { do: DENY, if: 'action.name', is: EQUAL, to: 'bob' }, // does not match
+    { do: ALLOW, if: 'action.age', is: EQUAL, to: 50 }, // this should match
     { do: DENY } // this matches, but should not run
   ]
   const action = new Action({ type: 'bye', age: 50 })
@@ -63,7 +64,7 @@ test('return DENY action back to user', () => {
 
 test('notEquals should not match a match', () => {
   const rules: SecurityRule[] = [
-    { do: ALLOW, if: 'age', notEquals: 50 },
+    { do: ALLOW, if: 'action.age', is: NOT_EQUAL, to: 50 },
     { do: DENY }
   ]
   const action = new Action({ conn: 'bee', type: 'ha', age: 50 })
@@ -73,7 +74,7 @@ test('notEquals should not match a match', () => {
 
 test('deep match', () => {
   const rules: SecurityRule[] = [
-    { do: ALLOW, if: 'users[0].name.first', equals: 'margo' },
+    { do: ALLOW, if: 'action.users[0].name.first', is: EQUAL, to: 'margo' },
     { do: DENY }
   ]
   const action = new Action({
@@ -93,12 +94,25 @@ test('deep match', () => {
 
 test('falsy edge cases', () => {
   const rules: SecurityRule[] = [
-    { do: DENY, if: 'isCool', equals: 'bloo' },
-    { do: DENY, if: 'isCool', equals: undefined },
-    { do: DENY, if: 'isCool', notEquals: undefined },
+    { do: DENY, if: 'action.isCool', is: EQUAL, to: 'bloo' },
+    { do: DENY, if: 'action.isCool', is: EQUAL, to: undefined },
+    { do: DENY, if: 'action.isCool', is: NOT_EQUAL, to: false },
     { do: ALLOW }
   ]
   const action = new Action({ type: 'bro', isCool: false })
   securityRules(rules)(server)(next)(action)
   expect(nextResult.type).toBe('bro')
+})
+
+test('interpolate', () => {
+  const rules: SecurityRule[] = [
+    { do: ALLOW, if: 'action.path[0]', is: EQUAL, to: '${action.name.first}-${action.name.last}' },
+    { do: DENY }
+  ]
+  const action = new Action({
+    path: ['bob-lop', 'x'],
+    name: { first: 'bob', last: 'lop' }
+  })
+  securityRules(rules)(server)(next)(action)
+  expect(nextResult).toBeTruthy()
 })
