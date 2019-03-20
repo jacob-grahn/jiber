@@ -1,6 +1,6 @@
 import { Action } from '../../action'
 import { securityRules, SecurityRule, ALLOW, DENY } from './security-rules'
-import { EQUAL, NOT_EQUAL } from './comparisons'
+import { EQUAL, NOT_EQUAL, GREATER_THAN, LESS_THAN } from './comparisons'
 import { SERVER } from '../../constants'
 
 let sendResult: any
@@ -38,8 +38,8 @@ test('rule with no condition is applied', () => {
 
 test('first rule to match is applied', () => {
   const rules: SecurityRule[] = [
-    { do: DENY, if: 'action.name', is: EQUAL, to: 'bob' }, // does not match
-    { do: ALLOW, if: 'action.age', is: EQUAL, to: 50 }, // this should match
+    { do: DENY, if: [{ field: 'action.name', is: EQUAL, value: 'bob' }] }, // does not match
+    { do: ALLOW, if: [{ field: 'action.age', is: EQUAL, value: 50 }] }, // this should match
     { do: DENY } // this matches, but should not run
   ]
   const action = new Action({ type: 'bye', age: 50 })
@@ -64,7 +64,7 @@ test('return DENY action back to user', () => {
 
 test('notEquals should not match a match', () => {
   const rules: SecurityRule[] = [
-    { do: ALLOW, if: 'action.age', is: NOT_EQUAL, to: 50 },
+    { do: ALLOW, if: [{ field: 'action.age', is: NOT_EQUAL, value: 50 }] },
     { do: DENY }
   ]
   const action = new Action({ conn: 'bee', type: 'ha', age: 50 })
@@ -74,7 +74,9 @@ test('notEquals should not match a match', () => {
 
 test('deep match', () => {
   const rules: SecurityRule[] = [
-    { do: ALLOW, if: 'action.users[0].name.first', is: EQUAL, to: 'margo' },
+    { do: ALLOW, if: [{
+      field: 'action.users[0].name.first', is: EQUAL, value: 'margo'
+    }]},
     { do: DENY }
   ]
   const action = new Action({
@@ -94,9 +96,9 @@ test('deep match', () => {
 
 test('falsy edge cases', () => {
   const rules: SecurityRule[] = [
-    { do: DENY, if: 'action.isCool', is: EQUAL, to: 'bloo' },
-    { do: DENY, if: 'action.isCool', is: EQUAL, to: undefined },
-    { do: DENY, if: 'action.isCool', is: NOT_EQUAL, to: false },
+    { do: DENY, if: [{ field: 'action.isCool', is: EQUAL, value: 'bloo' }] },
+    { do: DENY, if: [{ field: 'action.isCool', is: EQUAL, value: undefined }] },
+    { do: DENY, if: [{ field: 'action.isCool', is: NOT_EQUAL, value: false }] },
     { do: ALLOW }
   ]
   const action = new Action({ type: 'bro', isCool: false })
@@ -106,7 +108,11 @@ test('falsy edge cases', () => {
 
 test('interpolate', () => {
   const rules: SecurityRule[] = [
-    { do: ALLOW, if: 'action.path[0]', is: EQUAL, to: '${action.name.first}-${action.name.last}' },
+    { do: ALLOW, if: [{
+      field: 'action.path[0]',
+      is: EQUAL,
+      value: '${action.name.first}-${action.name.last}'
+    }]},
     { do: DENY }
   ]
   const action = new Action({
@@ -114,5 +120,28 @@ test('interpolate', () => {
     name: { first: 'bob', last: 'lop' }
   })
   securityRules(rules)(server)(next)(action)
+  expect(nextResult).toBeTruthy()
+})
+
+test('all rules must match', () => {
+  const rules: SecurityRule[] = [
+    { do: ALLOW, if: [
+      { field: 'action.count', is: GREATER_THAN, value: 5 },
+      { field: 'action.cost', is: LESS_THAN, value: 10 }
+    ]},
+    { do: DENY }
+  ]
+
+  // this should be denied
+  const action = new Action({ count: 6, cost: 11 })
+  securityRules(rules)(server)(next)(action)
+  expect(sendResult).toBeTruthy()
+  expect(nextResult).toBeFalsy()
+  sendResult = nextResult = undefined
+
+  // this should be allowed
+  const action2 = new Action({ count: 6, cost: 9 })
+  securityRules(rules)(server)(next)(action2)
+  expect(sendResult).toBeFalsy()
   expect(nextResult).toBeTruthy()
 })
