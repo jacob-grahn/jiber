@@ -8,34 +8,42 @@ import { comparisons } from './comparisons'
 export const ALLOW = 'ALLOW'
 export const DENY = 'DENY'
 
+interface SecurityRuleTest {
+  field: string,
+  is: string,
+  value: string | number | boolean | undefined
+}
+
 export interface SecurityRule {
   do: 'ALLOW' | 'DENY',
-  if?: string,
-  is?: string,
-  to?: string | number | boolean
+  if?: SecurityRuleTest[]
 }
 
 /* const rules: SecurityRule[] = [
-  { do: 'ALLOW', if: 'path[0]', is: eq, to: 'user.id' },
+  { do: 'ALLOW', if: [{field: 'path[0]', is: EQUAL, value: 'user.id'}] },
   { do: 'DENY' }
 ] */
 
 const testRules = (ctx: any, rules: SecurityRule[]) => {
   let method: string = ''
   rules.some((rule) => {
-    if (rule.if === undefined || rule.is === undefined) {
+    if (rule.if === undefined) {
       method = rule.do
       return true
     }
-    const comp = comparisons[rule.is]
-    const path = interpolate(ctx, rule.if)
-    const value1 = get(ctx, path)
-    const value2 = (typeof rule.to === 'string') ? interpolate(ctx, rule.to) : rule.to
-    if (comp(value1, value2)) {
+
+    const allRulesMatch = rule.if.every(({ field, is, value }) => {
+      const compFunc = comparisons[is]
+      const value1 = get(ctx, interpolate(ctx, field))
+      const value2 = interpolate(ctx, value)
+      return compFunc(value1, value2)
+    })
+
+    if (allRulesMatch) {
       method = rule.do
-      return true
     }
-    return false
+
+    return allRulesMatch
   })
   return method
 }
