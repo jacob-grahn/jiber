@@ -4,8 +4,7 @@
       "packages": [
         "jiber-client/package.json",
         "jiber-redis/package.json",
-        "jiber-server/package.json",
-        "tests/package.json"
+        "jiber-server/package.json"
       ]
     }
   }
