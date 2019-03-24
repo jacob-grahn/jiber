@@ -1,20 +1,21 @@
 import * as WS from 'ws'
 import { SecurityRule } from '../middleware/security-rules'
-
-type DocIDToNumber = (docId: string) => number
+import { Reducer } from './reducer'
 
 export interface ServerSettingsInput {
-  maxHistory?: number | DocIDToNumber,
+  maxHistory?: number,
   port?: number,
   server?: any,
   verifyClient?: WS.VerifyClientCallbackAsync,
-  securityRules?: SecurityRule[]
+  securityRules?: SecurityRule[],
+  reducer?: Reducer
 }
 
 export interface ServerSettings {
-  maxHistory: number | DocIDToNumber,
+  maxHistory: number,
   port: number,
   server: any,
   verifyClient: WS.VerifyClientCallbackAsync
-  securityRules: SecurityRule[]
+  securityRules: SecurityRule[],
+  reducer: Reducer
 }

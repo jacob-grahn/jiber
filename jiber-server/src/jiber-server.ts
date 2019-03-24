@@ -36,7 +36,7 @@ export class JiberServer {
     if (existingDoc) return existingDoc
 
     // or create a new one
-    const newDoc = new DocStream()
+    const newDoc = new DocStream(this.settings.reducer, this.settings.maxHistory)
     this.docs[docId] = newDoc
     newDoc.on(SEND_TO_CONNECTION, this.socketServer.send)
     return newDoc
