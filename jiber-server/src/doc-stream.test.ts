@@ -2,7 +2,7 @@
 
 import { DocStream } from './doc-stream'
 import { SEND_TO_CONNECTION } from './constants'
-import { swiss } from '../../jiber-client/src/swiss'
+import { swiss } from './swiss'
 
 let events: any[] = []
 let doc: DocStream

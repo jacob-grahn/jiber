@@ -1,6 +1,6 @@
 import { ServerSettings } from './interfaces/server-settings'
 import { verifyClient } from './verify-client'
-import { swiss } from '../../jiber-client/src/swiss'
+import { swiss } from './swiss'
 
 export const defaultServerSettings: ServerSettings = {
   maxHistory: 1000,

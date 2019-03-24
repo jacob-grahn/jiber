@@ -3,7 +3,7 @@ import { securityRules, SecurityRule, ALLOW, DENY } from './security-rules'
 import { EQUAL, NOT_EQUAL, GREATER_THAN, LESS_THAN } from './comparisons'
 import { SERVER } from '../../constants'
 import { DocStream } from '../../doc-stream'
-import { swiss } from '../../../../jiber-client/src/swiss'
+import { swiss } from '../../swiss'
 
 let sendResult: any
 let doc: DocStream
