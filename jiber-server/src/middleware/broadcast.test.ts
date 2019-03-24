@@ -13,9 +13,7 @@ test('send action to all doc subscribers', () => {
     sent.push([connectionId, message])
   })
   const server: any = {
-    docs: {
-      fun: doc
-    }
+    getDoc: (docId: string) => docId === 'fun' ? doc : undefined
   }
   const next = () => { /* do nothing */ }
   const action = new Action({ doc: 'fun' })
