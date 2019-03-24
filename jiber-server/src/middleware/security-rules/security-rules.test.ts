@@ -2,14 +2,18 @@ import { Action } from '../../action'
 import { securityRules, SecurityRule, ALLOW, DENY } from './security-rules'
 import { EQUAL, NOT_EQUAL, GREATER_THAN, LESS_THAN } from './comparisons'
 import { SERVER } from '../../constants'
+import { DocStream } from '../../doc-stream'
+import { swiss } from '../../../../jiber-client/src/swiss'
 
 let sendResult: any
+let doc: DocStream
 const server: any = {
   socketServer: {
     send: (socketId: string, message: string) => {
       sendResult = [socketId, message]
     }
-  }
+  },
+  getDoc: () => doc
 }
 
 let nextResult: any
@@ -18,6 +22,7 @@ const next = (action: any) => { nextResult = action }
 beforeEach(() => {
   sendResult = undefined
   nextResult = undefined
+  doc = new DocStream(swiss)
 })
 
 test('default to ALLOW', () => {
@@ -144,4 +149,15 @@ test('all rules must match', () => {
   securityRules(rules)(server)(next)(action2)
   expect(sendResult).toBeFalsy()
   expect(nextResult).toBeTruthy()
+})
+
+test('match based on state', () => {
+  doc.addAction({ type: 'SET', path: 'turn', value: 'bob' } as any)
+  const rules: SecurityRule[] = [
+    { do: ALLOW, if: [{ field: 'state.turn', is: EQUAL, value: 'bob' }] },
+    { do: DENY }
+  ]
+  const action = new Action({ conn: 'bee', type: 'ha', age: 50 })
+  securityRules(rules)(server)(next)(action)
+  expect(nextResult.type).toBe('ha')
 })

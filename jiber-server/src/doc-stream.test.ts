@@ -2,6 +2,7 @@
 
 import { DocStream } from './doc-stream'
 import { SEND_TO_CONNECTION } from './constants'
+import { swiss } from '../../jiber-client/src/swiss'
 
 let events: any[] = []
 let doc: DocStream
@@ -11,14 +12,14 @@ const onSend = (connectionId: string, message: string) => {
 
 beforeEach(() => {
   events = []
-  doc = new DocStream(3)
+  doc = new DocStream(swiss, 3)
   doc.on(SEND_TO_CONNECTION, onSend)
 })
 
 test('send message to members', () => {
   doc.join('one')
   doc.join('two')
-  doc.addMessage('hi')
+  doc.addAction('hi')
   expect(events).toEqual([
     ['one', 'hi'],
     ['two', 'hi']
@@ -26,9 +27,9 @@ test('send message to members', () => {
 })
 
 test('send history to new member', () => {
-  doc.addMessage('hi_1')
-  doc.addMessage('hi_2')
-  doc.addMessage('hi_3')
+  doc.addAction('hi_1')
+  doc.addAction('hi_2')
+  doc.addAction('hi_3')
   doc.join('one')
   expect(events).toEqual([
     ['one', 'hi_1'],
@@ -40,7 +41,7 @@ test('send history to new member', () => {
 test('do not add same member twice', () => {
   doc.join('one')
   doc.join('one')
-  doc.addMessage('hi')
+  doc.addAction('hi')
   expect(events).toEqual([
     ['one', 'hi']
   ])
@@ -49,15 +50,15 @@ test('do not add same member twice', () => {
 test('remove member', () => {
   doc.join('one')
   doc.leave('one')
-  doc.addMessage('hi')
+  doc.addAction('hi')
   expect(events).toEqual([])
 })
 
 test('hold up to max history', () => {
-  doc.addMessage('hi_1')
-  doc.addMessage('hi_2')
-  doc.addMessage('hi_3')
-  doc.addMessage('hi_4')
+  doc.addAction('hi_1')
+  doc.addAction('hi_2')
+  doc.addAction('hi_3')
+  doc.addAction('hi_4')
   doc.join('one')
   expect(events).toEqual([
     ['one', 'hi_2'],
@@ -73,4 +74,9 @@ test('send to connection only if they are a member', () => {
   expect(events).toEqual([
     ['one', 'hi']
   ])
+})
+
+test('store state', () => {
+  doc.addAction({ type: 'SET', path: 'say', value: 'yay' })
+  expect(doc.state).toEqual({ say: 'yay' })
 })

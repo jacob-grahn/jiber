@@ -6,9 +6,12 @@ export class DocStream extends EventEmitter {
   private members: string[] = []
   private history: string[] = []
   private maxHistory: number
+  private reducer: Function
+  public state: any = undefined
 
-  constructor (maxHistory: number = 100) {
+  constructor (reducer: Function = () => {}, maxHistory: number = 100) {
     super()
+    this.reducer = reducer
     this.maxHistory = maxHistory
   }
 
@@ -27,12 +30,14 @@ export class DocStream extends EventEmitter {
     }
   }
 
-  public addMessage = (message: string) => {
+  public addAction = (action: any) => {
+    const message = typeof action === 'string' ? action : JSON.stringify(action)
     this.history.push(message)
     this.sendToMembers(message)
     if (this.history.length > this.maxHistory) {
       this.history.shift()
     }
+    this.state = this.reducer(this.state, action)
   }
 
   public sendToMember = (connectionId: string, message: string) => {

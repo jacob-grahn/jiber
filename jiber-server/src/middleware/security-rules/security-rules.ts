@@ -49,7 +49,8 @@ const testRules = (ctx: any, rules: SecurityRule[]) => {
 }
 
 export const securityRules = (rules: SecurityRule[] = []) => (server: JiberServer) => (next: Function) => (action: Action) => {
-  const ctx = { action }
+  const doc = server.getDoc(action.doc)
+  const ctx = { action, state: doc.state }
   const method = testRules(ctx, rules) || ALLOW
 
   if (method === ALLOW) {
