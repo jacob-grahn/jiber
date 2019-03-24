@@ -1,5 +1,6 @@
 import { SEND_TO_CONNECTION } from './constants'
 import { default as EventEmitter } from 'events'
+const emptyFunc = () => { /* do nothing */ }
 
 export class DocStream extends EventEmitter {
 
@@ -9,7 +10,7 @@ export class DocStream extends EventEmitter {
   private reducer: Function
   public state: any = undefined
 
-  constructor (reducer: Function = () => {}, maxHistory: number = 100) {
+  constructor (reducer: Function = emptyFunc, maxHistory: number = 100) {
     super()
     this.reducer = reducer
     this.maxHistory = maxHistory
