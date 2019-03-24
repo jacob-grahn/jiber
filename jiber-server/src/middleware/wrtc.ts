@@ -1,5 +1,4 @@
 import { Action } from '../action'
-import { DocStream } from '../doc-stream'
 import { JiberServer } from '../jiber-server'
 import {
   WEBRTC_SOLICIT,
@@ -18,11 +17,7 @@ const WRTC_TYPES = [
 
 export const wrtc = (server: JiberServer) => (next: Function) => (action: Action) => {
   if (action.type && WRTC_TYPES.indexOf(action.type) !== -1) {
-    const docId = action.doc
-    if (!docId) return
-    const doc: DocStream = server.docs[docId]
-    if (!doc) return
-
+    const doc = server.getDoc(action.doc)
     const replyAction = new Action({
       type: action.type,
       trust: SERVER,
