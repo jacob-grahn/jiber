@@ -26,7 +26,7 @@ test('forward non wrtc actions to next middleware', () => {
 test('do not forward wrtc actions to next middleware', () => {
   let passedAction: any
   const server: any = {
-    getDoc: () => new DocStream()
+    getDoc: () => new DocStream('test')
   }
   const next = (action: Action) => {
     passedAction = action
@@ -45,7 +45,7 @@ test('do not forward wrtc actions to next middleware', () => {
 
 test('send solicit to all members of a doc', () => {
   const server: any = {
-    getDoc: () => new DocStream()
+    getDoc: () => new DocStream('test')
   }
   const next = () => { /* do nothing */ }
   const action = new Action({
@@ -59,7 +59,7 @@ test('send solicit to all members of a doc', () => {
 
 test('send offer, answer, and candidates to specific connection', () => {
   const sent: string[] = []
-  const doc = new DocStream()
+  const doc = new DocStream('test')
   doc.join('user5')
   doc.on(SEND_TO_CONNECTION, (_connectionId: string, message: string) => {
     sent.push(message)

@@ -3,7 +3,6 @@ import { SecurityRule } from '../middleware/security-rules'
 import { Reducer } from './reducer'
 
 export interface ServerSettingsInput {
-  maxHistory?: number,
   port?: number,
   server?: any,
   verifyClient?: WS.VerifyClientCallbackAsync,
@@ -12,7 +11,6 @@ export interface ServerSettingsInput {
 }
 
 export interface ServerSettings {
-  maxHistory: number,
   port: number,
   server: any,
   verifyClient: WS.VerifyClientCallbackAsync

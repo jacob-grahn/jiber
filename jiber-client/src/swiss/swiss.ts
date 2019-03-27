@@ -21,8 +21,8 @@ export const PUSH = 'PUSH'
 export const SPLICE = 'SPLICE'
 
 export const swiss = (state: SwissState = {}, action: any): SwissState => {
-  if (!action.path) return state
-  const path: string[] = Array.isArray(action.path) ? action.path : action.path.split('.')
+  const arrPath = action.path ? action.path : []
+  const path: string[] = Array.isArray(arrPath) ? arrPath : action.path.split('.')
   const newValue = action.value
   const oldValue = get(state, path)
 

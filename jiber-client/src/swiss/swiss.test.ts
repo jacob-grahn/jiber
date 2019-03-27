@@ -47,3 +47,13 @@ test(SPLICE, () => {
   }
   expect(swiss(state, action)).toEqual({ aria: ['Red Lady', 'The Mountain'] })
 })
+
+test('set root level', () => {
+  const state = { say: 'yay' }
+  const action = {
+    type: SET,
+    path: '',
+    value: ['bloops']
+  }
+  expect(swiss(state, action)).toEqual(['bloops'])
+})

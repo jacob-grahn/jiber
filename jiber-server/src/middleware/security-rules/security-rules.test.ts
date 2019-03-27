@@ -22,7 +22,7 @@ const next = (action: any) => { nextResult = action }
 beforeEach(() => {
   sendResult = undefined
   nextResult = undefined
-  doc = new DocStream(swiss)
+  doc = new DocStream('test', swiss)
 })
 
 test('default to ALLOW', () => {

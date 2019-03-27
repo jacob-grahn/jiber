@@ -1,26 +1,33 @@
-import { SEND_TO_CONNECTION } from './constants'
+import { SEND_TO_CONNECTION, SERVER } from './constants'
 import { default as EventEmitter } from 'events'
+import { Action } from './action'
 const emptyFunc = () => { /* do nothing */ }
 
 export class DocStream extends EventEmitter {
 
   private members: string[] = []
-  private history: string[] = []
-  private maxHistory: number
   private reducer: Function
+  private docId: string
   public state: any = undefined
 
-  constructor (reducer: Function = emptyFunc, maxHistory: number = 100) {
+  constructor (docId: string = 'default', reducer: Function = emptyFunc) {
     super()
+    this.docId = docId
     this.reducer = reducer
-    this.maxHistory = maxHistory
   }
 
   public join = (connectionId: string) => {
     const index = this.members.indexOf(connectionId)
     if (index === -1) {
       this.members.push(connectionId)
-      this.sendHistoryToConnection(connectionId)
+      const welcome = new Action({
+        doc: this.docId,
+        trust: SERVER,
+        type: 'SET',
+        path: '',
+        value: this.state
+      })
+      this.sendToMember(connectionId, JSON.stringify(welcome))
     }
   }
 
@@ -33,11 +40,7 @@ export class DocStream extends EventEmitter {
 
   public addAction = (action: any) => {
     const message = typeof action === 'string' ? action : JSON.stringify(action)
-    this.history.push(message)
     this.sendToMembers(message)
-    if (this.history.length > this.maxHistory) {
-      this.history.shift()
-    }
     this.state = this.reducer(this.state, action)
   }
 
@@ -50,12 +53,6 @@ export class DocStream extends EventEmitter {
 
   public sendToMembers = (message: string) => {
     this.members.forEach((connectionId: string) => {
-      this.emit(SEND_TO_CONNECTION, connectionId, message)
-    })
-  }
-
-  private sendHistoryToConnection = (connectionId: string) => {
-    this.history.forEach((message: string) => {
       this.emit(SEND_TO_CONNECTION, connectionId, message)
     })
   }

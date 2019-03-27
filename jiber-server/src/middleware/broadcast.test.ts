@@ -4,7 +4,7 @@ import { Action } from '../action'
 import { SEND_TO_CONNECTION } from '../constants'
 
 test('send action to all doc subscribers', () => {
-  const doc = new DocStream()
+  const doc = new DocStream('test-doc')
   const sent: any[] = []
   doc.join('one')
   doc.join('two')
