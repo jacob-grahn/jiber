@@ -3,55 +3,37 @@
  * Read actions from subscribed streams, and send them on to next()
  */
 
-import * as redis from 'redis'
-import { promisify } from 'util'
+import { Sender } from './sender'
+import { Receiver } from './receiver'
 
-export interface JiberRedisSettings {
+export interface JiberRedisInput {
   host?: string,
   port?: number,
-  maxHistory: number
+  maxHistory?: number,
+  docId?: string
 }
 
-export const jiberRedis = (settings: JiberRedisSettings) => {
-  const host = settings.host || '127.0.0.1'
-  const port = settings.port || 6379
-  const maxHistory = settings.maxHistory || 1000
-  const readClient = redis.createClient({ host, port })
-  const writeClient = redis.createClient({ host, port })
-  const sendReadCommand = promisify(readClient.send_command).bind(readClient)
-  const sendWriteCommand = promisify(writeClient.send_command).bind(writeClient)
+export interface JiberRedisSettings {
+  host: string,
+  port: number,
+  maxHistory: number,
+  docId: string
+}
 
-  return (state: any) => (next: Function) => {
-    state.lastEntryIds = {}
+const defaultSettings: JiberRedisSettings = {
+  host: '127.0.0.1',
+  port: 6379,
+  maxHistory: 1000,
+  docId: 'defaultDocId'
+}
 
-    const fetch = async () => {
-      const docIds = Object.keys(state.subscriptions)
-      const ids = docIds.map(docId => state.lastEntryIds[docId] || '$')
-      const results: any = await sendReadCommand(
-        'XREAD',
-        ['BLOCK', '5000', 'STREAMS', ...docIds, ...ids],
-        undefined
-      )
-      results.forEach((result: any) => {
-        const strAction = result.action
-        const entryId = result.entryId
-        const docId = result.stream
-        const action = JSON.parse(strAction)
-        state.lastEntryIds[docId] = entryId
-        next(action)
-      })
-      fetch().catch(console.log)
-    }
-    fetch().catch(console.log)
+export const jiberRedis = (input: JiberRedisInput) => (_state: any) => (next: Function) => {
+  const settings = { ...defaultSettings, ...input }
+  const sender = new Sender(settings)
+  const receiver = new Receiver(settings, next)
+  receiver.start()
 
-    return async (action: any) => {
-      const stream = action.$docId
-      const strAction = JSON.stringify(action)
-      await sendWriteCommand(
-        'XADD',
-        [stream, 'MAXLEN', '~', maxHistory, '*', 'action', strAction],
-        undefined
-      )
-    }
+  return (action: any) => {
+    sender.send(action)
   }
 }
