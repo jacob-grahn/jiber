@@ -9,7 +9,7 @@ export class Receiver {
   private docId: string
   private active: boolean = false
 
-  constructor(settings: JiberRedisSettings, next: Function) {
+  constructor (settings: JiberRedisSettings, next: Function) {
     const { host, port, docId } = settings
     this.next = next
     this.host = host

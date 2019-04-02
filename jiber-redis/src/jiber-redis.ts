@@ -22,5 +22,6 @@ export const jiberRedis = (input: JiberRedisInput) => (_state: any) => (next: Fu
 
   return (action: any) => {
     sender.send(action)
+      .catch(() => setTimeout(() => sender.send(action), 5000))
   }
 }
