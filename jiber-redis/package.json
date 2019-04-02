@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint --fix -p tsconfig.json",
-    "test": "docker-compose up -d && jest src && docker-compose down"
+    "test": "docker-compose up -d && jest src --ci --coverage --runInBand && docker-compose down"
   },
   "author": "",
   "license": "MIT",

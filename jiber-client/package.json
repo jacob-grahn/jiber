@@ -6,7 +6,7 @@
   "module": "dist/es6/index.js",
   "types": "src/index.ts",
   "scripts": {
-    "test": "jest src",
+    "test": "jest src --ci --coverage --runInBand",
     "lint": "tslint --fix -p tsconfig.json",
     "prepare": "npm run build",
     "build": "tsc && rollup -c && uglifyjs -c -m -o dist/jiber-client.bundle.min.js dist/jiber-client.bundle.js",

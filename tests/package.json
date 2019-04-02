@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "echo yay",
-    "test": "jest chat-app"
+    "test": "jest chat-app --ci --coverage --runInBand"
   },
   "author": "",
   "license": "ISC",
