@@ -1,4 +1,4 @@
-import { JiberRedisSettings } from './index'
+import { JiberRedisSettings } from './interfaces'
 import { getConnection } from './get-connection'
 
 export class Sender {
@@ -15,13 +15,12 @@ export class Sender {
     this.docId = docId
   }
 
-  public send = (action: any) => {
-    const conn = getConnection(this.host, this.port)
+  public send = async (action: any) => {
+    const conn = getConnection(this.host, this.port, 'sender')
     const strAction = JSON.stringify(action)
-    conn(
-      'XADD',
-      [this.docId, 'MAXLEN', '~', this.maxHistory, '*', 'action', strAction],
-      undefined
+    const result = await conn.xadd(
+      this.docId, 'MAXLEN', '~', this.maxHistory, '*', 'action', strAction
     )
+    return result
   }
 }

@@ -1,22 +1,41 @@
-import * as redis from 'redis'
+import { default as redis } from 'redis'
 import { promisify } from 'util'
 
-const lookup: {[key: string]: Function} = {}
+export interface RedisConnection {
+  xadd: (...params: any) => Promise<any>,
+  xread: (...params: any) => Promise<any>,
+  close: Function
+}
 
-export const getConnection = (host: string, port: number) => {
-  const key = `${host}-${port}`
-  const send = lookup[key] || createConnection(host, port)
+const lookup: {[key: string]: RedisConnection} = {}
+
+export const getConnection = (host: string, port: number, role: string) => {
+  const key = `${host}-${port}-${role}`
+  const send = lookup[key] || createConnection(host, port, role)
   return send
 }
 
-const createConnection = (host: string, port: number) => {
+export const closeAllConnections = () => {
+  Object.keys(lookup).forEach((key: string) => {
+    const conn = lookup[key]
+    conn.close()
+  })
+}
+
+const createConnection = (host: string, port: number, role: string) => {
   // create new redis connection
-  const client = redis.createClient({ host, port })
-  const send: Function = promisify(client.send_command).bind(client)
+  const client = redis.createClient({ host, port }) as any
+
+  // promisify
+  const conn: RedisConnection = {
+    xadd: promisify(client.xadd).bind(client),
+    xread: promisify(client.xread).bind(client),
+    close: client.quit.bind(client)
+  }
 
   // register the connection for later use
-  const key = `${host}-${port}`
-  lookup[key] = send
+  const key = `${host}-${port}-${role}`
+  lookup[key] = conn
 
   // deregister the connection when it closes
   const close = () => {
@@ -27,5 +46,5 @@ const createConnection = (host: string, port: number) => {
   client.on('error', close)
 
   // return the connection
-  return send
+  return conn
 }
