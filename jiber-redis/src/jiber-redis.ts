@@ -2,54 +2,37 @@
  * Send incoming actions to redis stream
  * Read actions from subscribed streams, and send them on to next()
  */
-
-import { Sender } from './sender'
-import { Receiver } from './receiver'
 import { JiberRedisSettings, JiberRedisInput } from './interfaces'
 import { closeAllConnections } from './get-connection'
+import { defaultSettings } from './default-settings'
+import { DocWorker } from './doc-worker'
 
 afterEach(() => {
   closeAllReceivers()
   closeAllConnections()
 })
 
-const defaultSettings: JiberRedisSettings = {
-  host: '127.0.0.1',
-  port: 6379,
-  maxHistory: 1000,
-  docId: 'defaultDocId'
-}
-
-interface Worker {
-  sender: Sender,
-  receiver: Receiver
-}
-
-const workers: {[key: string]: Worker} = {}
+const workers: {[key: string]: DocWorker} = {}
 
 export const closeAllReceivers = () => {
   Object.keys(workers).forEach((docId: string) => {
-    workers[docId].receiver.stop()
+    workers[docId].stop()
     delete workers[docId]
   })
 }
 
-export const jiberRedis = (input: JiberRedisInput) => (_state: any) => (next: Function) => {
-  const settings = { ...defaultSettings, ...input }
+export const jiberRedis = (input: JiberRedisInput) => (server: any) => (next: Function) => {
+  const settings: JiberRedisSettings = { ...defaultSettings, ...input }
 
   return (action: any) => {
     const docId = action.doc
 
     if (!workers[docId]) {
-      const sender = new Sender(settings)
-      const receiver = new Receiver(settings, next)
-      const worker = { sender, receiver }
+      const worker = new DocWorker(settings, server, next)
       workers[docId] = worker
-      receiver.start()
     }
 
     const worker = workers[docId]
-    worker.sender.send(action)
-      .catch(() => setTimeout(() => worker.sender.send(action), 5000))
+    worker.send(action)
   }
 }

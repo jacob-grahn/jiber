@@ -4,6 +4,8 @@ import { promisify } from 'util'
 export interface RedisConnection {
   xadd: (...params: any) => Promise<any>,
   xread: (...params: any) => Promise<any>,
+  set: (...params: any) => Promise<any>,
+  get: (...params: any) => Promise<any>,
   close: Function
 }
 
@@ -40,6 +42,8 @@ const createConnection = (host: string, port: number, role: string) => {
   const conn: RedisConnection = {
     xadd: promisify(client.xadd).bind(client),
     xread: promisify(client.xread).bind(client),
+    set: promisify(client.set).bind(client),
+    get: promisify(client.get).bind(client),
     close
   }
 

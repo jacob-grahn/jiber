@@ -16,7 +16,6 @@ test('send action to stream', async () => {
   const readResults: any = await conn.xread('STREAMS', docId, 0)
   const readActions: any = readResults[0][1]
   const readAction: any = JSON.parse(readActions[0][1][1])
-  console.log(readAction)
 
   expect(result).toBeTruthy()
   expect(readResults.length).toBe(1)
