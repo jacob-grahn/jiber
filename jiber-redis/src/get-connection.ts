@@ -8,6 +8,7 @@ export interface RedisConnection {
 }
 
 const lookup: {[key: string]: RedisConnection} = {}
+const retry_strategy = (options: any) => new Error(options.error) // never try to re-connect
 
 export const getConnection = (host: string, port: number, role: string) => {
   const key = `${host}-${port}-${role}`
@@ -24,26 +25,27 @@ export const closeAllConnections = () => {
 
 const createConnection = (host: string, port: number, role: string) => {
   // create new redis connection
-  const client = redis.createClient({ host, port }) as any
-
-  // promisify
-  const conn: RedisConnection = {
-    xadd: promisify(client.xadd).bind(client),
-    xread: promisify(client.xread).bind(client),
-    close: client.quit.bind(client)
-  }
-
-  // register the connection for later use
-  const key = `${host}-${port}-${role}`
-  lookup[key] = conn
+  const client = redis.createClient({ host, port, retry_strategy }) as any
 
   // deregister the connection when it closes
   const close = () => {
     delete lookup[key]
     client.removeAllListeners()
+    client.quit()
   }
   client.on('end', close)
   client.on('error', close)
+
+  // promisify
+  const conn: RedisConnection = {
+    xadd: promisify(client.xadd).bind(client),
+    xread: promisify(client.xread).bind(client),
+    close
+  }
+
+  // register the connection for later use
+  const key = `${host}-${port}-${role}`
+  lookup[key] = conn
 
   // return the connection
   return conn
