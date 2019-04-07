@@ -27,7 +27,7 @@ export class Receiver {
   }
 
   private fetch = async () => {
-    const conn = getConnection(this.host, this.port, "${this.docId}-receiver")
+    const conn = getConnection(this.host, this.port, '${this.docId}-receiver')
     const results: any = await conn.xread(
       'BLOCK', '1000', 'COUNT', '100', 'STREAMS', this.docId, this.lastActionTime
     )

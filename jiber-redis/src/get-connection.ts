@@ -8,7 +8,7 @@ export interface RedisConnection {
 }
 
 const lookup: {[key: string]: RedisConnection} = {}
-const retry_strategy = (options: any) => new Error(options.error) // never try to re-connect
+const retryStrategy = (options: any) => new Error(options.error) // never try to re-connect
 
 export const getConnection = (host: string, port: number, role: string) => {
   const key = `${host}-${port}-${role}`
@@ -25,7 +25,7 @@ export const closeAllConnections = () => {
 
 const createConnection = (host: string, port: number, role: string) => {
   // create new redis connection
-  const client = redis.createClient({ host, port, retry_strategy }) as any
+  const client = redis.createClient({ host, port, retry_strategy: retryStrategy }) as any
 
   // deregister the connection when it closes
   const close = () => {

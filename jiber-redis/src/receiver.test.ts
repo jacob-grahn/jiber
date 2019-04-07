@@ -28,7 +28,7 @@ test('only fetch new actions', async () => {
   const conn = getConnection(host, port, 'receiver-test-sender')
 
   const strAction1 = JSON.stringify({ type: 'one' })
-  await conn.xadd( docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction1)
+  await conn.xadd(docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction1)
 
   await sleep(50)
 
@@ -58,7 +58,7 @@ test('stop fetching actions', async () => {
   receiver.start()
 
   const strAction1 = JSON.stringify({ type: 'one' })
-  await conn.xadd( docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction1)
+  await conn.xadd(docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction1)
 
   await sleep(50)
   receiver.stop()
