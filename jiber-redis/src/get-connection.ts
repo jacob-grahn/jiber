@@ -5,7 +5,7 @@ export interface RedisConnection {
   xadd: (...params: any) => Promise<any>,
   xread: (...params: any) => Promise<any>,
   set: (...params: any) => Promise<any>,
-  get: (...params: any) => Promise<any>,
+  get: (key: string) => Promise<any>,
   close: Function
 }
 
