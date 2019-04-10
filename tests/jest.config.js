@@ -1,6 +1,7 @@
 module.exports = {
   roots: [
-    '<rootDir>/chat-app'
+    '<rootDir>/chat-app',
+    '<rootDir>/horizontal-scaling'
   ],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'

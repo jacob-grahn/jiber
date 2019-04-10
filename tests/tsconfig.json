@@ -5,6 +5,7 @@
         "outDir": "dist"
     },
     "include": [
-        "chat-app/**/*.ts"
+        "chat-app/**/*.ts",
+        "horizontal-scaling/**/*.ts"
     ]
 }

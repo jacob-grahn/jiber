@@ -7,6 +7,7 @@
   "scripts": {
     "prepare": "tsc",
     "build": "tsc",
+    "watch": "tsc -w",
     "test": "jest src --ci --coverage --runInBand",
     "lint": "tslint --fix -p tsconfig.json"
   },

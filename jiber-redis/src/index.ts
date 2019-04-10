@@ -1,1 +1,1 @@
-export * from './jiber-redis'
+export { jiberRedis, closeAllConnections } from './jiber-redis'

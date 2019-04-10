@@ -3,14 +3,9 @@
  * Read actions from subscribed streams, and send them on to next()
  */
 import { JiberRedisSettings, JiberRedisInput } from './interfaces'
-import { closeAllConnections } from './get-connection'
 import { defaultSettings } from './default-settings'
 import { DocWorker } from './doc-worker'
-
-afterEach(() => {
-  closeAllReceivers()
-  closeAllConnections()
-})
+export { closeAllConnections } from './get-connection'
 
 const workers: {[key: string]: DocWorker} = {}
 
@@ -28,7 +23,7 @@ export const jiberRedis = (input: JiberRedisInput) => (server: any) => (next: Fu
     const docId = action.doc
 
     if (!workers[docId]) {
-      const worker = new DocWorker(settings, server, next)
+      const worker = new DocWorker({ ...settings, docId }, server, next)
       workers[docId] = worker
     }
 

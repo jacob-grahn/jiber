@@ -21,6 +21,7 @@ export class JiberServer {
     this.settings = { ...defaultServerSettings, ...input }
     this.socketServer = new SocketServer(this.settings)
     const middleware: any = linkMiddleware(this, [
+      ...this.settings.middleware,
       init,
       openAndClose,
       wrtc,

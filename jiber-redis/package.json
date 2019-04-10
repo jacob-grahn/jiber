@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "Redis middleware for Jiber",
   "main": "dist/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
+    "watch": "tsc -w",
     "lint": "tslint --fix -p tsconfig.json",
     "test": "docker-compose up -d && jest src --ci --coverage --runInBand && docker-compose down || docker-compose down"
   },

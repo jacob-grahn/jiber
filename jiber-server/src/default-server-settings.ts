@@ -7,5 +7,6 @@ export const defaultServerSettings: ServerSettings = {
   server: undefined,
   verifyClient,
   securityRules: [],
-  reducer: swiss
+  reducer: swiss,
+  middleware: []
 }
