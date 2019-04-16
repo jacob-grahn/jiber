@@ -15,6 +15,6 @@ test('pump messages through redis', (done) => {
   }
   const middleware = jiberRedis(settings)(state)(next)
 
-  const action = { type: 'OGRE' }
+  const action = { type: 'OGRE', doc: 'jiber-redis-test' }
   middleware(action)
 })

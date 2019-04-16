@@ -31,7 +31,7 @@ test('save state to redis', async () => {
   await sleep(100)
 
   const conn = getConnection(host, port, 'state-saver-test')
-  const valueStr: any = await conn.get(docId)
+  const valueStr: any = await conn.get(`state-${docId}`)
   const value = JSON.parse(valueStr)
   expect(value.state).toBe('idaho')
   expect(value.time).toBe(12345)
