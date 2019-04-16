@@ -1,5 +1,4 @@
 import { Receiver } from './receiver'
-import { closeAllReceivers } from './jiber-redis'
 import { getConnection, closeAllConnections } from './get-connection'
 
 const sleep = (ms: number) => {
@@ -9,7 +8,6 @@ const sleep = (ms: number) => {
 }
 
 afterEach(() => {
-  closeAllReceivers()
   closeAllConnections()
 })
 

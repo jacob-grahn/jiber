@@ -14,8 +14,7 @@ const retryStrategy = (options: any) => new Error(options.error) // never try to
 
 export const getConnection = (host: string, port: number, role: string) => {
   const key = `${host}-${port}-${role}`
-  const send = lookup[key] || createConnection(host, port, role)
-  return send
+  return lookup[key] || createConnection(host, port, role)
 }
 
 export const closeAllConnections = () => {

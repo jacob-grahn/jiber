@@ -24,7 +24,7 @@ export class StateSaver {
       const conn = getConnection(this.host, this.port, 'sender')
       const doc = server.getDoc(this.docId)
       const packed = { state: doc.state, time: action.time }
-      conn.set(this.docId, JSON.stringify(packed))
+      conn.set(`state-${this.docId}`, JSON.stringify(packed))
         .catch(console.log)
     }
   }

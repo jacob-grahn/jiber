@@ -17,7 +17,8 @@ export class Receiver {
     this.docId = docId
   }
 
-  public start = () => {
+  public start = (lastActionTime: string = '0') => {
+    this.lastActionTime = lastActionTime
     this.active = true
     this.fetchLoop()
   }
@@ -27,7 +28,7 @@ export class Receiver {
   }
 
   private fetch = async () => {
-    const conn = getConnection(this.host, this.port, '${this.docId}-receiver')
+    const conn = getConnection(this.host, this.port, `${this.docId}-receiver`)
     const results: any = await conn.xread(
       'BLOCK', '1000', 'COUNT', '100', 'STREAMS', this.docId, this.lastActionTime
     )
@@ -37,6 +38,7 @@ export class Receiver {
 
     results.forEach((result: any) => {
       const actionPacks = result[1]
+
       actionPacks.forEach((actionPack: any) => {
         const entryId = actionPack[0]
         const strAction = actionPack[1][1]

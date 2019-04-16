@@ -27,6 +27,7 @@ export const runHorizontalApp = async (): Promise<any> => {
   server1.close()
   server2.close()
   doc1.dispatchers.push('messages', 'The server is down')
+  await sleep(100)
   doc2.dispatchers.push('messages', 'But wrtc still works')
   await sleep(100)
 

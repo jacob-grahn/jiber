@@ -7,17 +7,9 @@ import { defaultSettings } from './default-settings'
 import { DocWorker } from './doc-worker'
 export { closeAllConnections } from './get-connection'
 
-const workers: {[key: string]: DocWorker} = {}
-
-export const closeAllReceivers = () => {
-  Object.keys(workers).forEach((docId: string) => {
-    workers[docId].stop()
-    delete workers[docId]
-  })
-}
-
 export const jiberRedis = (input: JiberRedisInput) => (server: any) => (next: Function) => {
   const settings: JiberRedisSettings = { ...defaultSettings, ...input }
+  const workers: {[key: string]: DocWorker} = {}
 
   return (action: any) => {
     const docId = action.doc
