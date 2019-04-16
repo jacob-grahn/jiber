@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "no lint here",
+    "lint": "echo 'no lint here'",
     "test": "docker-compose up -d && jest horizontal-scaling --ci --coverage --runInBand && jest chat-app --ci --coverage --runInBand && docker-compose down || docker-compose down",
     "build": "tsc"
   },
