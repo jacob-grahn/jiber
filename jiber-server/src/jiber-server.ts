@@ -23,6 +23,7 @@ export class JiberServer {
     const middleware: any = linkMiddleware(this, [
       init,
       openAndClose,
+      ...this.settings.middleware,
       wrtc,
       securityRules(this.settings.securityRules),
       broadcast

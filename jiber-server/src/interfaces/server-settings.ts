@@ -7,7 +7,8 @@ export interface ServerSettingsInput {
   server?: any,
   verifyClient?: WS.VerifyClientCallbackAsync,
   securityRules?: SecurityRule[],
-  reducer?: Reducer
+  reducer?: Reducer,
+  middleware?: Function[]
 }
 
 export interface ServerSettings {
@@ -15,5 +16,6 @@ export interface ServerSettings {
   server: any,
   verifyClient: WS.VerifyClientCallbackAsync
   securityRules: SecurityRule[],
-  reducer: Reducer
+  reducer: Reducer,
+  middleware: Function[]
 }

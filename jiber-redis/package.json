@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "description": "Redis middleware for Jiber",
   "main": "dist/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
+    "watch": "tsc -w",
     "lint": "tslint --fix -p tsconfig.json",
-    "test": "jest src"
+    "test": "docker-compose up -d && jest src --ci --coverage --runInBand && docker-compose down || docker-compose down"
   },
   "author": "",
   "license": "MIT",
@@ -14,12 +16,13 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.9",
-    "@types/redis": "^2.8.10",
-    "jest": "^24.1.0",
-    "ts-jest": "^24.0.0",
-    "tslint": "^5.13.1",
+    "@types/jest": "^24.0.11",
+    "@types/redis": "^2.8.12",
+    "jest": "^24.6.0",
+    "redis-commands": "^1.4.0",
+    "ts-jest": "^24.0.1",
+    "tslint": "^5.15.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.4.1"
   }
 }

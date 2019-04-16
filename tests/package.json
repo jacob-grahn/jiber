@@ -4,21 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "echo yay",
-    "test": "jest chat-app"
+    "lint": "echo 'no lint here'",
+    "test": "docker-compose up -d && jest horizontal-scaling --ci --coverage --runInBand && jest chat-app --ci --coverage --runInBand && docker-compose down || docker-compose down",
+    "build": "tsc"
   },
-  "author": "",
+  "author": "Jacob Grahn",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^24.0.6",
-    "jest": "^24.1.0",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333"
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.3"
   },
   "dependencies": {
     "crypto": "^1.0.1",
     "jiber-client": "file:../jiber-client",
+    "jiber-redis": "file:../jiber-redis",
     "jiber-server": "file:../jiber-server",
-    "wrtc": "^0.3.5"
+    "wrtc": "^0.3.7"
   }
 }

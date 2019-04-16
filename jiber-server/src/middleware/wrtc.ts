@@ -29,7 +29,7 @@ export const wrtc = (server: JiberServer) => (next: Function) => (action: Action
     })
 
     if (action.type === WEBRTC_SOLICIT) {
-      doc.sendToMembers(JSON.stringify(replyAction))
+      doc.sendToOtherMembers(action.conn, JSON.stringify(replyAction))
     } else {
       doc.sendToMember(action.peerId || '', JSON.stringify(replyAction))
     }

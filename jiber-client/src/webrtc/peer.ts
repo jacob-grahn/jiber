@@ -16,6 +16,7 @@ export class Peer {
   private connection: RTCPeerConnection
   private channel?: RTCDataChannel
   private channelSettings = { ordered: false, maxRetransmits: 0 }
+  private stunServers: string[]
 
   constructor (
     docId: string,
@@ -28,8 +29,48 @@ export class Peer {
     this.peerId = peerId
     this.sendToServer = sendToServer
     this.sendToStore = sendToStore
+    this.stunServers = stunServers
+    this.connection = this.open()
+  }
+
+  public send = (action: Action) => {
+    if (this.channel && this.channel.readyState === 'open') {
+      this.channel.send(JSON.stringify(action))
+    }
+  }
+
+  public receiveFromServer = async (action: Action) => {
+    if (action.type === WEBRTC_SOLICIT) {
+      this.createChannel()
+      await this.sendOffer()
+    } else if (action.type === WEBRTC_OFFER) {
+      // we sent an offer and then received and offer, rather than an answer
+      if (this.connection.localDescription) {
+        if (this.connection.localDescription.sdp > action.offer.sdp) {
+          this.open()
+        } else {
+          return
+        }
+      }
+      await this.sendAnswer(action.offer)
+    } else if (action.type === WEBRTC_ANSWER) {
+      await this.connection.setRemoteDescription(action.answer)
+    } else if (action.type === WEBRTC_CANDIDATE) {
+      await this.connection.addIceCandidate(action.candidate)
+    }
+  }
+
+  public close = () => {
+    if (this.connection) {
+      this.connection.close()
+    }
+    delete this.connection
+  }
+
+  private open = () => {
+    this.close()
     this.connection = new RTCPeerConnection({
-      iceServers: stunServers.map(url => ({ urls: url }))
+      iceServers: this.stunServers.map(url => ({ urls: url }))
     })
     this.connection.addEventListener('icecandidate', (event) => {
       if (!event.candidate) return
@@ -44,29 +85,8 @@ export class Peer {
       this.channel = (event.channel) as RTCDataChannel
       this.channel.addEventListener('message', this.receiveFromPeer)
     })
-  }
 
-  public send = (action: Action) => {
-    if (this.channel && this.channel.readyState === 'open') {
-      this.channel.send(JSON.stringify(action))
-    }
-  }
-
-  public receiveFromServer = async (action: Action) => {
-    if (action.type === WEBRTC_SOLICIT) {
-      this.createChannel()
-      await this.sendOffer()
-    } else if (action.type === WEBRTC_OFFER) {
-      await this.sendAnswer(action.offer)
-    } else if (action.type === WEBRTC_ANSWER) {
-      await this.connection.setRemoteDescription(action.answer)
-    } else if (action.type === WEBRTC_CANDIDATE) {
-      await this.connection.addIceCandidate(action.candidate)
-    }
-  }
-
-  public close = () => {
-    this.connection.close()
+    return this.connection
   }
 
   private sendOffer = async (): Promise<void> => {
