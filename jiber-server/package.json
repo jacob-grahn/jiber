@@ -14,22 +14,22 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^24.0.9",
-    "@types/lodash": "^4.14.123",
-    "@types/node": "^12.0.0",
-    "@types/sinon": "^7.0.8",
-    "@types/uuid": "^3.4.4",
+    "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "^12.6.2",
+    "@types/sinon": "^7.0.13",
+    "@types/uuid": "^3.4.5",
     "@types/ws": "^6.0.1",
-    "jest": "^24.1.0",
-    "sinon": "^7.2.6",
-    "ts-jest": "^24.0.0",
-    "tslint": "^5.13.1",
+    "jest": "^24.8.0",
+    "sinon": "^7.3.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "uuid": "^3.3.2",
-    "ws": "^7.0.0"
+    "ws": "^7.1.0"
   }
 }
