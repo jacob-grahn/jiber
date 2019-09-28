@@ -1,0 +1,35 @@
+{
+  "name": "hidb-client",
+  "version": "0.1.12",
+  "description": "Synced data store",
+  "main": "dist/hidb-client.bundle.js",
+  "module": "dist/es6/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "watch": "tsc-watch --onSuccess 'npm run bundle'",
+    "test": "jest src --ci --coverage --runInBand",
+    "lint": "tslint --fix -p tsconfig.json",
+    "prepare": "npm run build",
+    "build": "tsc && npm run bundle && npm run minify",
+    "compile": "tsc",
+    "bundle": "rollup -c",
+    "minify": "uglifyjs -c -m -o dist/hidb-client.bundle.min.js dist/hidb-client.bundle.js",
+    "send-to-coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.4",
+    "jest": "^24.8.0",
+    "rollup": "^1.16.7",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "ts-jest": "^24.0.2",
+    "tsc-watch": "^2.2.1",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.5.3",
+    "uglify-es": "^3.3.9",
+    "wrtc": "^0.4.1"
+  }
+}

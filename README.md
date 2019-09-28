@@ -1,13 +1,13 @@
-[![Jiber](jiber.gif)](https://jiber.io)
+[![HiDB](hidb.gif)](https://hidb.io)
 
-[![Build Status](https://travis-ci.org/jacob-grahn/jiber.svg?branch=master)](https://travis-ci.org/jacob-grahn/jiber)
-[![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/jiber/badge.svg?branch=master&cache_bust=yay)](https://coveralls.io/github/jacob-grahn/jiber?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/jiber.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/jacob-grahn/hidb.svg?branch=master)](https://travis-ci.org/jacob-grahn/hidb)
+[![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/hidb/badge.svg?branch=master&cache_bust=yay)](https://coveralls.io/github/jacob-grahn/hidb?branch=master)
+[![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/hidb.svg)](https://greenkeeper.io/)
 
-Jiber is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
+HiDB is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
 
 - **Fast**: Updates are sent peer to peer to minimize latency.
-- **Light**: jiber-client is 3kb, and has no dependencies.
+- **Light**: hidb-client is 3kb, and has no dependencies.
 - **Offline-First**: User actions are applied optimistically until a connection becomes available.
 
 ### Live Demos
@@ -16,18 +16,18 @@ Jiber is an open source API for realtime web apps. It sets up peer-to-peer conne
 
 ### Server Installation
 ```
-npm i jiber-server
+npm i hidb-server
 ```
 
 ### Client Installation
 ```
-npm i jiber-client
+npm i hidb-client
 ```
 
 ### Documentation
-- [Get Started with jiber-server](/packages/jiber-server)
-- [Get Started with jiber-client](/packages/jiber-client)
-- See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)
+- [Get Started with hidb-server](/packages/hidb-server)
+- [Get Started with hidb-client](/packages/hidb-client)
+- See HiDB's Docs at [docs.hidb.io](http://docs.hidb.io)
 
 ### Examples
 Examples can be found in [/examples](/examples).

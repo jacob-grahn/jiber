@@ -5,5 +5,5 @@ node_js:
   - "10"
 script: >-
   ./install-and-test.sh
-  cd jiber-client
+  cd hidb-client
   npm run send-to-coveralls

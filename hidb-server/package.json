@@ -1,0 +1,35 @@
+{
+  "name": "hidb-server",
+  "version": "0.1.12",
+  "description": "Shared data store",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest src --ci --coverage --runInBand",
+    "lint": "tslint --fix -p tsconfig.json"
+  },
+  "author": "Jacob Grahn",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "^12.6.2",
+    "@types/sinon": "^7.0.13",
+    "@types/uuid": "^3.4.5",
+    "@types/ws": "^6.0.1",
+    "jest": "^24.8.0",
+    "sinon": "^7.3.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.13",
+    "uuid": "^3.3.2",
+    "ws": "^7.1.0"
+  }
+}
