@@ -19,7 +19,7 @@
     "@types/node": "^12.7.8",
     "@types/sinon": "^7.0.13",
     "@types/uuid": "^3.4.5",
-    "@types/ws": "^6.0.3",
+    "@types/ws": "^7.2.0",
     "jest": "^24.9.0",
     "sinon": "^7.5.0",
     "ts-jest": "^24.1.0",
