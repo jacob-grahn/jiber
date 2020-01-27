@@ -16,7 +16,7 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^25.1.0",
     "@types/redis": "^2.8.14",
     "jest": "^24.9.0",
     "redis-commands": "^1.5.0",
