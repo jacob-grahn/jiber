@@ -22,7 +22,7 @@
     "@types/ws": "^6.0.3",
     "jest": "^24.9.0",
     "sinon": "^7.5.0",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^25.3.0",
     "tslint": "^5.20.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.6.3"
