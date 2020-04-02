@@ -19,7 +19,7 @@
   "author": "Jacob Grahn",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^25.1.4",
+    "@types/jest": "^25.1.5",
     "coveralls": "^3.0.9",
     "jest": "^25.1.0",
     "rollup": "^2.0.6",
