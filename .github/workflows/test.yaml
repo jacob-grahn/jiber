@@ -1,0 +1,13 @@
+name: Run Tests
+on: [push]
+
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Run Tests
+        run: install-and-test.sh
