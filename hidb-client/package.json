@@ -7,7 +7,7 @@
   "types": "src/index.ts",
   "scripts": {
     "watch": "tsc-watch --onSuccess 'npm run bundle'",
-    "test": "jest src --coverage",
+    "test": "jest src",
     "lint": "tslint --fix -p tsconfig.json",
     "prepare": "npm run build",
     "build": "tsc && npm run bundle && npm run minify",
