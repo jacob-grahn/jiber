@@ -10,4 +10,4 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Run Tests
-        run: install-and-test.sh
+        run: ./install-and-test.sh
