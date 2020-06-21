@@ -8,7 +8,7 @@
     "prepare": "tsc",
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest src --ci --coverage --runInBand",
+    "test": "jest src --coverage --runInBand",
     "lint": "tslint --fix -p tsconfig.json"
   },
   "author": "Jacob Grahn",
