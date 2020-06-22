@@ -1,6 +1,6 @@
-[![HiDB](hidb.gif)](https://hidb.io)
+[![Jiber](jiber.gif)](https://jiber.io)
 
-[![Build Status](https://travis-ci.org/jacob-grahn/hidb.svg?branch=master)](https://travis-ci.org/jacob-grahn/hidb)
+[![Build Status](https://github.com/jacob-grahn/jiber/workflows/test/badge.svg)](https://github.com/jacob-grahn/jiber/actions)
 [![Coverage Status](https://coveralls.io/repos/github/jacob-grahn/hidb/badge.svg?branch=master&cache_bust=yay)](https://coveralls.io/github/jacob-grahn/hidb?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jacob-grahn/hidb.svg)](https://greenkeeper.io/)
 
