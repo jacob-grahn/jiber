@@ -12,12 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build & Push Demo Server
-        uses: mr-smithers-excellent/docker-build-push@v3
-        with:
-          image: jacobgrahn/jiber
-          tag: latest
-          registry: docker.io
-          dockerfile: jiber-server/examples/server/Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Image
+        run: |
+          cd jiber-server/examples/server
+          docker build -t docker.io/jacobgrahn/jiber:latest .
+
+      - name: Push Image
+        run: |
+          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push docker.io/jacobgrahn/jiber:latest
