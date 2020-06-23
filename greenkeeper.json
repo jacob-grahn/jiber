@@ -2,9 +2,9 @@
   "groups": {
     "default": {
       "packages": [
-        "hidb-client/package.json",
-        "hidb-redis/package.json",
-        "hidb-server/package.json"
+        "jiber-client/package.json",
+        "jiber-redis/package.json",
+        "jiber-server/package.json"
       ]
     }
   }

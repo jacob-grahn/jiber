@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "crypto": "^1.0.1",
-    "hidb-client": "file:../hidb-client",
-    "hidb-redis": "file:../hidb-redis",
-    "hidb-server": "file:../hidb-server",
+    "jiber-client": "file:../jiber-client",
+    "jiber-redis": "file:../jiber-redis",
+    "jiber-server": "file:../jiber-server",
     "wrtc": "^0.4.5"
   }
 }

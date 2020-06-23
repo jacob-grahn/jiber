@@ -2,10 +2,10 @@
 
 ![Build Status](https://github.com/jacob-grahn/jiber/workflows/Run%20Tests/badge.svg)
 
-HiDB is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
+Jiber is an open source API for realtime web apps. It sets up peer-to-peer connections via webRTC, and backs that up with a more reliable client/server WebSocket connection.
 
 - **Fast**: Updates are sent peer to peer to minimize latency.
-- **Light**: hidb-client is 3kb, and has no dependencies.
+- **Light**: jiber-client is 3kb, and has no dependencies.
 - **Offline-First**: User actions are applied optimistically until a connection becomes available.
 
 ### Live Demos
@@ -14,18 +14,18 @@ HiDB is an open source API for realtime web apps. It sets up peer-to-peer connec
 
 ### Server Installation
 ```
-npm i hidb-server
+npm i jiber-server
 ```
 
 ### Client Installation
 ```
-npm i hidb-client
+npm i jiber-client
 ```
 
 ### Documentation
-- [Get Started with hidb-server](/packages/hidb-server)
-- [Get Started with hidb-client](/packages/hidb-client)
-- See HiDB's Docs at [docs.hidb.io](http://docs.hidb.io)
+- [Get Started with jiber-server](/packages/jiber-server)
+- [Get Started with jiber-client](/packages/jiber-client)
+- See Jiber's Docs at [docs.jiber.io](http://docs.jiber.io)
 
 ### Examples
 Examples can be found in [/examples](/examples).

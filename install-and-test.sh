@@ -2,7 +2,7 @@
 
 set -e
 
-packages="hidb-client hidb-redis hidb-server"
+packages="jiber-client jiber-redis jiber-server"
 
 for package in $packages; do
   cd $package

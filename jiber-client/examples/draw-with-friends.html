@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Draw With Friends</title>
+    <script src="../dist/jiber-client.bundle.js"></script>
+  </head>
+  <body style="background-color: grey; padding: 0; margin: 0;">
+    <canvas id="line-canvas" width="500" height="500"></canvas>
+    <br>
+    <button id="clear-btn" onclick="doc.set('pixels', {})">Clear</button>
+
+    <script>
+
+      //////////////////////////////////////////////////////////////////////////
+      // INIT
+      //////////////////////////////////////////////////////////////////////////
+
+      // open a doc for our masterful drawing
+      const url = 'ws://localhost:8080'
+      const jiber = new JiberClient({ url })
+      const doc = jiber.open('draw')
+
+      // each 'pixel' is a 10px by 10px square
+      const scale = 10
+
+      // set up our canvas to draw on
+      const canvas = document.getElementById('line-canvas')
+      const ctx = canvas.getContext('2d')
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // RENDER: draw the state onto the canvas when our data changes
+      //////////////////////////////////////////////////////////////////////////
+      function render () {
+        const state = doc.getState(0) || {}
+        clearCanvas()
+        drawPixels(state.pixels)
+      }
+
+      function clearCanvas () {
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+      }
+
+      function drawPixels (pixels = {}) {
+        Object.keys(pixels).forEach(point => {
+          const [x, y] = point.split(',')
+          const color = pixels[point]
+          ctx.fillStyle = color
+          ctx.fillRect(x * scale, y * scale, scale, scale)
+        })
+      }
+
+      doc.subscribe(render)
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // I/O: draw pixels when a user taps and drags
+      //////////////////////////////////////////////////////////////////////////
+      function setPixel (e, color) {
+        const x = Math.floor(e.clientX / scale)
+        const y = Math.floor(e.clientY / scale)
+        const path = `${x},${y}`
+
+        // avoid dispatching redundant actions
+        const state = doc.getState(0) || {}
+        const pixels = state.pixels || {}
+        if (pixels[path] === color) return
+        doc.set(`pixels.${path}`, color)
+      }
+
+      function randomColor () {
+        const hexChars = '0123456789ABCDEF'
+        let color = '#'
+        for (let i = 0; i < 6; i++) {
+          const index = Math.floor(Math.random() * hexChars.length)
+          color += hexChars.charAt(index)
+        }
+        return color
+      }
+
+      canvas.onmousedown = (e) => {
+        const color = randomColor()
+        setPixel(e, color)
+        canvas.onmousemove = (e) => setPixel(e, color)
+        window.onmouseup = (e) => canvas.onmousemove = undefined
+      }
+
+    </script>
+  </body>
+</html>
