@@ -1,5 +1,5 @@
 const JiberServer = require('jiber-server')
-const jiberRedis = require('jiber-redis')
+const { jiberRedis } = require('jiber-redis')
 
 // Start listening for incomming connections
 const server = new JiberServer({
