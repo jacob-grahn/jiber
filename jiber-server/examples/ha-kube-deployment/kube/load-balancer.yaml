@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jiber
+spec:
+  selector:
+    app: jiber
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

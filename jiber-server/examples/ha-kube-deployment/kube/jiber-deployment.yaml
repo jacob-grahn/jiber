@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jiber
+  labels:
+    app: jiber
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jiber
+  template:
+    metadata:
+      labels:
+        app: jiber
+    spec:
+      containers:
+      - name: jiber
+        image: jacobgrahn/jiber:latest
+        ports:
+        - containerPort: 8080
