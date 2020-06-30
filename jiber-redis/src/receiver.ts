@@ -1,5 +1,5 @@
 import { JiberRedisSettings } from './interfaces'
-import { getConnection } from './get-connection'
+import { getConnection, RedisConnection } from './get-connection'
 
 export class Receiver {
   private next: Function
@@ -8,6 +8,8 @@ export class Receiver {
   private port: number
   private docId: string
   private active: boolean = false
+  private pendingTimeout: NodeJS.Timeout | undefined
+  private conn: RedisConnection | undefined
 
   constructor (settings: JiberRedisSettings, next: Function) {
     const { host, port, docId } = settings
@@ -25,11 +27,17 @@ export class Receiver {
 
   public stop = () => {
     this.active = false
+    if (this.pendingTimeout) {
+      clearTimeout(this.pendingTimeout)
+    }
+    if (this.conn) {
+      this.conn.close()
+    }
   }
 
   private fetch = async () => {
-    const conn = getConnection(this.host, this.port, `${this.docId}-receiver`)
-    const results: any = await conn.xread(
+    this.conn = getConnection(this.host, this.port, `${this.docId}-receiver`)
+    const results: any = await this.conn.xread(
       'BLOCK', '1000', 'COUNT', '100', 'STREAMS', this.docId, this.lastActionTime
     )
 
@@ -54,7 +62,12 @@ export class Receiver {
   private fetchLoop = () => {
     if (!this.active) return
     this.fetch()
-      .then(() => setTimeout(this.fetchLoop, 1))
-      .catch(() => setTimeout(this.fetchLoop, 1000))
+      .then(this.scheduleNextLoop)
+      .catch(this.scheduleNextLoop)
+  }
+
+  private scheduleNextLoop = () => {
+    if (!this.active) return
+    this.pendingTimeout = setTimeout(this.fetchLoop, 100)
   }
 }

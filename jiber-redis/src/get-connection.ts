@@ -26,6 +26,7 @@ export const closeAllConnections = () => {
 
 const createConnection = (host: string, port: number, role: string) => {
   // create new redis connection
+  const key = `${host}-${port}-${role}`
   const client = redis.createClient({ host, port, retry_strategy: retryStrategy }) as any
 
   // deregister the connection when it closes
@@ -47,7 +48,6 @@ const createConnection = (host: string, port: number, role: string) => {
   }
 
   // register the connection for later use
-  const key = `${host}-${port}-${role}`
   lookup[key] = conn
 
   // return the connection

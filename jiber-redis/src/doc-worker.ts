@@ -25,10 +25,11 @@ export class DocWorker {
 
   private fetchInitialState = async (host: string, port: number, docId: string) => {
     const conn = getConnection(host, port, docId)
-    const result = await conn.get(`state-${docId}`)
+    const strResult: string = await conn.get(`state-${docId}`)
+    conn.close()
     if (!this.active) return
-    if (result) {
-      const { state, time } = result
+    if (strResult) {
+      const { state, time } = JSON.parse(strResult)
       this.next({ type: 'SET', path: '', value: state, trust: 2, doc: docId })
       this.receiver.start(time.toString())
     } else {
@@ -43,11 +44,11 @@ export class DocWorker {
 
   public send = (action: any) => {
     this.sender.send(action)
-      .catch(() => setTimeout(() => this.sender.send(action), 5000))
+      .catch(() => console.log('DocWorker send error'))
   }
 
   public stop = () => {
-    this.active = true
+    this.active = false
     this.receiver.stop()
   }
 }

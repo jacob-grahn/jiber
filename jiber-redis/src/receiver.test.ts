@@ -28,12 +28,12 @@ test('only fetch new actions', async () => {
   const strAction1 = JSON.stringify({ type: 'one' })
   await conn.xadd(docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction1)
 
-  await sleep(50)
+  await sleep(150)
 
   const strAction2 = JSON.stringify({ type: 'two' })
   await conn.xadd(docId, 'MAXLEN', '~', maxHistory, '*', 'action', strAction2)
 
-  await sleep(50)
+  await sleep(150)
   receiver.stop()
 
   expect(nextHistory.length).toBe(2)
