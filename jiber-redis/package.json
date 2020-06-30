@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint --fix -p tsconfig.json",
+    "t": "jest src -t 'save state every X actions' --runInBand --detectOpenHandles",
     "test": "docker-compose up -d && jest src --coverage --runInBand && docker-compose down || docker-compose down"
   },
   "author": "",
