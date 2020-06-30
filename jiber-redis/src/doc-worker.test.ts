@@ -3,7 +3,6 @@ import { default as redis } from 'redis'
 import { promisify } from 'util'
 import { closeAllConnections } from './get-connection'
 
-
 const sleep = (ms: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
@@ -27,7 +26,7 @@ test('save state every X actions', async () => {
       return { state: 'language' }
     }
   }
-  const next = (_action: any) => {}
+  const next = (_action: any) => { /* do nothing */ }
   const worker = new DocWorker(settings, server, next)
   await sleep(100)
 
@@ -55,7 +54,6 @@ test('save state every X actions', async () => {
   expect(value.state).toEqual('language')
   expect(value.time).toBeGreaterThan(1)
 })
-
 
 test('initail state retrieval', async () => {
   // insert initial state into the db
