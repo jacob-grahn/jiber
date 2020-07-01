@@ -14,10 +14,20 @@ jobs:
 
       - name: Build Image
         run: |
+          server_ver=$(npx -c 'echo "$npm_package_version"')
           cd jiber-server/examples/ha-kube-deployment
-          docker build -t docker.io/jacobgrahn/jiber:latest .
+          docker build -t docker.io/jacobgrahn/jiber:$server_ver .
 
       - name: Push Image
         run: |
+          server_ver=$(npx -c 'echo "$npm_package_version"')
           echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker push docker.io/jacobgrahn/jiber:latest
+          docker push docker.io/jacobgrahn/jiber:$server_ver
+
+      - name: Deploy Demo Server
+        run: |
+          mkdir -p ~/.kube
+          echo ${{ secrets.KUBECONFIG }} | base64 -d > ~/.kube/config
+          server_ver=$(npx -c 'echo "$npm_package_version"')
+          sed -i "s/jiber:latest/jiber:$server_ver/" jiber-server/examples/ha-kube-deployment/kube/jiber-deployment.yaml
+          kubectl apply -f jiber-server/examples/ha-kube-deployment/kube
