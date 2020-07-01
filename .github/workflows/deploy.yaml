@@ -11,6 +11,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Run Tests
+        run: ./install-and-test.sh
+
+      - name: Publish to NPM
+        run: |
+          echo "${{ NPMRC }}" > ~/.npmrc
+          cd jiber-client
+          npm publish || echo 'publish failed'
+          cd ../jiber-redis
+          npm publish || echo 'publish failed'
+          cd ../jiver-server
+          npm publish || echo 'publish failed'
 
       - name: Build Image
         run: |
