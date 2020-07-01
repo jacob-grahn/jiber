@@ -1,10 +1,11 @@
 {
   "name": "jiber-redis",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Redis middleware for Jiber",
   "main": "dist/index.js",
   "types": "src/index.ts",
   "scripts": {
+    "prepare": "tsc",
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint --fix -p tsconfig.json",
