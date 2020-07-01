@@ -1,6 +1,6 @@
 {
   "name": "jiber-redis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Redis middleware for Jiber",
   "main": "dist/index.js",
   "types": "src/index.ts",

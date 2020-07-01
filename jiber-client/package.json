@@ -1,6 +1,6 @@
 {
   "name": "jiber-client",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Synced data store",
   "main": "dist/jiber-client.bundle.js",
   "module": "dist/es6/index.js",

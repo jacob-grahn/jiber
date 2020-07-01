@@ -27,7 +27,7 @@ jobs:
           npm publish || echo 'publish failed'
           cd ../jiber-redis
           npm publish || echo 'publish failed'
-          cd ../jiver-server
+          cd ../jiber-server
           npm publish || echo 'publish failed'
 
       - name: Build Image
