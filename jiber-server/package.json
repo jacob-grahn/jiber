@@ -9,7 +9,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest src --coverage --runInBand",
-    "lint": "tslint --fix -p tsconfig.json"
+    "lint": "tslint --fix -p tsconfig.json",
+    "version": "echo $npm_package_version"
   },
   "author": "Jacob Grahn",
   "license": "MIT",
