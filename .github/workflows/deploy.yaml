@@ -51,4 +51,5 @@ jobs:
           cd jiber-server
           server_ver=$(npm run --silent version)
           sed -i "s/jiber:latest/jiber:$server_ver/" examples/ha-kube-deployment/kube/jiber-deployment.yaml
+          sed -i "s/email@domain.com/${{ secrets.LETS_ENCRYPT_EMAIL }}" examples/ha-kube-deployment/kube/cert-issuer.yaml
           kubectl apply -f examples/ha-kube-deployment/kube

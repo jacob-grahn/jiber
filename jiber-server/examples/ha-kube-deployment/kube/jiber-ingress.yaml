@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/issuer: letsencrypt-prod
+  name: jiber
+spec:
+  rules:
+    - host: demo.jiber.io
+      http:
+        paths:
+          - backend:
+              serviceName: jiber
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - demo.jiber.io
+      secretName: demo-jiber-io-cert
