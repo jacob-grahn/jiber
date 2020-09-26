@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Draw With Friends</title>
+    <script src="../dist/jiber-client.bundle.js"></script>
+  </head>
+  <body style="background-color: grey; padding: 0; margin: 0;">
+    <canvas id="line-canvas" width="500" height="500"></canvas>
+    <br>
+    <button id="clear-btn" onclick="doc.set('pixels', {})">Clear</button>
+
+    <script>
+
+      //////////////////////////////////////////////////////////////////////////
+      // INIT
+      //////////////////////////////////////////////////////////////////////////
+
+      // create a custom reducer
+      const defaultState = {
+        players: [
+          {
+            name: 'Player 1',
+            cards: [1, 2, 3, 4, 5]
+          },
+          {
+            name: 'Player 2',
+            cards: [5, 4, 3, 2, 1]
+          }
+        ],
+        turn: 0
+      }
+      const reducer = (state = {}, action) => {
+        if (action.type === 'CHOOSE_CARD') {
+          const activePlayer = state.turn % 2
+          if (activePlayer === action.playerId) {
+            state.turn += 1
+          }
+        }
+      }
+
+      // open a doc for our game of war
+      const url = 'wss://demo.jiber.io'
+      const jiber = new JiberClient({ url })
+      const doc = jiber.open('war')
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // RENDER: draw the state onto our page whenever data changes
+      //////////////////////////////////////////////////////////////////////////
+      function render () {
+        const state = doc.getState() || {}
+      }
+
+      doc.subscribe(render)
+
+
+      //////////////////////////////////////////////////////////////////////////
+      // I/O: draw pixels when a user taps and drags
+      //////////////////////////////////////////////////////////////////////////
+
+    </script>
+  </body>
+</html>

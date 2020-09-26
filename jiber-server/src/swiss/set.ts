@@ -10,10 +10,10 @@ export const set = (obj: any, path: string | string[], value: any): any => {
   const newValue = set(oldValue, remainingKeys, value)
 
   if (Array.isArray(obj)) {
-    const newArr = [...obj]
-    newArr[Number(key)] = newValue
-    return newArr
+    obj[Number(key)] = newValue
   } else {
-    return { ...obj, [key]: newValue }
+    obj[key] = newValue
   }
+  
+  return obj
 }

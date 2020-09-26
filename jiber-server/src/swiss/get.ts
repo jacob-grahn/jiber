@@ -1,11 +1,16 @@
 /**
  * Return the value of a path
  */
-export const get = (value: any, path: string | string[] = ''): any => {
-  if (!path) return value
-  if (!Array.isArray(path)) path = path.split('.')
-  return path.reduce(
+export const get = (data: any, path: string = '', defaultValue: any = undefined): any => {
+  if (!path) return data
+  const bits = path.split('.')
+  const value = bits.reduce(
     (value, key) => value ? value[key] : undefined,
-    value
+    data
   )
+  if (value === undefined) {
+    return defaultValue
+  } else {
+    return value
+  }
 }
