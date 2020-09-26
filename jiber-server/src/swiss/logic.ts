@@ -53,5 +53,10 @@ const funcs: any = {
       case '!=':
         return val1 != val2
     }
+  },
+
+  IF: (state: any, path: string, comparison: string, value: any, trueSteps: any[] = [], falseSteps: any[] = []) => {
+    const result = funcs.CHECK(state, path, comparison, value)
+    return result ? trueSteps: falseSteps
   }
 }
