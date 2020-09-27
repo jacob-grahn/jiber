@@ -1,7 +1,7 @@
-import { set } from './set'
 import { get } from './get'
 
-export const runLogic = (state: any, steps: any[]) => {
+export const runLogic = (reducer:any, state: any, steps: any[]) => {
+  const actionsPerformed = []
   for (let i = 0; i < steps.length; i++) {
     const step: any[] = steps[i]
     const [func, ...params] = step
@@ -9,24 +9,29 @@ export const runLogic = (state: any, steps: any[]) => {
     if (result === false) {
       break
     }
-    if (Array.isArray(result)) {
+    else if (Array.isArray(result)) {
       steps.splice(i, 0, ...result)
+    }
+    else if (result) {
+      reducer(state, result)
+      actionsPerformed.push(result)
     }
   }
 }
 
 const funcs: any = {
 
-  SET: (state: any, path: string, value: any) => {
-    set(state, path, value)
+  SET: (_state: any, path: string, value: any) => {
+    return {type: 'SET', path, value}
   },
 
   ADD: (state: any, path: string, value: any) => {
-    set(state, path, get(state, path) + value)
+    const newValue = get(state, path) + value
+    return {type: 'SET', path, value: newValue}
   },
 
-  PUSH: (state: any, path: string, value: any) => {
-    get(state, path, []).push(value)
+  PUSH: (_state: any, path: string, value: any) => {
+    return {type: 'PUSH', path, value}
   },
 
   POP: (state: any, path: string, destPath: string) => {
