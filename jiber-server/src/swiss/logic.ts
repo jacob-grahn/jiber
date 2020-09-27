@@ -1,10 +1,12 @@
 import { get } from './get'
+import { parseParams } from './parse-params'
 
 export const runLogic = (reducer:any, state: any, steps: any[]) => {
   const actionsPerformed = []
   for (let i = 0; i < steps.length; i++) {
     const step: any[] = steps[i]
     const [func, ...params] = step
+    const parsedParams = parseParams(params)
     const result = funcs[func](state, ...params)
     if (result === false) {
       break
