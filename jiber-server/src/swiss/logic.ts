@@ -9,14 +9,21 @@ export const runLogic = (reducer:any, state: any, steps: any[]) => {
     if (result === false) {
       break
     }
+    else if (result && result.addSteps) {
+      steps.splice(i, 0, ...result.addSteps)
+    }
     else if (Array.isArray(result)) {
-      steps.splice(i, 0, ...result)
+      result.forEach(action => {
+        reducer(state, action)
+        actionsPerformed.push(action)
+      })
     }
     else if (result) {
       reducer(state, result)
       actionsPerformed.push(result)
     }
   }
+  return actionsPerformed
 }
 
 const funcs: any = {
@@ -35,13 +42,23 @@ const funcs: any = {
   },
 
   POP: (state: any, path: string, destPath: string) => {
-    const value = get(state, path).pop()
-    set(state, destPath, value)
+    const arr: any[] = get(state, path)
+    if (Array.isArray(arr) && arr.length > 0) {
+      return [
+        {type: 'POP', path},
+        {type: 'SET', path: destPath, value: arr[-1]}
+      ]
+    }
   },
 
   SPLICE: (state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
-    const values = get(state, path, []).splice(start, count, ...items)
-    set(state, destPath, values)
+    const arr: any[] = get(state, path)
+    if (Array.isArray(arr) && arr.length > 0) {
+      return [
+        {type: 'SPLICE', path, start, count, items},
+        {type: 'SET', path: destPath, value: arr.slice(start, start + count)}
+      ]
+    }
   },
 
   CHECK: (state: any, path: string, comparison: string, val2: any) => {
@@ -62,6 +79,6 @@ const funcs: any = {
 
   IF: (state: any, path: string, comparison: string, value: any, trueSteps: any[] = [], falseSteps: any[] = []) => {
     const result = funcs.CHECK(state, path, comparison, value)
-    return result ? trueSteps: falseSteps
+    return {addSteps: result ? trueSteps: falseSteps}
   }
 }

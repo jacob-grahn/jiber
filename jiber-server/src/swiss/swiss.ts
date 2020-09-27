@@ -19,6 +19,7 @@ export const DELETE = 'DELETE'
 export const ADD = 'ADD'
 export const PUSH = 'PUSH'
 export const SPLICE = 'SPLICE'
+export const POP = 'POP'
 
 export const swiss = (state: SwissState = {}, action: any): SwissState => {
   const arrPath = action.path ? action.path : []
@@ -33,8 +34,6 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
       return set(state, path, undefined)
     case ADD:
       return set(state, path, oldValue + newValue)
-    case PUSH:
-      return get(state, path, []).push(newValue)
     case SPLICE:
       const { start, count, items } = action
       return set(state, path, splice(oldValue, start, count, ...items))
@@ -43,11 +42,9 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
     case POP:
       const arr = get(state, path)
       if (Array.isArray(arr) && arr.length > 0) {
-        const poppedValue = arr.pop()
-        set(state, destPath, poppedValue)
+        arr.pop()
       }
-      
-      set(state, destPath, value)
+      return state
     default:
       return state
   }
