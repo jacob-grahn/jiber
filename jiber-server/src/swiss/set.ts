@@ -14,6 +14,6 @@ export const set = (obj: any, path: string | string[], value: any): any => {
   } else {
     obj[key] = newValue
   }
-  
+
   return obj
 }
