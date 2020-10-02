@@ -14,7 +14,7 @@ export const parseParams = (state: any, param: string | number | boolean | undef
     return param
   }
   if (strRegex.test(param)) {
-    return param.substring(1, param.length - 2)
+    return param.substring(1, param.length - 1)
   }
 
   const path: string = parseParamsStr(state, param)
