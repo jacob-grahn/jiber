@@ -38,9 +38,10 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
       const { start, count, items } = action
       return set(state, path, splice(oldValue, start, count, ...items))
     case PUSH:
-      return get(state, path, []).push(newValue)
+      get(state, path, []).push(...newValue)
+      return state
     case POP:
-      const arr = get(state, path)
+      const arr: any[] = get(state, path, [])
       if (Array.isArray(arr) && arr.length > 0) {
         arr.pop()
       }
