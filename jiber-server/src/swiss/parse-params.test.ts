@@ -1,31 +1,29 @@
 import { parseParams } from './parse-params'
 
-test('numbers, undefined, and boolean should be left alone', () => {
+test('numbers, undefined, arrays and booleans should be left alone', () => {
   expect(parseParams(null, 1)).toBe(1)
   expect(parseParams(null, true)).toBe(true)
   expect(parseParams(null, undefined)).toBe(undefined)
+  expect(parseParams(null, [1])).toEqual([1])
 })
 
 test('quoted things should be strings', () => {
-  expect(parseParams(null, '"hi"')).toBe('hi')
-  expect(parseParams(null, "'hi'")).toBe('hi')
+  expect(parseParams(null, '"hi[there]"')).toBe('hi[there]')
+  expect(parseParams(null, "'hi[hello]'")).toBe('hi[hello]')
 })
 
-test('non quoted things should be paths', () => {
-  const state = { name: { first: 'sally', last: 'mcsalls' } }
-  expect(parseParams(state, 'name.first')).toBe('sally')
-  expect(parseParams(state, 'name.last')).toBe('mcsalls')
-  expect(parseParams(state, 'bad.path')).toBe(undefined)
+test('non quoted things should be left alone', () => {
+  expect(parseParams(null, 'name.first')).toBe('name.first')
 })
 
 test('brackets should be sub-paths', () => {
-  const state = { books: ['dune', 'fall'], reviews: { dune: 'sandy', fall: 'leafy' } }
-  expect(parseParams(state, 'reviews[books.0]')).toBe('sandy')
-  expect(parseParams(state, 'reviews[books.1]')).toBe('leafy')
+  const state = { books: ['dune', 'fall'] }
+  expect(parseParams(state, 'reviews[books.0]')).toBe('reviews.dune')
+  expect(parseParams(state, 'reviews[books.1]')).toBe('reviews.fall')
 })
 
 test('multiple brackets should be sub-paths', () => {
-  const state = { val1: 'aa', val2: 'bb', aa: { bb: 'yay' } }
-  expect(parseParams(state, '[val1][val2]')).toBe('yay')
-  expect(parseParams(state, '[val2][val1]')).toBe(undefined)
+  const state = { val1: 'aa', val2: 'bb' }
+  expect(parseParams(state, '[val1][val2]')).toBe('aa.bb')
+  expect(parseParams(state, '[val2][val1]')).toBe('bb.aa')
 })

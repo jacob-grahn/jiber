@@ -1,13 +1,16 @@
-import { get } from './get'
+// import { get } from './get'
 import { parseParamsStr } from './parse-params-str'
 
 const strRegex = new RegExp(`(^".*"$|^'.*'$)`)
 
-export const parseParams = (state: any, param: string | number | boolean | undefined) => {
+export const parseParams = (state: any, param: string | number | boolean | undefined | any[]) => {
   if (typeof param === 'number') {
     return param
   }
   if (typeof param === 'boolean') {
+    return param
+  }
+  if (Array.isArray(param)) {
     return param
   }
   if (param === undefined) {
@@ -18,5 +21,5 @@ export const parseParams = (state: any, param: string | number | boolean | undef
   }
 
   const path: string = parseParamsStr(state, param)
-  return get(state, path)
+  return path
 }

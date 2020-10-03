@@ -1,7 +1,8 @@
 import { get } from './get'
 import { parseParams } from './parse-params'
+import { determineAudience } from './determine-audience'
 
-export const runLogic = (reducer: any, state: any, steps: any[]) => {
+export const logic = (reducer: any, state: any, steps: any[]) => {
   const actionsPerformed = []
   for (let i = 0; i < steps.length; i++) {
     const step: any[] = steps[i]
@@ -10,8 +11,12 @@ export const runLogic = (reducer: any, state: any, steps: any[]) => {
     const result = funcs[func](state, ...parsedParams)
     if (result === false) {
       break
+    } else if (result === true) {
+      continue
     } else if (result && result.addSteps) {
-      steps.splice(i, 0, ...result.addSteps)
+      if (result.addSteps.length > 0) {
+        steps.splice(i + 1, 0, ...result.addSteps)
+      }
     } else if (Array.isArray(result)) {
       result.forEach(action => {
         reducer(state, action)
@@ -22,6 +27,7 @@ export const runLogic = (reducer: any, state: any, steps: any[]) => {
       actionsPerformed.push(result)
     }
   }
+  actionsPerformed.forEach(determineAudience)
   return actionsPerformed
 }
 
@@ -45,7 +51,7 @@ const funcs: any = {
     if (Array.isArray(arr) && arr.length > 0) {
       return [
         { type: 'POP', path },
-        { type: 'SET', path: destPath, value: arr[-1] }
+        { type: 'SET', path: destPath, value: arr[arr.length - 1] }
       ]
     }
   },
@@ -60,11 +66,16 @@ const funcs: any = {
     }
   },
 
-  CHECK: (state: any, path: string, comparison: string, val2: any) => {
-    const val1 = get(state, path)
+  CHECK: (state: any, path1: string, comparison: string, path2: any) => {
+    const val1: any = parseParams(state, path1)
+    const val2: any = parseParams(state, path2)
     switch (comparison) {
       case '==':
         return val1 === val2
+      case '>':
+        return val1 > val2
+      case '<':
+        return val1 < val2
       case '>=':
         return val1 >= val2
       case '<=':

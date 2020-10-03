@@ -2,7 +2,7 @@ export const determineAudience = (action: any) => {
 
   // actions on the root path can't be private
   if (!action.path) {
-    return
+    return action
   }
 
   // break the path up, cuz we'll need to look at it
@@ -14,7 +14,7 @@ export const determineAudience = (action: any) => {
     const privateUserBits = userBits.filter((bit: string) => bit.charAt(0) === '_')
     if (privateUserBits.length > 0) {
       action.$sendOnlyTo = bits[1]
-      return
+      return action
     }
   }
 
@@ -23,4 +23,6 @@ export const determineAudience = (action: any) => {
   if (privateBits.length > 0) {
     action.$doNotSend = true
   }
+
+  return action
 }
