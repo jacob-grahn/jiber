@@ -1,4 +1,3 @@
-// import { get } from './get'
 import { parseParamsStr } from './parse-params-str'
 
 const strRegex = new RegExp(`(^".*"$|^'.*'$)`)

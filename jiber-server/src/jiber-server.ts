@@ -13,7 +13,7 @@ import {
 import { PACKET_FROM_CLIENT, SEND_TO_CONNECTION } from './constants'
 
 export class JiberServer {
-  private settings: ServerSettings
+  public settings: ServerSettings
   public socketServer: SocketServer
   private docs: { [key: string]: DocStream } = {}
 
