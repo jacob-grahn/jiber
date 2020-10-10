@@ -5,7 +5,7 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
   const doc = server.getDoc(action.doc)
   const type = action.type as string
   let logic = doc.state._logic
-  
+
   // Set logic, but only if the doc hasn't has logic set yet
   if (!logic && action.user._logic) {
     logic = action.user._logic
@@ -17,10 +17,7 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
     const steps = logic[type]
     const actions = logic(server.settings.reducer, doc.state, steps)
     actions.forEach((stepAction: Action) => next(stepAction))
-  }
-
-  // otherwise continue do nothing
-  else {
+  } else {
     next(action)
   }
 }

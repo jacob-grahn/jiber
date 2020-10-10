@@ -1,4 +1,5 @@
 import { get } from '../../swiss/get'
+import { parseParams } from './parse-params'
 
 export const funcs: any = {
 
