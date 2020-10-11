@@ -1,4 +1,6 @@
-export const determineAudience = (action: any) => {
+import { Action } from '../../interfaces/action'
+
+export const determineAudience = (action: Action) => {
 
   // actions on the root path can't be private
   if (!action.path) {

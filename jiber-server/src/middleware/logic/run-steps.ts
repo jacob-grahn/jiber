@@ -1,9 +1,8 @@
-import { determineAudience } from './determine-audience'
 import { funcs } from './funcs'
 import { parseParams } from './parse-params'
 
-export const runSteps = (reducer: any, state: any, steps: any[]) => {
-  const actionsPerformed = []
+export const runSteps = (state: any, steps: any[]) => {
+  const actionsToPerform = []
   for (let i = 0; i < steps.length; i++) {
     const step: any[] = steps[i]
     const [func, ...params] = step
@@ -19,14 +18,11 @@ export const runSteps = (reducer: any, state: any, steps: any[]) => {
       }
     } else if (Array.isArray(result)) {
       result.forEach(action => {
-        reducer(state, action)
-        actionsPerformed.push(action)
+        actionsToPerform.push(action)
       })
     } else if (result) {
-      reducer(state, result)
-      actionsPerformed.push(result)
+      actionsToPerform.push(result)
     }
   }
-  actionsPerformed.forEach(determineAudience)
-  return actionsPerformed
+  return actionsToPerform
 }
