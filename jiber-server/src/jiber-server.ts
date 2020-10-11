@@ -8,7 +8,8 @@ import {
   init,
   openAndClose,
   wrtc,
-  securityRules
+  securityRules,
+  logicMiddleware
 } from './middleware'
 import { PACKET_FROM_CLIENT, SEND_TO_CONNECTION } from './constants'
 
@@ -25,6 +26,7 @@ export class JiberServer {
       openAndClose,
       ...this.settings.middleware,
       wrtc,
+      logicMiddleware,
       securityRules(this.settings.securityRules),
       broadcast
     ])
