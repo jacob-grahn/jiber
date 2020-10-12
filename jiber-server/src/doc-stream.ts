@@ -40,7 +40,13 @@ export class DocStream extends EventEmitter {
 
   public addAction = (action: any) => {
     const message = typeof action === 'string' ? action : JSON.stringify(action)
-    this.sendToMembers(message)
+    if (!action.$doNotSend) {
+      if (action.$sendOnlyTo) {
+        this.sendToMember(action.$sendOnlyTo, message)
+      } else {
+        this.sendToMembers(message)
+      }
+    }
     this.state = this.reducer(this.state, action)
   }
 
