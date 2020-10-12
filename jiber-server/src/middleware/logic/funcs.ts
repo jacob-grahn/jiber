@@ -37,8 +37,8 @@ export const funcs: any = {
   },
 
   CHECK: (state: any, path1: string, comparison: string, path2: any) => {
-    const val1: any = parseParams(state, path1)
-    const val2: any = parseParams(state, path2)
+    const val1: any = parseParams(state, path1, true)
+    const val2: any = parseParams(state, path2, true)
     switch (comparison) {
       case '==':
         return val1 === val2
