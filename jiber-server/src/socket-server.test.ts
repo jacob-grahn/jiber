@@ -79,7 +79,7 @@ test('Reject unauthorized', async () => {
 
 test('Send actions from client to backend', async () => {
   const verifyClient = (info: any) => {
-    info.req.jiberUserData = { name: 'sally' }
+    info.req.verified = { name: 'sally' }
     return true
   }
   const server = new SocketServer({ port: 8089, verifyClient })
@@ -104,7 +104,7 @@ test('Send actions from client to backend', async () => {
 
 test('Send actions from backend to clients', async () => {
   const verifyClient = (info: any) => {
-    info.req.jiberUserData = { userId: 'abcde' }
+    info.req.verified = { userId: 'abcde' }
     return true
   }
   const server = new SocketServer({ port: 8090, verifyClient })

@@ -1,6 +1,5 @@
 import * as WS from 'ws'
 import { Action } from './action'
-import { v4 as uuidv4 } from 'uuid'
 import { logger } from './utils/logger'
 import { default as EventEmitter } from 'events'
 import { WELCOME, SERVER, PACKET_FROM_CLIENT } from './constants'
@@ -13,7 +12,7 @@ export class ConnectionToClient extends EventEmitter {
 
   constructor (socket: WS, user: any) {
     super()
-    this.id = uuidv4()
+    this.id = user.userId
     this.user = user
     this.socket = socket
     socket.on('message', this.onMessage)

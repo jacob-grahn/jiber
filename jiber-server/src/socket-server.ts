@@ -48,9 +48,9 @@ export class SocketServer extends EventEmitter {
   }
 
   private onConnection = (ws: WS, request: any) => {
-    const user = request.jiberUserData
+    const user = request.verified
+    const connectionId = user.userId
     const connection = new ConnectionToClient(ws, user)
-    const connectionId = connection.getId()
     this.connectionMap[connectionId] = connection
 
     // event handlers
