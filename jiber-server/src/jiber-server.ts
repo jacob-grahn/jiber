@@ -7,8 +7,8 @@ import {
   broadcast,
   init,
   openAndClose,
+  users,
   wrtc,
-  securityRules,
   logicMiddleware
 } from './middleware'
 import { PACKET_FROM_CLIENT, SEND_TO_CONNECTION } from './constants'
@@ -23,11 +23,11 @@ export class JiberServer {
     this.socketServer = new SocketServer(this.settings)
     const middleware: any = linkMiddleware(this, [
       init,
+      users,
       openAndClose,
       ...this.settings.middleware,
       wrtc,
       logicMiddleware,
-      securityRules(this.settings.securityRules),
       broadcast
     ])
     this.socketServer.on(PACKET_FROM_CLIENT, middleware)

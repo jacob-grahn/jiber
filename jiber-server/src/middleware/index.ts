@@ -1,6 +1,7 @@
 export * from './broadcast'
 export * from './init'
 export * from './open-and-close'
+export * from './users'
 export * from './security-rules'
 export * from './wrtc'
 export * from './logic/logic'
