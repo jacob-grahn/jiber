@@ -67,10 +67,7 @@ export class Doc {
         stepAction.id = action.id
         this.sendToStore(stepAction)
       })
-    }
-    
-    // otherwise just apply the action locally
-    else {
+    } else {
       this.sendToStore(action)
     }
   }
