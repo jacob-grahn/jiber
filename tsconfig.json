@@ -10,8 +10,8 @@
         "strictFunctionTypes": true,
         "strictNullChecks": true,
         "sourceMap": false,
-        "target": "es2020",
-        "lib": ["es2020"],
+        "target": "es2019",
+        "lib": ["es2019"],
         "esModuleInterop": true
     },
     "include": [

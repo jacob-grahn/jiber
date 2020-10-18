@@ -2,9 +2,9 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "module": "es6",
-        "target": "es2017",
+        "target": "es2019",
         "outDir": "dist/es6",
-        "lib": ["es6", "DOM"]
+        "lib": ["es6", "DOM", "es2020.string"]
     },
     "include": [
         "src/**/*.ts"

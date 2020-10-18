@@ -9,7 +9,8 @@ export interface CustomSettings {
   maxPeers?: number,
   reducer?: Reducer,
   stunServers?: string[],
-  url?: string
+  url?: string,
+  logic?: any[]
 }
 
 export class Settings {
@@ -22,6 +23,7 @@ export class Settings {
   public reducer: Reducer = swiss
   public stunServers: string[] = []
   public url?: string = 'ws://localhost:8080'
+  public logic?: any[]
 
   constructor (custom: CustomSettings) {
     Object.assign(this, custom)
