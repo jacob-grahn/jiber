@@ -30,27 +30,27 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
     doc.state._logic = action.user._logic
   }
 
-  // shortcut variable
-  const logic = doc.state._logic
-
   // if the doc does not have logic set, then this middlware will do nothing
-  if (!logic) {
+  if (!doc.state || !doc.state.logic) {
     next(action)
     return
   }
 
-  // if there is logic, throw out actions that don't use one of the logic types
-  if (!logic[type]) {
+  // run logic and send out the resulting actions
+  const logic = doc.state._logic
+  if (logic[type]) {
+    const steps = logic[type]
+    const actions = runSteps(doc.state, steps)
+    actions.forEach((stepAction: Action) => {
+      stepAction = determineAudience(stepAction)
+      stepAction.id = action.id
+      stepAction.trust = SERVER
+      next(stepAction)
+    })
     return
   }
 
-  // run logic and send out the resulting actions
-  const steps = logic[type]
-  const actions = runSteps(doc.state, steps)
-  actions.forEach((stepAction: Action) => {
-    stepAction = determineAudience(stepAction)
-    stepAction.id = action.id
-    stepAction.trust = SERVER
-    next(stepAction)
-  })
+  // catchall
+  // TODO: need to make sure people to call SET, etc directly
+  next(action)
 }
