@@ -31,7 +31,7 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
   }
 
   // if the doc does not have logic set, then this middlware will do nothing
-  if (!doc.state || !doc.state.logic) {
+  if (!doc.state || !doc.state._logic) {
     next(action)
     return
   }
@@ -52,5 +52,5 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
 
   // catchall
   // TODO: need to make sure people to call SET, etc directly
-  next(action)
+  // next(action)
 }
