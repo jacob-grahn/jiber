@@ -21,7 +21,7 @@ export const runHorizontalApp = async (): Promise<any> => {
   const doc2 = client2.open('so-ha')
   doc1.dispatchers.set('doc1', 'was here')
   doc2.dispatchers.set('doc2', 'knows all')
-  await sleep(500)
+  await sleep(1000)
 
   // shut down the servers to make sure wrtc wtill works
   server1.close()
@@ -35,6 +35,7 @@ export const runHorizontalApp = async (): Promise<any> => {
   client1.close()
   client2.close()
   closeAllConnections()
+  await sleep(100)
 
   // return test results
   return {

@@ -39,6 +39,7 @@ export class PeerGroup {
 
   public close = (): void => {
     Object.keys(this.peers).forEach(peerId => {
+      console.log('DEBUG', 'peer-group.close', peerId, 'close')
       this.peers[peerId].close()
       delete this.peers[peerId]
     })
