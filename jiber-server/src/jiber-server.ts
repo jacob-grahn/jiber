@@ -7,7 +7,7 @@ import {
   broadcast,
   init,
   openAndClose,
-  users,
+  //users,
   wrtc,
   logicMiddleware
 } from './middleware'
@@ -23,7 +23,7 @@ export class JiberServer {
     this.socketServer = new SocketServer(this.settings)
     const middleware: any = linkMiddleware(this, [
       init,
-      users,
+      //users,
       openAndClose,
       ...this.settings.middleware,
       wrtc,

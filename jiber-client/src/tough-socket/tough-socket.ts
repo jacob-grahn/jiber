@@ -45,7 +45,7 @@ export class ToughSocket {
   }
 
   public close = () => {
-    const socket = this.socket
+    const socket: any = this.socket
     if (socket) {
       delete socket.onclose
       socket.close()

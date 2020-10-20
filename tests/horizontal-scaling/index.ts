@@ -1,6 +1,6 @@
 import JiberClient from 'jiber-client'
 import JiberServer from 'jiber-server'
-import { jiberRedis, closeAllConnections } from 'jiber-redis'
+import { jiberRedis, closeJiberRedis } from 'jiber-redis'
 
 const sleep = (ms: number): Promise<void> => {
   return new Promise(resolve => {
@@ -21,7 +21,7 @@ export const runHorizontalApp = async (): Promise<any> => {
   const doc2 = client2.open('so-ha')
   doc1.dispatchers.set('doc1', 'was here')
   doc2.dispatchers.set('doc2', 'knows all')
-  await sleep(1000)
+  await sleep(2000)
 
   // shut down the servers to make sure wrtc wtill works
   server1.close()
@@ -34,7 +34,7 @@ export const runHorizontalApp = async (): Promise<any> => {
   // close all connections to end the test
   client1.close()
   client2.close()
-  closeAllConnections()
+  closeJiberRedis()
   await sleep(100)
 
   // return test results

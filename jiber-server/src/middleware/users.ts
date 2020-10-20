@@ -8,15 +8,17 @@ export const users = (_server: JiberServer) => (next: Function) => (action: Acti
     next({
       type: 'SET',
       trust: SERVER,
-      path: `$users.${action.user.id}`,
-      value: action.user
+      path: `$users.${action.user.userId}`,
+      value: action.user,
+      doc: action.doc
     })
   } else if (action.type === CLOSE) {
     next({
       type: 'SET',
       trust: SERVER,
-      path: `$users.${action.user.id}`,
-      value: null
+      path: `$users.${action.user.userId}`,
+      value: null,
+      doc: action.doc
     })
     next(action)
   } else {

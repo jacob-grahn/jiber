@@ -20,9 +20,11 @@ export class Receiver {
   }
 
   public start = (lastActionTime: string = '0') => {
-    this.lastActionTime = lastActionTime
-    this.active = true
-    this.fetchLoop()
+    if (this.active === false) {
+      this.lastActionTime = lastActionTime
+      this.active = true
+      this.fetchLoop()
+    }
   }
 
   public stop = () => {

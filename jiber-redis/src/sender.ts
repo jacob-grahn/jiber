@@ -18,7 +18,6 @@ export class Sender {
   }
 
   public send = async (action: any) => {
-    if (!this.docId) return
     const conn = getConnection(this.host, this.port, 'sender')
     const strAction = JSON.stringify(action)
     const result = await conn.xadd(
