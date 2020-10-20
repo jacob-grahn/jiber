@@ -5,22 +5,24 @@
   "main": "index.js",
   "scripts": {
     "lint": "echo 'no lint here'",
-    "test": "docker-compose up -d && jest horizontal-scaling --coverage --runInBand && jest chat-app --ci --coverage --runInBand && docker-compose down || docker-compose down",
+    "test": "./run-test.sh horizontal-scaling && ./run-test.sh chat-app",
+    "test-horizontal-scaling": "./run-test.sh horizontal-scaling",
+    "test-chat-app": "./run-test.sh chat-app",
     "build": "tsc"
   },
   "author": "Jacob Grahn",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^26.0.0",
-    "jest": "^26.0.1",
-    "ts-jest": "^26.1.0",
-    "typescript": "^3.9.5"
+    "@types/jest": "^26.0.14",
+    "jest": "^26.6.0",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
   },
   "dependencies": {
     "crypto": "^1.0.1",
     "jiber-client": "file:../jiber-client",
     "jiber-redis": "file:../jiber-redis",
     "jiber-server": "file:../jiber-server",
-    "wrtc": "^0.4.5"
+    "wrtc": "^0.4.6"
   }
 }
