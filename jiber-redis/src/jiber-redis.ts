@@ -14,7 +14,7 @@ const closeFuncs: Function[] = []
 export const jiberRedis = (input: JiberRedisInput) => (server: any) => (next: Function) => {
   const settings: JiberRedisSettings = { ...defaultSettings, ...input }
   const workers: {[key: string]: DocWorker} = {}
-  
+
   // register a function to close all of these redis workers...
   const close = () => {
     Object.values(workers).forEach((worker) => {
