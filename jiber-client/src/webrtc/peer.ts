@@ -17,6 +17,7 @@ export class Peer {
   private channel?: RTCDataChannel
   private channelSettings = { ordered: false, maxRetransmits: 0 }
   private stunServers: string[]
+  private cachedCandidates: any[] = []
 
   constructor (
     docId: string,
@@ -55,8 +56,17 @@ export class Peer {
       await this.sendAnswer(action.offer)
     } else if (action.type === WEBRTC_ANSWER) {
       await this.connection.setRemoteDescription(action.answer)
+      await this.drainCachedCandidates()
     } else if (action.type === WEBRTC_CANDIDATE) {
-      await this.connection.addIceCandidate(action.candidate)
+      try {
+        if (this.connection.currentRemoteDescription) {
+          await this.connection.addIceCandidate(action.candidate)
+        } else {
+          this.cachedCandidates.push(action.candidate)
+        }
+      } catch (e) {
+        console.log('could not set ice candidate', e, action)
+      }
     }
   }
 
@@ -64,7 +74,14 @@ export class Peer {
     if (this.connection) {
       this.connection.close()
     }
-    delete this.connection
+  }
+
+  private drainCachedCandidates = async () => {
+    for (let i = 0; i < this.cachedCandidates.length; i++) {
+      const candidate = this.cachedCandidates[i]
+      await this.connection.addIceCandidate(candidate)
+    }
+    this.cachedCandidates = []
   }
 
   private open = () => {
@@ -110,6 +127,7 @@ export class Peer {
       answer,
       peerId: this.peerId
     }))
+    await this.drainCachedCandidates()
   }
 
   private createChannel = (name: string = 'data') => {
