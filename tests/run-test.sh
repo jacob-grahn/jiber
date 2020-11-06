@@ -5,7 +5,7 @@ test=$1
 docker-compose up -d
 
 # run test
-jest $test --detectOpenHandles
+jest $test --forceExit --runInBand
 exitcode=$?
 
 # stop redis
