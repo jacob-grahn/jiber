@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "echo 'no lint here'",
-    "test": "./run-test.sh horizontal-scaling && ./run-test.sh chat-app",
+    "test": "./run-test.sh horizontal-scaling && jest chat-app --forceExit --runInBand && jest card-game --forceExit --runInBand",
     "test-horizontal-scaling": "./run-test.sh horizontal-scaling",
-    "test-chat-app": "./run-test.sh chat-app",
+    "test-card-game": "jest card-game --forceExit --runInBand",
+    "test-chat-app": "jest chat-app --forceExit --runInBand",
     "build": "tsc"
   },
   "author": "Jacob Grahn",

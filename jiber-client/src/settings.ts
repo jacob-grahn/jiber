@@ -10,7 +10,7 @@ export interface CustomSettings {
   reducer?: Reducer,
   stunServers?: string[],
   url?: string,
-  logic?: any[]
+  logic?: {}
 }
 
 export class Settings {
@@ -23,7 +23,7 @@ export class Settings {
   public reducer: Reducer = swiss
   public stunServers: string[] = []
   public url?: string = 'ws://localhost:8080'
-  public logic?: any[]
+  public logic?: {}
 
   constructor (custom: CustomSettings) {
     Object.assign(this, custom)
