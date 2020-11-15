@@ -20,7 +20,7 @@ export class Doc {
   private id: string
   private store: FlexStore
   private peerGroup: PeerGroup
-  private logic: any[] | undefined
+  private logic: any
 
   constructor (id: string, sendToServer: Function, settings: Settings) {
     this.id = id
@@ -62,11 +62,14 @@ export class Doc {
     // if we have custom logic, use it
     if (this.logic) {
       const state = this.store.getState(SELF)
-      const actions = runSteps(state, this.logic)
-      actions.forEach((stepAction: Action) => {
-        stepAction.id = action.id
-        this.sendToStore(stepAction)
-      })
+      const steps: any[] | undefined = this.logic[String(action.type)]
+      if (steps) {
+        const actions = runSteps(state, steps)
+        actions.forEach((stepAction: Action) => {
+          stepAction.id = action.id
+          this.sendToStore(stepAction)
+        })
+      }
     } else {
       this.sendToStore(action)
     }
