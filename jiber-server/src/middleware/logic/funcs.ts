@@ -8,7 +8,7 @@ export const funcs: any = {
   },
 
   ADD: (state: any, path: string, value: any) => {
-    const newValue = get(state, path) + value
+    const newValue = (get(state, path) || 0) + value
     return { type: 'SET', path, value: newValue }
   },
 
@@ -54,8 +54,6 @@ export const funcs: any = {
         return new RegExp(val2).test(val1)
       case '!=':
         return val1 !== val2
-      case '?':
-        return !!val1 === val2
     }
   },
 

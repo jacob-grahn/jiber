@@ -5,17 +5,21 @@ test('SET', () => {
   const steps = [
     ['SET', 'building.age', 7]
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([{ type: 'SET', path: 'building.age', value: 7 }])
 })
 
 test('ADD', () => {
   const state: any = { count: 5 }
   const steps = [
-    ['ADD', 'count', 1]
+    ['ADD', 'count', 1],
+    ['ADD', 'minions', 3]
   ]
-  const actions = runSteps(state, steps)
-  expect(actions).toEqual([{ type: 'SET', path: 'count', value: 6 }])
+  const actions = runSteps(state, steps, null)
+  expect(actions).toEqual([
+    { type: 'SET', path: 'count', value: 6 },
+    { type: 'SET', path: 'minions', value: 3 }
+  ])
 })
 
 test('PUSH', () => {
@@ -23,7 +27,7 @@ test('PUSH', () => {
   const steps = [
     ['PUSH', 'arr', [3]]
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([{ type: 'PUSH', path: 'arr', value: [3] }])
 })
 
@@ -32,7 +36,7 @@ test('POP', () => {
   const steps = [
     ['POP', 'arr', 'result']
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
     { type: 'POP', path: 'arr' },
     { type: 'SET', path: 'result', value: 2 }
@@ -44,7 +48,7 @@ test('SPLICE', () => {
   const steps = [
     ['SPLICE', 'arr', 1, 1, 'result', 5, 5, 5]
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
     { type: 'SPLICE', path: 'arr', start: 1, count: 1, items: [5, 5, 5] },
     { type: 'SET', path: 'result', value: [2] }
@@ -59,7 +63,7 @@ test('CHECK', () => {
     ['CHECK', 1, '>', 2],
     ['SET', 'building.color', 'blue']
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
   ])
@@ -75,7 +79,7 @@ test('IF', () => {
       ['SET', 'building.age', 7]
     ]]
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
   ])
@@ -90,8 +94,31 @@ test('IF else', () => {
       ['SET', 'building.age', 7]
     ]]
   ]
-  const actions = runSteps(state, steps)
+  const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
+  ])
+})
+
+test('RUN', () => {
+  const state: any = {}
+  const logic = {
+    GROW_TREE: [
+      ['ADD', 'treeCount', 1]
+    ],
+    GROW_BUSHES: [
+      ['ADD', 'redBushCount', 1],
+      ['ADD', 'greenBushCount', 2]
+    ]
+  }
+  const steps = [
+    ['RUN', 'GROW_TREE'],
+    ['RUN', 'GROW_BUSHES']
+  ]
+  const actions = runSteps(state, steps, logic)
+  expect(actions).toEqual([
+    { type: 'SET', path: 'treeCount', value: 1 },
+    { type: 'SET', path: 'redBushCount', value: 1 },
+    { type: 'SET', path: 'greenBushCount', value: 2 }
   ])
 })

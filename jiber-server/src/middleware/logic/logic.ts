@@ -40,7 +40,7 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
   const logic = doc.state._logic
   if (logic[type]) {
     const steps = logic[type]
-    const actions = runSteps(doc.state, steps)
+    const actions = runSteps(doc.state, steps, logic)
     actions.forEach((stepAction: Action) => {
       stepAction = determineAudience(stepAction)
       stepAction.id = action.id
