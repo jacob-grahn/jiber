@@ -17,8 +17,8 @@ test('ADD', () => {
   ]
   const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
-    { type: 'SET', path: 'count', value: 6 },
-    { type: 'SET', path: 'minions', value: 3 }
+    { type: 'ADD', path: 'count', value: 1 },
+    { type: 'ADD', path: 'minions', value: 3 }
   ])
 })
 
@@ -37,10 +37,13 @@ test('POP', () => {
     ['POP', 'arr', 'result']
   ]
   const actions = runSteps(state, steps, null)
-  expect(actions).toEqual([
-    { type: 'POP', path: 'arr' },
-    { type: 'SET', path: 'result', value: 2 }
-  ])
+  expect(actions).toEqual([{
+    type: 'SPLICE',
+    path: 'arr',
+    destPath: 'result',
+    start: -1,
+    count: 1
+  }])
 })
 
 test('SPLICE', () => {
@@ -50,8 +53,7 @@ test('SPLICE', () => {
   ]
   const actions = runSteps(state, steps, null)
   expect(actions).toEqual([
-    { type: 'SPLICE', path: 'arr', start: 1, count: 1, items: [5, 5, 5] },
-    { type: 'SET', path: 'result', value: [2] }
+    { type: 'SPLICE', path: 'arr', destPath: 'result', start: 1, count: 1, items: [5, 5, 5] }
   ])
 })
 
@@ -117,8 +119,8 @@ test('RUN', () => {
   ]
   const actions = runSteps(state, steps, logic)
   expect(actions).toEqual([
-    { type: 'SET', path: 'treeCount', value: 1 },
-    { type: 'SET', path: 'redBushCount', value: 1 },
-    { type: 'SET', path: 'greenBushCount', value: 2 }
+    { type: 'ADD', path: 'treeCount', value: 1 },
+    { type: 'ADD', path: 'redBushCount', value: 1 },
+    { type: 'ADD', path: 'greenBushCount', value: 2 }
   ])
 })

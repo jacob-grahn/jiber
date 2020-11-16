@@ -62,7 +62,7 @@ export class Doc {
     // if we have custom logic, use it
     if (this.logic) {
       const state = this.store.getState(SELF)
-      const steps: any[] | undefined = this.logic[String(action.type)]
+      const steps: any[] | undefined = [...this.logic[String(action.type)]]
       if (steps) {
         const actions = runSteps(state, steps, this.logic)
         actions.forEach((stepAction: Action) => {

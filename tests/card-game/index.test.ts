@@ -1,8 +1,8 @@
 import { runCardGame } from './index'
 
-test('chat history', async () => {
+test('card game', async () => {
   const state = await runCardGame()
   const expectedState = {name: 'bloop'}
-  expect(state.state1.messages).toEqual(expectedState)
-  expect(state.state2.messages).toEqual(expectedState)
+  expect(state.state1).toEqual(expectedState)
+  expect(state.state2).toEqual(expectedState)
 })

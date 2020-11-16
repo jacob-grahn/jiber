@@ -15,7 +15,11 @@ export const parseParams = (state: any, param: any, getValue: boolean = false) =
   const path: string = parseParamsStr(state, param)
 
   if (getValue) {
-    return get(state, path)
+    const value = get(state, path)
+    if (value === undefined) {
+      return null
+    }
+    return value
   } else {
     return path
   }

@@ -54,6 +54,8 @@ export const funcs: any = {
         return new RegExp(val2).test(val1)
       case '!=':
         return val1 !== val2
+      case '?':
+        return (val1 !== null) === val2
     }
   },
 
