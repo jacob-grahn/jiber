@@ -37,13 +37,17 @@ test('PUSH string on to empty value', () => {
 })
 
 test(SPLICE, () => {
-  const state = { aria: ['Littlefinger', 'The Mountain'] }
+  const state = { people: ['Littlefinger', 'The Mountain'] }
   const action = {
     type: SPLICE,
-    path: 'aria',
+    path: 'people',
+    destPath: 'badPeople',
     start: 0,
     count: 1,
     items: ['Red Lady']
   }
-  expect(swiss(state, action)).toEqual({ aria: ['Red Lady', 'The Mountain'] })
+  expect(swiss(state, action)).toEqual({
+    people: ['Red Lady', 'The Mountain'],
+    badPeople: ['Littlefinger']
+  })
 })

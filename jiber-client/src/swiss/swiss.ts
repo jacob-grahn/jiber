@@ -39,7 +39,7 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
     case SPLICE:
       const { start, count, items, destPath } = action
       if (destPath) {
-        set(state, destPath, toArray(oldValue).slice(start, start + count))
+        state = set(state, destPath, toArray(oldValue).slice(start, start + count))
       }
       return set(state, path, splice(oldValue, start, count, ...items))
     default:
