@@ -19,9 +19,12 @@ export class JiberClient {
     this.settings = new Settings(customSettings)
     this.socket = new ToughSocket(this.settings)
     this.socket.onmessage = this.receiveFromServer
+    if (this.settings.logic) {
+      this.send({ type: 'SET_LOGIC', logic: this.settings.logic })
+    }
   }
 
-  public send = (action: Action): void => {
+  public send = (action: {}): void => {
     this.socket.send(JSON.stringify(action))
   }
 

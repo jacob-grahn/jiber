@@ -43,7 +43,7 @@ test('set doc logic', () => {
   expect(doc.state._logic).toEqual(logic) // logic was not changed to cheatLogic
 })
 
-test('pass along actions is doc has no logic', () => {
+test('pass along actions if doc has no logic', () => {
   const doc: any = { state: {} }
   const server: any = { getDoc: () => doc }
   let passedAction: any

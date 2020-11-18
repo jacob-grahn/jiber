@@ -8,7 +8,7 @@ export class DocStream extends EventEmitter {
   private members: string[] = []
   private reducer: Function
   private docId: string
-  public state: any = undefined
+  public state: any = {}
 
   constructor (docId: string = 'default', reducer: Function = emptyFunc) {
     super()

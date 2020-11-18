@@ -1,7 +1,6 @@
 import { JiberServer } from '../../jiber-server'
 import { Action } from '../../interfaces/action'
 import { SERVER } from '../../constants/trust-levels'
-import { OPEN } from '../../constants/action-types'
 import { runSteps } from './run-steps'
 import { determineAudience } from './determine-audience'
 
@@ -26,8 +25,12 @@ export const logicMiddleware = (server: JiberServer) => (next: Function) => (act
   const doc = server.getDoc(action.doc)
 
   // Set a doc's logic when it is opened, but only if the doc hasn't had logic set yet
-  if (type === OPEN && !doc.state._logic && action.user._logic) {
-    doc.state._logic = action.user._logic
+  if (doc.state._logic === undefined) {
+    if (action.user && action.user._logic) {
+      doc.state._logic = action.user._logic
+    } else {
+      doc.state._logic = null
+    }
   }
 
   // if the doc does not have logic set, then this middlware will do nothing

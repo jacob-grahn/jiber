@@ -24,12 +24,13 @@ export const runCardGame = async (): Promise<{state1: any, state2: any}> => {
   // init player 2
   game2.dispatch({ type: "INIT" })
   await sleep(50)
-  console.log(game1.getState(0))
 
   // play cards
   game1.dispatch({ type: "PLAY_CARD", cardIndex: 0 })
   game2.dispatch({ type: "PLAY_CARD", cardIndex: 0 })
   await sleep(50)
+  console.log(game1.getState(0))
+
   
   // close all connections to end the test
   server.close()
