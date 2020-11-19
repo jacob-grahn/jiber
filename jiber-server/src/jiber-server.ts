@@ -8,8 +8,7 @@ import {
   init,
   openAndClose,
   // users,
-  wrtc,
-  logicMiddleware
+  wrtc
 } from './middleware'
 import { PACKET_FROM_CLIENT, SEND_TO_CONNECTION } from './constants'
 
@@ -27,7 +26,6 @@ export class JiberServer {
       openAndClose,
       ...this.settings.middleware,
       wrtc,
-      logicMiddleware,
       broadcast
     ])
     this.socketServer.on(PACKET_FROM_CLIENT, middleware)

@@ -1,4 +1,4 @@
-import { get } from '../../swiss/get'
+import { get } from '../swiss/get'
 import { parseParams } from './parse-params'
 
 export const funcs: any = {
@@ -7,9 +7,8 @@ export const funcs: any = {
     return { type: 'SET', path, value }
   },
 
-  ADD: (state: any, path: string, value: any) => {
-    const newValue = (get(state, path) || 0) + value
-    return { type: 'SET', path, value: newValue }
+  ADD: (_state: any, path: string, value: any) => {
+    return { type: 'ADD', path, value }
   },
 
   PUSH: (_state: any, path: string, value: any) => {
@@ -19,20 +18,14 @@ export const funcs: any = {
   POP: (state: any, path: string, destPath: string) => {
     const arr: any[] = get(state, path)
     if (Array.isArray(arr) && arr.length > 0) {
-      return [
-        { type: 'POP', path },
-        { type: 'SET', path: destPath, value: arr[arr.length - 1] }
-      ]
+      return { type: 'POP', path, destPath }
     }
   },
 
   SPLICE: (state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
     const arr: any[] = get(state, path)
     if (Array.isArray(arr) && arr.length > 0) {
-      return [
-        { type: 'SPLICE', path, start, count, items },
-        { type: 'SET', path: destPath, value: arr.slice(start, start + count) }
-      ]
+      return { type: 'SPLICE', path, start, count, items, destPath }
     }
   },
 

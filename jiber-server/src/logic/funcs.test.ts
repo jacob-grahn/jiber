@@ -7,7 +7,7 @@ test('SET', () => {
 
 test('ADD', () => {
   const result = funcs.ADD({ tally: 10 }, 'tally', 55)
-  expect(result).toEqual({ type: 'SET', path: 'tally', value: 65 })
+  expect(result).toEqual({ type: 'ADD', path: 'tally', value: 55 })
 })
 
 test('PUSH', () => {
@@ -17,18 +17,19 @@ test('PUSH', () => {
 
 test('POP', () => {
   const result = funcs.POP({ arr: [1,2] }, 'arr', 'dest.path')
-  expect(result).toEqual([
-    { type: 'POP', path: 'arr' },
-    { type: 'SET', path: 'dest.path', value: 2 }
-  ])
+  expect(result).toEqual({ type: 'POP', path: 'arr', destPath: 'dest.path' })
 })
 
 test('SPLICE', () => {
   const result = funcs.SPLICE({ arr: [1,2] }, 'arr', 0, 2, 'dest.path', 3, 4)
-  expect(result).toEqual([
-    { type: 'SPLICE', path: 'arr', start: 0, count: 2, items: [3, 4] },
-    { type: 'SET', path: 'dest.path', value: [1,2] }
-  ])
+  expect(result).toEqual({ 
+    type: 'SPLICE', 
+    path: 'arr', 
+    start: 0, 
+    count: 2, 
+    items: [3, 4], 
+    destPath: 'dest.path'
+  })
 })
 
 test('CHECK', () => {

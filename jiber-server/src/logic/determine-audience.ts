@@ -1,4 +1,4 @@
-import { Action } from '../../interfaces/action'
+import { Action } from '../interfaces/action'
 
 export const determineAudience = (action: Action) => {
 

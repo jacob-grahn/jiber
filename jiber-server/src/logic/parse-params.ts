@@ -1,4 +1,4 @@
-import { get } from '../../swiss/get'
+import { get } from '../swiss/get'
 import { parseParamsStr } from './parse-params-str'
 
 const strRegex = new RegExp(`(^".*"$|^'.*'$)`)

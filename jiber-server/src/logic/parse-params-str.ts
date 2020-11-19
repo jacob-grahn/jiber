@@ -1,4 +1,4 @@
-import { get } from '../../swiss/get'
+import { get } from '../swiss/get'
 
 const interpolateRegex = new RegExp('\\\[(.*?)\\\]', 'g')
 
