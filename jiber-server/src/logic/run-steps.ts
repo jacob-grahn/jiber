@@ -1,6 +1,8 @@
 import { funcs } from './funcs'
 import { parseParams } from './parse-params'
 import { swiss } from '../swiss'
+import { determineAudience } from './determine-audience'
+import { SERVER } from '../constants'
 
 export const runSteps = (state: any, action: any) => {
 
@@ -48,16 +50,20 @@ export const runSteps = (state: any, action: any) => {
       else if (Array.isArray(result)) {
         result.forEach(action => {
           state = swiss(state, action)
+          action = determineAudience(action)
+          action.trust = SERVER
           performedActions.push(action)
         })
       }
       else if (result) {
         state = swiss(state, action)
+        action = determineAudience(action)
+        action.trust = SERVER
         performedActions.push(result)
       }
     }
   }
 
-  // return the performed actions so they can be sent out to clients
-  return performedActions
+  action.subActions = performedActions
+  return state
 }

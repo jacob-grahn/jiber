@@ -1,8 +1,8 @@
 import { Action } from '../interfaces/action'
 import { SERVER } from '../constants/trust-levels'
 import { runSteps } from './run-steps'
-import { determineAudience } from './determine-audience'
 import { swiss } from '../swiss'
+import { determineAudience } from './determine-audience'
 
 const SET_LOGIC = 'SET_LOGIC'
 
