@@ -1,8 +1,15 @@
 import { funcs } from './funcs'
 import { parseParams } from './parse-params'
+import { swiss } from '../swiss'
+import { determineAudience } from './determine-audience'
 
-export const runSteps = (state: any, steps: any[], logic: any) => {
-  const actionsToPerform = []
+export const runSteps = (state: any, action: any) => {
+
+  const logic: any = state._logic
+  const type: string = action.type
+  const steps: any[] = logic[type] || []
+  const performedActions: any[] = []
+
   for (let i = 0; i < steps.length; i++) {
     const step: any[] = steps[i]
     const [funcName, ...params] = step
@@ -20,6 +27,7 @@ export const runSteps = (state: any, steps: any[], logic: any) => {
     const func: Function = funcs[funcName]
     if (func) {
       const result = func(state, ...parsedParams)
+      // a false result means we should stop execution of remaining steps
       if (result === false) {
         break
       } else if (result === true) {
@@ -29,13 +37,20 @@ export const runSteps = (state: any, steps: any[], logic: any) => {
           steps.splice(i + 1, 0, ...result.addSteps)
         }
       } else if (Array.isArray(result)) {
-        result.forEach(action => {
-          actionsToPerform.push(action)
+        result.forEach(subAction => {
+          state = swiss(state, subAction)
+          determineAudience(subAction)
+          performedActions.push(subAction)
         })
       } else if (result) {
-        actionsToPerform.push(result)
+        const subAction = result
+        state = swiss(state, subAction)
+        determineAudience(subAction)
+        performedActions.push(result)
       }
     }
   }
-  return actionsToPerform
+
+  action.$subActions = performedActions
+  return performedActions
 }

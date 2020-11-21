@@ -1,5 +1,6 @@
 import { ActionCreators, Reducer } from './interfaces'
-import { swiss, swissActionCreators } from './swiss'
+import { swissActionCreators } from './swiss'
+import { logic } from './logic'
 
 export interface CustomSettings {
   actionCreators?: ActionCreators,
@@ -20,7 +21,7 @@ export class Settings {
   public credential?: string = undefined
   public initialState: any = undefined
   public maxPeers: number = 0
-  public reducer: Reducer = swiss
+  public reducer: Reducer = logic
   public stunServers: string[] = []
   public url?: string = 'ws://localhost:8080'
   public logic?: {}

@@ -17,21 +17,19 @@ test('PUSH', () => {
 
 test('POP', () => {
   const result = funcs.POP({ arr: [1,2] }, 'arr', 'dest.path')
-  expect(result).toEqual(
-    { type: 'SPLICE', path: 'arr', destPath: 'dest.path', start: -1, count: 1 }
-  )
+  expect(result).toEqual({ type: 'POP', path: 'arr', destPath: 'dest.path' })
 })
 
 test('SPLICE', () => {
   const result = funcs.SPLICE({ arr: [1,2] }, 'arr', 0, 2, 'dest.path', 3, 4)
   expect(result).toEqual({
-    'count': 2,
-    'destPath': 'dest.path',
-    'items': [3, 4],
-    'path': 'arr',
-    'start': 0,
-    'type': 'SPLICE'}
-  )
+    type: 'SPLICE',
+    path: 'arr',
+    start: 0,
+    count: 2,
+    items: [3, 4],
+    destPath: 'dest.path'
+  })
 })
 
 test('CHECK', () => {

@@ -1,3 +1,4 @@
+import { get } from '../swiss/get'
 import { parseParams } from './parse-params'
 
 export const funcs: any = {
@@ -14,12 +15,18 @@ export const funcs: any = {
     return { type: 'PUSH', path, value }
   },
 
-  POP: (_state: any, path: string, destPath: string) => {
-    return { type: 'SPLICE', path, start: -1, count: 1, destPath }
+  POP: (state: any, path: string, destPath: string) => {
+    const arr: any[] = get(state, path)
+    if (Array.isArray(arr) && arr.length > 0) {
+      return { type: 'POP', path, destPath }
+    }
   },
 
-  SPLICE: (_state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
-    return { type: 'SPLICE', path, start, count, destPath, items }
+  SPLICE: (state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
+    const arr: any[] = get(state, path)
+    if (Array.isArray(arr) && arr.length > 0) {
+      return { type: 'SPLICE', path, start, count, items, destPath }
+    }
   },
 
   CHECK: (state: any, path1: string, comparison: string, path2: any) => {
@@ -48,9 +55,5 @@ export const funcs: any = {
   IF: (state: any, path: string, comparison: string, value: any, trueSteps: any[] = [], falseSteps: any[] = []) => {
     const result = funcs.CHECK(state, path, comparison, value)
     return { addSteps: result ? trueSteps : falseSteps }
-  },
-
-  SHUFFLE: (_state: any, path: string) => {
-    return { type: 'SHUFFLE', path }
   }
 }

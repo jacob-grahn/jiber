@@ -16,5 +16,5 @@ test('apply actions to optimistic state', () => {
   const sendToServer = () => { /* do nothing */ }
   const doc = new Doc('abc', sendToServer, new Settings({}))
   doc.dispatchers.set('name', 'sue')
-  expect(doc.getState()).toEqual({ name: 'sue' })
+  expect(doc.getState().name).toBe('sue')
 })

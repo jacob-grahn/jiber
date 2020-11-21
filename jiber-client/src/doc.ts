@@ -5,7 +5,6 @@ import { Action } from './action'
 import { Settings } from './settings'
 import { FlexStore } from './flex-store'
 import { PeerGroup } from './webrtc'
-import { runSteps } from './logic/run-steps'
 
 /**
  * Doc the users can join
@@ -20,14 +19,12 @@ export class Doc {
   private id: string
   private store: FlexStore
   private peerGroup: PeerGroup
-  private logic: any
 
   constructor (id: string, sendToServer: Function, settings: Settings) {
     this.id = id
     this.sendToServer = sendToServer
     this.store = new FlexStore(settings.reducer)
     this.getState = this.store.getState
-    this.logic = settings.logic
 
     // p2p
     this.peerGroup = new PeerGroup(this.id, this.sendToServer, this.sendToStore)
@@ -58,21 +55,7 @@ export class Doc {
     const action = new Action({ ...obj, doc: this.id, trust: SELF })
     this.peerGroup.send(action)
     this.sendToServer(action)
-
-    // if we have custom logic, use it
-    if (this.logic) {
-      const state = this.store.getState(SELF)
-      const steps: any[] | undefined = [...this.logic[String(action.type)]]
-      if (steps) {
-        const actions = runSteps(state, steps, this.logic)
-        actions.forEach((stepAction: Action) => {
-          stepAction.id = action.id
-          this.sendToStore(stepAction)
-        })
-      }
-    } else {
-      this.sendToStore(action)
-    }
+    this.sendToStore(action)
   }
 
   public close = (): void => {
