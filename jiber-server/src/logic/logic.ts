@@ -1,8 +1,5 @@
-import { Action } from '../interfaces/action'
-import { SERVER } from '../constants/trust-levels'
 import { runSteps } from './run-steps'
 import { swiss } from '../swiss'
-import { determineAudience } from './determine-audience'
 
 const SET_LOGIC = 'SET_LOGIC'
 
@@ -27,13 +24,7 @@ export const logic = (state: any = {}, action: any): any => {
     return swiss(state, action)
   }
 
-  // run logic and send out the resulting actions
-  const actions = runSteps(state, action)
-  actions.forEach((stepAction: Action) => {
-    stepAction = determineAudience(stepAction)
-    stepAction.trust = SERVER
-    // next(stepAction)
-  })
-
+  // run logic
+  runSteps(state, action)
   return state
 }

@@ -2,7 +2,6 @@ import { funcs } from './funcs'
 import { parseParams } from './parse-params'
 import { swiss } from '../swiss'
 import { determineAudience } from './determine-audience'
-import { SERVER } from '../constants'
 
 export const runSteps = (state: any, action: any) => {
 
@@ -38,21 +37,20 @@ export const runSteps = (state: any, action: any) => {
           steps.splice(i + 1, 0, ...result.addSteps)
         }
       } else if (Array.isArray(result)) {
-        result.forEach(action => {
-          state = swiss(state, action)
-          action = determineAudience(action)
-          action.trust = SERVER
-          performedActions.push(action)
+        result.forEach(subAction => {
+          state = swiss(state, subAction)
+          determineAudience(subAction)
+          performedActions.push(subAction)
         })
       } else if (result) {
-        state = swiss(state, action)
-        action = determineAudience(action)
-        action.trust = SERVER
+        const subAction = result
+        state = swiss(state, subAction)
+        determineAudience(subAction)
         performedActions.push(result)
       }
     }
   }
 
-  action.subActions = performedActions
-  return state
+  action.$subActions = performedActions
+  return performedActions
 }
