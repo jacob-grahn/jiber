@@ -89,7 +89,7 @@ test('RUN', () => {
       GROW_BUSHES: [
         ['ADD', 'redBushCount', 1],
         ['ADD', 'greenBushCount', 2]
-      ] 
+      ]
     }
   }
   const action = { type: 'TEST' }

@@ -31,31 +31,20 @@ export const runSteps = (state: any, action: any) => {
       // a false result means we should stop execution of remaining steps
       if (result === false) {
         break
-      }
-      
-      // a true result means we should do nothing with this step and cary on
-      else if (result === true) {
+      } else if (result === true) {
         continue
-      } 
-      
-      // some steps can tell us to add more steps
-      else if (result && result.addSteps) {
+      } else if (result && result.addSteps) {
         if (result.addSteps.length > 0) {
           steps.splice(i + 1, 0, ...result.addSteps)
         }
-      }
-
-      // actions that the steps create are run here
-      // can be one action or an array of actions
-      else if (Array.isArray(result)) {
+      } else if (Array.isArray(result)) {
         result.forEach(action => {
           state = swiss(state, action)
           action = determineAudience(action)
           action.trust = SERVER
           performedActions.push(action)
         })
-      }
-      else if (result) {
+      } else if (result) {
         state = swiss(state, action)
         action = determineAudience(action)
         action.trust = SERVER
