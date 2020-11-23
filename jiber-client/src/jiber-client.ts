@@ -8,6 +8,7 @@ import { Action } from './action'
 import { Doc } from './doc'
 import { ToughSocket } from './tough-socket'
 import { Settings, CustomSettings } from './settings'
+import { Me } from './me'
 
 export class JiberClient {
   public subscription: Subscription = new Subscription()
@@ -19,7 +20,9 @@ export class JiberClient {
     this.settings = new Settings(customSettings)
     this.socket = new ToughSocket(this.settings)
     this.socket.onmessage = this.receiveFromServer
+    this.subscription.subscribe(this.welcomeListener)
     if (this.settings.logic) {
+      Me._logic = this.settings.logic
       this.send({ type: 'SET_LOGIC', logic: this.settings.logic })
     }
   }
@@ -50,6 +53,12 @@ export class JiberClient {
     Object.keys(this.docs).forEach((key: string) => {
       this.docs[key].close()
     })
+  }
+
+  private welcomeListener = (action: Action) => {
+    if (action.type === 'WELCOME') {
+      Object.assign(Me, action.user)
+    }
   }
 
   private receiveFromServer = (event: MessageEvent): void => {

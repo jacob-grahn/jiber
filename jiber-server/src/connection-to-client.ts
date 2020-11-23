@@ -16,7 +16,7 @@ export class ConnectionToClient extends EventEmitter {
     this.user = user
     this.socket = socket
     socket.on('message', this.onMessage)
-    this.sendWelcomeAction()
+    setTimeout(this.sendWelcomeAction, 5)
   }
 
   private onMessage = (data: any) => {

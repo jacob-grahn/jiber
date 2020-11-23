@@ -5,6 +5,7 @@ import { Action } from './action'
 import { Settings } from './settings'
 import { FlexStore } from './flex-store'
 import { PeerGroup } from './webrtc'
+import { Me } from './me'
 
 /**
  * Doc the users can join
@@ -55,7 +56,7 @@ export class Doc {
     const action = new Action({ ...obj, doc: this.id, trust: SELF })
     this.peerGroup.send(action)
     this.sendToServer(action)
-    this.sendToStore(action)
+    this.sendToStore({...action, user: Me})
   }
 
   public close = (): void => {
