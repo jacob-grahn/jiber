@@ -1,7 +1,6 @@
 import { funcs } from './funcs'
 import { parseParams } from './parse-params'
 import { swiss } from '../swiss'
-import { determineAudience } from './determine-audience'
 
 export const runSteps = (state: any, action: any) => {
 
@@ -39,13 +38,11 @@ export const runSteps = (state: any, action: any) => {
       } else if (Array.isArray(result)) {
         result.forEach(subAction => {
           state = swiss(state, subAction)
-          determineAudience(subAction)
           performedActions.push(subAction)
         })
       } else if (result) {
         const subAction = result
         state = swiss(state, subAction)
-        determineAudience(subAction)
         performedActions.push(result)
       }
     }
