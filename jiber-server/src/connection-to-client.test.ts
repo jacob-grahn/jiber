@@ -5,7 +5,13 @@ import { ConnectionToClient } from './connection-to-client'
 import { Action } from './action'
 import { PACKET_FROM_CLIENT } from './constants'
 
-test('send a welcome action when a connection is established', () => {
+const sleep = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+test('send a welcome action when a connection is established', async () => {
   const sends: string[] = []
   const socket: any = {
     readyState: WS.OPEN,
@@ -14,6 +20,8 @@ test('send a welcome action when a connection is established', () => {
   }
 
   const conn = new ConnectionToClient(socket, { name: 'sue' })
+  await sleep(10)
+
   const welcomeAction = JSON.parse(sends[0])
 
   expect(conn).toBeTruthy()
