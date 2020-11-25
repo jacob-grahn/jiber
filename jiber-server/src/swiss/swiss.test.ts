@@ -24,6 +24,12 @@ test(ADD, () => {
   expect(swiss(state, action)).toEqual({ loginAttempts: 56 })
 })
 
+test('ADD a null value', () => {
+  const state = { }
+  const action = { type: ADD, path: 'loginAttempts', value: 3 }
+  expect(swiss(state, action)).toEqual({ loginAttempts: 3 })
+})
+
 test(PUSH, () => {
   const state = { peeps: ['Antman', 'Batman'] }
   const action = { type: PUSH, path: 'peeps', value: ['Catman', 'Datman'] }

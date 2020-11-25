@@ -33,7 +33,7 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
     case DELETE:
       return set(state, path, undefined)
     case ADD:
-      return set(state, path, oldValue + newValue)
+      return set(state, path, (oldValue || 0) + newValue)
     case PUSH:
       return set(state, path, splice(oldValue, Infinity, 0, ...newValue))
     case SPLICE:
