@@ -99,4 +99,7 @@ test('RUN', () => {
     { type: 'ADD', path: 'redBushCount', value: 1 },
     { type: 'ADD', path: 'greenBushCount', value: 2 }
   ])
+
+  // make sure logic is not mutated
+  expect(state._logic.TEST.length).toBe(2) 
 })

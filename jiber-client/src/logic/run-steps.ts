@@ -6,7 +6,7 @@ export const runSteps = (state: any, action: any) => {
 
   const logic: any = state._logic
   const type: string = action.type
-  const steps: any[] = logic[type] || []
+  let steps: any[] = logic[type] || []
   const performedActions: any[] = []
 
   for (let i = 0; i < steps.length; i++) {
@@ -17,6 +17,7 @@ export const runSteps = (state: any, action: any) => {
     if (funcName === 'RUN') {
       const targetFuncName = params[0]
       const targetSteps = logic[targetFuncName]
+      steps = [...steps]
       steps.splice(i + 1, 0, ...targetSteps)
       continue
     }
