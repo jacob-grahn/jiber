@@ -10,8 +10,9 @@ test('ADD', () => {
     },
     count: 5
   }
-  const action = { type: 'TEST' }
-  const actions = runSteps(state, action)
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
   expect(actions).toEqual([
     { type: 'ADD', path: 'count', value: 1 },
     { type: 'ADD', path: 'minions', value: 3 }
@@ -30,8 +31,9 @@ test('CHECK', () => {
     },
     arr: [1, 2, 3]
   }
-  const action = { type: 'TEST' }
-  const actions = runSteps(state, action)
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
   ])
@@ -50,8 +52,9 @@ test('IF', () => {
       ]
     }
   }
-  const action = { type: 'TEST' }
-  const actions = runSteps(state, action)
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
   ])
@@ -69,8 +72,9 @@ test('IF else', () => {
       ]
     }
   }
-  const action = { type: 'TEST' }
-  const actions = runSteps(state, action)
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
   expect(actions).toEqual([
     { type: 'SET', path: 'building.age', value: 7 }
   ])
@@ -92,14 +96,12 @@ test('RUN', () => {
       ]
     }
   }
-  const action = { type: 'TEST' }
-  const actions = runSteps(state, action)
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
   expect(actions).toEqual([
     { type: 'ADD', path: 'treeCount', value: 1 },
     { type: 'ADD', path: 'redBushCount', value: 1 },
     { type: 'ADD', path: 'greenBushCount', value: 2 }
   ])
-
-  // make sure logic is not mutated
-  expect(state._logic.TEST.length).toBe(2) 
 })

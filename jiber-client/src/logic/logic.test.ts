@@ -62,10 +62,23 @@ test('run logic and send out the resulting actions', () => {
   }
   const action: any = { type: 'OPEN_BOXES' }
   state = logicReducer(state, action)
-  /* expect(passedActions[0].type).toEqual('SET')
-  expect(passedActions[0].path).toEqual('box1')
-  expect(passedActions[0].id).toEqual(action.id)
-  expect(passedActions[1].type).toEqual('SET')
-  expect(passedActions[1].path).toEqual('box2')
-  expect(passedActions[1].id).toEqual(action.id) */
+  expect(action.$subActions[0].type).toEqual('SET')
+  expect(action.$subActions[0].path).toEqual('box1')
+  expect(action.$subActions[0].id).toEqual(action.id)
+  expect(action.$subActions[1].type).toEqual('SET')
+  expect(action.$subActions[1].path).toEqual('box2')
+  expect(action.$subActions[1].id).toEqual(action.id)
+})
+
+test('make user account available as $self', () => {
+  let state: any = {
+    _logic: {
+      OPEN_BOX: [
+        ['SET', '$self.box', 'open']
+      ]
+    }
+  }
+  const action: any = { type: 'OPEN_BOX', user: {} }
+  state = logicReducer(state, action)
+  expect(action.user.box).toBe('open')
 })

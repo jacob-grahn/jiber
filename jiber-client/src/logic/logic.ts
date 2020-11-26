@@ -26,6 +26,9 @@ export const logic = (state: any = {}, action: any): any => {
   }
 
   // run logic
-  runSteps(state, action)
+  state.$self = action.user
+  state = runSteps(state, action)
+  action.user = state.$self
+  delete state.$self
   return state
 }

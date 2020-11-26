@@ -50,5 +50,5 @@ export const runSteps = (state: any, action: any) => {
   }
 
   action.$subActions = performedActions
-  return performedActions
+  return state
 }
