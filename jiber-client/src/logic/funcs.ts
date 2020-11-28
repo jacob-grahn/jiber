@@ -1,18 +1,18 @@
 import { get } from '../swiss/get'
-import { parseParams } from './parse-params'
+import { getParamValue } from './get-param-value'
 
 export const funcs: any = {
 
-  SET: (_state: any, path: string, value: any) => {
-    return { type: 'SET', path, value }
+  SET: (state: any, path: string, value: any) => {
+    return { type: 'SET', path, value: getParamValue(state, value) }
   },
 
-  ADD: (_state: any, path: string, value: any) => {
-    return { type: 'ADD', path, value }
+  ADD: (state: any, path: string, value: any) => {
+    return { type: 'ADD', path, value: getParamValue(state, value) }
   },
 
-  PUSH: (_state: any, path: string, value: any) => {
-    return { type: 'PUSH', path, value }
+  PUSH: (state: any, path: string, value: any) => {
+    return { type: 'PUSH', path, value: getParamValue(state, value) }
   },
 
   POP: (state: any, path: string, destPath: string) => {
@@ -30,8 +30,8 @@ export const funcs: any = {
   },
 
   CHECK: (state: any, path1: string, comparison: string, path2: any) => {
-    const val1: any = parseParams(state, path1, true)
-    const val2: any = parseParams(state, path2, true)
+    const val1: any = getParamValue(state, path1)
+    const val2: any = getParamValue(state, path2)
     switch (comparison) {
       case '==':
         return val1 === val2

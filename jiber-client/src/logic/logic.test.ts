@@ -74,7 +74,7 @@ test('make user account available as $self', () => {
   let state: any = {
     _logic: {
       OPEN_BOX: [
-        ['SET', '$self.box', 'open']
+        ['SET', '$self.box', '"open"']
       ]
     }
   }

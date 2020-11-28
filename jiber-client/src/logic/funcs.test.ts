@@ -1,7 +1,7 @@
 import { funcs } from './funcs'
 
 test('SET', () => {
-  const result = funcs.SET({}, 'a.path', 'yay')
+  const result = funcs.SET({}, 'a.path', '"yay"')
   expect(result).toEqual({ type: 'SET', path: 'a.path', value: 'yay' })
 })
 

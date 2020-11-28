@@ -24,7 +24,7 @@ export const SPLICE = 'SPLICE'
 export const swiss = (state: SwissState = {}, action: any): SwissState => {
   const arrPath = action.path ? action.path : []
   const path: string[] = Array.isArray(arrPath) ? arrPath : action.path.split('.')
-  const newValue = action.value
+  const newValue = action.srcPath ? get(state, action.srcPath) : action.value
   const oldValue = get(state, path)
 
   switch (action.type) {

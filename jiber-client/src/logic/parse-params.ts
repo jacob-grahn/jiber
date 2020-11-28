@@ -1,26 +1,40 @@
 import { get } from '../swiss/get'
-import { parseParamsStr } from './parse-params-str'
 
+const dollarRegex = new RegExp('\\\${(.*?)}', 'g')
+const bracketRegex = new RegExp('\\\[(.*?)\\\]', 'g')
 const strRegex = new RegExp(`(^".*"$|^'.*'$)`)
 
-export const parseParams = (state: any, param: any, getValue: boolean = false) => {
+export const parseParams = (state: any, param: any) => {
   if (typeof param !== 'string') {
     return param
   }
 
   if (strRegex.test(param)) {
-    return param.substring(1, param.length - 1)
+    return param
   }
 
-  const path: string = parseParamsStr(state, param)
+  param = parseParamsStrWithRegex(state, param, dollarRegex)
+  param = parseParamsStrWithRegex(state, param, bracketRegex)
 
-  if (getValue) {
-    const value = get(state, path)
-    if (value === undefined) {
-      return null
+  return param
+}
+
+const parseParamsStrWithRegex = (state: any, str: string, regex: RegExp) => {
+  let indexMod = 0
+  const fields = [...str.matchAll(regex)]
+  fields.forEach(field => {
+    const match = field[0]
+    const group = field[1]
+    const index = (field.index || 0) + indexMod
+    const len = match.length
+    const before = str.substring(0, index)
+    const after = str.substring(index + len)
+    let value = get(state, group)
+    if (regex === bracketRegex && before !== '') {
+      value = '.' + value
     }
-    return value
-  } else {
-    return path
-  }
+    indexMod += value.length - match.length
+    str = before + value + after
+  })
+  return str
 }
