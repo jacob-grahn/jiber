@@ -48,7 +48,7 @@ export const funcs: any = {
       case '!=':
         return val1 !== val2
       case '?':
-        return (val1 !== null) === val2
+        return (val1 !== null && val1 !== undefined) === val2
     }
   },
 
