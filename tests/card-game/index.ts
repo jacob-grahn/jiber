@@ -15,27 +15,26 @@ export const runCardGame = async (): Promise<{state1: any, state2: any}> => {
   const client2 = new JiberClient({logic})
   const game1 = client1.open('game')
   const game2 = client2.open('game')
-  await sleep(50)
+  await sleep(100)
 
   // init player 1
-  game1.dispatch({type: "INIT"})
-  await sleep(50)
+  game1.dispatch({ type: 'INIT' })
+  await sleep(100)
 
   // init player 2
-  game2.dispatch({ type: "INIT" })
-  await sleep(50)
+  game2.dispatch({ type: 'INIT' })
+  await sleep(100)
 
   // play cards
   game1.dispatch({ type: "PLAY_CARD", cardIndex: 0 })
   game2.dispatch({ type: "PLAY_CARD", cardIndex: 0 })
-  await sleep(50)
-  console.log(game1.getState(0))
+  await sleep(100)
 
-  
   // close all connections to end the test
   server.close()
   client1.close()
   client2.close()
+  await sleep(100)
 
   // return test results
   return {

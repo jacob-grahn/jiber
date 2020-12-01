@@ -1,5 +1,6 @@
 import { runSteps } from './run-steps'
 import { swiss } from '../swiss'
+import { SERVER, SELF } from '../constants'
 
 const SET_LOGIC = 'SET_LOGIC'
 
@@ -25,10 +26,31 @@ export const logic = (state: any = {}, action: any): any => {
     return state
   }
 
-  // run logic
-  state.$self = action.user
-  state = runSteps(state, action)
-  action.user = state.$self
-  delete state.$self
-  return state
+  // replay server's logic
+  if (action.trust === SERVER) {
+    state = swiss(state, action)
+    if (action.$subActions) {
+      action.$subActions.forEach((subAction: any) => {
+        state = swiss(state, subAction)
+      })
+    }
+    return state
+  }
+
+  // run optimistic logic locally
+  if (action.trust === SELF) {
+
+    if (action.$subActions) {
+      action.$subActions.forEach((subAction: any) => {
+        state = swiss(state, subAction)
+      })
+      return state
+    }
+
+    state.$self = action.user
+    state = runSteps(state, action)
+    action.user = state.$self
+    delete state.$self
+    return state
+  }
 }

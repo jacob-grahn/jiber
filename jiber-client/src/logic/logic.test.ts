@@ -1,4 +1,5 @@
 import { logic as logicReducer } from './logic'
+import { SELF } from '../constants'
 
 test("set a user's logic", () => {
   const logic = {
@@ -20,11 +21,11 @@ test('set doc logic', () => {
   const cheatUser: any = { _logic: cheatLogic }
 
   // set doc's logic
-  const docCreateAction: any = { type: 'OPEN', doc: 'bookstore', user }
+  const docCreateAction: any = { type: 'OPEN', doc: 'bookstore', user, trust: SELF }
   state = logicReducer(state, docCreateAction)
 
   // doc's logic can not be changed, cheating is prevented?
-  const cheatDocCreateAction: any = { type: 'OPEN', doc: 'bookstore', user: cheatUser }
+  const cheatDocCreateAction: any = { type: 'OPEN', doc: 'bookstore', user: cheatUser, trust: SELF }
   state = logicReducer(state, cheatDocCreateAction)
 
   // assertions
@@ -46,7 +47,7 @@ test("if there is logic, throw out actions that don't use one of the logic types
       ]
     }
   }
-  const action: any = { type: 'SET', path: 'row', value: 7 }
+  const action: any = { type: 'SET', path: 'row', value: 7, trust: SELF }
   state = logicReducer(state, action)
   expect(state.row).toEqual(undefined)
 })
@@ -60,7 +61,7 @@ test('run logic and send out the resulting actions', () => {
       ]
     }
   }
-  const action: any = { type: 'OPEN_BOXES' }
+  const action: any = { type: 'OPEN_BOXES', trust: SELF }
   state = logicReducer(state, action)
   expect(action.$subActions[0].type).toEqual('SET')
   expect(action.$subActions[0].path).toEqual('box1')
@@ -78,7 +79,7 @@ test('make user account available as $self', () => {
       ]
     }
   }
-  const action: any = { type: 'OPEN_BOX', user: {} }
+  const action: any = { type: 'OPEN_BOX', user: {}, trust: SELF }
   state = logicReducer(state, action)
   expect(action.user.box).toBe('open')
 })

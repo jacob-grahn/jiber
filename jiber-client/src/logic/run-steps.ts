@@ -2,6 +2,8 @@ import { funcs } from './funcs'
 import { parseParams } from './parse-params'
 import { swiss } from '../swiss'
 
+const privateRegex = new RegExp('(^_|\._)')
+
 export const runSteps = (state: any, action: any) => {
 
   const logic: any = state._logic
@@ -43,8 +45,12 @@ export const runSteps = (state: any, action: any) => {
         })
       } else if (result) {
         const subAction = result
-        state = swiss(state, subAction)
-        performedActions.push(result)
+        // don't try to set private paths
+        // the results will probably be wrong
+        if (subAction.path && privateRegex.test(subAction.path)) {
+          state = swiss(state, subAction)
+          performedActions.push(result)
+        }
       }
     }
   }

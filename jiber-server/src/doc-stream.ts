@@ -41,19 +41,13 @@ export class DocStream extends EventEmitter {
   public addAction = (action: any) => {
     this.state = this.reducer(this.state, action)
 
-    // it's a hack. The reducer may set $subActions on the action
+    // filter out private actions
     if (action.$subActions) {
-      action.$subActions.forEach((subAction: any) => {
-        subAction.trust = SERVER
-        subAction.id = action.id
-        this.sendAction(subAction)
+      action.$subActions = action.$subActions.filter((subAction: any) => {
+        return !subAction.$doNotSend
       })
-    } else {
-      this.sendAction(action)
     }
-  }
 
-  private sendAction = (action: any) => {
     const message = JSON.stringify(action)
     if (!action.$doNotSend) {
       if (action.$sendOnlyTo) {

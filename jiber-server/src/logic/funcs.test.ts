@@ -33,7 +33,7 @@ test('SPLICE', () => {
 })
 
 test('CHECK', () => {
-  const state = { value: 1, str: 'bat' }
+  const state = { value: 1, str: 'bat', land: null, bool: false }
   expect(funcs.CHECK(state, 'value', '>', 2)).toBe(false)
   expect(funcs.CHECK(state, 'value', '>=', 1)).toBe(true)
   expect(funcs.CHECK(state, 'str', '~=', '"b.*t"')).toBe(true)
