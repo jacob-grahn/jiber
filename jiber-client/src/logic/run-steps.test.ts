@@ -105,3 +105,29 @@ test('RUN', () => {
     { type: 'ADD', path: 'greenBushCount', value: 2 }
   ])
 })
+
+test('RUN with CHECK', () => {
+  const state: any = {
+    _logic: {
+      TEST: [
+        ['RUN', 'GROW_TREE'],
+        ['RUN', 'GROW_BUSHES']
+      ],
+      GROW_TREE: [
+        ['CHECK', 'someValue', '>', 7],
+        ['ADD', 'treeCount', 1]
+      ],
+      GROW_BUSHES: [
+        ['ADD', 'redBushCount', 1],
+        ['ADD', 'greenBushCount', 2]
+      ]
+    }
+  }
+  const action: any = { type: 'TEST' }
+  runSteps(state, action)
+  const actions = action.$subActions
+  expect(actions).toEqual([
+    { type: 'ADD', path: 'redBushCount', value: 1 },
+    { type: 'ADD', path: 'greenBushCount', value: 2 }
+  ])
+})

@@ -38,7 +38,7 @@ test('CHECK', () => {
   expect(funcs.CHECK(state, 'value', '>=', 1)).toBe(true)
   expect(funcs.CHECK(state, 'str', '~=', '"b.*t"')).toBe(true)
   expect(funcs.CHECK(state, 'str', '~=', '"b.*g"')).toBe(false)
-  
+
   expect(funcs.CHECK(state, 'str', '?', true)).toBe(true)
   expect(funcs.CHECK(state, 'str', '?', false)).toBe(false)
   expect(funcs.CHECK(state, 'land', '?', true)).toBe(false)
