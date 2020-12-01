@@ -36,13 +36,13 @@ export const funcs: any = {
       case '==':
         return val1 === val2
       case '>':
-        return val1 > val2
+        return (val1 || 0) > (val2 || 0)
       case '<':
-        return val1 < val2
+        return (val1 || 0) < (val2 || 0)
       case '>=':
-        return val1 >= val2
+        return (val1 || 0) >= (val2 || 0)
       case '<=':
-        return val1 <= val2
+        return (val1 || 0) <= (val2 || 0)
       case '~=':
         return new RegExp(val2).test(val1)
       case '!=':
@@ -55,5 +55,14 @@ export const funcs: any = {
   IF: (state: any, path: string, comparison: string, value: any, trueSteps: any[] = [], falseSteps: any[] = []) => {
     const result = funcs.CHECK(state, path, comparison, value)
     return { addSteps: result ? trueSteps : falseSteps }
+  },
+
+  SHUFFLE: (state: any, path: string) => {
+    const array = [...get(state, path)]
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]
+    }
+    return { type: 'SET', path, value: array }
   }
 }

@@ -54,3 +54,18 @@ test('IF', () => {
   ])
   expect(result).toEqual({ addSteps: [['SET', 'winner', true]] })
 })
+
+test('SHUFFLE', () => {
+  const state = { arr: [1, 2, 3, 4, 5, 6, 7, 8, 9] }
+  const result = funcs.SHUFFLE(state, 'arr')
+  const shuffledArr = result.value
+
+  // the same number of elements are present
+  expect(shuffledArr.length).toBe(state.arr.length)
+
+  // the original array is not mutated
+  expect(state.arr).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+  // the shuffled array is not the same as the origianl
+  expect(state.arr).not.toEqual(shuffledArr)
+})
