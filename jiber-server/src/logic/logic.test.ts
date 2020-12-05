@@ -6,18 +6,27 @@ test("set a user's logic", () => {
       ['SET', 'box', 'open']
     ]
   }
+  const logicMd5 = '86553009d1742bed9fcfdb557dfebb36'
   const state = {}
   const action: any = { type: 'SET_LOGIC', logic, user: {} }
   logicReducer(state, action)
-  expect(action.user._logic).toEqual(logic)
+  expect(action.user._logic).toBe(logicMd5)
 })
 
 test('set doc logic', () => {
   let state: any = {}
   const logic = { OPEN_BOX: [['SET', 'box', 'open']] }
-  const user: any = { _logic: logic }
+  const user: any = {}
   const cheatLogic = { CLOSE_BOX: [['SET', 'box', 'closed']] }
-  const cheatUser: any = { _logic: cheatLogic }
+  const cheatUser: any = { _logic: 'cheatLogic' }
+
+  // set user's logic
+  const uAction: any = { type: 'SET_LOGIC', logic, user }
+  state = logicReducer(state, uAction)
+
+  // set cheat user's logic
+  const cAction: any = { type: 'SET_LOGIC', cheatLogic, cheatUser }
+  state = logicReducer(state, cAction)
 
   // set doc's logic
   const docCreateAction: any = { type: 'OPEN', doc: 'bookstore', user }

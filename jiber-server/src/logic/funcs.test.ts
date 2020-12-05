@@ -22,14 +22,20 @@ test('POP', () => {
 
 test('SPLICE', () => {
   const result = funcs.SPLICE({ arr: [1,2] }, 'arr', 0, 2, 'dest.path', 3, 4)
-  expect(result).toEqual({
-    type: 'SPLICE',
-    path: 'arr',
-    start: 0,
-    count: 2,
-    items: [3, 4],
-    destPath: 'dest.path'
-  })
+  expect(result).toEqual([
+    {
+      type: 'SPLICE',
+      path: 'arr',
+      start: 0,
+      count: 2,
+      items: [3, 4]
+    },
+    {
+      type: 'SET',
+      path: 'dest.path',
+      value: [1, 2]
+    }
+  ])
 })
 
 test('CHECK', () => {

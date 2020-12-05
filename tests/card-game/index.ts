@@ -38,7 +38,7 @@ export const runCardGame = async (): Promise<{state1: any, state2: any}> => {
 
   // return test results
   return {
-    state1: game1.getState(0),
-    state2: game2.getState(0)
+    state1: game1.getState(),
+    state2: game2.getState()
   }
 }

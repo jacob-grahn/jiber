@@ -24,8 +24,22 @@ export const funcs: any = {
 
   SPLICE: (state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
     const arr: any[] = get(state, path)
-    if (Array.isArray(arr) && arr.length > 0) {
-      return { type: 'SPLICE', path, start, count, items, destPath }
+    if (Array.isArray(arr)) {
+      const result: any[] = [{
+        type: 'SPLICE',
+        path,
+        start: getParamValue(state, start),
+        count: getParamValue(state, count),
+        items
+      }]
+      if (destPath) {
+        result.push({
+          type: 'SET',
+          path: destPath,
+          value: arr.slice(start, start + count)
+        })
+      }
+      return result
     }
   },
 

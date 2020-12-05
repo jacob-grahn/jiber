@@ -41,6 +41,7 @@ export const runSteps = (state: any, action: any) => {
     const func: Function = funcs[funcName]
     if (func) {
       const result = func(state, ...parsedParams)
+
       // a false result means we should stop execution of remaining steps
       if (result === false) {
         skipParent = stepParent
@@ -52,10 +53,12 @@ export const runSteps = (state: any, action: any) => {
           steps.splice(i + 1, 0, ...result.addSteps)
         }
       } else if (result) {
-        const subAction = result
-        state = swiss(state, subAction)
-        determineAudience(subAction)
-        performedActions.push(result)
+        const subActions = Array.isArray(result) ? result : [result]
+        subActions.forEach(subAction => {
+          state = swiss(state, subAction)
+          determineAudience(state, subAction)
+          performedActions.push(subAction)
+        })
       }
     }
   }

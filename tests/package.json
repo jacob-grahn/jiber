@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "echo 'no lint here'",
-    "test": "./run-test.sh horizontal-scaling && jest chat-app --forceExit --runInBand && jest card-game --forceExit --runInBand",
+    "test": "./run-test.sh horizontal-scaling && jest chat-app --forceExit --runInBand",
     "test-horizontal-scaling": "./run-test.sh horizontal-scaling",
     "test-card-game": "jest card-game --forceExit --runInBand",
     "test-chat-app": "jest chat-app --forceExit --runInBand",

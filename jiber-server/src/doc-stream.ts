@@ -40,6 +40,7 @@ export class DocStream extends EventEmitter {
 
   public addAction = (action: any) => {
     this.state = this.reducer(this.state, action)
+    delete action.user
 
     // filter out private actions
     if (action.$subActions) {
@@ -47,6 +48,8 @@ export class DocStream extends EventEmitter {
         return !subAction.$doNotSend
       })
     }
+
+    console.log(JSON.stringify(action, undefined, 2))
 
     const message = JSON.stringify(action)
     if (!action.$doNotSend) {
