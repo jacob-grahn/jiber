@@ -12,12 +12,14 @@ export const logic = (rules?: any) => (state: any = {}, action: any): any => {
 
   // replay server's logic
   if (action.trust === SERVER) {
+    state.$self = action.user
     state = swiss(state, action)
     if (action.$subActions) {
       action.$subActions.forEach((subAction: any) => {
         state = swiss(state, subAction)
       })
     }
+    action.user = state.$self
     return state
   }
 
@@ -33,11 +35,14 @@ export const logic = (rules?: any) => (state: any = {}, action: any): any => {
     }
 
     // or run logic
-    state.$self = action.user
+    if (action.user && action.user.userId) {
+      state.$self = `$users.${action.user.userId}`
+    }
+    state.$action = action
     state._logic = rules
     state = runSteps(state, action)
-    action.user = state.$self
     delete state.$self
+    delete state.$action
     return state
   }
 }

@@ -24,19 +24,21 @@ export const funcs: any = {
 
   SPLICE: (state: any, path: string, start: number, count: number, destPath: string, ...items: any) => {
     const arr: any[] = get(state, path)
+    const startValue = getParamValue(state, start)
+    const countValue = getParamValue(state, count)
     if (Array.isArray(arr)) {
       const result: any[] = [{
         type: 'SPLICE',
         path,
-        start: getParamValue(state, start),
-        count: getParamValue(state, count),
+        start: startValue,
+        count: countValue,
         items
       }]
       if (destPath) {
         result.push({
           type: 'SET',
           path: destPath,
-          value: arr.slice(start, start + count)
+          value: arr.slice(startValue, startValue + countValue)
         })
       }
       return result

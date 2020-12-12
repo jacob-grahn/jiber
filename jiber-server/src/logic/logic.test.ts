@@ -16,16 +16,16 @@ test("set a user's logic", () => {
 test('set doc logic', () => {
   let state: any = {}
   const logic = { OPEN_BOX: [['SET', 'box', 'open']] }
-  const user: any = {}
+  const user: any = { userId: 123 }
   const cheatLogic = { CLOSE_BOX: [['SET', 'box', 'closed']] }
-  const cheatUser: any = { _logic: 'cheatLogic' }
+  const cheatUser: any = { _logic: 'cheatLogic', userId: 456 }
 
   // set user's logic
   const uAction: any = { type: 'SET_LOGIC', logic, user }
   state = logicReducer(state, uAction)
 
   // set cheat user's logic
-  const cAction: any = { type: 'SET_LOGIC', cheatLogic, cheatUser }
+  const cAction: any = { type: 'SET_LOGIC', logic: cheatLogic, user: cheatUser }
   state = logicReducer(state, cAction)
 
   // set doc's logic
@@ -85,9 +85,13 @@ test('make user account available as $self', () => {
       OPEN_BOX: [
         ['SET', '$self.box', '"open"']
       ]
+    },
+    $users: {
+      abc: {}
     }
   }
-  const action: any = { type: 'OPEN_BOX', user: {} }
+  const user = { userId: 'abc' }
+  const action: any = { type: 'OPEN_BOX', user }
   state = logicReducer(state, action)
-  expect(action.user.box).toBe('open')
+  expect(state.$users.abc.box).toBe('open')
 })

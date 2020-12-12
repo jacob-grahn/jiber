@@ -6,7 +6,8 @@ export const logic = {
   "PLAY_CARD": [
     ["CHECK", "$self._hiddenCard", "?", false],
     ["CHECK", "$self._hand.length", ">=", "$action.cardIndex"],
-    ["SPLICE", "$self._hand", "$action.cardIndex", 1, "$self._hiddenCard"],
+    ["SPLICE", "$self._hand", "$action.cardIndex", 1, "$self._hiddenCardList"],
+    ["SET", "$self._hiddenCard", "$self._hiddenCardList.0"],
     ["RUN", "_GAME_LOGIC"]
   ],
   "_INIT_DECK": [

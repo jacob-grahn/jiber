@@ -49,8 +49,6 @@ export class DocStream extends EventEmitter {
       })
     }
 
-    console.log(JSON.stringify(action, undefined, 2))
-
     const message = JSON.stringify(action)
     if (!action.$doNotSend) {
       if (action.$sendOnlyTo) {

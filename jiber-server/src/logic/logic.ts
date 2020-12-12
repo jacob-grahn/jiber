@@ -29,7 +29,9 @@ export const logic = (state: any = {}, action: any): any => {
   }
 
   // run logic
-  state.$self = action.user
+  if (action.user && action.user.userId) {
+    state.$self = `$users.${action.user.userId}`
+  }
   state.$action = action
   state = runSteps(state, action)
   delete state.$self

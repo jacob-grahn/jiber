@@ -47,9 +47,10 @@ test('make user account available as $self', () => {
       ['SET', '$self.box', '"open"']
     ]
   }
-  let state: any = {}
-  const action: any = { type: 'OPEN_BOX', user: {}, trust: SELF }
+  const user = { userId: 'abc' }
+  let state: any = { _logic: logic, $users: { abc: user } }
+  const action: any = { type: 'OPEN_BOX', user, trust: SELF }
   const logicReducer = logicCreator(logic)
   state = logicReducer(state, action)
-  expect(action.user.box).toBe('open')
+  expect(state.$users.abc.box).toBe('open')
 })

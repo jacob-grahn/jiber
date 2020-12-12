@@ -1,5 +1,6 @@
 import { get } from '../swiss/get'
 
+const selfRegex = new RegExp('^(\\\$self).?')
 const dollarRegex = new RegExp('\\\${(.*?)}', 'g')
 const bracketRegex = new RegExp('\\\[(.*?)\\\]', 'g')
 const strRegex = new RegExp(`(^".*"$|^'.*'$)`)
@@ -11,6 +12,10 @@ export const parseParams = (state: any, param: any) => {
 
   if (strRegex.test(param)) {
     return param
+  }
+
+  if (selfRegex.test(param)) {
+    param = get(state, '$self') + param.substr(5)
   }
 
   param = parseParamsStrWithRegex(state, param, dollarRegex)
