@@ -1,16 +1,22 @@
 /**
  * Return the value of a path
  */
-export const get = (data: any, path: string | string[] = '', defaultValue: any = undefined): any => {
-  if (!path) return data
+export const get = (value: any, path: string | string[] = ''): any => {
+  if (!path) return value
   if (!Array.isArray(path)) path = path.split('.')
-  const value = path.reduce(
-    (value, key) => value ? value[key] : undefined,
-    data
+  return path.reduce(
+    (val, key) => {
+      if (!val) {
+        return undefined
+      }
+      if (val.$ref) {
+        val = get(value, val.$ref)
+        if (!val) {
+          return undefined
+        }
+      }
+      return val[key]
+    },
+    value
   )
-  if (value === undefined) {
-    return defaultValue
-  } else {
-    return value
-  }
 }

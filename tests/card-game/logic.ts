@@ -25,7 +25,7 @@ export const logic = {
     ["CHECK", "playerCount", "<", 2],
     ["CHECK", "$self._hand", "?", false],
     ["ADD", "playerCount", 1],
-    ["SET", "player${playerCount}", "$self"],
+    ["SET", "player${playerCount}", "$self", true],
     ["SPLICE", "_deck", 0, 5, "$self._hand"]
   ],
   "_GAME_LOGIC": [

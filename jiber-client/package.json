@@ -8,6 +8,7 @@
   "scripts": {
     "watch": "tsc-watch --onSuccess 'npm run bundle'",
     "test": "jest src --coverage",
+    "watch-test": "jest src --watch",
     "lint": "tslint --fix -p tsconfig.json",
     "prepare": "npm run build",
     "build": "tsc && npm run bundle && npm run minify",

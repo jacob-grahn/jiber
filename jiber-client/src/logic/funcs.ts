@@ -3,8 +3,12 @@ import { getParamValue } from './get-param-value'
 
 export const funcs: any = {
 
-  SET: (state: any, path: string, value: any) => {
-    return { type: 'SET', path, value: getParamValue(state, value) }
+  SET: (state: any, path: string, value: any, byRef: boolean = false) => {
+    if (byRef) {
+      return { type: 'SET', path, value: {$ref: value} }
+    } else {
+      return { type: 'SET', path, value: getParamValue(state, value) }
+    }
   },
 
   ADD: (state: any, path: string, value: any) => {
