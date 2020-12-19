@@ -47,13 +47,11 @@ test(SPLICE, () => {
   const action = {
     type: SPLICE,
     path: 'people',
-    destPath: 'badPeople',
     start: 0,
     count: 1,
     items: ['Red Lady']
   }
   expect(swiss(state, action)).toEqual({
-    people: ['Red Lady', 'The Mountain'],
-    badPeople: ['Littlefinger']
+    people: ['Red Lady', 'The Mountain']
   })
 })

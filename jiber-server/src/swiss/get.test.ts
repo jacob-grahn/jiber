@@ -28,6 +28,6 @@ test('an empty path should return the initial value', () => {
 })
 
 test('access values by refference', () => {
-  const state = { _users: { bob: { age: 88 } }, player1: {$ref: '_users.bob'} }
+  const state = { _users: { bob: { age: 88 } }, player1: { $ref: '_users.bob' } }
   expect(get(state, 'player1.age')).toBe(88)
 })

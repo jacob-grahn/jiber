@@ -23,10 +23,10 @@ test('an empty path should set the initial value', () => {
 test('set a path with a $ref', () => {
   const state = { _users: { sam: { exp: 54 } }, player1: { $ref: '_users.sam' } }
   const newState = set(state, 'player1.bonus', 36)
-  /* expect(state).toEqual({
+  expect(state).toEqual({
     _users: { sam: { exp: 54 } },
     player1: { $ref: '_users.sam' } }
-  ) */
+  )
   expect(newState).toEqual({
     _users: { sam: { exp: 54, bonus: 36 } },
     player1: { $ref: '_users.sam' } }

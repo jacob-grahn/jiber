@@ -1,7 +1,6 @@
 import { set } from './set'
 import { get } from './get'
 import { splice } from './splice'
-import { toArray } from './to-array'
 
 /**
  * This reducer offers some generic functionality which could work well for
@@ -36,10 +35,7 @@ export const swiss = (state: SwissState = {}, action: any): SwissState => {
     case ADD:
       return set(state, path, (oldValue || 0) + newValue)
     case SPLICE:
-      const { start, count, items, destPath } = action
-      if (destPath) {
-        set(state, destPath, toArray(oldValue).slice(start, start + count))
-      }
+      const { start, count, items } = action
       return set(state, path, splice(oldValue, start, count, ...items))
     case PUSH:
       return set(state, path, splice(oldValue, Infinity, 0, ...newValue))

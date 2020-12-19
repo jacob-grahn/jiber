@@ -19,7 +19,7 @@ test('non-quoted strings are used as paths', () => {
 })
 
 test('get by reference', () => {
-  const state = { _users: {bob: 'my name is bob'}, player1: {$ref: '_users.bob'} }
+  const state = { _users: { bob: 'my name is bob' }, player1: { $ref: '_users.bob' } }
   const param = 'player1'
   expect(getParamValue(state, param)).toBe('my name is bob')
 })
