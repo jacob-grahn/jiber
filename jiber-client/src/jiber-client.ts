@@ -21,10 +21,6 @@ export class JiberClient {
     this.socket = new ToughSocket(this.settings)
     this.socket.onmessage = this.receiveFromServer
     this.subscription.subscribe(this.welcomeListener)
-    if (this.settings.logic) {
-      Me._logic = this.settings.logic
-      this.send({ type: 'SET_LOGIC', logic: this.settings.logic })
-    }
   }
 
   public send = (action: {}): void => {

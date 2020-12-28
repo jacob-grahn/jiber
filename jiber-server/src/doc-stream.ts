@@ -42,20 +42,11 @@ export class DocStream extends EventEmitter {
     this.state = this.reducer(this.state, action)
     delete action.user
 
-    // filter out private actions
-    if (action.$subActions) {
-      action.$subActions = action.$subActions.filter((subAction: any) => {
-        return !subAction.$doNotSend
-      })
-    }
-
     const message = JSON.stringify(action)
-    if (!action.$doNotSend) {
-      if (action.$sendOnlyTo) {
-        this.sendToMember(action.$sendOnlyTo, message)
-      } else {
-        this.sendToMembers(message)
-      }
+    if (action.$sendOnlyTo) {
+      this.sendToMember(action.$sendOnlyTo, message)
+    } else {
+      this.sendToMembers(message)
     }
   }
 
