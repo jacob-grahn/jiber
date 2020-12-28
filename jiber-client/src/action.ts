@@ -14,7 +14,7 @@ export class Action {
   public id: string = uuidv4()
   public time: number = 0
   public trust: number = 0
-  public doc: string = 'default'
+  public doc: string = ''
   public type?: string = undefined
   public user?: any = undefined
   public peerId?: string = undefined

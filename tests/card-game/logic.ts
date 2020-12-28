@@ -38,8 +38,8 @@ export const logic = {
   "_REVEAL_CARDS": [
     ["SET", "player1.revealedCard", "player1._hiddenCard"],
     ["SET", "player2.revealedCard", "player2._hiddenCard"],
-    ["SET", "player1.hiddenCard", null],
-    ["SET", "player2.hiddenCard", null],
+    ["SET", "player1._hiddenCard", null],
+    ["SET", "player2._hiddenCard", null],
   ],
   "_BATTLE": [
     ["IF", "player1.revealedCard", ">", "player2.revealedCard", [

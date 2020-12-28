@@ -35,7 +35,7 @@ export class Doc {
     Object.assign(this, this.dispatchers)
 
     // start receiving updates from this room
-    this.sendToServer(new Action({ doc: this.id, type: OPEN }))
+    this.sendToServer(new Action({ doc: this.id, type: OPEN, logic: settings.logic }))
   }
 
   public receiveFromServer = (action: Action): void => {

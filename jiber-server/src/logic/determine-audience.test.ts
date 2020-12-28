@@ -39,3 +39,14 @@ test('actions that begin with _ are not sent out', () => {
   expect(action.$sendOnlyTo).toBe(undefined)
   expect(action.$doNotSend).toBe(true)
 })
+
+test('private user actions work with refs',  () => {
+  const action: any = { type: 'TEST', path: 'player1._secretSauce' }
+  const state: any = { 
+    player1: { $ref: '$users.bob123' },
+    $users: { bob123:  { userId: 'bob123', _secretSauce: 'wow' } }
+  }
+  determineAudience(state, action)
+  expect(action.$sendOnlyTo).toBe('bob123')
+  expect(action.$doNotSend).toBe(undefined)
+})
